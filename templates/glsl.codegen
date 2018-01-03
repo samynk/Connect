@@ -1,0 +1,125 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<shadermodel id="glsl" label="Export to GLSL" extends="sm3">
+	<codeformat>
+		<sequence type="start" value="{"/>
+		<sequence type="end" value="};"/>
+		<sequence type="end" value="}"/>
+	</codeformat>
+	<typedefs>
+		<type key="FLOAT" value="float"/>
+		<type key="FLOAT2" value="vec2"/>
+		<type key="FLOAT3" value="vec3"/>
+		<type key="FLOAT4" value="vec4"/>
+		<type key="FLOAT3X3" value="float3x3"/>
+		<type key="FLOAT4X4" value="float4x4"/>
+		<type key="INT" value="int"/>
+		<type key="INT2" value="int2"/>
+		<type key="INT3" value="int3"/>
+		<type key="INT4" value="int4"/>
+		<type key="BOOLEAN" value="boolean"/>
+		<type key="BOOLEAN2" value="boolean2"/>
+		<type key="BOOLEAN3" value="boolean3"/>
+		<type key="BOOLEAN4" value="boolean4"/>
+	</typedefs>
+	<template id="project">
+		<code name="main" buffer="techniques">
+		<![CDATA[
+		<%@
+		for ( ShaderNode state : node.states ){
+			context.template(state,"declaration");
+		}
+		
+		
+		for (ShaderStage stage : node.stages )
+		{
+			if ( !stage.inputStructSet )
+				context.template(stage,"inputStruct");
+			else
+				context.template(stage.inputStruct,"main");
+				
+			if ( !stage.outputStructSet )
+				context.template(stage,"outputStruct");
+			else
+				context.template(stage.outputStruct,"main");
+			%>
+					void main() {
+						<%@
+							for (IONode stageNode : stage.sortedNodes ){
+								context.template(stageNode,"declaration");
+								context.template(stageNode,"calculate");
+							}
+							
+						%>
+				}
+			<%@
+			
+			context.createRelativeStream("default","stage",stage.name + ".fragment");
+			context.writeBufferToStream("stage","cbPerObject");
+			context.writeBufferToStream("stage","cbPerFrame");
+				
+			context.writeBufferToStream("stage","header");
+			context.writeBufferToStream("stage","techniques");
+			context.closeStream("stage");
+			
+			context.clearBuffer("cbPerObject");
+			context.clearBuffer("cbPerFrame");
+			context.clearBuffer("techniques");
+			context.clearBuffer("header");
+		}
+		%>
+		]]>
+		</code>
+	</template>
+	<template id="node">
+		<code name="declaration" type="textures.texture2D" buffer="header"><![CDATA[texture2D <%=node.id%>;
+SamplerState <%=node.id%>Sampler
+{
+	Filter = MIN_<%=node["Sampler.min"]%>_MAG_<%=node["Sampler.mag"]%>_MIP_<%=node["Sampler.mip"]%>;
+	AddressU = Wrap;
+	AddressV = Wrap;
+};]]></code>
+		<code name="calculate" type="textures.texture2D">
+<![CDATA[
+	float4 <%=$RGBA.var%> = <%=node.id%>.Sample(<%=node.id%>Sampler,<%=$UV.ref%>);
+	<if condition="$RGB.connected">
+			float3 <%=$RGB.var%>=<%=$RGBA.var%>.rgb;
+	</if>
+	<if condition="$R.connected">
+		float <%=$R.var%>=<%=$RGBA.var%>.r;
+	</if>
+	<if condition="$G.connected">
+		float <%=$R.var%>=<%=$RGBA.var%>.g;
+	</if>
+	<if condition="$B.connected">
+		float <%=$R.var%>=<%=$RGBA.var%>.b;
+	</if>
+	<if condition="$A.connected">
+		float <%=$R.var%>=<%=$RGBA.var%>.a;	
+	</if>
+]]></code>
+		<code name="calculate" type="math.mul"><![CDATA[
+		<if type="$vector" equals="FLOAT3">
+			<if setting="Node.TransformType" equals="TransformVector">
+				// Transforming as position
+				<%=$tvec4.type%> <%=$tvec4.var%> = mul ( float4(<%=$vector.ref%>,1.0f) , <%=$matrix.ref%> );
+				<if condition="$tvec3.connected">
+					<%=$tvec3.type%> <%=$tvec3.var%> = <%=$tvec4.var%>.xyz / <%=$tvec4.var%>.w;
+				</if>
+			</if>
+			<if setting="Node.TransformType" equals="TransformNormal">
+				// Transforming as normal
+				<%=$tvec4.type%> <%=$tvec4.var%> = mul ( float4(<%=$vector.ref%>,0.0f) , <%=$matrix.ref%> );
+				<if condition="$tvec3.connected">
+					<%=$tvec3.type%> <%=$tvec3.var%> = <%=$tvec4.var%>.xyz;
+				</if>
+			</if>
+		</if>
+		<if type="$vector" equals="FLOAT4">
+			<%=$tvec4.type%> <%=$tvec4.var%> = mul ( <%=$vector.ref%> , <%=$matrix.ref%> );
+			<if condition="$tvec3.connected">
+				<%=$tvec3.type%> <%=$tvec3.var%> = <%=$tvec4.var%>.xyz / <%=$tvec4.var%>.w;
+			</if>
+		</if>
+]]></code>
+	</template>
+</shadermodel>

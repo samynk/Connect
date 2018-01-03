@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="shader2">
+	<export>
+		<file  dir="" name="name"><![CDATA[]]></file>	
+	</export>
+	<global>
+		<node id="t1" name="WorldMatrix" ioEditable="false" position="[0,0]" container="leaf">
+			<output name="matrix" connection="semantic.WORLD" type="FLOAT4X4"/>
+		</node>
+	</global>
+	<structs>
+	</structs>
+	<states>
+	</states>
+	<stage name="GameTick" type="vertex" inputPosition="[48,177]" outputPosition="[595,186]">
+		<input name="deltaTime" type="FLOAT"/>
+		<output name="-" type="void"/>
+		<node id="c1" name="c" type="constants.color" ioEditable="false" position="[358,205]" container="leaf">
+			<output name="rgba" type="FLOAT4"/>
+			<output name="rgb" type="FLOAT3"/>
+			<output name="a" type="FLOAT"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="color" value="[0.06666667,0.72156864,0.8862745]"/>
+		</node>
+	</stage>
+	<stage name="GamePaint" type="pixel" inputPosition="[100,73]" outputPosition="[519,112]">
+		<input name="rect" type="RECT"/>
+		<output name="return" type="void"/>
+		<output name="-" type="exec"/>		
+	</stage>
+	<technique name="basicshader">
+		<pass  name="one">
+			<stageid id="GameTick"/>
+			<stageid id="GamePaint"/>
+		</pass>
+	</technique>
+</project>

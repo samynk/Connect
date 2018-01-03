@@ -1,0 +1,18 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<projecttemplates>
+	<startproject template="basic.color"/>
+	<group name="basic" label="Basic Shaders">
+		<template name="color" label="Simple Color Shader">
+			<file><![CDATA[./color.daefx]]></file>
+			<description>This shader uses simple vertex coloring</description>
+		</template>
+		<template name="normalcolor" label="Normal Visualization">
+			<file><![CDATA[./normalcolor.daefx]]></file>
+			<description><![CDATA[This shader visualizes the normals of a mesh]]></description>
+		</template>
+		<template name="diffuse" label="Diffuse Texture">
+			<file><![CDATA[./diftex.daefx]]></file>
+			<description><![CDATA[Simple diffuse texture without lighting]]></description>
+		</template>
+	</group>
+</projecttemplates>

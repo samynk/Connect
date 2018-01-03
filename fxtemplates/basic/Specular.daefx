@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="shader2">
+	<global>
+		<node id="t1" name="WorldMatrix" ioEditable="false" position="[0,0]" container="leaf">
+			<output name="matrix" connection="semantic.WORLD" type="FLOAT4X4"/>
+		</node>
+	</global>
+	<structs>
+	</structs>
+	<states>
+	</states>
+	<stage name="VS" type="vertex" inputPosition="[24,10]" outputPosition="[1027,126]">
+		<input name="iPosL" type="FLOAT3" semantic="POSITION"/>
+		<input name="iNormal" type="FLOAT3" semantic="NORMAL"/>
+		<input name="iTC" type="FLOAT2" semantic="TEXCOORD0"/>
+		<output name="oPosH" connection="mulProjection.tvec4" type="FLOAT4" semantic="SV_POSITION"/>
+		<output name="oNormal" connection="normalizedNormal.nvector" type="FLOAT3" semantic="NORMAL"/>
+		<output name="oTC" connection="input.iTC" type="FLOAT2" semantic="TEXCOORD0"/>
+		<output name="oWorldPosition" connection="mulWorld.tvec3" type="FLOAT3" semantic="TEXCOORD1"/>
+		<node id="mulWorld" name="World Transform" type="math.mul" ioEditable="false" position="[304,-23]" container="leaf">
+			<input name="vector" connection="input.iPosL" type="FLOAT3"/>
+			<input name="matrix" connection="World.matrix" type="FLOAT4X4"/>
+			<output name="tvec4" type="FLOAT4"/>
+			<output name="tvec3" type="FLOAT3"/>
+			<setting group="Node" id="TransformType" value="TransformVector"/>
+		</node>
+		<node id="transformedNormal" name="Normal Transform" type="math.mul" ioEditable="false" position="[559,307]" container="leaf">
+			<input name="vector" connection="input.iNormal" type="FLOAT3"/>
+			<input name="matrix" connection="World.matrix" type="FLOAT4X4"/>
+			<output name="tvec4" type="FLOAT4"/>
+			<output name="tvec3" type="FLOAT3"/>
+			<setting group="Node" id="TransformType" value="TransformNormal"/>
+		</node>
+		<node id="World" name="World Matrix" type="constants.matrix" ioEditable="false" position="[43,221]" container="leaf">
+			<output name="matrix" type="FLOAT4X4"/>
+			<setting group="Node" id="semantic" value="World"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+		</node>
+		<node id="View" name="View Matrix" type="constants.matrix" ioEditable="false" position="[48,338]" container="leaf">
+			<output name="matrix" type="FLOAT4X4"/>
+			<setting group="Node" id="semantic" value="View"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+		</node>
+		<node id="Projection" name="Projection Matrix" type="constants.matrix" ioEditable="false" position="[42,462]" container="leaf">
+			<output name="matrix" type="FLOAT4X4"/>
+			<setting group="Node" id="semantic" value="Projection"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+		</node>
+		<node id="mulView" name="View Transform" type="math.mul" ioEditable="false" position="[606,-32]" container="leaf">
+			<input name="vector" connection="mulWorld.tvec4" type="FLOAT4"/>
+			<input name="matrix" connection="View.matrix" type="FLOAT4X4"/>
+			<output name="tvec4" type="FLOAT4"/>
+			<output name="tvec3" type="FLOAT3"/>
+			<setting group="Node" id="TransformType" value="TransformVector"/>
+		</node>
+		<node id="mulProjection" name="Projection Transform" type="math.mul" ioEditable="false" position="[804,7]" container="leaf">
+			<input name="vector" connection="mulView.tvec4" type="FLOAT4"/>
+			<input name="matrix" connection="Projection.matrix" type="FLOAT4X4"/>
+			<output name="tvec4" type="FLOAT4"/>
+			<output name="tvec3" type="FLOAT3"/>
+			<setting group="Node" id="TransformType" value="TransformVector"/>
+		</node>
+		<node id="normalizedNormal" name="normalize" type="math.normalize" ioEditable="false" position="[771,296]" container="leaf">
+			<input name="vector" connection="transformedNormal.tvec3" type="FLOAT3"/>
+			<output name="nvector" type="FLOAT3"/>
+		</node>
+	</stage>
+	<stage name="PS" type="pixel" inputPosition="[0,0]" outputPosition="[2261,267]">
+		<input name="posH" type="FLOAT4" semantic="SV_POSITION"/>
+		<input name="normal" type="FLOAT3" semantic="NORMAL"/>
+		<input name="TC" type="FLOAT2" semantic="TEXCOORD0"/>
+		<input name="worldPosition" type="FLOAT3" semantic="TEXCOORD1"/>
+		<output name="color0" connection="convert1.result" type="FLOAT4" semantic="SV_TARGET"/>
+		<node id="DiffuseIntensity" name="Diffuse Intensity" type="constants.float" ioEditable="false" position="[98,318]" container="leaf">
+			<output name="constant" type="FLOAT"/>
+			<setting group="Node" id="semantic"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="value" value="[1.0]"/>
+			<setting group="Value" id="semantic" value=""/>
+		</node>
+		<node id="LightDirection" name="Light Direction" type="lighting.dirlight" ioEditable="false" position="[37,-240]" container="leaf">
+			<output name="value" type="FLOAT3"/>
+		</node>
+		<node id="AmbientIntensity" name="Ambient Intensity" type="constants.float" ioEditable="false" position="[461,462]" container="leaf">
+			<output name="constant" type="FLOAT"/>
+			<setting group="Node" id="semantic"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="value" value="[0.0]"/>
+			<setting group="Value" id="semantic" value=""/>
+		</node>
+		<node id="DirectionDotNormal" name="Direction Dot Normal" type="math.dot" ioEditable="false" position="[306,97]" container="leaf">
+			<input name="op1" connection="LightDirection.value" type="FLOAT3"/>
+			<input name="op2" connection="input.normal" type="FLOAT3"/>
+			<output name="result" type="FLOAT"/>
+			<setting group="Node" id="UseMax" value="[false]"/>
+		</node>
+		<node id="DiffuseIntensityProduct" name="DiffuseIntensityProduct" type="math.product" ioEditable="false" position="[523,153]" container="leaf">
+			<input name="op1" connection="DirectionDotNormal.result" type="FLOAT"/>
+			<input name="op2" connection="DiffuseIntensity.constant" type="FLOAT"/>
+			<output name="result" type="FLOAT"/>
+		</node>
+		<node id="AmbientColor" name="Ambient Color" type="constants.color" ioEditable="false" position="[483,602]" container="leaf">
+			<output name="rgba" type="FLOAT4"/>
+			<output name="rgb" type="FLOAT3"/>
+			<output name="a" type="FLOAT"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="color" value="[0.2,0.2,1.0]"/>
+		</node>
+		<node id="product1" name="DiffuseProduct" type="math.product" ioEditable="false" position="[742,216]" container="leaf">
+			<input name="op1" connection="DiffuseIntensityProduct.result" type="FLOAT"/>
+			<input name="op2" connection="gMap1.RGB" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="ambient" name="ambient" type="math.product" ioEditable="false" position="[700,394]" container="leaf">
+			<input name="op1" connection="AmbientIntensity.constant" type="FLOAT"/>
+			<input name="op2" connection="AmbientColor.rgb" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="DiffusePlusAmbient" name="Diffuse Plus Ambient" type="math.sum" ioEditable="false" position="[922,318]" container="leaf">
+			<input name="op1" connection="product1.result" type="FLOAT3"/>
+			<input name="op2" connection="ambient.result" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="sat1" name="sat" type="math.saturate" ioEditable="false" position="[1863,207]" container="leaf">
+			<input name="op1" connection="DiffuseAmbientSpecular.result" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="convert1" name="convert" type="math.convert34" ioEditable="false" position="[2045,243]" container="leaf">
+			<input name="vector3" connection="sat1.result" type="FLOAT3"/>
+			<input name="w" connection="alphaone.constant" type="FLOAT"/>
+			<output name="result" type="FLOAT4"/>
+		</node>
+		<node id="alphaone" name="alpha one" type="constants.float" ioEditable="false" position="[1841,364]" container="leaf">
+			<output name="constant" type="FLOAT"/>
+			<setting group="Node" id="semantic"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="value" value="[1.0]"/>
+			<setting group="Value" id="semantic" value=""/>
+		</node>
+		<node id="gMap1" name="gMap" type="textures.texture2D" ioEditable="false" position="[301,362]" container="leaf">
+			<input name="UV" connection="input.TC" type="FLOAT2"/>
+			<output name="RGBA" type="FLOAT4"/>
+			<output name="RGB" type="FLOAT3"/>
+			<output name="R" type="FLOAT"/>
+			<output name="G" type="FLOAT"/>
+			<output name="B" type="FLOAT"/>
+			<output name="A" type="FLOAT"/>
+			<setting group="Sampler" id="min" value="POINT"/>
+			<setting group="Sampler" id="mag" value="POINT"/>
+			<setting group="Sampler" id="mip" value="POINT"/>
+			<setting group="Value" id="image">
+				<value><![CDATA[]]></value>
+			</setting>
+		</node>
+		<node id="CameraPosition" name="Camera Position" type="constants.camera" ioEditable="false" position="[20,-134]" container="leaf">
+			<output name="position" type="FLOAT3"/>
+		</node>
+		<node id="viewDirection" name="View Direction" type="math.minus" ioEditable="false" position="[284,-107]" container="leaf">
+			<input name="op1" connection="CameraPosition.position" type="FLOAT3"/>
+			<input name="op2" connection="input.worldPosition" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="ViewPlusLight" name="View plus Light" type="math.sum" ioEditable="false" position="[533,-187]" container="leaf">
+			<input name="op1" connection="viewDirection.result" type="FLOAT3"/>
+			<input name="op2" connection="LightDirection.value" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="halfVector" name="Half Vector" type="math.normalize" ioEditable="false" position="[751,-181]" container="leaf">
+			<input name="vector" connection="ViewPlusLight.result" type="FLOAT3"/>
+			<output name="nvector" type="FLOAT3"/>
+		</node>
+		<node id="dot1" name="dot" type="math.dot" ioEditable="false" position="[959,-141]" container="leaf">
+			<input name="op1" connection="halfVector.nvector" type="FLOAT3"/>
+			<input name="op2" connection="input.normal" type="FLOAT3"/>
+			<output name="result" type="FLOAT"/>
+			<setting group="Node" id="UseMax" value="[false]"/>
+		</node>
+		<node id="pow1" name="pow" type="math.pow" ioEditable="false" position="[1166,-102]" container="leaf">
+			<input name="op1" connection="dot1.result" type="FLOAT"/>
+			<input name="power" connection="Glossiness.constant" type="INT"/>
+			<output name="result" type="FLOAT"/>
+		</node>
+		<node id="Glossiness" name="Glossiness" type="constants.int" ioEditable="false" position="[956,20]" container="leaf">
+			<output name="constant" type="INT"/>
+			<setting group="Node" id="semantic"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="value" value="[20]"/>
+			<setting group="Value" id="min" value="[0]"/>
+			<setting group="Value" id="max" value="[100]"/>
+			<setting group="Value" id="semantic" value=""/>
+		</node>
+		<node id="SpecularColor" name="Specular Color" type="constants.color" ioEditable="false" position="[953,-399]" container="leaf">
+			<output name="rgba" type="FLOAT4"/>
+			<output name="rgb" type="FLOAT3"/>
+			<output name="a" type="FLOAT"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="color" value="[0.6,1.0,0.0]"/>
+		</node>
+		<node id="product2" name="product" type="math.product" ioEditable="false" position="[1182,-422]" container="leaf">
+			<input name="op1" connection="SpecularLevel.constant" type="FLOAT"/>
+			<input name="op2" connection="SpecularColor.rgb" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="SpecularLevel" name="Specular Level" type="constants.float" ioEditable="false" position="[958,-550]" container="leaf">
+			<output name="constant" type="FLOAT"/>
+			<setting group="Node" id="semantic"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="value" value="[0.0]"/>
+			<setting group="Value" id="semantic" value=""/>
+		</node>
+		<node id="product3" name="product" type="math.product" ioEditable="false" position="[1391,-299]" container="leaf">
+			<input name="op1" connection="product2.result" type="FLOAT3"/>
+			<input name="op2" connection="pow1.result" type="FLOAT"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="DiffuseAmbientSpecular" name="Diffuse Ambient and Specular" type="math.sum" ioEditable="false" position="[1598,201]" container="leaf">
+			<input name="op1" connection="product3.result" type="FLOAT3"/>
+			<input name="op2" connection="DiffusePlusAmbient.result" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+	</stage>
+	<technique name="basicshader">
+		<pass  name="one">
+			<stageid id="VS"/>
+			<stageid id="PS"/>
+		</pass>
+	</technique>
+</project>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<group>
+<method inputPosition="[0,0]" outputPosition="[0,0]">
+		<input name="op1" type="FLOAT3" semantic=""/>
+		<output name="result" connection="convert2.result" type="FLOAT4" semantic=""/>
+		<node id="light1" name="light" type="lighting.dirlight" ioEditable="false" position="[0,0]" container="leaf">
+			<output name="value" type="FLOAT3"/>
+		</node>
+		<node id="dot1" name="dot" type="math.dot" ioEditable="false" position="[0,0]" container="leaf">
+			<input name="op1" connection="input.op1" type="FLOAT3"/>
+			<input name="op2" connection="light1.value" type="FLOAT3"/>
+			<output name="result" type="FLOAT"/>
+			<setting group="Node" id="UseMax" value="[false]"/>
+		</node>
+		<node id="product1" name="product" type="math.product" ioEditable="false" position="[0,0]" container="leaf">
+			<input name="op1" connection="dot1.result" type="FLOAT"/>
+			<input name="op2" connection="convert1.xyz" type="FLOAT3"/>
+			<output name="result" type="FLOAT3" typerul="max(op1,op2)"/>
+		</node>
+		<node id="convert2" name="convert" type="math.convert34" ioEditable="false" position="[0,0]" container="leaf">
+			<input name="vector3" connection="product1.result" type="FLOAT3"/>
+			<input name="w" connection="convert1.w" type="FLOAT"/>
+			<output name="result" type="FLOAT4"/>
+		</node>
+		<node id="convert1" name="convert" type="math.convert43" ioEditable="false" position="[0,0]" container="leaf">
+			<input name="vector4" connection="c1.color" type="FLOAT4"/>
+			<output name="xyz" type="FLOAT3"/>
+			<output name="w" type="FLOAT"/>
+		</node>
+		<node id="c1" name="c" type="constants.color" ioEditable="false" position="[0,0]" container="leaf">
+			<output name="color" type="FLOAT4"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="color" value="[0.003921569,0.003921569,0.003921569]"/>
+		</node>
+	</method>
+</group>

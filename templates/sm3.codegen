@@ -1,0 +1,715 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<shadermodel id="sm3" label="Export to DirectX 9">
+	<fxprojecttype name="Shader" version="1.0"/>
+	<codeformat>
+		<sequence type="start" value="{"/>
+		<sequence type="end" value="};"/>
+		<sequence type="end" value="}"/>
+	</codeformat>
+	<typedefs>
+		<type key="FLOAT" value="float"/>
+		<type key="FLOAT2" value="float2"/>
+		<type key="FLOAT3" value="float3"/>
+		<type key="FLOAT4" value="float4"/>
+		<type key="FLOAT3X3" value="float3x3"/>
+		<type key="FLOAT4X4" value="float4x4"/>
+		<type key="INT" value="int"/>
+		<type key="INT2" value="int2"/>
+		<type key="INT3" value="int3"/>
+		<type key="INT4" value="int4"/>
+		<type key="BOOLEAN" value="bool"/>
+		<type key="BOOLEAN2" value="bool2"/>
+		<type key="BOOLEAN3" value="bool3"/>
+		<type key="BOOLEAN4" value="bool4"/>
+	</typedefs>
+	<formula>
+                <operation name="=">op1 = op2;</operation>
+		<operation name="SQRT"> sqrt( op1 ) </operation>
+		<operation name="POWER"> pow( op1 , op2 )</operation>
+                <operation name="LENGTH">length( op1 )</operation>
+                <operation name="GROUP">( op1 )</operation>
+		<operation name="normalize">normalize( op1 ) </operation>
+		<operation name="+">op1 + op2</operation>
+		<operation name="-">op1 - op2</operation>
+		<operation name="*">op1 * op2</operation>
+		<operation name="/">op1 / op2</operation>
+                <operation name=".">dot( op1, op2)</operation>
+                <operation name="x">cross( op1, op2)</operation>
+		<operation name="cos">cos( op1)</operation>
+		<operation name="sin">sin( op1)</operation>
+                <operation name="max">max( op1, op2)</operation>
+                <operation name="step">step( op1, op2)</operation>
+		<constant name="e" value="2.71828183"/>
+		<constant name="pi" value="3.14159265"/>
+	</formula>
+	<template id="project">
+		<code name="sas" buffer="header"><![CDATA[
+		int gp : SasGlobal
+		<
+		  int3 SasVersion = {1,0,0};
+		>;
+		]]></code>
+		<code name="main" buffer="techniques">
+		<![CDATA[
+		<%@
+		context.template(node,"sas");
+		for ( ShaderNode state : node.states ){
+			context.template(state,"declaration");
+		}
+		
+		
+		for (ShaderStage stage : node.stages )
+		{
+			if ( !stage.inputStructSet )
+				context.template(stage,"inputStruct");
+			else
+				context.template(stage.inputStruct,"main");
+				
+			if ( !stage.outputStructSet )
+				context.template(stage,"outputStruct");
+			else
+				context.template(stage.outputStruct,"main");
+			
+			
+			if ( stage.nrOfOutputs > 1 ) {
+			%><%=stage.outputStructName%> <%@ }else{ %>
+			<%=stage.firstOutput.type%> <%@}%> <%=stage.name%>(<%=stage.inputStructName%> input) <%@ if (stage.nrOfOutputs == 1 ){ %> : <%=stage.firstOutput.semantic%> <%@}%>{
+				<%@ if ( stage.nrOfOutputs > 1 ) {%> 
+				<%=stage.outputStructName%> output= (<%=stage.outputStructName%>)0;<%@}%>
+			<%@
+				for (IONode stageNode : stage.sortedNodes ){
+					context.template(stageNode,"declaration");
+					context.template(stageNode,"calculate");
+				}
+				if ( stage.nrOfOutputs > 1 ) {
+				%>
+				return output;
+				<%@ } %>
+			}
+			<%@
+		}
+		
+		for ( Technique tech : node.techniques )
+		{
+			// call the "main" technique template and store the result in the 
+			// techniques buffer.
+			context.template(tech,"main");
+		}
+		
+		//output.prepend("cbPerObject","cbuffer cbPerObject{\n");
+		//output.write("cbPerObject","\n};\n\n");
+		context.writeBufferToStream("default","cbPerObject");
+		
+		//output.prepend("cbPerFrame","cbuffer cbPerFrame{\n");
+		//output.write("cbPerFrame","\n};\n\n");
+		context.writeBufferToStream("default","cbPerFrame");
+		context.writeBufferToStream("default","cbRarely");
+	
+		context.writeBufferToStream("default","header");
+		context.writeBufferToStream("default","methods");
+		context.writeBufferToStream("default","techniques");
+		%>
+		]]>
+		</code>
+	</template>
+	<template id="struct">
+		<code name="main" buffer="header" writeOnce="true"><![CDATA[
+struct <%=node.id%>{
+<%@
+for (ShaderField field : node.fields ){
+	%>
+<%=field.type%> <%=field.name%> : <%=field.semantic%>; 
+	<%@
+}
+%>
+};
+]]></code>
+	</template>
+	<template id="pass">
+		<code name="main">
+		<![CDATA[
+			pass <%= node.name%>{
+			<%@
+				if ( node.hasRasterizerState() ){
+			%>
+				CullMode = <%=node.rasterizerState.getSettingValue("State","CullMode")%>;
+			<%@
+				}
+			%>
+			ShadeMode = Gouraud;
+			<%@
+				for ( ShaderStage stage: node.stages ){
+					context.template(stage,"compile");
+				}
+			%>
+			
+			}
+		]]>
+		</code>
+	</template>
+	<template id="technique">
+		<code name="main"><![CDATA[
+		// dit is specifiek voor DirectX9
+		technique <%= node.name%>{
+		<%@
+			for (Pass pass : node.passes )
+			{
+				// call the "main" pass template and store the result in
+				// the techniques buffer.
+				context.template(pass,"main");
+			}
+		%>
+		}]]></code>
+	</template>
+	<template id="shaderstage">
+		<code name="compile" type="vertex">
+		<![CDATA[VertexShader = compile vs_3_0 <%=node.name%>();]]>
+		</code>
+		<code name="compile" type="pixel">
+		<![CDATA[PixelShader = compile ps_3_0 <%=node.name%> ();]]>
+		</code>
+		<code name="compile" type="stages.vertex">
+		<![CDATA[VertexShader = compile vs_3_0 <%=node.name%>();]]>
+		</code>
+		<code name="compile" type="stages.pixel">
+		<![CDATA[PixelShader = compile ps_3_0 <%=node.name%> ();]]>
+		</code>
+		<code name="inputStruct"><![CDATA[		
+struct <%=node.inputStructName%>{
+<%@
+for (ShaderInput input : node.inputs ){
+%>
+<%=input.type%> <%=input.name%> : <%=input.semantic%>;
+<%@}
+%>};
+]]></code>
+		<code name="outputStruct"><![CDATA[
+<%@if ( node.nrOfOutputs > 1 ) {%>
+struct <%=node.outputStructName%>{
+<%@
+for (ShaderOutput op : node.outputs ){
+%>
+<%=op.type%> <%=op.name%> : <%=op.semantic%>;
+<%@}%>};
+<%@ } %>
+]]></code>
+	</template>
+	<template id="node">
+		<code name="declaration" type="textures.texture2D" buffer="header"><![CDATA[
+texture <%=node.id%> <
+	string UIName = "<%=node.name%>";
+	string ResourceType = "2D";
+>;
+
+sampler2D <%=node.id%>Sampler = sampler_state
+{
+	Texture = <<%=node.id%>>;
+	MinFilter = <%=node["Sampler.min"]%>;
+	MagFilter = <%=node["Sampler.mag"]%>;
+	MipFilter = <%=node["Sampler.mip"]%>;
+	AddressU = Wrap;
+    AddressV = Wrap;
+	
+};
+]]></code>
+		<code name="calculate" type="textures.texture2D">
+<![CDATA[
+	float4 <%=$RGBA.var%> = tex2D(<%=node.id%>Sampler,<%=$UV.ref%>);
+	<if condition="$RGB.connected">
+		float3 <%=$RGB.var%>=<%=$RGBA.var%>.rgb;
+	</if>
+	<if condition="$R.connected">
+		float <%=$R.var%>=<%=$RGBA.var%>.r;
+	</if>
+	<if condition="$G.connected">
+		float <%=$G.var%>=<%=$RGBA.var%>.g;
+	</if>
+	<if condition="$B.connected">
+		float <%=$B.var%>=<%=$RGBA.var%>.b;
+	</if>
+	<if condition="$A.connected">
+		float <%=$A.var%>=<%=$RGBA.var%>.a;	
+	</if>
+]]></code>
+
+<code name="declaration" type="textures.texture1D" buffer="header"><![CDATA[
+texture <%=node.id%> <
+	string UIName = "<%=node.name%>";
+	string ResourceType = "1D";
+>;
+
+sampler1D <%=node.id%>Sampler = sampler_state
+{
+	Texture = <<%=node.id%>>;
+	MinFilter = <%=node["Sampler.min"]%>;
+	MagFilter = <%=node["Sampler.mag"]%>;
+	MipFilter = <%=node["Sampler.mip"]%>;
+	AddressU = <%=node["Sampler.addressu"]%>;
+	
+};
+]]></code>
+		<code name="calculate" type="textures.texture1D">
+<![CDATA[
+	float4 <%=$RGBA.var%> = tex1D(<%=node.id%>Sampler,<%=$U.ref%>);
+	<if condition="$RGB.connected">
+		float3 <%=$RGB.var%>=<%=$RGBA.var%>.rgb;
+	</if>
+	<if condition="$R.connected">
+		float <%=$R.var%>=<%=$RGBA.var%>.r;
+	</if>
+	<if condition="$G.connected">
+		float <%=$G.var%>=<%=$RGBA.var%>.g;
+	</if>
+	<if condition="$B.connected">
+		float <%=$B.var%>=<%=$RGBA.var%>.b;
+	</if>
+	<if condition="$A.connected">
+		float <%=$A.var%>=<%=$RGBA.var%>.a;	
+	</if>
+]]></code>
+<code name="declaration" type="textures.textureNormal" buffer="header"><![CDATA[
+	<%@ context.template(node,"declaration","textures","texture2D"); %>
+]]></code>
+<code name="calculate" type="textures.textureNormal"><![CDATA[
+	<%=$normal.type%> <%= $normal.ref %> = 2.0 * tex2D( <%=node.id%>Sampler , <%=$UV.ref%> ) -1.0 ;
+	<if setting="Sampler.frc" equals="true">
+		<%=$normal.ref%>.x = -<%=$normal.ref%>.x;
+	</if>
+	<if setting="Sampler.fgc" equals="true">
+		<%=$normal.ref%>.y = -<%=$normal.ref%>.y;
+	</if>
+]]></code>
+<code name="declaration" type="textures.textureCube" buffer="header"><![CDATA[
+textureCUBE <%=node.id%> <
+	string UIName = "<%=node.name%>";
+	string ResourceType = "Cube";
+>;
+
+samplerCUBE <%=node.id%>Sampler = sampler_state
+{
+	Texture = <<%=node.id%>>;
+	MinFilter = <%=node["Sampler.min"]%>;
+	MagFilter = <%=node["Sampler.mag"]%>;
+	MipFilter = <%=node["Sampler.mip"]%>;
+	AddressU = <%=node["Sampler.addressu"]%>;
+    AddressV = <%=node["Sampler.addressv"]%>;
+    AddressW = <%=node["Sampler.addressw"]%>;
+	
+};
+]]></code>
+		<code name="calculate" type="textures.textureCube">
+<![CDATA[
+	float4 <%=$RGBA.var%> = texCUBE(<%=node.id%>Sampler,<%=$UVW.ref%>);
+	<if condition="$RGB.connected">
+		float3 <%=$RGB.var%>=<%=$RGBA.var%>.rgb;
+	</if>
+	<if condition="$R.connected">
+		float <%=$R.var%>=<%=$RGBA.var%>.r;
+	</if>
+	<if condition="$G.connected">
+		float <%=$G.var%>=<%=$RGBA.var%>.g;
+	</if>
+	<if condition="$B.connected">
+		float <%=$B.var%>=<%=$RGBA.var%>.b;
+	</if>
+	<if condition="$A.connected">
+		float <%=$A.var%>=<%=$RGBA.var%>.a;	
+	</if>
+]]></code>
+		<code name="declaration" type="textures.sampler2D" buffer="header"><![CDATA[
+		texture2D <%=node.id%>Texture <
+			string UIName = "<%=node.name%>";
+			string ResourceType = "2D";
+		>;
+
+		sampler2D <%=node.id%> = sampler_state
+		{
+			Texture = <<%=node.id%>Texture>;
+			MinFilter = <%=node["Sampler.min"]%>;
+			MagFilter = <%=node["Sampler.mag"]%>;
+			MipFilter = <%=node["Sampler.mip"]%>;
+			AddressU = <%=node["Sampler.addressu"]%>;
+			AddressV = <%=node["Sampler.addressv"]%>;
+		};
+		]]></code>
+		<code name="calculate" type="math.dot">
+		</code>
+		<code name="calculate" type="math.mul"><![CDATA[
+		<if type="$vector" equals="FLOAT3">
+			<if type="$matrix" equals="FLOAT4X4">
+				<if setting="Node.TransformType" equals="TransformVector">
+					// Transforming as position
+					<%=$tvec4.type%> <%=$tvec4.var%> = mul ( float4(<%=$vector.ref%>,1.0f) , <%=$matrix.ref%> );
+					<if condition="$tvec3.connected">
+						<%=$tvec3.type%> <%=$tvec3.var%> = <%=$tvec4.var%>.xyz / <%=$tvec4.var%>.w;
+					</if>
+				</if>
+				<if setting="Node.TransformType" equals="TransformNormal">
+					// Transforming as normal
+					<%=$tvec4.type%> <%=$tvec4.var%> = mul ( float4(<%=$vector.ref%>,0.0f) , <%=$matrix.ref%> );
+					<if condition="$tvec3.connected">
+						<%=$tvec3.type%> <%=$tvec3.var%> = <%=$tvec4.var%>.xyz;
+					</if>
+				</if>
+			</if>
+			<if type="$matrix" equals="FLOAT3X3">
+				<%=$tvec3.type%> <%=$tvec3.var%> = mul ( <%=$vector.ref%> , <%=$matrix.ref%> );
+				<if condition="$tvec4.connected">
+					<%=$tvec4.type%> <%=$tvec4.var%> = float4(<%=$tvec3.ref%>,1);
+				</if>
+			</if>
+		</if>
+		<if type="$vector" equals="FLOAT4">
+			<if type="$matrix" equals="FLOAT4X4">
+				<%=$tvec4.type%> <%=$tvec4.var%> = mul ( <%=$vector.ref%> , <%=$matrix.ref%> );
+				<if condition="$tvec3.connected">
+					<%=$tvec3.type%> <%=$tvec3.var%> = <%=$tvec4.var%>.xyz / <%=$tvec4.var%>.w;
+				</if>
+			</if>
+			<if type="$matrix" equals="FLOAT3X3">
+				<%=$tvec3.type%> <%=$tvec3.var%> = mul ( <%=$vector.ref%>.xyz , <%=$matrix.ref%> );
+				<if condition="$tvec4.connected">
+					<%=$tvec4.type%> <%=$tvec4.var%> = float4(<%=$tvec3.ref%>,1);
+				</if>
+			</if>
+		</if>
+]]></code>
+		<code name="calculate" type="group.output"><![CDATA[
+<%@
+	output.write("//constructing output \n");
+	if ( node.nrOfInputs > 1 )
+	{
+	for ( ShaderInput input : node.inputs ){
+		if ( input.connected ){
+			output.write( input.var );
+			output.write( "=" );
+			output.write( input.connectedInput.ref );
+			output.write(";\n");
+		}
+	}
+	}else
+		output.write( "return " + node.firstInput.connectedInput.ref +";\n");
+%>
+]]></code>
+		<code name="declaration" type="constants.matrix">
+<![CDATA[
+<%@
+String buffer = node["Node.buffer"];
+output.write(buffer,"matrix ");
+output.write(buffer,node.id);
+output.write(buffer," : ");
+output.write(buffer,node["Node.semantic"]);
+output.write(buffer,";\n");
+%>
+]]>
+		</code>
+		<code name="declaration" type="constants.float" buffer="header"><![CDATA[
+		<%=$constant.type%> <%=node.id%>
+		<if setting="Node.tweakable" equals="true">
+		< 
+					string UIName = "<%=node.name%>";
+					string UIType = "FloatSpinner";
+					float UIMin = <%=node["Value.min"]%>;
+					float UIMax = <%=node["Value.max"]%>;
+		></if>
+		=<%=node["Value.value"] %>;
+		]]></code>
+		<code name="declaration" type="constants.int" buffer="header"><![CDATA[
+		<%=$constant.type%> <%=node.id%>
+		<if setting="Node.tweakable" equals="true">
+		< 
+			string UIName = "<%=node.name%>";
+			string UIType = "IntSpinner";
+			float UIMin = <%=node["Value.min"]%>;
+			float UIMax = <%=node["Value.max"]%>;
+		>
+		</if>
+		=<%=node["Value.value"] %>;
+				]]></code>
+		<code name="declaration" type="constants.boolean" buffer="header"><![CDATA[
+		<%=$constant.type%> <%=node.id%>
+		<if setting="Node.tweakable" equals="true">
+		< 
+			string UIName = "<%=node.name%>";
+		>
+		</if> =<%=node["Value.value"] %>;
+		]]></code>
+		<code name="declaration" type="constants.color" buffer="header"><![CDATA[
+		float4 <%=node.id%>
+		<
+			string UIName = "<%=node.name%>";
+			string UIWidget = "Color";
+		> = float4 <%=node["Value.color"]%>;
+		]]></code>
+		<code name="calculate" type="constants.color"><![CDATA[
+			<if condition="$rgba.connected">
+				float4 <%=$rgba.var%>=<%=node.id%>;
+			</if>
+			<if condition="$rgb.connected">
+				float3 <%=$rgb.var%>=<%=node.id%>.rgb;
+			</if>
+			<if condition="$a.connected">
+				float <%=$a.var%>=<%=node.id%>.a;
+			</if>
+		]]></code>
+		
+		<code name="declaration" type="constants.camera" buffer="header"><![CDATA[
+				matrix <%=node.id%>_matrix : ViewInverse;
+		]]></code>
+		<code name="calculate" type="constants.camera"><![CDATA[
+			<if condition="$position.connected">
+				float3 <%=$position.var%>=<%=node.id%>_matrix[3].xyz;
+			</if>
+		]]></code>
+		<code name="calculate" type="math.basis"><![CDATA[
+			<%=$matrix.type%> <%=$matrix.ref%> = float3x3(<%=$xaxis.ref%>,<%=$yaxis.ref%>,<%=$zaxis.ref%>);
+		]]></code>
+		<code name="declaration" type="math.normalize">
+		
+		</code>
+		<code name="calculate" type="math.normalize"><![CDATA[
+		<%=$nvector.type%> <%=$nvector.ref%> = normalize( <%=$vector.ref%> );
+		]]></code>
+		<code name="calculate" type="math.cross"><![CDATA[
+				<%=$result.type%> <%=$result.ref%> = cross( <%=$op1.ref%>,<%=$op2.ref%> );
+				<if setting="Node.Normalize" equals="true">
+					<%=$result.ref%> = normalize(<%=$result.ref%>);
+				</if>
+		]]></code>
+		
+		<code name="declaration" type="math.max">
+				
+		</code>
+		<code name="calculate" type="math.max"><![CDATA[
+			<%=$result.type%> <%=$result.ref%> = max( <%=$op1.ref%>, <%=$op2.ref%> );
+		]]></code>
+		<code name="declaration" type="math.min">
+						
+		</code>
+		<code name="calculate" type="math.min"><![CDATA[
+			<%=$result.type%> <%=$result.ref%> = min( <%=$op1.ref%>, <%=$op2.ref%> );
+		]]></code>
+		<code name="declaration" type="math.dot">
+								
+		</code>
+		<code name="calculate" type="math.dot"><![CDATA[
+			<%=$result.type%> <%=$result.ref%> =  <if setting="Node.UseMax" equals="true">max(0,</if> dot( <%=$op1.ref%>, <%=$op2.ref%> )<if setting="Node.UseMax" equals="true">)</if>;
+		]]></code>
+		<code name="declaration" type="lighting.reflect">
+		</code>
+		<code name="calculate" type="lighting.reflect"><![CDATA[
+			float3 <%=$Vr.ref%> = normalize( 2 * dot( <%=$Normal.ref%>, <%=$LightVec.ref%>) * <%=$Normal.ref%> - <%=$LightVec.ref%>);
+		]]></code>
+		<code name="declaration" type="math.convert34">
+		</code>
+		<code name="calculate" type="math.convert34"><![CDATA[
+float4 <%=$result.ref%> = float4( <%=$vector3.ref%> , <%=$w.ref%> );
+		]]></code>
+		<code name="declaration" type="math.convert43">
+		</code>
+		<code name="calculate" type="math.convert43"><![CDATA[
+			float3 <%=$xyz.ref%> = <%=$vector4.ref%>.xyz;
+			<if condition="$w.connected">
+			float <%=$w.ref%> = <%=$vector4.ref%>.w;
+			</if>
+		]]></code>
+		<code name="declaration" type="math.vectorToColor"></code>
+		<code name="calculate" type="math.vectorToColor"><![CDATA[
+		float4 <%=$color.ref%> = float4( 0.5f * <%=$vector.ref%> + .5f, <%=$w.ref%> );
+		]]></code>
+		<code name="calculate" type="custom.customcode"><![CDATA[
+		<%@
+		output.write(context.createOutputDefinitions(node));
+		String code = node["Value.code"];
+		output.write(context.replaceIONames( node, code ));
+		%>]]></code>
+                <code name="calculate" type="custom.math"><![CDATA[
+                <%@ 
+                    String math = context.generateMathCode(node, "Value","code" );        
+                    output.write(context.replaceIONames( node, math ));
+                %>]]></code>
+		<code name="declaration" type="stages.rasterizerstate"><![CDATA[
+		RasterizerState <%=node.id%>{
+			FillMode = <%=node["State.FillMode"]%>;
+			CullMode = <%=node["State.CullMode"]%>;
+		};
+		]]></code>
+		<code name="calculate" type="math.sum"><![CDATA[
+		<%=$result.type%> <%=$result.ref%> = <%=$op1.ref%> + <%=$op2.ref%>;
+		
+		]]></code>
+		<code name="calculate" type="math.minus"><![CDATA[
+			<%=$result.type%> <%=$result.ref%> = <%=$op1.ref%> - <%=$op2.ref%>;				
+		]]></code>
+		<code name="calculate" type="math.pow"><![CDATA[
+					<%=$result.type%> <%=$result.ref%> = pow (<%=$op1.ref%> , <%=$power.ref%> );				
+		]]></code>
+		<code name="calculate" type="math.product"><![CDATA[
+				<%=$result.type%> <%=$result.ref%> = <%=$op1.ref%> * <%=$op2.ref%>;
+				
+		]]></code>
+		<code name="calculate" type="math.division"><![CDATA[
+						<%=$result.type%> <%=$result.ref%> = <%=$op1.ref%> / <%=$op2.ref%>;
+						
+		]]></code>
+		<code name="calculate" type="math.saturate"><![CDATA[
+						<%=$result.type%> <%=$result.ref%> = saturate ( <%=$op1.ref%> );
+						
+		]]></code>
+		<code name="declaration" type="lighting.dirlight" buffer="header"><![CDATA[
+		float3 <%=$value.ref%> : Direction <  
+			string UIName = "Light Direction"; 
+			string Object = "TargetLight";
+		> = float3(-0.577, -0.577, 0.577);
+		]]></code>
+		<code name="calculate" type="lighting.dirlight">
+		</code>	
+		<code name="declaration" type="lighting.diffuse" buffer="header"><![CDATA[
+			<if condition="$diffuseColor.connected">
+			float <%=node.id%>Intensity
+			< 
+							string UIName = "<%=node.name%>Intensity";
+							string UIType = "FloatSpinner";
+							float UIMin = 0.0f;
+							float UIMax = 1.0f;
+			>
+			=<%=node["Value.value"] %>;
+			<%@ context.template(node,"declaration","textures","texture2D"); %>
+			</if>
+		]]></code>
+		<code name="declaration" type="lighting.pointlight" buffer="header"><![CDATA[
+			/// Point Lamp 0 ////////////
+			float3 <%=node.id%> : POSITION <
+			    string Object = "PointLight0";
+			    string UIName =  "Light Position";
+			    string Space = "World";
+				int refID = 0;
+			> = {-0.5f,2.0f,1.25f};
+		]]></code>
+		<code name="calculate" type="lighting.diffuse"><![CDATA[
+			<%=$intensity.type%> <%=$intensity.ref%> = max(dot ( <%=$normal.ref%>, <%=$lightDir.ref%>),0);
+			<if condition="$diffuseColor.connected">			
+				<%=$diffuseColor.type%> <%=$diffuseColor.ref%> = tex2D(<%=node.id%>Sampler, <%=$uv.ref%> ) * <%=node.id%>Intensity ;
+				<%=$diffuseColor.ref%> *= <%=$intensity.ref%>; 
+			</if>			
+		]]></code>
+		<code name="declaration" type="lighting.specular" buffer="header"><![CDATA[
+			<if condition="$specularColor.connected">
+				<%@ context.template(node,"declaration","textures","texture2D"); %>
+				float <%=node.id%>Intensity
+				< 
+							string UIName = "<%=node.name%>Intensity";
+							string UIType = "FloatSpinner";
+							float UIMin = 0.0f;
+							float UIMax = 1.0f;
+				>
+				=1.0f;
+			</if>
+			float <%=node.id%>Power
+			< 
+							string UIName = "<%=node.name%> Power";
+							string UIType = "FloatSpinner";
+							float UIMin = 0.0f;
+							float UIMax = 100.0f;
+			>
+			=15.0f;
+			
+		]]></code>
+		<code name="calculate" type="lighting.specular"><![CDATA[
+			
+			float3 <%=node.id%>_viewDir = normalize( <%=$cameraPos.ref%> - <%=$worldPos.ref%> );
+			float3 <%=node.id%>_H = normalize( <%=$lightDir.ref%> + <%=node.id%>_viewDir );
+			
+			<%=$intensity.type%> <%=$intensity.ref%> = pow(max(dot ( <%=$normal.ref%>,<%=node.id%>_H),0),<%=node.id%>Power);
+			<if condition="$specularColor.connected">
+				<%=$specularColor.type%> <%=$specularColor.ref%> = tex2D(<%=node.id%>Sampler, <%=$uv.ref%> ) * <%=node.id%>Intensity ;
+				<%=$specularColor.ref%> *= <%=$intensity.ref%>; 
+			</if>
+		]]></code>
+		<code name="calculate" type="lighting.lit"><![CDATA[
+			float3 <%=node.id%>_result = lit( <%=$LdotN.ref%>, <%=$HdotN.ref%>, <%=$specPower.ref%> );
+			<if condition="$specular.connected">
+			<%=$specular.type%> <%=$specular.ref%> = <%=node.id%>_result.z;
+			</if>
+			<if condition="$diffuse.connected">
+			<%=$diffuse.type%> <%=$diffuse.ref%> = <%=node.id%>_result.y;
+			</if>
+		]]></code>
+		
+	</template>
+	<template id="method">
+		<code name="declaration" type="code.method" buffer="methods" writeOnce="true" writeOnceProperty="subType"><![CDATA[
+				// <%= node.id%> functie declaratie
+				<%@
+				if ( !node.inputStructSet )
+					context.template(node,"inputStruct");
+				else
+					context.template(node.inputStruct,"header");
+				if ( node.nrOfOutputs > 1 )
+				{
+					if ( !node.outputStructSet )
+						context.template(node,"outputStruct");
+					else
+						context.template(node.outputStruct,"header");
+					output.write(node.outputStructName);
+				}else{
+					output.write(node.firstOutput.type);
+				}
+				%> <%=node.methodName%>(<%=node.inputStructName%> input){
+				<%@
+					if ( node.nrOfOutputs > 1 ){
+				%>
+									<%=node.outputStructName%> output = (<%=node.outputStructName%>)0;
+				<%@
+					}
+									for (IONode methodNode : node.sortedNodes ){
+										context.template(methodNode,"declaration");
+										context.template(methodNode,"calculate");
+									}%>
+				<%@
+					if ( node.nrOfOutputs > 1 ){
+				%>
+									return output;
+				<%@ }%>
+				}				
+		]]></code>
+		<code name="calculate" type="code.method"><![CDATA[
+				// functie gebruik
+				<%=node.inputStructName%> <%=node.id%>Input = (<%=node.inputStructName%>)0;
+				<%@
+					for (ShaderInput input : node.inputs ){
+					%>
+					<%=node.id%>Input.<%=input.name%> = <%=input.ref%>;
+					<%@
+					}
+				%>
+				<%@
+				if ( node.nrOfOutputs == 1 ){
+				%>
+					<%=node.firstOutput.type%> <%=node.firstOutput.ref%> = <%=node.methodName%>(<%=node.id%>Input);
+				<%@
+				}else{
+				%>
+					<%=node.outputStructName%> <%=node.id%> = <%=node.methodName%>(<%=node.id%>Input);
+				<%@
+				}
+				%>
+		]]></code>
+		<code name="inputStruct"><![CDATA[		
+		struct <%=node.inputStructName%>{
+		<%@
+		for (ShaderInput input : node.inputs ){
+		%>
+		<%=input.type%> <%=input.name%>;
+		<%@}%>};
+		]]></code>
+				<code name="outputStruct"><![CDATA[
+		struct <%=node.outputStructName%>{
+		<%@
+		for (ShaderOutput input : node.outputs ){
+		%>
+		<%=input.type%> <%=input.name%>;
+		<%@}%>};
+]]></code>
+	</template>
+</shadermodel>

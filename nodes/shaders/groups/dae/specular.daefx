@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<group>
+	<method inputPosition="[0,0]" outputPosition="[0,0]">
+		<input name="viewDirection_op1" type="FLOAT3" semantic=""/>
+		<input name="viewDirection_op2" type="FLOAT3" semantic=""/>
+		<input name="ViewPlusLight_op2" type="FLOAT3" semantic=""/>
+		<input name="dot1_op2" type="FLOAT3" semantic=""/>
+		<input name="pow1_power" type="INT" semantic=""/>
+		<output name="pow1_result" connection="pow1.result" type="FLOAT" semantic=""/>
+		<node id="viewDirection" name="View Direction" type="math.minus" ioEditable="false" position="[284,-107]" container="leaf">
+			<input name="op1" connection="input.viewDirection_op1" type="FLOAT3"/>
+			<input name="op2" connection="input.viewDirection_op2" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="ViewPlusLight" name="View plus Light" type="math.sum" ioEditable="false" position="[533,-187]" container="leaf">
+			<input name="op1" connection="viewDirection.result" type="FLOAT3"/>
+			<input name="op2" connection="input.ViewPlusLight_op2" type="FLOAT3"/>
+			<output name="result" type="FLOAT3"/>
+		</node>
+		<node id="halfVector" name="Half Vector" type="math.normalize" ioEditable="false" position="[751,-181]" container="leaf">
+			<input name="vector" connection="ViewPlusLight.result" type="FLOAT3"/>
+			<output name="nvector" type="FLOAT3"/>
+		</node>
+		<node id="dot1" name="dot" type="math.dot" ioEditable="false" position="[959,-141]" container="leaf">
+			<input name="op1" connection="halfVector.nvector" type="FLOAT3"/>
+			<input name="op2" connection="input.dot1_op2" type="FLOAT3"/>
+			<output name="result" type="FLOAT"/>
+			<setting group="Node" id="UseMax" value="[false]"/>
+		</node>
+		<node id="pow1" name="pow" type="math.pow" ioEditable="false" position="[1166,-102]" container="leaf">
+			<input name="op1" connection="dot1.result" type="FLOAT"/>
+			<input name="power" connection="input.pow1_power" type="INT"/>
+			<output name="result" type="FLOAT"/>
+		</node>
+	</method>
+</group>

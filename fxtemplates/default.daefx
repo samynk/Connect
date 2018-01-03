@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<projecttemplates>
+	<startproject  template="daev1.basic"/>
+	<group name="daev1" label="Basic Games">
+		<template  name="basic" label="Simple DAE Game">
+			<file><![CDATA[./basic.daefx]]></file>
+			<description><![CDATA[This DAE game is empty]]></description>
+		</template>
+	</group>
+	<group  name="basic" label="Basic Shaders">
+		<template  name="color" label="Simple Color Shader">
+			<file><![CDATA[./color.daefx]]></file>
+			<description><![CDATA[This shader uses simple vertex coloring]]></description>
+		</template>
+		<template  name="normalcolor" label="Normal Visualization">
+			<file><![CDATA[./normalcolor.daefx]]></file>
+			<description><![CDATA[This shader visualizes the normals of a mesh]]></description>
+		</template>
+		<template  name="diffuse" label="Diffuse Texture">
+			<file><![CDATA[./diftex.daefx]]></file>
+			<description><![CDATA[Simple diffuse texture without lighting]]></description>
+		</template>
+		<template  name="Specular" label="Specular shader">
+			<file><![CDATA[./Specular.daefx]]></file>
+			<description><![CDATA[Shader with ambient, diffuse and specular controls.]]></description>
+		</template>
+	</group>
+	<group  name="code" label="code">
+		<template  name="Diffuse" label="Diffuse Shader">
+			<file><![CDATA[./Diffuse.daefx]]></file>
+			<description><![CDATA[Simple diffuse shader with code nodes.]]></description>
+		</template>
+		<template  name="Test" label="Testje">
+			<file><![CDATA[./Test.daefx]]></file>
+			<description><![CDATA[Een test template]]></description>
+		</template>
+	</group>
+</projecttemplates>

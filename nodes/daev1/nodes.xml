@@ -1,0 +1,543 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<nodetemplates>
+    <types>
+        <type name="FLOAT" order="5"/>
+        <type name="FLOAT2" order="6"/>
+        <type name="FLOAT3" order="7"/>
+        <type name="FLOAT4" order="8"/>
+        <type name="INT" order="1"/>
+        <type name="INT2" order="2"/>
+        <type name="INT3" order="3"/>
+        <type name="INT4" order="4"/>
+        <type name="FLOAT4X4" order="11"/>
+        <type name="FLOAT3X3" order="10"/>
+        <type name="ARRAY" order="9"/>
+        <type name="BOOLEAN" order="1"/>
+        <type name="BOOLEAN2" order="2"/>
+        <type name="BOOLEAN3" order="3"/>
+        <type name="BOOLEAN4" order="4"/>
+        <type name="SAMPLER2D" order="12"/>
+		<type name="DOUBLE" order="5"/>
+		<type name="DOUBLE2" order="6"/>
+		<type name="DOUBLE3" order="7"/>
+		<type name="DOUBLE4" order="7"/>
+		<type name="RECT"/>
+		<type name="exec" order="14" valueType="false"/>
+		<type name="void" order="15" valueType="false"/>
+        <typeset name="NUMERIC" types="INT,INT2,INT3,INT4,FLOAT,FLOAT2,FLOAT3,FLOAT4,DOUBLE,DOUBLE2,DOUBLE3,DOUBLE4"/>
+        <typeset name="NORMALORPOS" types="FLOAT3,FLOAT4,DOUBLE3,DOUBLE4"/>
+        <typeset name="VECTOR" types="FLOAT2,FLOAT3,FLOAT4,DOUBLE2,DOUBLE3,DOUBLE4"/>
+        <typeset name="SINGLE" types="DOUBLE,FLOAT,INT"/>
+        <typeset name="MATRIX" types="FLOAT3X3,FLOAT4X4"/>
+    </types>
+    <rules>
+        <iorule id="maxrule" outputRule="max(op1,op2)"/>
+        <inputrule id="NUMERIC" types="FLOAT,FLOAT2,FLOAT3,FLOAT4,INT,INT2,INT3,INT4"/>
+    </rules>
+    <generalsettings>
+        <setting group="UI" id="style" label="UI Style" type="optionlist">
+            <option value="default" default="true"/>
+            <option dynvalue="UISTYLE"/>
+        </setting>
+    </generalsettings>
+    <group name="graphics" icon="/dae/images/gameengine.png" category="stage">
+        <node type="ellipse" prefix="ellipse" icon="/dae/images/graphics/draw_ellipse.png">
+            <input name="position" type="DOUBLE2"/>
+            <input name="dimension" type="DOUBLE2"/>
+			<output name="-" type="exec"/>
+			<setting group="Graphics" label="Draw" id="draw" type="booleanvector" value="[true]"/>
+			<setting group="Graphics" label="Fill" id="fill" type="booleanvector" value="[false]"/>
+        </node>
+    </group>
+    <group name="textures" icon="dae/images/texture.png" category="stage">
+        <node type="texture1D" prefix="m_Bmp" icon="/dae/images/tex1d.png">
+            <setting group="Sampler" label="min filter" id="min" type="optionlist">
+                <option value="POINT" />
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mag filter" id="mag" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mip filter" id="mip" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="Address U" id="addressu" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Value" label="Image" id="image" type="imagefile" default="" valueAsAttribute="false" visualize="true"/>
+            <input name="U" type="FLOAT"/>
+            <output name="RGBA" type="FLOAT4"/>
+            <output name="RGB" type="FLOAT3"/>
+            <output name="R" type="FLOAT" visibility="optional"/>
+            <output name="G" type="FLOAT" visibility="optional"/>
+            <output name="B" type="FLOAT" visibility="optional"/>
+            <output name="A" type="FLOAT" visibility="optional"/>
+        </node>
+        <node type="texture2D" prefix="gMap" icon="/dae/images/tex2d.png">
+            <setting group="Sampler" label="min filter" id="min" type="optionlist">
+                <option value="POINT" />
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mag filter" id="mag" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mip filter" id="mip" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Value" label="Image" id="image" type="imagefile" default="" valueAsAttribute="false" visualize="true"/>
+            <input name="UV" type="FLOAT2"/>
+            <output name="RGBA" type="FLOAT4"/>
+            <output name="RGB" type="FLOAT3"/>
+            <output name="R" type="FLOAT" visibility="optional"/>
+            <output name="G" type="FLOAT" visibility="optional"/>
+            <output name="B" type="FLOAT" visibility="optional"/>
+            <output name="A" type="FLOAT" visibility="optional"/>
+        </node>
+        <node type="textureNormal" prefix="gNormalMap" icon="/dae/images/texNormalMap.png">
+            <setting group="Sampler" label="min filter" id="min" type="optionlist">
+                <option value="POINT" />
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mag filter" id="mag" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mip filter" id="mip" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="Flip Red Channel(X)" id="frc" value="[false]" type="booleanvector"/>
+            <setting group="Sampler" label="Flip Green Channel(Y)" id="fgc" value="[false]" type="booleanvector"/>
+            <setting group="Value" label="Image" id="image" type="imagefile" default="" valueAsAttribute="false" visualize="true"/>
+            <input name="UV" type="FLOAT2"/>
+            <output name="normal" type="FLOAT3"/>
+        </node>
+        <node type="textureCube" prefix="gCubeMap" icon="/dae/images/texCube.png">
+            <setting group="Sampler" label="min filter" id="min" type="optionlist">
+                <option value="POINT" />
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mag filter" id="mag" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mip filter" id="mip" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="Address U" id="addressu" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Sampler" label="Address V" id="addressv" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Sampler" label="Address W" id="addressw" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Value" label="Image" id="image" type="imagefile" default="" valueAsAttribute="false" visualize="true"/>
+            <input name="UVW" type="FLOAT3"/>
+            <output name="RGBA" type="FLOAT4"/>
+            <output name="RGB" type="FLOAT3"/>
+            <output name="R" type="FLOAT" visibility="optional"/>
+            <output name="G" type="FLOAT" visibility="optional"/>
+            <output name="B" type="FLOAT" visibility="optional"/>
+            <output name="A" type="FLOAT" visibility="optional"/>
+        </node>
+        <node type="sampler2D" prefix="sampler" icon="/dae/images/sampler2D.png">
+            <setting group="Sampler" label="min filter" id="min" type="optionlist">
+                <option value="POINT" />
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mag filter" id="mag" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mip filter" id="mip" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="Address U" id="addressu" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Sampler" label="Address V" id="addressv" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Value" label="Image" id="image" type="imagefile" default="" valueAsAttribute="false" visualize="true"/>
+            <output name="sampler" type="SAMPLER2D"/>
+        </node>
+    </group>
+    <group name="math" icon="/dae/images/math.png" category="stage">
+        <node type="mul" prefix="mtx" icon="/dae/images/matmul.png">
+            <input name="vector" type="FLOAT4" acceptTypeSet="NORMALORPOS"/>
+            <input name="matrix" type="FLOAT4X4" acceptTypeSet="MATRIX"/>
+            <output name="tvec4" type="FLOAT4" />
+            <output name="tvec3" type="FLOAT3"/>
+            <setting group="Node" label="Transform type" id="TransformType" type="optionlist" visualize="true">
+                <option value="TransformVector" default="true"/>
+                <option value="TransformNormal"/>
+            </setting>
+        </node>
+        <node type="basis" prefix="basis" icon="/dae/images/basis.png">
+            <input name="xaxis" type="FLOAT3"/>
+            <input name="yaxis" type="FLOAT3"/>
+            <input name="zaxis" type="FLOAT3"/>
+            <output name="matrix" type="FLOAT3X3"/>
+        </node>
+        <node type="dot" prefix="dot" icon="/dae/images/dot.png">
+            <input name="op1" type="FLOAT3" acceptTypes="FLOAT2,FLOAT3,FLOAT4"/>
+            <input name="op2" type="FLOAT3" acceptTypes="FLOAT2,FLOAT3,FLOAT4"/>
+            <output name="result" type="FLOAT"/>
+            <setting group="Node" id="UseMax" label="Prevent negative result" type="booleanvector" default="[false]" visualize="true"/>
+        </node>
+        <node type="cross" prefix="cross" icon="/dae/images/cross.png">
+            <input name="op1" type="FLOAT3" acceptTypeSet="VECTOR"/>
+            <input name="op2" type="FLOAT3" acceptTypeSet="VECTOR"/>
+            <output name="result" type="FLOAT3"/>
+            <setting group="Node" id="Normalize" label="Normalize result" type="booleanvector" default="[true]" visualize="true"/>
+        </node>
+        <node type="convert34" prefix="convert" icon="/dae/images/3to4.png">
+            <input name="vector3" type="FLOAT3"/>
+            <input name="w" type="FLOAT"/>
+            <output name="result" type="FLOAT4"/>
+        </node>
+        <node type="convert43" prefix="convert" icon="/dae/images/4to3.png">
+            <input name="vector4" type="FLOAT4"/>
+            <output name="xyz" type="FLOAT3"/>
+            <output name="w" type="FLOAT"/>
+        </node>
+        <node type="vectorToColor" prefix="v2c" icon="/dae/images/v2c.png">
+            <input name="vector" type="FLOAT3"/>
+            <input name="w" type="FLOAT"/>
+            <output name="color" type="FLOAT4"/>
+        </node>
+        <node type="sum" prefix="sum" icon="/dae/images/sum.png" >
+            <input name="op1" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <input name="op2" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <output name="result" type="FLOAT3" typerule="max(op1,op2)"/>
+        </node>
+        <node type="lc" prefix="lc" icon="/dae/images/lc.png" >
+            <input name="a1" type="FLOAT" acceptTypeSet="SINGLE"/>
+            <input name="v1" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <inputTemplate name="a" type="FLOAT" acceptTypeSet="SINGLE"/>
+            <inputTemplate name="v" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <output name="result" type="FLOAT3" typerule="max(v_i)"/>
+        </node>
+        <node type="minus" prefix="minus" icon="/dae/images/minus.png" >
+            <input name="op1" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <input name="op2" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <output name="result" type="FLOAT3" typerule="max(op1,op2)"/>
+        </node>
+        <node type="product" prefix="product" icon="/dae/images/product.png" >
+            <input name="op1" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <input name="op2" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <output name="result" type="FLOAT3" typerule="max(op1,op2)"/>
+        </node>
+        <node type="division" prefix="division" icon="/dae/images/division.png">
+            <input name="op1" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <input name="op2" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <output name="result" type="FLOAT3" typerule="max(op1,op2)"/>
+        </node>
+        <node type="pow" prefix="pow" icon="/dae/images/pow.png">
+            <input name="op1" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <input name="power" type="INT" acceptTypeSet="SINGLE"/>
+            <output name="result" type="FLOAT3" typerule="type(op1)"/>
+        </node>
+        <node type="normalize" prefix="normalize" icon="/dae/images/normalize.png">
+            <input name="vector" type="FLOAT3" acceptTypeSet="VECTOR"/>
+            <output name="nvector" type="FLOAT3" acceptTypeSet="VECTOR" typerule="type(vector)"/>
+        </node>
+        <node type="max" prefix="max" icon="/dae/images/max.png">
+            <input name="op1" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <input name="op2" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <output name="result" type="FLOAT3" typerule="max(op1,op2)"/>
+        </node>
+        <node type="min" prefix="min" icon="/dae/images/min.png">
+            <input name="op1" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <input name="op2" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <output name="result" type="FLOAT3" typerule="max(op1,op2)"/>
+        </node>
+        <node type="saturate" prefix="sat" icon="/dae/images/saturate.png">
+            <input name="op1" type="FLOAT3" acceptTypeSet="NUMERIC"/>
+            <output name="result" type="FLOAT3" typerule="type(op1)"/>
+        </node>
+    </group>
+    <group name="constants" icon="/dae/images/constants.png" category="stage">
+        <node type="float" prefix="f" icon="/dae/images/float.png">
+            <output name="constant" type="FLOAT"/>
+            <setting group="Node" label="Semantic" id="semantic" type="text"/>
+            <setting group="Node" label="Constant buffer" id="buffer" type="optionlist">
+                <option value="cbPerObject" default="true"/>
+                <option value="cbPerFrame"/>
+                <option value="cbRarely"/>
+            </setting>
+            <setting group="Node" label="Tweakable" id="tweakable" type="booleanvector" default="[true]"/>
+            <setting group="Value" label="Value" id="value" type="floatvector" default="[0.0]" visualize="true" labelVisible="true"/>
+            <setting group="Value" label="Min" id="min" type="intvector" default="[0]" visualize="true" labelVisible="true"/>
+            <setting group="Value" label="Max" id="max" type="intvector" default="[100]" visualize="true" labelVisible="true"/>
+            <setting group="Value" label="Semantic" id="semantic" type="semantic" default="" visualize="true" />
+        </node>
+		<node type="double2" prefix="d" icon="/dae/images/double2.png">
+            <output name="constant" type="DOUBLE2"/>
+			<setting group="Value" label="Member" id="member" type="booleanvector" default="[false]" visualize="true" labelVisible="true"/>
+            <setting group="Value" label="Value" id="value" type="doublevector" default="[0.0,0.0]" visualize="true" labelVisible="true"/>
+        </node>
+        <node type="int" prefix="i" icon="/dae/images/int.png">
+            <output name="constant" type="INT"/>
+            <setting group="Node" label="Semantic" id="semantic" type="text"/>
+            <setting group="Node" label="Constant buffer" id="buffer" type="optionlist">
+                <option value="cbPerObject" default="true"/>
+                <option value="cbPerFrame"/>
+                <option value="cbRarely"/>
+            </setting>
+            <setting group="Node" label="Tweakable" id="tweakable" type="booleanvector" default="[true]"/>
+            <setting group="Value" label="Value" id="value" type="intvector" default="[0]" visualize="true" labelVisible="true"/>
+            <setting group="Value" label="Min" id="min" type="intvector" default="[0]" visualize="true" labelVisible="true"/>
+            <setting group="Value" label="Max" id="max" type="intvector" default="[100]" visualize="true" labelVisible="true"/>
+            <setting group="Value" label="Semantic" id="semantic" type="semantic" default=""/>
+        </node>
+        <node type="boolean" prefix="b" icon="/dae/images/boolean.png">
+            <output name="constant" type="BOOLEAN"/>
+            <setting group="Node" label="Semantic" id="semantic" type="text"/>
+            <setting group="Node" label="Constant buffer" id="buffer" type="optionlist">
+                <option value="cbPerObject" default="true"/>
+                <option value="cbPerFrame"/>
+                <option value="cbRarely"/>
+            </setting>
+            <setting group="Node" label="Tweakable" id="tweakable" type="booleanvector" default="[true]"/>
+            <setting group="Value" label="Value" id="value" type="booleanvector" default="[true]" visualize="true"/>
+            <setting group="Value" label="Semantic" id="semantic" type="semantic" default=""/>
+        </node>
+        <node type="color" prefix="c" icon="/dae/images/color.png">
+            <output name="rgba" type="FLOAT4"/>
+            <output name="rgb" type="FLOAT3"/>
+            <output name="a" type="FLOAT"/>
+            <setting group="Node" label="Constant buffer" id="buffer" type="optionlist">
+                <option value="cbPerObject" default="true"/>
+                <option value="cbPerFrame"/>
+                <option value="cbRarely"/>
+            </setting>
+            <setting group="Value" label="Color" id="color" type="color" default="[1,1,1]" visualize="true"/>
+        </node>
+        <node type="matrix" prefix="mtx" icon="/dae/images/matrix.png">
+            <output name="matrix" type="FLOAT4X4"/>
+            <setting group="Node" label="Semantic" id="semantic" type="text" default="WorldViewProjection" visualize="true"/>
+            <setting group="Node" label="Constant buffer" id="buffer" type="optionlist">
+                <option value="cbPerObject" default="true"/>
+                <option value="cbPerFrame"/>
+                <option value="cbRarely"/>
+            </setting>
+        </node>
+        <node type="variable" prefix="struct" icon="/dae/images/struct.png">
+            <input name="initial" type="FLOAT3"/>
+            <input name="next" type="FLOAT3"/>
+            <output name="value" type="FLOAT3"/>
+            <setting group="Struct" label="Type" id="type" type="optionlist">
+                <option value="FLOAT"/>
+                <option value="FLOAT2"/>
+                <option value="FLOAT3" default="true"/>
+                <option value="FLOAT4"/>
+                <option value="INT"/>
+                <option value="INT2"/>
+                <option value="INT3"/>
+                <option value="INT4"/>
+                <option dynvalue="STRUCT"/>
+            </setting>
+        </node>
+        <node type="array" prefix="arr" icon="/dae/images/array.png">
+            <output name="value" type="ARRAY"/>
+            <setting group="Iterator" label="Type" id="Type" type="optionlist">
+                <option value="FLOAT"/>
+                <option value="FLOAT2"/>
+                <option value="FLOAT3" default="true"/>
+                <option value="FLOAT4"/>
+                <option value="INT"/>
+                <option value="INT2"/>
+                <option value="INT3"/>
+                <option value="INT4"/>
+                <option value="FLOAT4x4"/>
+                <option dynvalue="STRUCT"/>
+            </setting>
+            <setting group="Node" label="Size" id="Size" type="intvector" default="[1]" labelVisible="true"/>
+        </node>
+        <node type="camera" prefix="cam" icon="/dae/images/camera.png">
+            <output name="position" type="FLOAT3"/>
+        </node>
+    </group>
+    <group name="lighting" icon="/dae/images/lighting.png" category="stage">
+        <node type="pointlight" prefix="light" icon="/dae/images/light.png">
+            <output name="value" type="FLOAT3"/>
+        </node>
+        <node type="diffuse" prefix="diffuse" icon="/dae/images/diffuse.png">
+            <input name="lightDir" type="FLOAT3"/>
+            <input name="normal" type="FLOAT3"/>
+            <input name="uv" type="FLOAT2"/>
+            <output name="diffuseColor" type="FLOAT3"/>
+            <output name="intensity" type="FLOAT"/>
+            <setting group="Sampler" label="min filter" id="min" type="optionlist">
+                <option value="POINT" />
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mag filter" id="mag" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mip filter" id="mip" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="Address U" id="addressu" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Sampler" label="Address V" id="addressv" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Value" label="Image" id="image" type="imagefile" default="" valueAsAttribute="false" visualize="true"/>
+            <setting group="Value" label="Intensity" labelVisible="true" id="value" type="floatvector" default="[0.0]" visualize="true"/>
+        </node>
+        <node type="specular" prefix="specular" icon="/dae/images/specular.png">
+            <input name="lightDir" type="FLOAT3"/>
+            <input name="normal" type="FLOAT3"/>
+            <input name="uv" type="FLOAT2"/>
+            <input name="worldPos" type="FLOAT3"/>
+            <input name="cameraPos" type="FLOAT3"/>
+            <output name="specularColor" type="FLOAT3"/>
+            <output name="intensity" type="FLOAT"/>
+            <setting group="Sampler" label="min filter" id="min" type="optionlist">
+                <option value="POINT" />
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mag filter" id="mag" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="mip filter" id="mip" type="optionlist">
+                <option value="POINT"/>
+                <option value="LINEAR" default="true"/>
+                <option value="ANISOTROPIC"/>
+            </setting>
+            <setting group="Sampler" label="Address U" id="addressu" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Sampler" label="Address V" id="addressv" type="optionlist">
+                <option value="WRAP"/>
+                <option value="CLAMP" default="true"/>
+                <option value="MIRROR"/>
+            </setting>
+            <setting group="Value" label="Image" id="image" type="imagefile" default="" valueAsAttribute="false" visualize="true"/>
+            <setting group="Value" label="Intensity" labelVisible="true" id="value" type="floatvector" default="[0.0]" visualize="true"/>
+        </node>
+        <node type="dirlight" prefix="light" icon="/dae/images/dirlight.png">
+            <output name="value" type="FLOAT3"/>
+        </node>
+        <node type="reflect" prefix="reflect" icon="/dae/images/reflect.png">
+            <input name="LightVec" type="FLOAT3"/>
+            <input name="Normal" type="FLOAT3"/>
+            <output name="Vr" type="FLOAT3"/>
+        </node>
+        <node type="lit" prefix="lit" icon="/dae/images/lit.png">
+            <input name="LdotN" type="FLOAT"/>
+            <input name="HdotN" type="FLOAT"/>
+            <input name="specPower" type="FLOAT"/>
+            <output name="specular" type="FLOAT"/>
+            <output name="diffuse" type="FLOAT"/>
+        </node>
+    </group>
+    <group name="custom" icon="/dae/images/various.png" category="stage">
+        <node type="customcode" prefix="code" icon="/dae/images/customcode.png" ioEditable="true">
+            <setting group="Value" label="Code" id="code" type="code" valueAsAttribute="false" visualize="false"/>
+            <!--<setting group="Value" label="Formula" id="formula" type="formula" valueAsAttribute="false" visualize="true"/>-->
+        </node>
+        <node type="math" prefix="math" icon="/dae/images/math.png" ioEditable="true">
+            <input name="i1" type="FLOAT3"/>
+            <output name="o1" type="FLOAT3"/>
+            <setting group="Value" label="Math" id="code" type="math" valueAsAttribute="false" valueAsXML="true" visualize="true"/>
+        </node>
+        <node type="comment" prefix="comment" icon="/dae/images/comment.png">
+            <setting group="Value" label="Comment" id="comment" type="code" visualize="true"/>
+            <setting group="UI" id="style" label="UI Style" default="comment" type="default"/>
+        </node>
+        <node type="iterator" prefix="it" icon="/dae/images/iterator.png" ioEditable="true" container="iterator">
+            <input name="array" type="ARRAY"/>
+            <setting group="Iterator" label="Type" id="Type" type="optionlist">
+                <option value="FLOAT"/>
+                <option value="FLOAT2"/>
+                <option value="FLOAT3" default="true"/>
+                <option value="FLOAT4"/>
+                <option value="INT"/>
+                <option value="INT2"/>
+                <option value="INT3"/>
+                <option value="INT4"/>
+                <option value="FLOAT4x4"/>
+                <option dynvalue="STRUCT"/>
+            </setting>
+        </node>
+    </group>
+    <group name="stages" category="pass">
+        <node type="vertex" prefix="vs" ioEditable="true">
+            <input name="iPosL" type="FLOAT3" semantic="POSITION"/>
+            <input name="iNormal" type="FLOAT3" semantic="NORMAL"/>
+            <output name="oPosH"  type="FLOAT4" semantic="SV_POSITION"/>
+            <output name="oNormal" type="FLOAT3" semantic="NORMAL"/>
+        </node>
+        <node type="pixel" prefix="ps" ioEditable="true">
+            <input name="iPosH" type="FLOAT4" semantic="SV_POSITION"/>
+            <input name="iNormal" type="FLOAT3" semantic="NORMAL"/>
+            <output name="oColor" type="FLOAT4" semantic="SV_TARGET"/>
+        </node>
+        <node type="geometry" prefix="gs" ioEditable="true">
+        </node>
+        <node type="rasterizerstate" prefix="rs" ioEditable="false">
+            <setting group="State" label="FillMode" id="FillMode" type="optionlist" visualize="true" labelVisible="true">
+                <option value="Wireframe"/>
+                <option value="Solid"/>
+            </setting>
+            <setting group="State" label="CullMode" id="CullMode" type="optionlist" visualize="true" labelVisible="true">
+                <option value="CW"/>
+                <option value="CCW"/>
+                <option value="None"/>
+            </setting>
+        </node>
+    </group>
+</nodetemplates>

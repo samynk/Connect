@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<groups>
+	<group type="dae.specular" icon="" label="Specular" description="A specular node." prefix="Specular"/>
+</groups>

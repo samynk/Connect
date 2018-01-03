@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="shader2">
+	<global>
+		<node id="t1" name="WorldMatrix" ioEditable="false" position="[0,0]" container="leaf">
+			<output name="matrix" connection="semantic.WORLD" type="FLOAT4X4"/>
+		</node>
+	</global>
+	<structs>
+	</structs>
+	<states>
+	</states>
+	<stage name="VS" type="vertex" inputPosition="[60,52]" outputPosition="[645,141]">
+		<input name="iPosL" type="FLOAT3" semantic="POSITION"/>
+		<input name="iNormal" type="FLOAT3" semantic="NORMAL"/>
+		<output name="oPosH" connection="code1.tvector" type="FLOAT4" semantic="SV_POSITION"/>
+		<output name="oNormal" connection="code2.tNormal" type="FLOAT3" semantic="NORMAL"/>
+		<node id="mtxWorldVP" name="mtxWVP" type="constants.matrix" ioEditable="false" position="[95,159]" container="leaf">
+			<output name="matrix" type="FLOAT4X4"/>
+			<setting group="Node" id="semantic" value="WorldViewProjection"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+		</node>
+		<node id="code1" name="code" type="custom.customcode" ioEditable="true" position="[355,87]" container="leaf">
+			<input name="position" connection="input.iPosL" type="FLOAT3"/>
+			<input name="matrix" connection="mtxWorldVP.matrix" type="FLOAT4X4"/>
+			<output name="tvector" type="FLOAT4"/>
+			<setting group="Value" id="code">
+				<value><![CDATA[float4 toTransform = float4(position,1);
+tvector = mul(toTransform,matrix);]]></value>
+			</setting>
+		</node>
+		<node id="mtx1" name="mtxWorld" type="constants.matrix" ioEditable="false" position="[103,275]" container="leaf">
+			<output name="matrix" type="FLOAT4X4"/>
+			<setting group="Node" id="semantic" value="World"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+		</node>
+		<node id="code2" name="code" type="custom.customcode" ioEditable="true" position="[347,227]" container="leaf">
+			<input name="normal" connection="input.iNormal" type="FLOAT3"/>
+			<input name="matrix" connection="mtx1.matrix" type="FLOAT4X4"/>
+			<output name="tNormal" type="FLOAT3"/>
+			<setting group="Value" id="code">
+				<value><![CDATA[float3x3 worldRot = (float3x3)matrix;
+tNormal = mul(normal,worldRot);
+tNormal = normalize(tNormal);]]></value>
+			</setting>
+		</node>
+	</stage>
+	<stage name="PS" type="pixel" inputPosition="[160,24]" outputPosition="[654,31]">
+		<input name="posH" type="FLOAT4" semantic="SV_POSITION"/>
+		<input name="iNormal" type="FLOAT3" semantic="NORMAL"/>
+		<output name="color0" connection="code1.color" type="FLOAT4" semantic="SV_TARGET"/>
+		<node id="c1" name="Diffuse Color" type="constants.color" ioEditable="false" position="[199,261]" container="leaf">
+			<output name="rgba" type="FLOAT4"/>
+			<output name="rgb" type="FLOAT3"/>
+			<output name="a" type="FLOAT"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="color" value="[0.003921569,0.003921569,0.00392156]"/>
+		</node>
+		<node id="f1" name="Diffuse Intensity" type="constants.float" ioEditable="false" position="[181,142]" container="leaf">
+			<output name="constant" type="FLOAT"/>
+			<setting group="Node" id="semantic"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="value" value="[0.0]"/>
+			<setting group="Value" id="semantic" value=""/>
+		</node>
+		<node id="light1" name="Diffuse Light" type="lighting.dirlight" ioEditable="false" position="[203,-71]" container="leaf">
+			<output name="value" type="FLOAT3"/>
+		</node>
+		<node id="code1" name="code" type="custom.customcode" ioEditable="true" position="[424,18]" container="leaf">
+			<input name="diffIntensity" connection="f1.constant" type="FLOAT"/>
+			<input name="diffColor" connection="c1.rgb" type="FLOAT3"/>
+			<input name="lightDirection" connection="light1.value" type="FLOAT3"/>
+			<input name="normal" connection="input.iNormal" type="FLOAT3"/>
+			<output name="color" type="FLOAT4"/>
+			<setting group="Value" id="code">
+				<value><![CDATA[float3 colorToUse = diffIntensity * diffColor;
+// diffuse calculation
+float lightAmount = dot ( lightDirection, normal );
+// make sure amount is not negative.
+lightAmount = max ( lightAmount, 0 ); 
+colorToUse = lightAmount * colorToUse;
+// make sure rgb values are between 0 and 1
+colorToUse = saturate( colorToUse); 
+color = float4 ( colorToUse, 1);]]></value>
+			</setting>
+		</node>
+	</stage>
+	<technique name="basicshader">
+		<pass  name="one">
+			<stageid id="VS"/>
+			<stageid id="PS"/>
+		</pass>
+	</technique>
+</project>

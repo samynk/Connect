@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<group>
+<method inputPosition="[0,0]" outputPosition="[0,0]">
+		<input name="vector" type="FLOAT3" semantic=""/>
+		<input name="matrix" type="FLOAT4X4" semantic=""/>
+		<output name="tvec4" type="FLOAT4" semantic=""/>
+		<output name="result" connection="convert2.result" type="FLOAT4" semantic="<not set>"/>
+		<node id="mtx2" name="mtx" type="math.mul" ioEditable="false" position="[306,233]" container="leaf">
+			<input name="vector" connection="input.vector" type="FLOAT3"/>
+			<input name="matrix" connection="input.matrix" type="FLOAT4X4"/>
+			<output name="tvec4" type="FLOAT4"/>
+			<output name="tvec3" type="FLOAT3"/>
+			<setting group="Node" id="TransformType" value="TransformNormal"/>
+		</node>
+		<node id="dot1" name="dot" type="math.dot" ioEditable="false" position="[525,291]" container="leaf">
+			<input name="op1" connection="mtx2.tvec3" type="FLOAT3"/>
+			<input name="op2" connection="light1.value" type="FLOAT3"/>
+			<output name="result" type="FLOAT"/>
+			<setting group="Node" id="UseMax" value="[false]"/>
+		</node>
+		<node id="dot1" name="dot" type="math.dot" ioEditable="false" position="[525,291]" container="leaf">
+			<input name="op1" connection="mtx2.tvec3" type="FLOAT3"/>
+			<input name="op2" connection="light1.value" type="FLOAT3"/>
+			<output name="result" type="FLOAT"/>
+			<setting group="Node" id="UseMax" value="[false]"/>
+		</node>
+		<node id="light1" name="light" type="lighting.dirlight" ioEditable="false" position="[148,427]" container="leaf">
+			<output name="value" type="FLOAT3"/>
+		</node>
+		<node id="light1" name="light" type="lighting.dirlight" ioEditable="false" position="[148,427]" container="leaf">
+			<output name="value" type="FLOAT3"/>
+		</node>
+		<node id="product1" name="product" type="math.product" ioEditable="false" position="[682,333]" container="leaf">
+			<input name="op1" connection="dot1.result" type="FLOAT"/>
+			<input name="op2" connection="convert1.xyz" type="FLOAT3"/>
+			<output name="result" type="FLOAT3" typerul="max(op1,op2)"/>
+		</node>
+		<node id="product1" name="product" type="math.product" ioEditable="false" position="[682,333]" container="leaf">
+			<input name="op1" connection="dot1.result" type="FLOAT"/>
+			<input name="op2" connection="convert1.xyz" type="FLOAT3"/>
+			<output name="result" type="FLOAT3" typerul="max(op1,op2)"/>
+		</node>
+		<node id="convert1" name="convert" type="math.convert43" ioEditable="false" position="[556,465]" container="leaf">
+			<input name="vector4" connection="c1.color" type="FLOAT4"/>
+			<output name="xyz" type="FLOAT3"/>
+			<output name="w" type="FLOAT"/>
+		</node>
+		<node id="c1" name="c" type="constants.color" ioEditable="false" position="[381,473]" container="leaf">
+			<output name="color" type="FLOAT4"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="color" value="[0.8,0.2,0.0]"/>
+		</node>
+		<node id="c1" name="c" type="constants.color" ioEditable="false" position="[381,473]" container="leaf">
+			<output name="color" type="FLOAT4"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="color" value="[0.8,0.2,0.0]"/>
+		</node>
+		<node id="convert2" name="convert" type="math.convert34" ioEditable="false" position="[878,406]" container="leaf">
+			<input name="vector3" connection="product1.result" type="FLOAT3"/>
+			<input name="w" connection="convert1.w" type="FLOAT"/>
+			<output name="result" type="FLOAT4"/>
+		</node>
+		<node id="convert2" name="convert" type="math.convert34" ioEditable="false" position="[878,406]" container="leaf">
+			<input name="vector3" connection="product1.result" type="FLOAT3"/>
+			<input name="w" connection="convert1.w" type="FLOAT"/>
+			<output name="result" type="FLOAT4"/>
+		</node>
+	</method>
+</group>

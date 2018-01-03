@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="shader2">
+	<global>
+		<node id="t1" name="WorldMatrix" ioEditable="false" position="[0,0]" container="leaf">
+			<output name="matrix" connection="semantic.WORLD" type="FLOAT4X4"/>
+		</node>
+	</global>
+	<structs>
+	</structs>
+	<states>
+	</states>
+	<stage name="VS" type="vertex" inputPosition="[48,177]" outputPosition="[916,156]">
+		<input name="iPosL" type="FLOAT3" semantic="POSITION"/>
+		<output name="oPosH" connection="mtx1.tvec4" type="FLOAT4" semantic="SV_POSITION"/>
+		<output name="oColor" connection="product1.result" type="FLOAT4" semantic="COLOR"/>
+		<node id="mtxWorldVP" name="mtxWVP" type="constants.matrix" ioEditable="false" position="[109,29]" container="leaf">
+			<output name="matrix" type="FLOAT4X4"/>
+			<setting group="Node" id="semantic" value="WorldViewProjection"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+		</node>
+		<node id="mtx1" name="mtxTransform" type="math.mul" ioEditable="false" position="[319,76]" container="leaf">
+			<input name="vector" connection="input.iPosL" type="FLOAT3"/>
+			<input name="matrix" connection="mtxWorldVP.matrix" type="FLOAT4X4"/>
+			<output name="tvec4" type="FLOAT4"/>
+			<output name="tvec3" type="FLOAT3"/>
+			<setting group="Node" id="TransformType" value="TransformVector"/>
+		</node>
+		<node id="c1" name="c" type="constants.color" ioEditable="false" position="[358,205]" container="leaf">
+			<output name="rgba" type="FLOAT4"/>
+			<output name="rgb" type="FLOAT3"/>
+			<output name="a" type="FLOAT"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="color" value="[0.06666667,0.72156864,0.886274]"/>
+		</node>
+		<node id="c2" name="c" type="constants.color" ioEditable="false" position="[478,286]" container="leaf">
+			<output name="rgba" type="FLOAT4"/>
+			<output name="rgb" type="FLOAT3"/>
+			<output name="a" type="FLOAT"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+			<setting group="Value" id="color" value="[0.003921569,0.003921569,0.003921569]"/>
+		</node>
+		<node id="product1" name="product" type="math.product" ioEditable="false" position="[670,214]" container="leaf">
+			<input name="op1" connection="c1.rgba" type="FLOAT4"/>
+			<input name="op2" connection="c2.rgba" type="FLOAT4"/>
+			<output name="result" type="FLOAT4" typerule="max(op1,op2)"/>
+		</node>
+	</stage>
+	<stage name="PS" type="pixel" inputPosition="[100,73]" outputPosition="[519,112]">
+		<input name="posH" type="FLOAT4" semantic="SV_POSITION"/>
+		<input name="color" type="FLOAT4" semantic="COLOR"/>
+		<output name="color0" connection="input.color" type="FLOAT4" semantic="SV_TARGET"/>
+	</stage>
+	<technique name="basicshader">
+		<pass  name="one">
+			<stageid id="VS"/>
+			<stageid id="PS"/>
+		</pass>
+	</technique>
+</project>

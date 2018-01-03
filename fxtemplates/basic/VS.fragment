@@ -1,0 +1,23 @@
+matrix mtxWorldVP : WorldViewProjection;
+float4 c1<
+string UIName = "c";
+string UIWidget = "Color";
+> = float4 (0.06666667,0.72156864,0.886274,1.0);
+struct VS_INPUT{
+	vec3 iPosL : POSITION;
+};
+
+struct VS_OUTPUT{
+	vec4 oPosH : SV_POSITION;
+	vec4 oColor : COLOR;
+};
+
+void main() {
+	float4 c1_rgba=c1;
+	// Transforming as position
+	vec4 mtx1_tvec4 = mul ( float4(input.iPosL,1.0f) , mtxWorldVP );
+	//constructing output
+	output.oPosH=mtx1_tvec4;
+	output.oColor=c1_rgba;
+}
+

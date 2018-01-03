@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="diftex">
+	<export>
+	</export>
+	<global>
+		<node id="t1" name="WorldMatrix" ioEditable="false" position="[0,0]" container="leaf">
+			<output name="matrix" connection="semantic.WORLD" type="FLOAT4X4"/>
+		</node>
+	</global>
+	<structs>
+	</structs>
+	<states>
+	</states>
+	<stage name="VS" type="vertex" inputPosition="[56,250]" outputPosition="[582,242]">
+		<input name="iPosL" type="FLOAT3" semantic="POSITION"/>
+		<input name="iTexCoord" type="FLOAT2" semantic="TEXCOORD"/>
+		<output name="oPosH" connection="mtx1.tvec4" type="FLOAT4" semantic="SV_POSITION"/>
+		<output name="oTex" connection="input.iTexCoord" type="FLOAT2" semantic="TEXCOORD"/>
+		<node id="mtxWorldVP" name="mtxWVP" type="constants.matrix" ioEditable="false" position="[159,170]" container="leaf">
+			<output name="matrix" type="FLOAT4X4"/>
+			<setting group="Node" id="semantic" value="WorldViewProjection"/>
+			<setting group="Node" id="buffer" value="cbPerObject"/>
+		</node>
+		<node id="mtx1" name="mtx" type="math.mul" ioEditable="false" position="[368,164]" container="leaf">
+			<input name="vector" connection="input.iPosL" type="FLOAT3"/>
+			<input name="matrix" connection="mtxWorldVP.matrix" type="FLOAT4X4"/>
+			<output name="tvec4" type="FLOAT4"/>
+			<output name="tvec3" type="FLOAT3"/>
+			<setting group="Node" id="TransformType" value="TransformVector"/>
+		</node>
+	</stage>
+	<stage name="PS" type="pixel" inputPosition="[100,73]" outputPosition="[582,100]">
+		<input name="posH" type="FLOAT4" semantic="SV_POSITION"/>
+		<input name="tc" type="FLOAT2" semantic="TEXCOORD"/>
+		<output name="color0" connection="gDifTex.RGBA" type="FLOAT4" semantic="SV_TARGET"/>
+		<node id="gDifTex" name="Diffuse Texture" type="textures.texture2D" ioEditable="false" position="[353,113]" container="leaf">
+			<input name="UV" connection="input.tc" type="FLOAT2"/>
+			<output name="RGBA" type="FLOAT4"/>
+			<output name="R" type="FLOAT"/>
+			<output name="G" type="FLOAT"/>
+			<output name="B" type="FLOAT"/>
+			<output name="A" type="FLOAT"/>
+			<setting group="Sampler" id="min" value="LINEAR"/>
+			<setting group="Sampler" id="mag" value="LINEAR"/>
+			<setting group="Sampler" id="mip" value="LINEAR"/>
+			<setting group="Value" id="image">
+				<value><![CDATA[]]></value>
+			</setting>
+		</node>
+	</stage>
+	<technique name="basicshader">
+		<pass  name="one">
+			<stageid id="VS"/>
+			<stageid id="PS"/>
+		</pass>
+	</technique>
+</project>
