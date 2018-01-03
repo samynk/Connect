@@ -1,11 +1,4 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package dae.fxcreator.io.templates;
-
-import java.util.jar.Attributes.Name;
 
 /**
  * A semantic setting for a node. This can be useful for

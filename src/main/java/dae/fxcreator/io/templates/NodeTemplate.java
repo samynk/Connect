@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dae.fxcreator.io.templates;
 
 import dae.fxcreator.io.FXProject;
@@ -13,7 +9,6 @@ import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.ShaderType;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
