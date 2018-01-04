@@ -1,8 +1,3 @@
-/*
- * ConnectorPoint.java
- *
- * Created on 19 december 2005, 15:52
- */
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.FXSettings;

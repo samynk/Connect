@@ -1,8 +1,3 @@
-/*
- * GraphEditor.java
- *
- * Created on 18 december 2005, 11:50
- */
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.FXProject;

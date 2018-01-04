@@ -1,9 +1,3 @@
-/*
- * TopLeftControl.java
- *
- * Created on 18 december 2005, 15:14
- */
-
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.node.gui.TransferPosition;

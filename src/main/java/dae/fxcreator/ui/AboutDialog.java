@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * AboutDialog.java
- *
- * Created on Nov 28, 2010, 2:01:10 PM
- */
 package dae.fxcreator.ui;
 
 import java.awt.Desktop;

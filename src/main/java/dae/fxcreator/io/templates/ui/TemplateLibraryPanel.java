@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * TemplateLibraryPanel.java
- *
- * Created on Jan 14, 2010, 8:48:05 AM
- */
-
 package dae.fxcreator.io.templates.ui;
 
 import dae.fxcreator.io.templates.NodeTemplateLibrary;

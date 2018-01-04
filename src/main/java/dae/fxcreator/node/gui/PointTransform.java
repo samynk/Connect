@@ -1,9 +1,3 @@
-/*
- * PointTransform.java
- *
- * Created on 10 december 2005, 10:20
- */
-
 package dae.fxcreator.node.gui;
 
 import java.awt.geom.*;

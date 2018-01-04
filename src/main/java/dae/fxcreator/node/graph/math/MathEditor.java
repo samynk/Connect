@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * MathEditor.java
- *
- * Created on Jan 5, 2010, 3:45:42 PM
- */
 package dae.fxcreator.node.graph.math;
 
 import java.awt.Color;

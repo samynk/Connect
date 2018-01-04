@@ -1,9 +1,3 @@
-/*
- * GraphNodeLink.java
- *
- * Created on 19 december 2005, 15:54
- */
-
 package dae.fxcreator.node.graph;
 
 import java.awt.*;

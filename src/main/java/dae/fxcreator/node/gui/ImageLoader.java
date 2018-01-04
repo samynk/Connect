@@ -1,9 +1,3 @@
-/*
- * ImageLoader.java
- *
- * Created on 22 december 2005, 8:35
- */
-
 package dae.fxcreator.node.gui;
 
 import java.awt.*;

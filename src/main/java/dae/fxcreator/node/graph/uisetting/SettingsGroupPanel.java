@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * SettingsGroupPanel.java
- *
- * Created on Dec 27, 2009, 2:35:32 PM
- */
-
 package dae.fxcreator.node.graph.uisetting;
 
 import dae.fxcreator.io.templates.BooleanSetting;

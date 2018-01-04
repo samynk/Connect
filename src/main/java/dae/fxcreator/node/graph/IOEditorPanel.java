@@ -1,8 +1,3 @@
-/*
- * IOEditorPanel.java
- *
- * Created on Jan 4, 2010, 12:36:41 PM
- */
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.templates.NodeTemplateLibrary;

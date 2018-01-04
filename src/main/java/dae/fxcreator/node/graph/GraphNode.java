@@ -1,8 +1,3 @@
-/*
- * Node.java
- *
- * Created on 18 december 2005, 12:00
- */
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.FXProjectType;

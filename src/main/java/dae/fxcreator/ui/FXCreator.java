@@ -1,13 +1,3 @@
- /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * FXCreator.java
- *
- * Created on Dec 21, 2009, 11:39:17 AM
- */
 package dae.fxcreator.ui;
 
 import dae.fxcreator.io.FXProject;

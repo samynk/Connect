@@ -1,8 +1,3 @@
-/*
- * TechniqueEditorPanel.java
- *
- * Created on 20 december 2005, 9:11
- */
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.FXProject;

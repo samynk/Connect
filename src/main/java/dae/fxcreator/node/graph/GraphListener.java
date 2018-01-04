@@ -1,9 +1,3 @@
-/*
- * GraphListener.java
- *
- * Created on 12 januari 2006, 14:29
- */
-
 package dae.fxcreator.node.graph;
 
 /**

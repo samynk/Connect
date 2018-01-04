@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * ExportDialog.java
- *
- * Created on Dec 31, 2009, 4:14:24 PM
- */
-
 package dae.fxcreator.ui;
 
 import dae.fxcreator.io.ExportFile;

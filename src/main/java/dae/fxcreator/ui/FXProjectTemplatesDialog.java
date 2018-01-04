@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * FXProjectTemplatesDialog.java
- *
- * Created on Oct 12, 2010, 11:58:44 AM
- */
 package dae.fxcreator.ui;
 
 import dae.fxcreator.io.FXProjectTemplate;

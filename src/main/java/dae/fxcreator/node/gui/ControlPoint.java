@@ -1,9 +1,3 @@
-/*
- * ControlPoint.java
- *
- * Created on 11 december 2005, 10:58
- */
-
 package dae.fxcreator.node.gui;
 import java.awt.*;
 

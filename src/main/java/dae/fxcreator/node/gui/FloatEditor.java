@@ -1,9 +1,3 @@
-/*
- * FloatEditor.java
- *
- * Created on 10 december 2005, 13:21
- */
-
 package dae.fxcreator.node.gui;
 
 import java.text.*;

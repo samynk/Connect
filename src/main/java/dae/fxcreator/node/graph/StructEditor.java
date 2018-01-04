@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * StructEditor.java
- *
- * Created on Jan 19, 2010, 6:09:34 PM
- */
-
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.node.ShaderStruct;

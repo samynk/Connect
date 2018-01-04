@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * UserSettingsDialog.java
- *
- * Created on Nov 3, 2010, 8:56:40 AM
- */
 package dae.fxcreator.ui.usersettings;
 
 import dae.fxcreator.io.type.ShaderTypeLibrary;

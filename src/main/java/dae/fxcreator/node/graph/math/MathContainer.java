@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * MathContainer.java
- *
- * Created on Dec 22, 2010, 2:48:47 PM
- */
 package dae.fxcreator.node.graph.math;
 
 import java.awt.Color;

@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package dae.fxcreator.node.graph.model;
 
 import java.awt.event.KeyEvent;
@@ -9,8 +5,6 @@ import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import javax.swing.JComboBox;
-import javax.swing.SwingUtilities;
-import javax.swing.event.CaretEvent;
 
 /**
  * Completes a word from the dictionary based on the position of the caret.

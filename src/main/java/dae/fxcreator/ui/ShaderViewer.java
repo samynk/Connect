@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * ShaderViewer.java
- *
- * Created on Jan 19, 2010, 9:41:03 AM
- */
-
 package dae.fxcreator.ui;
 
 import dae.fxcreator.io.codegen.ExportTask;

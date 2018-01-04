@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * StyleSettingPanel.java
- *
- * Created on Nov 8, 2010, 8:50:00 AM
- */
 package dae.fxcreator.ui.usersettings;
 
 import dae.fxcreator.io.FXSettings;

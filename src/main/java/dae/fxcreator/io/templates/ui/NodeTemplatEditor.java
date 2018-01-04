@@ -1,14 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * NodeTemplatEditor.java
- *
- * Created on Jan 14, 2010, 2:09:41 PM
- */
-
 package dae.fxcreator.io.templates.ui;
 
 import dae.fxcreator.io.templates.NodeTemplate;

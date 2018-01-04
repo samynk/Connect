@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * ShaderSource.java
- *
- * Created on Jan 19, 2010, 9:43:56 AM
- */
 package dae.fxcreator.ui;
 
 import java.io.BufferedReader;

@@ -1,8 +1,3 @@
-/*
- * JGraphStruct.java
- *
- * Created on Jan 19, 2010, 10:57:13 AM
- */
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.FXSingleton;

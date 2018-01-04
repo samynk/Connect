@@ -1,9 +1,3 @@
-/*
- * TransferPosition.java
- *
- * Created on 15 december 2005, 18:05
- */
-
 package dae.fxcreator.node.gui;
 
 /**

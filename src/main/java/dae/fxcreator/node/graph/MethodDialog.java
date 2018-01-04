@@ -1,13 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * MethodDialog.java
- *
- * Created on Sep 9, 2010, 3:20:21 PM
- */
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.templates.NodeContainerProxy;
