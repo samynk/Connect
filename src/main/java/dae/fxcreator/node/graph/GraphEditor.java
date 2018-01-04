@@ -593,7 +593,7 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public void mouseDragged(MouseEvent mouseEvent) {
-        System.out.println("Mouse dragging");
+        //System.out.println("Mouse dragging");
         if (currentState != GraphState.PAN) {
             if (selectionState == SelectionState.NODE) {
                 if (layout == Layout.FREE) {
@@ -676,12 +676,12 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseMoved(MouseEvent mouseEvent) {
-        System.out.println("Mouse moving");
+        //System.out.println("Mouse moving");
         if (getCurrentState() == GraphState.NODEINSERTION) {
             if (insertionNode != null) {
                 
                 Point p = transformMousePositionToWorld(mouseEvent.getPoint());
-                System.out.println("mouse position:" + p);
+                //System.out.println("mouse position:" + p);
                 insertionNode.setLocation(p.x, p.y);
                 this.nodeMoved(insertionNode);
                 repaint();
@@ -689,6 +689,7 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    @Override
     public void mousePressed(MouseEvent mouseEvent) {
         if (mouseEvent.getButton() == MouseEvent.BUTTON2) {
             this.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
