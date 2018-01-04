@@ -1,5 +1,6 @@
 package dae.fxcreator.io;
 
+import com.google.common.eventbus.EventBus;
 import dae.fxcreator.ui.usersettings.UserSettings;
 import java.util.ArrayList;
 
@@ -15,8 +16,10 @@ public class FXSingleton {
     private static FXSingleton singleton;
     private FXSettings fxSettings;
     private UserSettings userSettings;
-    private ArrayList<FXSettingListener> listeners = new ArrayList<>();
+    private final ArrayList<FXSettingListener> listeners = new ArrayList<>();
     private FXProjectType currentProjectType;
+    
+    private final EventBus eventBus = new EventBus();
 
     private FXSingleton() {
     }
@@ -77,7 +80,7 @@ public class FXSingleton {
 
     /**
      * Adds a listener for the FXSetting object.
-     * @param FXSettingListener listener.
+     * @param listener the setting listener.
      */
     public void addFXSettingListener(FXSettingListener listener) {
         this.listeners.add(listener);
@@ -87,5 +90,23 @@ public class FXSingleton {
         for (FXSettingListener l : listeners) {
             l.fxSettingChanged(fxSettings);
         }
+    }
+    
+    /**
+     * Registers a listener for events. The listener needs to have one
+     * or more @Subscibe methods.
+     * @param listener the listener object to register with the eventbus.
+     */
+    public void registerListener(Object listener){
+        eventBus.register(listener);
+    }
+    
+    /**
+     * Post an event on the eventbus. The registered listeners that
+     * have a @Subscribe method that matches the event object will be notified.
+     * @param event the event to post on the event bus.
+     */
+    public void postEvent(Object event){
+        eventBus.post(event);
     }
 }
