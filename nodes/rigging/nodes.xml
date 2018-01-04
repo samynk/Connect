@@ -1,0 +1,32 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<nodetemplates>
+    <types>
+        <type name="FLOAT" order="5"/>
+        <type name="FLOAT2" order="6"/>
+        <type name="FLOAT3" order="7"/>
+        <type name="FLOAT4" order="8"/>
+        <type name="INT" order="1"/>
+        <type name="INT2" order="2"/>
+        <type name="INT3" order="3"/>
+        <type name="INT4" order="4"/>
+        <type name="FLOAT4X4" order="11"/>
+        <type name="FLOAT3X3" order="10"/>
+        <type name="ARRAY" order="9"/>
+        <type name="BOOLEAN" order="1"/>
+        <type name="BOOLEAN2" order="2"/>
+        <type name="BOOLEAN3" order="3"/>
+        <type name="BOOLEAN4" order="4"/>
+    
+		<type name="DOUBLE" order="5"/>
+		<type name="DOUBLE2" order="6"/>
+		<type name="DOUBLE3" order="7"/>
+		<type name="DOUBLE4" order="8"/>
+	
+        <typeset name="NUMERIC" types="INT,INT2,INT3,INT4,FLOAT,FLOAT2,FLOAT3,FLOAT4,DOUBLE,DOUBLE2,DOUBLE3,DOUBLE4"/>
+        <typeset name="NORMALORPOS" types="FLOAT3,FLOAT4,DOUBLE3,DOUBLE4"/>
+        <typeset name="VECTOR" types="FLOAT2,FLOAT3,FLOAT4,DOUBLE2,DOUBLE3,DOUBLE4"/>
+        <typeset name="SINGLE" types="DOUBLE,FLOAT,INT"/>
+        <typeset name="MATRIX" types="FLOAT3X3,FLOAT4X4"/>
+    </types>
+    
+</nodetemplates>
