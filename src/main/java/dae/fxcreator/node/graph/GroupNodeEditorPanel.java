@@ -12,6 +12,7 @@ import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.node.event.NodeEvent;
 import dae.fxcreator.node.gui.ImageLoader;
 import dae.fxcreator.node.gui.NodeStyle;
 import dae.fxcreator.ui.FXCreator;
@@ -319,11 +320,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
 
     @Override
     public void nodeSelected(JGraphNode node) {
-        //IONode ionode = (IONode) node.getUserObject();
-        //this.iONodeSettingsPanel1.setIONode(ionode);
-        if (parent != null) {
-            parent.nodeSelected(node);
-        }
+        FXSingleton.getSingleton().postEvent(new NodeEvent(node.getUserObject(),NodeEvent.Type.SELECTED));
     }
 
     @Override
@@ -442,6 +439,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
         nodeGroup.addNode(container);
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (nodeGroup != null) {
             String command = e.getActionCommand();
@@ -677,11 +675,11 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
     }
 
     public void mouseDragged(MouseEvent e) {
-        System.out.println("Mouse dragged : " + e);
+        //System.out.println("Mouse dragged : " + e);
     }
 
     public void mouseMoved(MouseEvent e) {
-        System.out.println("Mouse moved : " + e);
+        //System.out.println("Mouse moved : " + e);
     }
 
     private enum CopyType {
@@ -772,6 +770,5 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
         for (IONode node : toAdd) {
             graphEditor1.addNode(new JGraphNode(graphEditor1, node));
         }
-
     }
 }
