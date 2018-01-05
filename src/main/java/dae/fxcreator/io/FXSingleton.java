@@ -54,13 +54,15 @@ public class FXSingleton {
         }
     }
     
+    /*
     public void setCurrentProjectType(FXProjectType projectType){
         this.currentProjectType = projectType;
-    }
+    }*/
     
+    /*
     public FXProjectType getCurrentProjectType(){
         return this.currentProjectType;
-    }
+    }*/
 
     /**
      * Gets the user settings object for this project.
