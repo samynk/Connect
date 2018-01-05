@@ -78,7 +78,7 @@ public class GraphNode {
         FXSettings settings = FXSingleton.getSingleton().getFXSettings();
         titleFont = settings.getFont("title");
         
-        FXProjectType current = FXSingleton.getSingleton().getCurrentProjectType();
+        FXProjectType current = node.getProjectType();
 
         ArrayList<ShaderOutput> outputs = node.getOutputs();
         for (ShaderOutput output : outputs) {
