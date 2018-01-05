@@ -27,11 +27,11 @@ import javax.swing.event.ChangeListener;
  */
 public class JConnectorPoint extends JPanel implements ChangeListener{
 
-    private JLabel lblPortName = new JLabel();
-    private JLabel lblSemicolumn = new JLabel(":");
-    private JLabel lblSemantic = new JLabel();
-    private JTerminal lblIcon = new JTerminal();
-    private JGraphNode parent;
+    private final JLabel lblPortName = new JLabel();
+    private final JLabel lblSemicolumn = new JLabel(":");
+    private final JLabel lblSemantic = new JLabel();
+    private final JTerminal lblIcon = new JTerminal();
+    private final JGraphNode parent;
 
     private Color borderColor;
 
@@ -75,7 +75,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
     /**
      * The position of the connector point.
      */
-    private POSITION position;
+    private final POSITION position;
 
     public enum TYPE {
 
@@ -88,7 +88,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
     /**
      * The ShaderIO object.
      */
-    private ShaderIO userObject;
+    private final ShaderIO userObject;
     /**
      * The connector objects to draw (only for input JConnectorPoints)
      */
@@ -96,6 +96,9 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
 
     /**
      * Creates a new JConnector point.
+     * @param parent the parent graphnode of this connector.
+     * @param io the object with the input or output definition.
+     * @param position the position of the connector 5coo
      */
     public JConnectorPoint(JGraphNode parent, ShaderIO io, POSITION position) {
         setOpaque(false);
@@ -109,24 +112,34 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
         } else if (io.isOutput()) {
             type = TYPE.SOURCE;
         }
-        if (position == POSITION.LEFT) {
-            setLayout(new FlowLayout(FlowLayout.LEFT,1,1));
-            add(lblIcon);
-            add(lblPortName);
-            add(lblSemicolumn);
-            add(lblSemantic);
-        } else if (position == POSITION.RIGHT) {
-            setLayout(new FlowLayout(FlowLayout.RIGHT,1,1));
-            add(lblPortName);
-            add(lblSemicolumn);
-            add(lblSemantic);
-            add(lblIcon);
-        } else {
+        if (null == position) {
             setLayout(new FlowLayout(FlowLayout.CENTER,1,1));
             add(lblIcon);
             add(lblPortName);
             add(lblSemicolumn);
             add(lblSemantic);
+        } else switch (position) {
+            case LEFT:
+                setLayout(new FlowLayout(FlowLayout.LEFT,1,1));
+                add(lblIcon);
+                add(lblPortName);
+                add(lblSemicolumn);
+                add(lblSemantic);
+                break;
+            case RIGHT:
+                setLayout(new FlowLayout(FlowLayout.RIGHT,1,1));
+                add(lblPortName);
+                add(lblSemicolumn);
+                add(lblSemantic);
+                add(lblIcon);
+                break;
+            default:
+                setLayout(new FlowLayout(FlowLayout.CENTER,1,1));
+                add(lblIcon);
+                add(lblPortName);
+                add(lblSemicolumn);
+                add(lblSemantic);
+                break;
         }
         //lblPortName.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.red));
         lblIcon.setConnectorPoint(this);
@@ -135,7 +148,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
         syncWithModel();
     }
 
-    public void syncWithModel() {
+    public final void syncWithModel() {
         lblPortName.setText(userObject.getName()+" ");
         if (userObject.getSemantic().isValid()) {
             lblSemantic.setText(userObject.getSemantic().getValue()+" ");
@@ -146,7 +159,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
             lblSemicolumn.setVisible(false);
         }
         
-        FXProjectType current = FXSingleton.getSingleton().getCurrentProjectType();
+        FXProjectType current = parent.getUserObject().getProjectType();
         Image image = current.getIconForType(userObject.getType());
         if (image == null) {
             if (isOutput()) {
