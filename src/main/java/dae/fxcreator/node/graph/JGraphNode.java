@@ -216,7 +216,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         if (!isRefNode) {
             if (node.isInputStructSet()) {
                 ShaderStruct input = node.getInputStruct();
-                JGraphStruct structPanel = new JGraphStruct();
+                JGraphStruct structPanel = new JGraphStruct(node);
                 structPanel.setModel(input);
                 leftPanel.add(structPanel);
             } else {
@@ -231,7 +231,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
         if (node.isOutputStructSet()) {
             ShaderStruct output = node.getOutputStruct();
-            JGraphStruct structPanel = new JGraphStruct();
+            JGraphStruct structPanel = new JGraphStruct(node);
             structPanel.setModel(output);
             rightPanel.add(structPanel);
         } else {
@@ -607,11 +607,13 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Sets the output struct for this GraphNode.
-     * This means that all the output nodes will be removed and replaced
+     * This implies that all the output nodes will be removed and replaced
      * with the fields in the shader struct.
+     * 
+     * @param struct the new output struct for this graphnode.
      */
     public void setOutputStruct(ShaderStruct struct) {
-        JGraphStruct structPanel = new JGraphStruct();
+        JGraphStruct structPanel = new JGraphStruct(node);
         structPanel.setModel(struct);
         for (Component c : rightPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
@@ -628,7 +630,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
     }
 
     public void setInputStruct(ShaderStruct struct) {
-        JGraphStruct structPanel = new JGraphStruct();
+        JGraphStruct structPanel = new JGraphStruct(node);
         structPanel.setModel(struct);
         for (Component c : leftPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
