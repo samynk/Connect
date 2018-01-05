@@ -27,32 +27,32 @@ public class FXSettings {
     /**
      * The available semantics for the project.
      */
-    private ArrayList<Semantic> semantics = new ArrayList<Semantic>();
+    private final ArrayList<Semantic> semantics = new ArrayList<>();
     /**
      * The library with all the registered exporters.
      */
-    private ExporterLibrary library = new ExporterLibrary();
+    private final ExporterLibrary library = new ExporterLibrary();
    
     /**
      * The hash map with the shader type - icon association.
      */
-    private HashMap<String, Image> semanticIconMap = new HashMap<String, Image>();
+    private final HashMap<String, Image> semanticIconMap = new HashMap<>();
     /**
      * The hash map with the fonts.
      */
-    private HashMap<String, GraphFont> fontMap = new HashMap<String, GraphFont>();
+    private final HashMap<String, GraphFont> fontMap = new HashMap<>();
     /**
      * The hash map with the gradients.
      */
-    private HashMap<String, GraphGradient> gradientMap = new HashMap<String, GraphGradient>();
+    private final HashMap<String, GraphGradient> gradientMap = new HashMap<>();
     /**
      * The hash map with all the styles.
      */
-    private HashMap<String, NodeStyle> styleMap = new HashMap<String, NodeStyle>();
+    private final HashMap<String, NodeStyle> styleMap = new HashMap<>();
     /**
      * The hash map with the colors.
      */
-    private HashMap<String, Color> colorMap = new HashMap<String, Color>();
+    private final HashMap<String, Color> colorMap = new HashMap<>();
     /**
      * Were the fxsettings changed since loading.
      */
@@ -60,13 +60,13 @@ public class FXSettings {
     /**
      * List of symbol listeners.
      */
-    private HashMap<String, ArrayList<SymbolListener>> symbolListeners = new HashMap<String, ArrayList<SymbolListener>>();
+    private final HashMap<String, ArrayList<SymbolListener>> symbolListeners = new HashMap<>();
     private boolean loaded =false;
 
     /**
      * The hash map with the list of ProjectType.
      */
-    private HashMap<String, FXProjectType> projectTypes = new HashMap<String,FXProjectType>();
+    private final HashMap<String, FXProjectType> projectTypes = new HashMap<>();
     /**
      * Creates a new FXSettings object.
      */
@@ -258,7 +258,7 @@ public class FXSettings {
 
     /**
      * Gets a gradient from the list of gradients.
-     * @param name the name of the gradient.
+     * @param key the name of the gradient.
      * @return the gradient object.
      */
     public GraphGradient getGradient(String key) {
