@@ -1,6 +1,7 @@
 package dae.fxcreator.node;
 
 import dae.fxcreator.io.FXProject;
+import dae.fxcreator.io.FXProjectType;
 import dae.fxcreator.io.NodeGroupWalker;
 import dae.fxcreator.io.TypedNode;
 import dae.fxcreator.io.events.IOListener;
@@ -1335,5 +1336,13 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
             ShaderInput newInput = new ShaderInput(this,iname + i,input.getSemantic().getValue(),input.getType(),input.getAcceptTypeSet());
             this.addInput(newInput);
         }
+    }
+
+    /**
+     * The project type for this ionode.
+     * @return the project type.
+     */
+    public FXProjectType getProjectType() {
+        return fxProject.getProjectType();
     }
 }
