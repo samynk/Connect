@@ -749,4 +749,8 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
            return "fx";
        }
     }
+
+    public FXProjectType getProjectType() {
+        return type;
+    }
 }
