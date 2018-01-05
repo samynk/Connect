@@ -2,6 +2,7 @@ package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.FXProjectType;
 import dae.fxcreator.io.FXSingleton;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderField;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
  * @author Koen
  */
 public class JField extends JPanel {
+    private IONode parent;
     private final ShaderField field;
     private final JLabel semanticLabel;
     private final JLabel typeLabel;
@@ -24,7 +26,8 @@ public class JField extends JPanel {
      * Creates a new JField object.
      * @param field the field to visualize in this component.
      */
-    public JField(ShaderField field) {
+    public JField(IONode parent, ShaderField field) {
+        this.parent = parent;
         this.field = field;
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 
@@ -61,7 +64,7 @@ public class JField extends JPanel {
             semanticLabel.setVisible(false);
         }
 
-        FXProjectType current = FXSingleton.getSingleton().getCurrentProjectType();
+        FXProjectType current = parent.getProjectType();
         Image image = current.getIconForType(field.getType());
         if (image != null) {
             typeLabel.setIcon(new ImageIcon(image));
