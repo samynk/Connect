@@ -1,6 +1,7 @@
 package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.FXSingleton;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderStruct;
 import dae.fxcreator.node.StructListener;
@@ -23,10 +24,12 @@ public class JGraphStruct extends BoxPanel implements ComponentListener, StructL
 
     private ShaderStruct model;
     private final HashMap<String, JField> fieldMap = new HashMap<>();
+    private IONode parent;
 
     /** Creates new form JGraphStruct */
-    public JGraphStruct() {
+    public JGraphStruct(IONode parent) {
         super(BoxLayout.Y_AXIS);
+        this.parent = parent;
         initComponents();
         this.addComponentListener(this);
         // MatteBorderExt ext = new MatteBorderExt(2, 2, 2, 2, Color.white);
@@ -68,7 +71,7 @@ public class JGraphStruct extends BoxPanel implements ComponentListener, StructL
 
             for (ShaderField field : struct.getFields()) {
                
-                JField fieldcomp = new JField(field);
+                JField fieldcomp = new JField(parent, field);
                 fieldMap.put(field.getName(), fieldcomp);
                 add(fieldcomp);
             }
@@ -124,7 +127,7 @@ public class JGraphStruct extends BoxPanel implements ComponentListener, StructL
 
     @Override
     public void structFieldInserted(ShaderStruct struct, ShaderField field) {
-        JField fieldcomp = new JField(field);
+        JField fieldcomp = new JField(parent, field);
         this.add(fieldcomp);
     }
 
