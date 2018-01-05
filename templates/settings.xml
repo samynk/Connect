@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<settings>
+	<ui>
+		<font  name="semantic" size="12" family="Times New Roman" bold="false" italic="false" color="#003399"/>
+		<font  name="default" size="12" family="Courier New" bold="false" italic="false" color="#ffffff"/>
+		<font  name="constant" size="12" family="Courier New" bold="true" italic="true" color="#ffffff"/>
+		<font  name="portname" size="12" family="Times New Roman" bold="false" italic="false" color="#000000"/>
+		<font  name="importanttitle" size="18" family="Courier" bold="false" italic="false" color="#000000"/>
+		<font  name="title" size="20" family="Times New Roman" bold="true" italic="false" color="#ffffff"/>
+		<gradient  name="important" color1="#ffff33" color2="#ffffcc"/>
+		<gradient  name="node" color1="#d3cce3" color2="#e9e4f0"/>
+		<gradient  name="refnode" color1="#67B26F" color2="#67B26F"/>
+		<gradient  name="comment" color1="#67B26F" color2="#67B26F"/>
+		<style  name="important" gradient="important" titleFont="importanttitle" portFont="portname" semanticFont="semantic"/>
+		<style  name="default" gradient="node" titleFont="title" portFont="portname" semanticFont="semantic"/>
+		<style  name="refnode" gradient="refnode" titleFont="title" portFont="portname" semanticFont="semantic"/>
+		<style  name="comment" gradient="comment" titleFont="title" portFont="portname" semanticFont="semantic"/>
+	</ui>
+	<semantics>
+		<semantic label="WORLD"/>
+		<semantic label="WORLDVIEW"/>
+		<semantic label="WORLDVIEWPROJECTION"/>
+		<semantic label="WORLDINVERSE"/>
+		<semantic label="NORMAL"/>
+		<semantic label="TANGENT"/>
+		<semantic label="BINORMAL"/>
+		<semantic label="BONEWEIGHT"/>
+		<semantic label="BONEINDEX"/>
+		<semantic label="POSITION"/>
+		<semantic label="TEXCOORD"/>
+		<semantic label="TEXCOORD0"/>
+		<semantic label="TEXCOORD1"/>
+		<semantic label="VIEW"/>
+		<semantic label="VIEWINVERSE"/>
+		<semantic label="SV_POSITION"/>
+		<semantic label="SV_TARGET"/>
+		<semantic label="COLOR"/>
+		<semantic label="COLOR0"/>
+		<semantic label="COLOR1"/>
+	</semantics>
+<!--
+<projecttypes>
+		<projecttype  name="shader" version="1.0">
+			<description><![CDATA[
+This project type offers the possibility to create shader projects.
+			]]></description>
+			<nodes  file="/nodes/shaders/nodes.xml"/>
+			<groups  file="/nodes/shaders/groups.xml"/>
+			<exporter file="sm3.codegen"/>
+			<exporter file="sm4.codegen"/>
+	<types>
+		<type value="FLOAT4" icon="/dae/images/types/float4.png"/>
+		<type value="FLOAT3" icon="/dae/images/types/float3.png"/>
+		<type value="FLOAT4X4" icon="/dae/images/types/float4x4.png"/>
+		<type value="BOOLEAN2" icon="/dae/images/types/boolean2.png"/>
+		<type value="SAMPLER2D" icon="/dae/images/types/sampler2D.png"/>
+		<type value="BOOLEAN3" icon="/dae/images/types/boolean3.png"/>
+		<type value="BOOLEAN4" icon="/dae/images/types/boolean4.png"/>
+		<type value="FLOAT3X3" icon="/dae/images/types/float3x3.png"/>
+		<type value="BOOLEAN" icon="/dae/images/types/boolean.png"/>
+		<type value="ARRAY" icon="/dae/images/types/array.png"/>
+		<type value="FLOAT2" icon="/dae/images/types/float2.png"/>
+		<type value="INT" icon="/dae/images/types/int.png"/>
+		<type value="FLOAT" icon="/dae/images/types/float.png"/>
+	</types>
+		</projecttype>
+		<projecttype  name="dae game" version="1.0">
+			<description><![CDATA[
+This project type offers the possibility to create games that
+			use the Digital Arts and Entertainment game engine.
+			]]></description>
+			<nodes  file="/nodes/daev1/nodes.xml"/>
+			<groups  file="/nodes/daev1/groups.xml"/>
+			<exporter file="daev1/daev1.codegen"/>
+	<types>
+		<type value="FLOAT4" icon="/dae/images/types/float4.png"/>
+		<type value="FLOAT3" icon="/dae/images/types/float3.png"/>
+		<type value="FLOAT4X4" icon="/dae/images/types/float4x4.png"/>
+		<type value="DOUBLE3" icon="/dae/images/types/double3.png"/>
+		<type value="DOUBLE2" icon="/dae/images/types/double2.png"/>
+		<type value="BOOLEAN2" icon="/dae/images/types/boolean2.png"/>
+		<type value="RECT" icon="/dae/images/types/rect.png"/>
+		<type value="SAMPLER2D" icon="/dae/images/types/sampler2D.png"/>
+		<type value="BOOLEAN3" icon="/dae/images/types/boolean3.png"/>
+		<type value="BOOLEAN4" icon="/dae/images/types/boolean4.png"/>
+		<type value="FLOAT3X3" icon="/dae/images/types/float3x3.png"/>
+		<type value="DOUBLE4" icon="/dae/images/types/double4.png"/>
+		<type value="DOUBLE" icon="/dae/images/types/double.png"/>
+		<type value="exec" icon="/dae/images/types/exec.png"/>
+		<type value="BOOLEAN" icon="/dae/images/types/boolean.png"/>
+		<type value="ARRAY" icon="/dae/images/types/array.png"/>
+		<type value="FLOAT2" icon="/dae/images/types/float2.png"/>
+		<type value="INT" icon="/dae/images/types/int.png"/>
+		<type value="FLOAT" icon="/dae/images/types/float.png"/>
+	</types>
+		</projecttype>
+
+</projecttypes>
+-->
+</settings>
