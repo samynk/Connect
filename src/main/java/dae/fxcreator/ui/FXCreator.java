@@ -394,10 +394,11 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
 
     private void mnuOpenToolsActionPerformed(java.awt.event.ActionEvent evt) {
         if (userSettingsDialog == null) {
-            
+            /*
             userSettingsDialog = new UserSettingsDialog(this, FXSingleton.getSingleton().getCurrentProjectType().getNodeTemplateLibrary().getTypeLibrary(), true);
             userSettingsDialog.setTitle("User settings");
             userSettingsDialog.pack();
+            */
         }
         userSettingsDialog.setVisible(true);
         this.groupNodeEditorPanel1.updateStyles();
@@ -448,7 +449,7 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
                 // to do : replace with selection of project type.
 
                 FXProjectType type = fxSettings.findLatestProjectType("dae game");
-                FXSingleton.getSingleton().setCurrentProjectType(type);
+                //FXSingleton.getSingleton().setCurrentProjectType(type);
                 project = new FXProject(startProject.getSourceFile(), type);
                 project.load();
                 project.setLoadedFromTemplate(true);

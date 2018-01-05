@@ -35,7 +35,6 @@ public class FXCreator2 extends javax.swing.JFrame {
         FXProjectTypeLoader loader = new FXProjectTypeLoader("conf/fxcreator.json");
         loader.load();
         FXProjectType daegame = loader.getProjectTypes().get(0);
-        FXSingleton.getSingleton().setCurrentProjectType(daegame);
         project = new FXProject(new File(System.getProperty("user.home"), ".fxcreator/projects/test.fx"), daegame);
         project.load();
         groupNodeEditorPanel2.setLibrary(project.getNodeTemplateLibrary());
@@ -96,7 +95,6 @@ public class FXCreator2 extends javax.swing.JFrame {
                     }
                 }
             } catch (Exception e) {
-                // If Nimbus is not available, you can set the GUI to another look and feel.
             }
             new FXCreator2().setVisible(true);
         });
