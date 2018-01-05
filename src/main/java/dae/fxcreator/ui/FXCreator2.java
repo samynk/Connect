@@ -7,6 +7,8 @@ import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import dae.fxcreator.io.loaders.FXSettingLoader;
 import java.io.File;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
  * This is the main user interface for designing visual application.
@@ -29,7 +31,7 @@ public class FXCreator2 extends javax.swing.JFrame {
         FXSettingLoader fsl = new FXSettingLoader();
         FXSettings settings = fsl.load();
         FXSingleton.getSingleton().setFxSettings(settings);
-        
+
         FXProjectTypeLoader loader = new FXProjectTypeLoader("conf/fxcreator.json");
         loader.load();
         FXProjectType daegame = loader.getProjectTypes().get(0);
@@ -86,6 +88,16 @@ public class FXCreator2 extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
+            try {
+                for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                    if ("Nimbus".equals(info.getName())) {
+                        UIManager.setLookAndFeel(info.getClassName());
+                        break;
+                    }
+                }
+            } catch (Exception e) {
+                // If Nimbus is not available, you can set the GUI to another look and feel.
+            }
             new FXCreator2().setVisible(true);
         });
     }
