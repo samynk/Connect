@@ -35,7 +35,7 @@ class WrappingLayout implements LayoutManager {
         return align;
     }
 
-    public void setAlignment(int align) {
+    public final void setAlignment(int align) {
         switch (align) {
         case LEADING:
             this.align = LEFT;
@@ -65,6 +65,7 @@ class WrappingLayout implements LayoutManager {
         this.vgap = vgap;
     }
 
+    @Override
     public Dimension preferredLayoutSize(Container parent) {
         synchronized(parent.getTreeLock()) {
             Dimension dim = new Dimension(0,0);
@@ -99,6 +100,7 @@ class WrappingLayout implements LayoutManager {
         }
     }
 
+    @Override
     public Dimension minimumLayoutSize(Container parent) {
         synchronized(parent.getTreeLock()) {
             Dimension dim = new Dimension(0,0);
@@ -121,6 +123,7 @@ class WrappingLayout implements LayoutManager {
         }
     }
 
+    @Override
     public void layoutContainer(Container parent) {
         synchronized(parent.getTreeLock()) {
             Insets insets = parent.getInsets();
