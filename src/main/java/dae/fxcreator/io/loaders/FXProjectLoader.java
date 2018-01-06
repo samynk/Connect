@@ -83,7 +83,7 @@ public class FXProjectLoader extends DefaultHandler {
         STATE, GLOBALNODE, CONTAINERNODE
     };
     ELEMENT currentElement;
-    private final Stack<NodeGroup> nodeGroupStack = new Stack<NodeGroup>();
+    private final Stack<NodeGroup> nodeGroupStack = new Stack<>();
     private final HashMap<String, XMLHandler> extraHandlers = new HashMap<>();
     private XMLHandler currentExtraHandler = null;
 
