@@ -456,6 +456,7 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
                 techniquePanel.setProject(project);
                
                 this.groupNodeEditorPanel1.setLibrary(type.getNodeTemplateLibrary());
+                groupNodeEditorPanel1.setProject(project);
                 this.techniquePanel.setLibrary(type.getNodeTemplateLibrary());
                 this.iONodeSettingsPanel1.setNodeTemplateLibrary(type.getNodeTemplateLibrary());
 
