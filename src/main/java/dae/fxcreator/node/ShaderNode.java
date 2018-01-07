@@ -1,7 +1,7 @@
 package dae.fxcreator.node;
 
+import dae.fxcreator.io.FXProject;
 import dae.fxcreator.io.templates.Setting;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +28,10 @@ public class ShaderNode extends IONode implements Cloneable {
      * @param id the id for the ShaderNode.
      * @param name the name for the ShaderNode.
      * @param type the type of node.
-     * @param library the type library to use.
+     * @param project the project this node is a part of.
      */
-    public ShaderNode(String id, String name, String type, ShaderTypeLibrary library) {
-        super(id, name,library);
+    public ShaderNode(String id, String name, String type, FXProject project) {
+        super(id, name,project);
         super.setType(type);
         if (type != null) {
             int dotIndex = type.indexOf('.');
@@ -60,7 +60,7 @@ public class ShaderNode extends IONode implements Cloneable {
 
     @Override
     public Object clone() throws CloneNotSupportedException {
-        ShaderNode node = new ShaderNode(this.getId(), this.getName(), this.getType(),super.shaderTypeLib);
+        ShaderNode node = new ShaderNode(this.getId(), this.getName(), this.getType(),super.getFXProject());
         node.setInputOutputEditable(this.isInputOutputEditable());
         node.setIcon(this.getIcon());
         // copy inputs
