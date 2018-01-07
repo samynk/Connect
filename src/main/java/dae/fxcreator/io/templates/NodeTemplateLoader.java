@@ -132,7 +132,7 @@ public class NodeTemplateLoader extends DefaultHandler {
                 ioEditable = Boolean.parseBoolean(sioEditable);
             }
             
-            currentTemplate = new NodeTemplate(currentGroup.getName() + "." + type, prefix, icon, ioEditable, containerType, library.getTypeLibrary());
+            currentTemplate = new NodeTemplate(currentGroup.getName() + "." + type, prefix, icon, ioEditable, containerType);
             currentGroup.addNodeTemplate(currentTemplate);
             currentState = STATE.NODE;
         } else if ("generalsettings".equals(qName)) {
