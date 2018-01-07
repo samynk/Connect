@@ -105,7 +105,7 @@ public class FXMethodLoader extends DefaultHandler {
             Point inputPosition = this.parsePosition(attributes.getValue("inputPosition"));
             Point outputPosition = this.parsePosition(attributes.getValue("outputPosition"));
 
-            result = new NodeContainer(name, type, library.getTypeLibrary());
+            result = new NodeContainer(name, type);
             result.getInputNode().setPosition(inputPosition.x, inputPosition.y);
             result.getOutputNode().setPosition(outputPosition.x, outputPosition.y);
             nodeGroupStack.push(result);
@@ -124,7 +124,7 @@ public class FXMethodLoader extends DefaultHandler {
             }
             ShaderNode node = null;
             if (container == null || "leaf".equals(container)) {
-                node = new ShaderNode(id, name, type, library.getTypeLibrary());
+                node = new ShaderNode(id, name, type, null);
             } else if ("iterator".equals(container)) {
                 Point inputPosition = this.parsePosition(attributes.getValue("inputPosition"));
                 Point outputPosition = this.parsePosition(attributes.getValue("outputPosition"));
