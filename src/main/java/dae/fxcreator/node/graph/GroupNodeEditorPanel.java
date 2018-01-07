@@ -1,5 +1,6 @@
 package dae.fxcreator.node.graph;
 
+import dae.fxcreator.io.FXProject;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.NodeGroup;
 import dae.fxcreator.io.templates.NodeContainerProxy;
@@ -42,6 +43,7 @@ import javax.swing.JToolBar;
  */
 public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphListener, ActionListener, MouseListener, MouseMotionListener, ZoomListener {
 
+    private FXProject project;
     private NodeTemplateLibrary library;
     /**
      * The NodeGroup object that contains all the nodes to show in the user
@@ -423,7 +425,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
         }
 
         ToolbarPanel.add(groupBar);
-        this.nodeGroup = new NodeContainer("test","driver",this.library.getTypeLibrary());
+        this.nodeGroup = new NodeContainer("test","driver");
     }
 
     private void createGroup(String command) {
@@ -445,7 +447,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
             String command = e.getActionCommand();
             NodeTemplate template = library.getNodeTemplate(command);
 
-            ShaderNode node = template.createShaderNode();
+            ShaderNode node = template.createShaderNode(project);
             String newId = this.nodeGroup.getUniqueId(node.getId());
             node.setId(newId);
             nodeGroup.addNode(node);
@@ -546,7 +548,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
             }
 
             String id = this.nodeGroup.getUniqueId(proxy.getPrefix());
-            NodeContainer nc = new NodeContainer(proxy.getPrefix(), "code.method", this.library.getTypeLibrary());
+            NodeContainer nc = new NodeContainer(proxy.getPrefix(), "code.method");
             nc.setSubType(proxy.getType());
             nc.setInputOutputEditable(true);
             // 1) find unconnected inputs ( unconnected + connected to node outside of the group)
@@ -680,6 +682,11 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
 
     public void mouseMoved(MouseEvent e) {
         //System.out.println("Mouse moved : " + e);
+    }
+
+    public void setProject(FXProject project) {
+        this.project = project;
+        
     }
 
     private enum CopyType {
