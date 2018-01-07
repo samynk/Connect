@@ -142,7 +142,7 @@ public class FXProjectLoader extends DefaultHandler {
             String type = attributes.getValue("type");
             Point inputPosition = this.parsePosition(attributes.getValue("inputPosition"));
             Point outputPosition = this.parsePosition(attributes.getValue("outputPosition"));
-            ShaderStage stage = new ShaderStage(this.project, name, type, library.getTypeLibrary());
+            ShaderStage stage = new ShaderStage( name, type);
             stage.getInputNode().setPosition(inputPosition.x, inputPosition.y);
             stage.getOutputNode().setPosition(outputPosition.x, outputPosition.y);
 
@@ -169,7 +169,7 @@ public class FXProjectLoader extends DefaultHandler {
             ShaderNode node = null;
             if (container == null || "leaf".equals(container)) {
                 NodeTemplate template = library.getNodeTemplate(type);
-                node = new ShaderNode(id, name, type, library.getTypeLibrary());
+                node = new ShaderNode(id, name, type, null);
                 if (template != null) {
                     node.setIcon(template.getIcon());
                 }
