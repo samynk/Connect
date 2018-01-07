@@ -68,10 +68,10 @@ import javax.swing.border.Border;
 public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     private GridBagLayout gbl = new GridBagLayout();
-    private JLabel title = new JLabel("Empty");
-    private BoxPanel leftPanel = new BoxPanel(BoxLayout.Y_AXIS);
-    private BoxPanel rightPanel = new BoxPanel(BoxLayout.Y_AXIS);
-    private BoxPanel visualizationPanel = new BoxPanel(BoxLayout.Y_AXIS);
+    private final JLabel title = new JLabel("Empty");
+    private final BoxPanel leftPanel = new BoxPanel(BoxLayout.Y_AXIS);
+    private final BoxPanel rightPanel = new BoxPanel(BoxLayout.Y_AXIS);
+    private final BoxPanel visualizationPanel = new BoxPanel(BoxLayout.Y_AXIS);
     private GeneralPath border;
     private GeneralPath selBorder;
     private GraphGradient normalGG;
@@ -80,12 +80,12 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
     int currentHeight = -1;
     private boolean selected;
     private IONode node;
-    private ArrayList<JConnectorPoint> children = new ArrayList<JConnectorPoint>();
+    private final ArrayList<JConnectorPoint> children = new ArrayList<>();
     private GraphEditor parent;
-    private HashMap<String, JConnectorPoint> connectorMap = new HashMap<String, JConnectorPoint>();
+    private final HashMap<String, JConnectorPoint> connectorMap = new HashMap<>();
     private float realX, realY;
     private NodeStyle currentStyle;
-    private BasicStroke stroke = new BasicStroke(2.0f);
+    private final BasicStroke stroke = new BasicStroke(2.0f);
 
     private boolean refNode = false;
     private ReferenceNode referenceNode;
@@ -139,6 +139,8 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Creates a new JGraphNode object.
+     * @param parent the parent graph editor component.
+     * @param node the IONode user object.
      */
     public JGraphNode(GraphEditor parent, IONode node) {
         this(parent, node, false);
