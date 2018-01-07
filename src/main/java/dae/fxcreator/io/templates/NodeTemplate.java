@@ -49,14 +49,13 @@ public class NodeTemplate {
      * @param containerType the type of container, can be leaf (no children allowed) or group. Default
      * is leaf.
      */
-    public NodeTemplate(String type, String prefix, String icon, boolean ioEditable, String containerType, ShaderTypeLibrary library) {
-        this.library = library;
+    public NodeTemplate(String type, String prefix, String icon, boolean ioEditable, String containerType) {
         if (containerType == null || "leaf".equals(containerType)) {
-            nodePrototype = new ShaderNode(prefix, prefix, type, library);
+            nodePrototype = new ShaderNode(prefix, prefix, type, null);
         } else if ("iterator".equals(containerType)) {
-            nodePrototype = new IteratorNode(prefix, type, library);
+            nodePrototype = new IteratorNode(prefix, type, null);
         } else if ("group".equals(containerType)) {
-            nodePrototype = new NodeContainer(prefix, type, library);
+            nodePrototype = new NodeContainer(prefix, type);
         }
         nodePrototype.setInputOutputEditable(ioEditable);
         this.icon = icon;
@@ -122,11 +121,13 @@ public class NodeTemplate {
 
     /**
      * Creates a ShaderNode, starting from the node prototype.
+     * @param project the project that the new node will belong to.
      * @return a new ShaderNode, ready for use.
      */
-    public ShaderNode createShaderNode() {
+    public ShaderNode createShaderNode(FXProject project) {
         try {
             ShaderNode result = (ShaderNode)nodePrototype.clone();
+            result.setFXProject(project);
             result.setIcon(this.icon);
             return result;
         } catch (CloneNotSupportedException ex) {
@@ -135,21 +136,22 @@ public class NodeTemplate {
     }
 
     /**
-     * Creates a ShaderStage, starting from the node prototyp.
+     * Creates a ShaderStage, starting from the node prototype.
      * @param project the project to create a shader stage for.
      * @return a new ShaderStage, with an id that is set to the
      * prefix for the specific shaderstage.
      *
      */
     public ShaderStage createShaderStage(FXProject project) {
-        ShaderStage stage = new ShaderStage(project, nodePrototype.getId(), nodePrototype.getType(), library);
+        ShaderStage stage = new ShaderStage(nodePrototype.getId(), nodePrototype.getType());
+        stage.setFXProject(project);
         for (ShaderInput input : nodePrototype.getInputs()) {
             ShaderInput ci = new ShaderInput(stage, input.getName(), input.getSemantic().getValue(), input.getType());
-            stage.addInput(input);
+            stage.addInput(ci);
         }
         for (ShaderOutput output : nodePrototype.getOutputs()) {
-            ShaderInput ci = new ShaderInput(stage, output.getName(), output.getSemantic().getValue(), output.getType());
-            stage.addOutput(output);
+            ShaderOutput co = new ShaderOutput(stage, output.getName(), output.getSemantic().getValue(), output.getType(), output.getTypeRule());
+            stage.addOutput(co);
         }
         stage.getInputNode().setPosition(20,20);
         stage.getOutputNode().setPosition(300,20);
