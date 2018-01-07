@@ -39,23 +39,23 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
      * @param library the shader type library.
      */
     public IteratorNode(String id, String type, ShaderTypeLibrary library) {
-        super(id, id, type, library);
+        super(id, id, type,null);
         this.addSettingListener(this);
 
-        inputNode = new ShaderNode("input", "input", "group.input",library);
-        outputNode = new ShaderNode("output", "output", "group.output",library);
+        inputNode = new ShaderNode("input", "input", "group.input",null);
+        outputNode = new ShaderNode("output", "output", "group.output",null);
         inputNode.setSeparator(".");
         outputNode.setSeparator(".");
 
         nodeMap.put(inputNode.getName(),inputNode);
         nodeMap.put(outputNode.getName(), outputNode);
         
-        loopNode = new ShaderNode("loop", "loop", "group.loop", library);
+        loopNode = new ShaderNode("loop", "loop", "group.loop", null);
         loopNode.setSeparator(".");
         loopNode.setPosition(20, 20);
 
-        loopVariable = new ShaderOutput(loopNode,"loopVar",null, library.getType("FLOAT"),"");
-        loopNode.addOutput(loopVariable);
+        //loopVariable = new ShaderOutput(loopNode,"loopVar",null, library.getType("FLOAT"),"");
+        //loopNode.addOutput(loopVariable);
 
         getInputNode().setPosition(20, 100);
         getOutputNode().setPosition(400,20);
@@ -135,12 +135,15 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
     @Override
     public boolean addInput(ShaderInput input) {
         boolean success = super.addInput(input);
+        
+        /*
         if (success && input.getType() == shaderTypeLib.getType("ARRAY"));
         {
             // input will be remapped as an output of the input node.
            arrayVariable = loopNode.findOutput("loopVar");
         }
-        return false;
+        */
+        return success;
     }
 
     /**
@@ -263,22 +266,27 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
      * @return the ShaderNode with the provided id, or null if no ShaderNode was
      * found.
      */
+    @Override
     public IONode findNode(String id) {
        return nodeMap.get(id);
     }
 
+    @Override
     public Iterable<IONode> getNodes() {
         return this.nodes;
     }
 
-    public ShaderNode getInputNode() {
+    @Override
+    public final ShaderNode getInputNode() {
         return inputNode;
     }
 
-    public ShaderNode getOutputNode() {
+    @Override
+    public final ShaderNode getOutputNode() {
         return outputNode;
     }
 
+    @Override
     public Iterable<IONode> getSortedNodes() {
        NodeGroupWalker walker = new NodeGroupWalker(this);
        walker.collect();
@@ -355,10 +363,12 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
      * Sets the subtype for this node container.
      * @param subType the new subtype.
      */
+    @Override
     public void setSubType(String subType) {
         this.subType = subType;
     }
 
+    @Override
     public String getUniqueId(String prefix) {
         int i = 1;
         String id;
@@ -372,18 +382,21 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
      * Add a node that is a reference to another node
      * @param rn the reference node to add.
      */
+    @Override
     public void addReferenceNode(ReferenceNode rn){
         referenceNodes.add(rn);
     }
     /**
      * Removes the reference node from the list of reference nodes.
      */
+    @Override
     public void removeReferenceNode(ReferenceNode rn){
         referenceNodes.remove(rn);
     }
     /**
      * Returns the reference nodes.
      */
+    @Override
     public Iterable<ReferenceNode> getReferenceNodes(){
         return referenceNodes;
     }
