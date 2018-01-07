@@ -16,15 +16,11 @@ import java.util.HashMap;
  */
 public class ShaderStage extends IONode implements NodeGroup, TypedNode {
 
-    private ArrayList<IONode> nodes = new ArrayList<IONode>();
-    private ArrayList<ReferenceNode> referenceNodes = new ArrayList<ReferenceNode>();
-    private HashMap<String, IONode> nodeMap = new HashMap<String, IONode>();
-    private ShaderNode inputNode;
-    private ShaderNode outputNode;
-    /**
-     * The FXProject project this ShaderStage belongs to.
-     */
-    private FXProject fxProject;
+    private final ArrayList<IONode> nodes = new ArrayList<>();
+    private final ArrayList<ReferenceNode> referenceNodes = new ArrayList<>();
+    private final HashMap<String, IONode> nodeMap = new HashMap<>();
+    private final ShaderNode inputNode;
+    private final ShaderNode outputNode;
     /**
      * A possible subtype for this IONode.
      */
@@ -37,12 +33,12 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
      * @param name the name for the shader stage.
      * @param type the type of the shader stage.
      */
-    public ShaderStage(FXProject project, String name, String type, ShaderTypeLibrary library) {
-        super(name, name, library);
+    public ShaderStage(String name, String type) {
+        super(name, name, null);
         super.setType(type);
 
-        inputNode = new ShaderNode("input", "input", "group.input", library);
-        outputNode = new ShaderNode("output", "output", "group.output", library);
+        inputNode = new ShaderNode("input", "input", "group.input", null);
+        outputNode = new ShaderNode("output", "output", "group.output", null);
         inputNode.setSeparator(".");
         outputNode.setSeparator(".");
         inputNode.setRemovable(false);
@@ -53,8 +49,6 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
 
         nodeMap.put("input", inputNode);
         nodeMap.put("output", outputNode);
-
-        this.fxProject = project;
     }
 
     /**
@@ -185,7 +179,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
     public void addNode(IONode node) {
         nodes.add(node);
         nodeMap.put(node.getId(), node);
-        node.setFXProject(fxProject);
+        node.setFXProject(getFXProject());
     }
 
     /**
@@ -368,7 +362,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
         String id;
         do{
             id = prefix + (i++);
-        }while (this.fxProject.hasId(id));
+        }while (this.getFXProject().hasId(id));
         return id;
     }
 
