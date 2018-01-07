@@ -1,6 +1,6 @@
 package dae.fxcreator.ui.usersettings;
 
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.FXProject;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,13 +21,13 @@ public class UserSettingsDialog extends javax.swing.JDialog {
     public static final int RET_OK = 1;
 
     /** Creates new form UserSettingsDialog */
-    public UserSettingsDialog(java.awt.Frame parent, ShaderTypeLibrary library, boolean modal) {
+    public UserSettingsDialog(java.awt.Frame parent, FXProject project, boolean modal) {
         super(parent, modal);
         initComponents();
 
         tabUserSettings.addTab("fonts", new FontSettingPanel());
         tabUserSettings.addTab("gradients", new GradientSettingPanel());
-        StyleSettingPanel stylePanel = new StyleSettingPanel(library);
+        StyleSettingPanel stylePanel = new StyleSettingPanel(project);
         tabUserSettings.addTab("styles", stylePanel);
 
         tabUserSettings.addChangeListener(stylePanel);
