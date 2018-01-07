@@ -232,7 +232,7 @@ public class TechniquePanelMenu extends JPopupMenu implements StageListener, Act
 
         public void actionPerformed(ActionEvent ae) {
             NodeTemplate template = library.getNodeTemplate("stages.rasterizerstate");
-            ShaderNode state = template.createShaderNode();
+            ShaderNode state = template.createShaderNode(project);
             String newid = project.createUniqueStateName(state.getId());
             state.setId(newid);
             state.setName(newid);
