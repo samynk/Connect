@@ -19,7 +19,7 @@ public class FloatSettingComponent extends JPanel implements ChangeListener {
 
     private JLabel[] lblFloats;
     private JSpinner[] txtFloats;
-    private String[] labels = {"x", "y", "z", "w"};
+    private final String[] labels = {"x", "y", "z", "w"};
     private FloatSetting setting;
 
     /**
@@ -73,6 +73,7 @@ public class FloatSettingComponent extends JPanel implements ChangeListener {
         }
     }
 
+    @Override
     public void stateChanged(ChangeEvent e) {
         JSpinner source = (JSpinner) e.getSource();
         int index = Integer.parseInt(source.getName());

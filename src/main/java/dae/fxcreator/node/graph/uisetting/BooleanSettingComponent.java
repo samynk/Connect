@@ -19,7 +19,7 @@ public class BooleanSettingComponent extends JPanel implements ItemListener {
 
     private JLabel[] lblBooleans;
     private JCheckBox[] cboBooleans;
-    private String[] labels = {"x", "y", "z", "w"};
+    private final String[] labels = {"x", "y", "z", "w"};
     private BooleanSetting setting;
 
     /**
@@ -67,9 +67,10 @@ public class BooleanSettingComponent extends JPanel implements ItemListener {
         }
     }
 
+    @Override
     public void itemStateChanged(ItemEvent e) {
         int id = Integer.parseInt( ((Component)e.getSource()).getName() );
-        boolean value = e.getStateChange() == ItemEvent.SELECTED?true:false;
+        boolean value = e.getStateChange() == ItemEvent.SELECTED;
         setting.setBoolean(id,value);
     }
 }

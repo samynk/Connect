@@ -16,7 +16,6 @@ import javax.swing.JPanel;
  * @author Koen
  */
 public class SemanticSettingComponent extends JPanel implements ItemListener {
-    private JLabel lblLabel = new JLabel();
     private SemanticDataModel model;
     private SemanticSetting setting;
 
@@ -27,14 +26,9 @@ public class SemanticSettingComponent extends JPanel implements ItemListener {
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
 
-        gbc.weightx=0.0;
         gbc.gridx=0;
         gbc.gridy=0;
-
-        add(lblLabel,gbc);
-
         gbc.weightx = 1.0;
-        gbc.gridx=1;
 
         model = new SemanticDataModel();
         JComboBox cboSemantics = new JComboBox();
@@ -45,11 +39,11 @@ public class SemanticSettingComponent extends JPanel implements ItemListener {
     }
 
     public void setSemanticSetting(SemanticSetting setting){
-        lblLabel.setText(setting.getLabel()+ " : ");
         this.setting = setting;
         model.setSelectedItem(setting.getSettingValue());
     }
 
+    @Override
     public void itemStateChanged(ItemEvent e) {
         if ( e.getStateChange() == ItemEvent.SELECTED){
             setting.setSettingValue(e.getItem().toString());

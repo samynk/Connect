@@ -26,13 +26,10 @@ public class ColorSettingComponent extends JPanel implements ActionListener{
     public ColorSettingComponent(){
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        lblLabel = new JLabel();
+        
         pnlColor = new JPanel();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridx=0;
         gbc.gridy=0;
-        gbc.weightx=0;
-        add(lblLabel,gbc);
         gbc.fill = GridBagConstraints.BOTH;
         gbc.gridx=1;
         gbc.weightx=1.0;

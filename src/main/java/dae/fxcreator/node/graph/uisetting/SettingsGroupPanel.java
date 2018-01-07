@@ -14,7 +14,10 @@ import dae.fxcreator.io.templates.SemanticSetting;
 import dae.fxcreator.io.templates.Setting;
 import dae.fxcreator.io.templates.TextSetting;
 import dae.fxcreator.node.SettingsGroup;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.util.List;
+import javax.swing.JLabel;
 
 /**
  * Shows all the settings for a given settings group.
@@ -29,57 +32,77 @@ public class SettingsGroupPanel extends javax.swing.JPanel {
     }
 
     public void setSettingsGroup(SettingsGroup group){
+        GridBagConstraints gbcLabel = new GridBagConstraints();
+        gbcLabel.gridx = 0;
+        gbcLabel.gridy = 0;
+        gbcLabel.gridwidth = 1;
+        gbcLabel.gridheight = 1;
+        gbcLabel.anchor = GridBagConstraints.EAST;
+        gbcLabel.weightx = 0;
+        
+        GridBagConstraints gbcComp = new GridBagConstraints();
+        gbcComp.gridx = 1;
+        gbcComp.gridy = 0;
+        gbcComp.gridwidth = 1;
+        gbcComp.gridheight = 1;
+        gbcComp.weightx = 1;
+        gbcComp.fill = GridBagConstraints.HORIZONTAL;
+        
+        
         List<Setting> settings = group.getSettings();
         for (Setting s: settings){
+            this.add(new JLabel(s.getLabel()+" : "),gbcLabel);
             if ( s instanceof TextSetting){
                 TextSettingComponent tsc = new TextSettingComponent();
                 tsc.setTextSetting((TextSetting)s);
-                this.add(tsc);
+                this.add(tsc,gbcComp);
             }else if ( s instanceof OptionSetting){
                 OptionSettingComponent osc = new OptionSettingComponent();
                 osc.setOptionSetting((OptionSetting)s);
-                this.add(osc);
+                this.add(osc,gbcComp);
             }else if ( s instanceof FloatSetting) {
                 FloatSettingComponent fsc = new FloatSettingComponent();
                 fsc.setFloatSetting((FloatSetting)s);
-                this.add(fsc);
+                this.add(fsc,gbcComp);
             }else if ( s instanceof DoubleSetting){
-                DoubleSettingComponent fsc = new DoubleSettingComponent();
-                fsc.setDoubleSetting((DoubleSetting)s);
-                this.add(fsc);
+                DoubleSettingComponent dsc = new DoubleSettingComponent();
+                dsc.setDoubleSetting((DoubleSetting)s);
+                this.add(dsc,gbcComp);
             }else if ( s instanceof SemanticSetting) {
                 SemanticSettingComponent ssc = new SemanticSettingComponent();
                 ssc.setSemanticSetting((SemanticSetting)s);
-                this.add(ssc);
+                this.add(ssc,gbcComp);
             }else if ( s instanceof ColorSetting){
                 ColorSettingComponent csc = new ColorSettingComponent();
                 csc.setColorSetting((ColorSetting)s);
-                this.add(csc);
+                this.add(csc,gbcComp);
             }else if ( s instanceof ImageFileSetting){
                 ImageFileSettingComponent ifsc = new ImageFileSettingComponent();
                 ifsc.setImageFileSetting((ImageFileSetting)s);
-                this.add(ifsc);
+                this.add(ifsc,gbcComp);
             }else if ( s instanceof CodeSetting){
                 CodeSettingComponent csc = new CodeSettingComponent();
                 csc.setCodeSetting((CodeSetting)s);
-                this.add(csc);
+                this.add(csc,gbcComp);
             }else if ( s instanceof IntSetting){
                 IntSettingComponent isc = new IntSettingComponent();
                 isc.setIntSetting((IntSetting)s);
-                this.add(isc);
+                this.add(isc,gbcComp);
             }else if ( s instanceof BooleanSetting){
                 BooleanSettingComponent bsc = new BooleanSettingComponent();
                 bsc.setBooleanSetting((BooleanSetting)s);
-                this.add(bsc);
+                this.add(bsc,gbcComp);
             }else if ( s instanceof GradientSetting){
                 GradientSettingComponent gsc = new GradientSettingComponent();
                 gsc.setGradientSetting((GradientSetting)s);
-                this.add(gsc);
+                this.add(gsc,gbcComp);
             }else if ( s instanceof MathSetting){
                 MathSettingComponent msc = new MathSettingComponent();
                 msc.setMathSetting((MathSetting)s);
-                this.add(msc);
+                this.add(msc,gbcComp);
             }
+            gbcLabel.gridy++;
+            gbcComp.gridy++;
         }
         validate();
     }
@@ -94,7 +117,7 @@ public class SettingsGroupPanel extends javax.swing.JPanel {
     private void initComponents() {
 
         setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        setLayout(new javax.swing.BoxLayout(this, javax.swing.BoxLayout.Y_AXIS));
+        setLayout(new java.awt.GridBagLayout());
     }// </editor-fold>//GEN-END:initComponents
 
 

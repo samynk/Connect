@@ -11,14 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.text.Document;
 import javax.swing.text.PlainDocument;
 
 /**
  * A component that allows the user to edit the code for a custom code node.
  * @author Koen
  */
-public class CodeSettingComponent extends JPanel implements KeyListener, DocumentListener {
+public class CodeSettingComponent extends JPanel implements DocumentListener {
 
     private CodeSetting setting;
     private JLabel lblLabel;
@@ -45,7 +44,6 @@ public class CodeSettingComponent extends JPanel implements KeyListener, Documen
         add(new JScrollPane(txtCode), gbc);
 
         txtCode.getDocument().addDocumentListener(this);
-        
         txtCode.getDocument().putProperty(PlainDocument.tabSizeAttribute, 2);
     }
 
@@ -57,24 +55,18 @@ public class CodeSettingComponent extends JPanel implements KeyListener, Documen
 
     }
 
+    @Override
     public void changedUpdate(DocumentEvent e) {
         setting.setSettingValue(txtCode.getText());
     }
 
-    public void keyTyped(KeyEvent e) {
-    }
-
-    public void keyPressed(KeyEvent e) {
-    }
-
-    public void keyReleased(KeyEvent e) {
-    }
-
+    @Override
     public void insertUpdate(DocumentEvent e) {
         String text = txtCode.getText();
         setting.setSettingValue(text);
     }
 
+    @Override
     public void removeUpdate(DocumentEvent e) {
         String text = txtCode.getText();
         setting.setSettingValue(text);

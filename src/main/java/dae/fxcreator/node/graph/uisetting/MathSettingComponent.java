@@ -33,13 +33,8 @@ public class MathSettingComponent extends JPanel implements ChangeListener, IOLi
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        gbc.weighty = 0;
-        add(lblLabel, gbc);
-        gbc.gridx = 0;
-        gbc.gridy = 1;
         gbc.weighty = 1.0;
         gbc.ipadx = 100;
         gbc.ipady = 50;
