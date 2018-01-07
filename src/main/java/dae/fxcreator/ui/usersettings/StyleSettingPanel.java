@@ -1,5 +1,6 @@
 package dae.fxcreator.ui.usersettings;
 
+import dae.fxcreator.io.FXProject;
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
@@ -29,10 +30,11 @@ public class StyleSettingPanel extends javax.swing.JPanel implements ChangeListe
     private IONode node;
 
     /** Creates new form StyleSettingPanel */
-    public StyleSettingPanel(ShaderTypeLibrary library) {
+    public StyleSettingPanel(FXProject project) {
 
 
-        node = new IONode("Node style example", "node", library);
+        node = new IONode("Node style example", "node", project);
+        ShaderTypeLibrary library = project.getShaderTypeLibrary();
         ShaderInput input1 = new ShaderInput(node, "op1", "NORMAL", library.getType("FLOAT3"));
         ShaderInput input2 = new ShaderInput(node, "op2", "DIRECTION", library.getType("FLOAT3"));
 
