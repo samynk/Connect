@@ -38,6 +38,7 @@ public class FXCreator2 extends javax.swing.JFrame {
         project = new FXProject(new File(System.getProperty("user.home"), ".fxcreator/projects/test.fx"), daegame);
         project.load();
         groupNodeEditorPanel2.setLibrary(project.getNodeTemplateLibrary());
+        groupNodeEditorPanel2.setProject(project);
     }
 
     /**
