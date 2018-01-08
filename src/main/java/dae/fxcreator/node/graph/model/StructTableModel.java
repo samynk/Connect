@@ -17,7 +17,6 @@ import javax.swing.table.TableModel;
 public class StructTableModel implements TableModel, IOTableModel {
 
     private ShaderStruct struct;
-    private JGraphNode node;
     private ArrayList<TableModelListener> listeners = new ArrayList<TableModelListener>();
 
     /**
@@ -35,13 +34,13 @@ public class StructTableModel implements TableModel, IOTableModel {
      */
     public StructTableModel(JGraphNode node,ShaderStruct struct) {
         this.struct = struct;
-        this.node = node;
     }
 
     /**
      * Returns the number of fields that are defined in the struct.
      * @return the number of fields.
      */
+    @Override
     public int getRowCount() {
         if (struct == null) {
             return 0;
@@ -54,6 +53,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * Returns the column count of 3 ( name, semantic and type of the field.
      * @return the number of columns, always 3.
      */
+    @Override
     public int getColumnCount() {
         return 3;
     }
@@ -63,6 +63,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * @param columnIndex the index of the column.
      * @return the header for the column.
      */
+    @Override
     public String getColumnName(int columnIndex) {
         switch (columnIndex) {
             case 0:
@@ -80,6 +81,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * @param columnIndex the index of the column.
      * @return the class which allows to set custom cell editors.
      */
+    @Override
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
@@ -98,6 +100,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * @param columnIndex the index of the column.
      * @return always true.
      */
+    @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
         return true;
     }
@@ -108,6 +111,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * @param columnIndex
      * @return
      */
+    @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         ShaderField field = struct.getField(rowIndex);
 
@@ -129,6 +133,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * @param columnIndex the column index that indicates what element to change of
      * the field object.
      */
+    @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         ShaderField field = struct.getField(rowIndex);
         switch (columnIndex) {
@@ -152,6 +157,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * Delete an element of the ShaderStruct object.
      * @param index the index to remove.
      */
+    @Override
     public void delete(int index) {
         struct.removeShaderField(index);
 
@@ -162,6 +168,7 @@ public class StructTableModel implements TableModel, IOTableModel {
     /**
      * Adds an element to the ShaderStruct object.
      */
+    @Override
     public void add() {
         int index = -1;
         // TODO : change the default type to a configurable default per type of fx project.
@@ -185,6 +192,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * Add a TableModelListener to this object.
      * @param l the listener to add.
      */
+    @Override
     public void addTableModelListener(TableModelListener l) {
         listeners.add(l);
     }
@@ -193,6 +201,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * Removes a TableModelListener from this object.
      * @param l the listener to remove.
      */
+    @Override
     public void removeTableModelListener(TableModelListener l) {
         listeners.add(l);
     }
