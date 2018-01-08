@@ -7,6 +7,7 @@ import dae.fxcreator.node.ShaderIO;
 import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.gui.GraphFont;
+import dae.fxcreator.node.gui.ImageLoader;
 import dae.fxcreator.node.gui.NodeStyle;
 import java.awt.Color;
 import java.awt.Component;
@@ -14,6 +15,8 @@ import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -25,7 +28,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author Koen
  */
-public class JConnectorPoint extends JPanel implements ChangeListener{
+public class JConnectorPoint extends JPanel implements ChangeListener {
 
     private final JLabel lblPortName = new JLabel();
     private final JLabel lblSemicolumn = new JLabel(":");
@@ -49,7 +52,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
         lblSemantic.setForeground(semantic.getColor());
 
         borderColor = settings.getGradient("node").getC2();
-        lblIcon.setBorder(BorderFactory.createMatteBorder(1,1,1,1,borderColor));
+        lblIcon.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, borderColor));
     }
 
     public void highlight() {
@@ -59,7 +62,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
         repaint();
     }
 
-    public void unhighlight(){
+    public void unhighlight() {
         setOpaque(false);
         lblIcon.unhighlight();
         repaint();
@@ -96,6 +99,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
 
     /**
      * Creates a new JConnector point.
+     *
      * @param parent the parent graphnode of this connector.
      * @param io the object with the input or output definition.
      * @param position the position of the connector 5coo
@@ -108,38 +112,40 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
 
         if (io.isInput()) {
             type = TYPE.DESTINATION;
-            connector = new Connector((ShaderInput)io);
+            connector = new Connector((ShaderInput) io);
         } else if (io.isOutput()) {
             type = TYPE.SOURCE;
         }
         if (null == position) {
-            setLayout(new FlowLayout(FlowLayout.CENTER,1,1));
+            setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
             add(lblIcon);
             add(lblPortName);
             add(lblSemicolumn);
             add(lblSemantic);
-        } else switch (position) {
-            case LEFT:
-                setLayout(new FlowLayout(FlowLayout.LEFT,1,1));
-                add(lblIcon);
-                add(lblPortName);
-                add(lblSemicolumn);
-                add(lblSemantic);
-                break;
-            case RIGHT:
-                setLayout(new FlowLayout(FlowLayout.RIGHT,1,1));
-                add(lblPortName);
-                add(lblSemicolumn);
-                add(lblSemantic);
-                add(lblIcon);
-                break;
-            default:
-                setLayout(new FlowLayout(FlowLayout.CENTER,1,1));
-                add(lblIcon);
-                add(lblPortName);
-                add(lblSemicolumn);
-                add(lblSemantic);
-                break;
+        } else {
+            switch (position) {
+                case LEFT:
+                    setLayout(new FlowLayout(FlowLayout.LEFT, 1, 1));
+                    add(lblIcon);
+                    add(lblPortName);
+                    add(lblSemicolumn);
+                    add(lblSemantic);
+                    break;
+                case RIGHT:
+                    setLayout(new FlowLayout(FlowLayout.RIGHT, 1, 1));
+                    add(lblPortName);
+                    add(lblSemicolumn);
+                    add(lblSemantic);
+                    add(lblIcon);
+                    break;
+                default:
+                    setLayout(new FlowLayout(FlowLayout.CENTER, 1, 1));
+                    add(lblIcon);
+                    add(lblPortName);
+                    add(lblSemicolumn);
+                    add(lblSemantic);
+                    break;
+            }
         }
         //lblPortName.setBorder(BorderFactory.createMatteBorder(1,1,1,1,Color.red));
         lblIcon.setConnectorPoint(this);
@@ -149,26 +155,30 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
     }
 
     public final void syncWithModel() {
-        lblPortName.setText(userObject.getName()+" ");
+        lblPortName.setText(userObject.getName() + " ");
         if (userObject.getSemantic().isValid()) {
-            lblSemantic.setText(userObject.getSemantic().getValue()+" ");
+            lblSemantic.setText(userObject.getSemantic().getValue() + " ");
             lblSemantic.setVisible(true);
             lblSemicolumn.setVisible(true);
         } else {
             lblSemantic.setVisible(false);
             lblSemicolumn.setVisible(false);
         }
-        
-        FXProjectType current = parent.getUserObject().getProjectType();
-        Image image = current.getIconForType(userObject.getType());
-        if (image == null) {
-            if (isOutput()) {
-                lblIcon.setText(">");
+
+        if (userObject.getType() != null) {
+            String icon = userObject.getType().getIcon();
+            Image image = ImageLoader.getInstance().getImage(icon);
+            if (image == null) {
+                if (isOutput()) {
+                    lblIcon.setText(">");
+                } else {
+                    lblIcon.setText("<");
+                }
             } else {
-                lblIcon.setText("<");
+                lblIcon.setIcon(new ImageIcon(image));
             }
-        } else {
-            lblIcon.setIcon(new ImageIcon(current.getIconForType(userObject.getType())));
+        }else{
+            Logger.getLogger("graphtool").log(Level.WARNING, "The type for the userobject " + userObject.getName() + " is null.");
         }
 
 //         System.out.println("portname : " +lblPortName.getPreferredSize() + "," + lblPortName.getSize());
@@ -184,6 +194,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
 
     /**
      * Returns the JGraphNode object that is the parent of this JConnectorPoint.
+     *
      * @return the parent object of this IO point.
      */
     public JGraphNode getGraphNode() {
@@ -226,9 +237,10 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
 
     /**
      * Draw the connectors
+     *
      * @param g2d the graphic context.
      */
-    public void drawConnector(GraphEditor editor,Graphics2D g2d) {
+    public void drawConnector(GraphEditor editor, Graphics2D g2d) {
         if (this.userObject.isInput()) {
             ShaderInput si = (ShaderInput) userObject;
             if (si.getConnected()) {
@@ -241,18 +253,20 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
         }
     }
 
-    public void drawConnectorAttachment(GraphEditor editor, Graphics2D g2d){
+    public void drawConnectorAttachment(GraphEditor editor, Graphics2D g2d) {
         g2d.setColor(Color.white);
         Point location = getConnectorLocation();
-        if (position == POSITION.LEFT)
-            g2d.fillArc(location.x - 4, location.y - 5, 10,10, +90, 180);
-        else if (position == POSITION.RIGHT)
-            g2d.fillArc(location.x - 6, location.y - 5, 10,10, 90,-180);
+        if (position == POSITION.LEFT) {
+            g2d.fillArc(location.x - 4, location.y - 5, 10, 10, +90, 180);
+        } else if (position == POSITION.RIGHT) {
+            g2d.fillArc(location.x - 6, location.y - 5, 10, 10, 90, -180);
+        }
         //g2d.fillOval(location.x - 5, location.y - 5, 10, 10);
     }
 
     /**
      * Checks if this is an input connector.
+     *
      * @return true if this is an input, false otherwise.
      */
     public boolean isInput() {
@@ -261,6 +275,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
 
     /**
      * Checks if this is an output connector.
+     *
      * @return true if this is an output, false otherwise.
      */
     public boolean isOutput() {
@@ -269,6 +284,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
 
     /**
      * Returns the user object of this connector point.
+     *
      * @return the userobject.
      */
     public ShaderIO getUserObject() {
@@ -277,10 +293,12 @@ public class JConnectorPoint extends JPanel implements ChangeListener{
 
     /**
      * Called when the ShaderIO object has changed.
+     *
      * @param e the state change event.
      */
-     public void stateChanged(ChangeEvent e) {
-        if ( e.getSource() == this.userObject)
+    public void stateChanged(ChangeEvent e) {
+        if (e.getSource() == this.userObject) {
             this.syncWithModel();
+        }
     }
 }
