@@ -104,6 +104,7 @@ public class NodeTemplateLoader extends DefaultHandler {
             String type = attributes.getValue("name");
             String sorder = attributes.getValue("order");
             String sValueType = attributes.getValue("valueType");
+            String icon = attributes.getValue("icon");
             // default is true
             boolean bValueType = sValueType!=null?Boolean.parseBoolean(sValueType):true;
             int order = 0;
@@ -111,8 +112,10 @@ public class NodeTemplateLoader extends DefaultHandler {
                 order = Integer.parseInt(sorder);
             } catch (NumberFormatException ex) {
             }
-            ShaderType st = new ShaderType(type, order, bValueType);
+            ShaderType st = new ShaderType(type, order, bValueType,icon);
             library.addType(st);
+            
+            
         } else if ("typeset".equals(qName)) {
             String name = attributes.getValue("name");
             String typesAttr = attributes.getValue("types");
