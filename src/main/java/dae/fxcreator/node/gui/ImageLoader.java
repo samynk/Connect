@@ -7,15 +7,18 @@ import java.awt.*;
  * @author samynk
  */
 public class ImageLoader {
-    private MediaTracker tracker = new MediaTracker(new Label());
-    private static ImageLoader instance = new ImageLoader();
+    private final MediaTracker tracker = new MediaTracker(new Label());
+    private static final ImageLoader INSTANCE = new ImageLoader();
     private int count=0;
     
     public static ImageLoader getInstance(){
-        return instance;
+        return INSTANCE;
     }
     
     public Image getImage(String resource){
+        if (resource == null ){
+            return null;
+        }
         try{
             //System.out.println("Loading : " + resource);
             Toolkit toolkit = Toolkit.getDefaultToolkit();
