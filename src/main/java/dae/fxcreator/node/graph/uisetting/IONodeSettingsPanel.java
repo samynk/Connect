@@ -18,36 +18,28 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+
 /**
  *
  * @author Koen
  */
 public class IONodeSettingsPanel extends JScrollPane {
 
-    private final JPanel ioPanel;
-    private final IOEditorPanel ioEditorPanel;
+    private final JPanel ioPanel = new JPanel();
+    private final IOEditorPanel ioEditorPanel = new IOEditorPanel();
 
     public IONodeSettingsPanel() {
+        init();
+    }
 
+    private final void init() {
         Dimension d = new Dimension(250, 600);
         setMinimumSize(d);
         setPreferredSize(d);
         setBorder(new TitledBorder("Settings"));
 
-        System.out.println(this.getLayout());
-        //setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        
-        ioPanel = new JPanel();
         ioPanel.setLayout(new GridBagLayout());
-        //ioPanel.setTitle("Input / Output");
-        //ioPanel.setCollapsed(true);
         setViewportView(ioPanel);
-
-        ioEditorPanel = new IOEditorPanel();
-        //ioPanel.add(ioEditorPanel, BorderLayout.CENTER);
-       // this.add(ioPanel);
-        
-        
         FXSingleton.getSingleton().registerListener(this);
     }
 
@@ -76,29 +68,29 @@ public class IONodeSettingsPanel extends JScrollPane {
         gbc.weightx = 1.0;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.weighty = 0;
-        
+
         for (SettingsGroup group : settingsGroups) {
             SettingsGroupPanel panel = new SettingsGroupPanel();
             panel.setBorder(new TitledBorder(group.getName()));
             panel.setSettingsGroup(group);
             //panel.setMinimumSize(new Dimension(240,1));
-            System.out.println(group.getName() + ":"+panel.getPreferredSize());
-            ioPanel.add(panel,gbc);
+            System.out.println(group.getName() + ":" + panel.getPreferredSize());
+            ioPanel.add(panel, gbc);
             gbc.gridy++;
+        }
+
+        if (node.isInputOutputEditable()) {
+            // todo ioEditorPanel should accept an IONode object.
+            ioEditorPanel.setIONode(node);
+            ioEditorPanel.invalidate();
+            
+            ioPanel.add(ioEditorPanel,gbc);
+
         }
         gbc.weighty = 1.0;
         ioPanel.add(new JLabel(), gbc);
         ioPanel.invalidate();
         this.validate();
-        
-        //System.out.println("Dimension: " + d);
-        //this.setPreferredSize( d );
-        /*if (node.isInputOutputEditable() ) {
-            // todo ioEditorPanel should accept an IONode object.
-            // ioEditorPanel.setIONode(node);
-            this.add(ioPanel);
-
-        }*/
     }
 
     public void setGraphNode(JGraphNode node) {
@@ -107,14 +99,15 @@ public class IONodeSettingsPanel extends JScrollPane {
 
         }
         IONode n = (IONode) node.getUserObject();
-        
+
 //        Dimension d = this.getPreferredScrollableViewportSize();
 //        System.out.println("Dimension: " + d);
 //        this.setPreferredSize( d );
     }
-    
-    public @Subscribe void nodeEvent(NodeEvent event){
-        if ( event.getType() == NodeEvent.Type.SELECTED){
+
+    public @Subscribe
+    void nodeEvent(NodeEvent event) {
+        if (event.getType() == NodeEvent.Type.SELECTED) {
             System.out.println("selected: " + event.getNode().getName());
             setIONode(event.getNode());
         }
