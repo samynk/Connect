@@ -374,7 +374,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
      */
     public void setLibrary(NodeTemplateLibrary library) {
         this.library = library;
-        Iterable<TemplateGroup> groups = library.getTemplateGroups("stage");
+        Iterable<TemplateGroup> groups = library.getTemplateGroups("module");
         for (TemplateGroup group : groups) {
             //System.out.println("Creating toolbar for :" + group.getName());
             JToolBar toolbar = new JToolBar(group.getName());
