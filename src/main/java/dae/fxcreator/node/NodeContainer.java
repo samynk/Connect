@@ -365,6 +365,7 @@ public class NodeContainer extends ShaderNode implements NodeGroup, TypedNode {
         String id;
         do {
             id = prefix + i;
+            ++i;
         } while (this.nodeMap.containsKey(id));
         return id;
     }
