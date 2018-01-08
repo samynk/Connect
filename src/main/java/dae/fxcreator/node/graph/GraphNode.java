@@ -9,6 +9,7 @@ import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.graph.ConnectorPoint.POSITION;
 import dae.fxcreator.node.gui.ControlPoint;
 import dae.fxcreator.node.gui.GraphFont;
+import dae.fxcreator.node.gui.ImageLoader;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.*;
@@ -82,7 +83,8 @@ public class GraphNode {
 
         ArrayList<ShaderOutput> outputs = node.getOutputs();
         for (ShaderOutput output : outputs) {
-            ConnectorPoint cp = new ConnectorPoint(this, current.getIconForType(output.getType()));
+            Image image = ImageLoader.getInstance().getImage(output.getType().getIcon());
+            ConnectorPoint cp = new ConnectorPoint(this, image);
             cp.setExpectedType(output.getType());
             cp.setAllowedConnections(Integer.MAX_VALUE);
             cp.setType(ConnectorPoint.TYPE.SOURCE);
@@ -94,7 +96,8 @@ public class GraphNode {
 
         ArrayList<ShaderInput> inputs = node.getInputs();
         for (ShaderInput input : inputs) {
-            ConnectorPoint cp = new ConnectorPoint(this, current.getIconForType(input.getType()));
+            Image image = ImageLoader.getInstance().getImage(input.getType().getIcon());
+            ConnectorPoint cp = new ConnectorPoint(this, image);
             cp.setExpectedType(input.getType());
             cp.setAllowedConnections(1);
             cp.setType(ConnectorPoint.TYPE.DESTINATION);
