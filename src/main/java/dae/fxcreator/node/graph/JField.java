@@ -4,6 +4,7 @@ import dae.fxcreator.io.FXProjectType;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderField;
+import dae.fxcreator.node.gui.ImageLoader;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import javax.swing.ImageIcon;
@@ -64,8 +65,7 @@ public class JField extends JPanel {
             semanticLabel.setVisible(false);
         }
 
-        FXProjectType current = parent.getProjectType();
-        Image image = current.getIconForType(field.getType());
+        Image image = ImageLoader.getInstance().getImage(field.getType().getIcon());
         if (image != null) {
             typeLabel.setIcon(new ImageIcon(image));
             typeLabel.setText("");
