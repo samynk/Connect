@@ -11,10 +11,12 @@
 		<gradient  name="node" color1="#d3cce3" color2="#e9e4f0"/>
 		<gradient  name="refnode" color1="#67B26F" color2="#67B26F"/>
 		<gradient  name="comment" color1="#67B26F" color2="#67B26F"/>
+                <gradient name="emphasis" color1="#FF8008" color2="#FFC837"/>
 		<style  name="important" gradient="important" titleFont="importanttitle" portFont="portname" semanticFont="semantic"/>
 		<style  name="default" gradient="node" titleFont="title" portFont="portname" semanticFont="semantic"/>
 		<style  name="refnode" gradient="refnode" titleFont="title" portFont="portname" semanticFont="semantic"/>
 		<style  name="comment" gradient="comment" titleFont="title" portFont="portname" semanticFont="semantic"/>
+                <style  name="emphasis" gradient="emphasis" titleFont="title" portFont="portname" semanticFont="semantic"/>
 	</ui>
 	<semantics>
 		<semantic label="WORLD"/>
