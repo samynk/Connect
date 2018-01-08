@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  */
 public class IOEditorPanel extends JPanel implements IONodeModelListener {
 
-    private JGraphNode model;
+    private IONode model;
     private NodeTemplateLibrary library;
 
     /** Creates new form IOEditorPanel */
@@ -263,18 +263,18 @@ public class IOEditorPanel extends JPanel implements IONodeModelListener {
         }
     }//GEN-LAST:event_btnDeleteOutputActionPerformed
 
-    public final void setIONode(JGraphNode gnode) {
+    public final void setIONode(IONode gnode) {
         this.model = gnode;
 
         // tblInputs.getModel().removeTableModelListener(this);
         //tblOutputs.getModel().removeTableModelListener(this);
         if (gnode != null) {
-            if (gnode.getUserObject().isInputStructSet()) {
-                ShaderStruct inputStruct = gnode.getUserObject().getInputStruct();
+            if (gnode.isInputStructSet()) {
+                ShaderStruct inputStruct =  gnode.getInputStruct();
                 lblInputStruct.setVisible(true);
                 txtInputStruct.setVisible(true);
                 txtInputStruct.setText(inputStruct.getId());
-                StructTableModel tableModel = new StructTableModel(gnode,gnode.getUserObject().getInputStruct());
+                StructTableModel tableModel = new StructTableModel(gnode.getInputStruct());
                 tblInputs.setModel(tableModel);
             } else {
                 IONodeInputTableModel inputTableModel = new IONodeInputTableModel(gnode, STATE.INPUT);
@@ -283,12 +283,12 @@ public class IOEditorPanel extends JPanel implements IONodeModelListener {
                 txtInputStruct.setVisible(false);
             }
 
-            if (gnode.getUserObject().isOutputStructSet()) {
-                ShaderStruct outputStruct = gnode.getUserObject().getOutputStruct();
+            if (gnode.isOutputStructSet()) {
+                ShaderStruct outputStruct = gnode.getOutputStruct();
                 lblOutputStruct.setVisible(true);
                 txtOutputStruct.setVisible(true);
                 txtOutputStruct.setText(outputStruct.getId());
-                StructTableModel tableModel = new StructTableModel(gnode,gnode.getUserObject().getOutputStruct());
+                StructTableModel tableModel = new StructTableModel(gnode.getOutputStruct());
                 tblOutputs.setModel(tableModel);
             }else{
                 IONodeInputTableModel outputTableModel = new IONodeInputTableModel(gnode, STATE.OUTPUT);
