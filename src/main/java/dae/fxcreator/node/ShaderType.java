@@ -8,15 +8,19 @@ public class ShaderType {
     /**
      * The type name
      */
-    private String type;
+    private final String type;
+    /**
+     * The icon for the type.
+     */
+    private final String icon;
     /**
      * The order of the type
      */
-    private int order;
+    private final int order;
     /**
      * Indicates that the shader type is an actual value.
      */
-    private boolean valueType;
+    private final boolean valueType;
     
     /**
      * Creates a new ShaderType object
@@ -27,6 +31,7 @@ public class ShaderType {
         this.type = type;
         this.order = order;
         this.valueType = true;
+        this.icon = null;
     }
     
     /**
@@ -40,6 +45,22 @@ public class ShaderType {
         this.type = type;
         this.order = order;
         this.valueType = valueType;
+        this.icon = null;
+    }
+    
+     /**
+     * Creates a new ShaderType object
+     * @param type the type
+     * @param order the order for the type, for sorting
+     * @param valueType indicates that this shadertype describes an actual value that can 
+     * set on a variable or returned as a result of a function.
+     * @param icon the icon for this shader type.
+     */
+    public ShaderType(String type,int order, boolean valueType, String icon){
+        this.type = type;
+        this.order = order;
+        this.valueType = valueType;
+        this.icon = icon;
     }
 
     /**
@@ -48,6 +69,14 @@ public class ShaderType {
      */
     public String getType(){
         return type;
+    }
+    
+    /**
+     * Return the icon for this ShaderType object.
+     * @return the icon for the shadertype object.
+     */
+    public String getIcon(){
+        return icon;
     }
 
     /**
