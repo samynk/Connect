@@ -19,11 +19,19 @@ public class ShaderStageCollection {
 
     /**
      * Adds a ShaderStage object to this collection.
-     * @param shaderstage the shader stage to add.
+     * @param stage the shader stage to add.
      */
     public void addShaderStage(ShaderStage stage){
         stages.add(stage);
         stageMap.put(stage.getId(),stage);
+    }
+    
+    /**
+     * Returns the first shader stage.
+     * @return the first shader stage.
+     */
+    public NodeGroup getFirstStage() {
+        return stages.get(0);
     }
 
     /**
@@ -65,4 +73,6 @@ public class ShaderStageCollection {
     public Iterable<ShaderStage> getList() {
         return stages;
     }
+
+
 }
