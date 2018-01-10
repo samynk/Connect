@@ -3,6 +3,7 @@ package dae.fxcreator.ui;
 import dae.fxcreator.io.ExportFile;
 import dae.fxcreator.io.FXProject;
 import java.io.File;
+import java.nio.file.Path;
 import javax.swing.JFileChooser;
 
 /**
@@ -48,9 +49,11 @@ public class ExportDialog extends javax.swing.JDialog {
             txtShaderName.setText(export.getFilename());
             txtExtension.setText(export.getExtension());
         }else{
-            File dir = project.getFile().getParentFile();
+            
+            Path projectDir = project.getFile().getParent();
+            File dir = projectDir.toFile();
             this.chooseExportDirectory.setSelectedFile(dir);
-            txtExport.setText(dir.getPath());
+            txtExport.setText(projectDir.toString());
             txtShaderName.setText(project.getName());
             String extension = project.getExportExtension(exporterId);
             txtExtension.setText(extension);
