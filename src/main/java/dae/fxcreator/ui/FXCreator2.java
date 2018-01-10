@@ -1,14 +1,26 @@
 package dae.fxcreator.ui;
 
+import com.google.common.eventbus.Subscribe;
 import dae.fxcreator.io.FXProject;
+import dae.fxcreator.io.FXProjectTemplate;
+import dae.fxcreator.io.FXProjectTemplateGroup;
+import dae.fxcreator.io.FXProjectTemplates;
 import dae.fxcreator.io.FXProjectType;
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
+import dae.fxcreator.io.PathUtil;
+import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import dae.fxcreator.io.loaders.FXSettingLoader;
+import dae.fxcreator.ui.actions.NewProjectEvent;
+import dae.fxcreator.ui.actions.ProjectTemplateAction;
 import java.io.File;
+import java.nio.file.Path;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
+import java.util.ArrayList;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 
 /**
  * This is the main user interface for designing visual application.
@@ -32,12 +44,55 @@ public class FXCreator2 extends javax.swing.JFrame {
         FXSettings settings = fsl.load();
         FXSingleton.getSingleton().setFxSettings(settings);
 
+        initMenu();
+
+    }
+
+    private void initMenu() {
         FXProjectTypeLoader loader = new FXProjectTypeLoader("conf/fxcreator.json");
         loader.load();
-        FXProjectType daegame = loader.getProjectTypes().get(1);
-        project = new FXProject(new File(System.getProperty("user.home"), ".fxcreator/projects/test.fx"), daegame);
-        project.load();
-        groupNodeEditorPanel2.setLibrary(project.getNodeTemplateLibrary());
+        ArrayList<FXProjectType> projectTypes = loader.getProjectTypes();
+        for (FXProjectType projectType : projectTypes) {
+            JMenu projectTypeMenu = new JMenu(projectType.getName());
+            mnuNewProject.add(projectTypeMenu);
+            // load the templates.
+            String templatesFile = projectType.getTemplates();
+            System.out.println("templatesFile : " + templatesFile);
+            FXProjectTemplateLoader tLoader = new FXProjectTemplateLoader(templatesFile);
+            FXProjectTemplates ft = tLoader.load();
+
+            if (ft.getNrOfGroups() == 1) {
+                FXProjectTemplateGroup group = ft.getFirstGroup();
+                if (group != null) {
+                    for (FXProjectTemplate template : group.getTemplates()) {
+                        JMenuItem item = new JMenuItem(template.getUILabel());
+                        item.setAction(new ProjectTemplateAction(template));
+                        projectTypeMenu.add(item);
+                    }
+                }
+            } else if (ft.getNrOfGroups() > 1) {
+                for (FXProjectTemplateGroup group : ft.getGroups()) {
+                    JMenu groupMenu = new JMenu(group.getUILabel());
+                    projectTypeMenu.add(groupMenu);
+                    for (FXProjectTemplate template : group.getTemplates()) {
+                        JMenuItem item = new JMenuItem(template.getUILabel());
+                        item.setAction(new ProjectTemplateAction(template));
+                        groupMenu.add(item);
+                    }
+                }
+            }
+        }
+        FXSingleton.getSingleton().setSupportedProjectTypes(loader.getProjectTypes());
+        //groupNodeEditorPanel2.setLibrary(project.getNodeTemplateLibrary());
+        //groupNodeEditorPanel2.setProject(project);
+
+        FXSingleton.getSingleton().registerListener(this);
+    }
+
+    @Subscribe
+    public void createNewProject(NewProjectEvent npe) {
+        FXProjectTemplate template = npe.getProjectTemplate();
+        FXProject project = template.createNewProject();
         groupNodeEditorPanel2.setProject(project);
     }
 
@@ -57,12 +112,16 @@ public class FXCreator2 extends javax.swing.JFrame {
         groupNodeEditorPanel2 = new dae.fxcreator.node.graph.GroupNodeEditorPanel();
         treeShader = new javax.swing.JScrollPane();
         jTree1 = new javax.swing.JTree();
+        mnuFXCreator = new javax.swing.JMenuBar();
+        mnuFile = new javax.swing.JMenu();
+        mnuNewProject = new javax.swing.JMenu();
+        mnuEdit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         mainPanel.setDividerLocation(100);
 
-        settingsPanel.setDividerLocation(400);
+        settingsPanel.setDividerLocation(640);
         settingsPanel.setRightComponent(iONodeSettingsPanel1);
 
         outputTab.addTab("Graph", groupNodeEditorPanel2);
@@ -76,6 +135,18 @@ public class FXCreator2 extends javax.swing.JFrame {
         mainPanel.setLeftComponent(treeShader);
 
         getContentPane().add(mainPanel, java.awt.BorderLayout.CENTER);
+
+        mnuFile.setText("File");
+
+        mnuNewProject.setText("New Project");
+        mnuFile.add(mnuNewProject);
+
+        mnuFXCreator.add(mnuFile);
+
+        mnuEdit.setText("Edit");
+        mnuFXCreator.add(mnuEdit);
+
+        setJMenuBar(mnuFXCreator);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -106,8 +177,13 @@ public class FXCreator2 extends javax.swing.JFrame {
     private dae.fxcreator.node.graph.uisetting.IONodeSettingsPanel iONodeSettingsPanel1;
     private javax.swing.JTree jTree1;
     private javax.swing.JSplitPane mainPanel;
+    private javax.swing.JMenu mnuEdit;
+    private javax.swing.JMenuBar mnuFXCreator;
+    private javax.swing.JMenu mnuFile;
+    private javax.swing.JMenu mnuNewProject;
     private javax.swing.JTabbedPane outputTab;
     private javax.swing.JSplitPane settingsPanel;
     private javax.swing.JScrollPane treeShader;
     // End of variables declaration//GEN-END:variables
+
 }
