@@ -15,16 +15,16 @@ import java.nio.file.Paths;
  * @author samynk
  */
 public class PathUtil {
-    private static final Path userDirPath;
-    private static final Path userHomePath;
+    private static final Path USERDIRPATH;
+    private static final Path USERHOMEPATH;
     
     static{
-        userDirPath = Paths.get(System.getProperty("user.dir"));
-        userHomePath = Paths.get(System.getProperty("user.home"));
+        USERDIRPATH = Paths.get(System.getProperty("user.dir"));
+        USERHOMEPATH = Paths.get(System.getProperty("user.home"));
     }
     
     public static Path createUserDirPath(Path child){
-        return userDirPath.resolve(child);
+        return USERDIRPATH.resolve(child);
     }
     
     public static InputStream createUserDirStream(Path child) throws IOException{
@@ -32,7 +32,7 @@ public class PathUtil {
     }
     
     public static Path createUserDirPath(String child){
-        return userDirPath.resolve(child);
+        return USERDIRPATH.resolve(child);
     }
     
     public static InputStream createUserDirStream(String child) throws IOException{
@@ -40,10 +40,30 @@ public class PathUtil {
     }
     
     public static Path createUserHomePath(Path child){
-        return userHomePath.resolve(child);
+        return USERHOMEPATH.resolve(child);
     }
     
     public static Path createUserHomePath(String child){
-        return userHomePath.resolve(child);
+        return USERHOMEPATH.resolve(child);
+    }
+    
+    public static InputStream createBufferedInputStream(Path toRead) throws IOException{
+        return new BufferedInputStream(Files.newInputStream(toRead));
+    }
+    /**
+     * Checks if the path ends with the given extension.
+     * @param path the path to check.
+     * @param extension the extension to check.
+     * @return 
+     */
+    public static boolean checkExtension(Path path, String extension)
+    {
+        if ( !Files.isDirectory(path))
+        {
+            Path file = path.getFileName();
+            return file.toString().toLowerCase().endsWith("." + extension);
+        }else{
+            return false;
+        }
     }
 }
