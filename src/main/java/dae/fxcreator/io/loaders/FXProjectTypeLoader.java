@@ -39,21 +39,17 @@ public class FXProjectTypeLoader {
                 JsonNode child;
                 while (children.hasNext()) {
                     child = children.next();
-                    System.out.println(child.findValue("name"));
-                    System.out.println(child.findValue("version"));
-                    System.out.println(child.findValue("minorversion"));
-                    System.out.println(child.findValue("nodes"));
-                    System.out.println(child.findValue("codegenerators"));
 
                     String name = child.findValue("name").asText();
                     int version = child.findValue("version").asInt();
                     int minorversion = child.findValue("minorversion").asInt();
                     String nodesFile = child.findValue("nodes").asText();
+                    String templatesFile = child.findValue("templates").asText();
 
-                    FXProjectType type = new FXProjectType(name, version, minorversion, nodesFile);
+                    FXProjectType type = new FXProjectType(name, version, minorversion, nodesFile, templatesFile);
                     JsonNode generators = child.findValue("codegenerators");
                     Iterator<JsonNode> itGenerator = generators.elements();
-                    while(itGenerator.hasNext()){
+                    while (itGenerator.hasNext()) {
                         JsonNode generator = itGenerator.next();
                         System.out.println(generator.asText());
                     }
