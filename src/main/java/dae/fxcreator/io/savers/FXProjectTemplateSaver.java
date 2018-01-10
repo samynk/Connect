@@ -53,9 +53,9 @@ public class FXProjectTemplateSaver extends XMLSaver {
                     this.writeTabs(bw,3);
                     bw.write("<file><![CDATA[");
                     if ( template.hasRelativePath())
-                        bw.write(template.getRelativePath());
+                        bw.write(template.getRelativePath().toString());
                     else
-                        bw.write(template.getSourceFile().getPath());
+                        bw.write(template.getSourceFile().toString());
                     bw.write("]]></file>\n");
                     this.writeTabs(bw,3);
                     bw.write("<description><![CDATA[");
