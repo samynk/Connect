@@ -11,12 +11,15 @@ import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.ShaderStruct;
+import java.awt.Color;
 import java.awt.Point;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -40,18 +43,30 @@ public class FXProjectSaver extends XMLSaver {
     public void save(boolean saveFileInformation) {
         FileOutputStream fos = null;
         try {
-            if ( !project.getFile().exists()){
-                File parentFile = project.getFile().getParentFile();
-                if ( parentFile != null)
-                    parentFile.mkdirs();
+            Path projectPath = project.getFile();
+            if ( !Files.exists(projectPath)){
+                
+                Path parentPath = projectPath.getParent();
+                if ( Files.isDirectory(parentPath) && !Files.exists(parentPath))
+                {
+                    Files.createDirectories(parentPath);
+                }
             }
-            fos = new FileOutputStream(project.getFile());
-            OutputStreamWriter writer = new OutputStreamWriter(fos);
-            BufferedWriter bw = new BufferedWriter(writer);
+            BufferedWriter bw = Files.newBufferedWriter(project.getFile());
+            
             bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
             bw.write("<project");
             writeAttribute(bw, "name", project.getName());
             bw.write(">\n");
+            if ( project.getType() != null ){
+                FXProjectType type = project.getProjectType();
+                bw.write("\t<projecttype ");
+                writeAttribute(bw, "name", type.getName());
+                writeAttribute(bw, "version", type.getVersion());
+                writeAttribute(bw, "minorVersion", type.getMinorVersion());
+                bw.write("/>\n");
+            }
+            
             if ( saveFileInformation )
                 writeExport(bw);
             writeGlobals(bw);
