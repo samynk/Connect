@@ -1,6 +1,6 @@
 package dae.fxcreator.io;
 
-import java.io.File;
+import java.nio.file.Path;
 import javax.swing.tree.TreeNode;
 
 /**
@@ -19,7 +19,7 @@ public class CodeProject extends FXProject{
      * @param location the location of the project.
      * @param type the project type.
      */
-    public CodeProject(File location, FXProjectType type){
+    public CodeProject(Path location, FXProjectType type){
        super(location,type);
     }
     
