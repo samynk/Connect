@@ -2,6 +2,7 @@ package dae.fxcreator.io;
 
 import com.google.common.eventbus.EventBus;
 import dae.fxcreator.ui.usersettings.UserSettings;
+import dae.fxcreator.util.ListHashMap;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +18,7 @@ public class FXSingleton {
     private FXSettings fxSettings;
     private UserSettings userSettings;
     private final ArrayList<FXSettingListener> listeners = new ArrayList<>();
-    private FXProjectType currentProjectType;
+    private final ListHashMap<FXProjectType> supportedProjectTypes = new ListHashMap<>();
     
     private final EventBus eventBus = new EventBus();
 
@@ -110,5 +111,24 @@ public class FXSingleton {
      */
     public void postEvent(Object event){
         eventBus.post(event);
+    }
+
+    /**
+     * Sets the supported project types in this application.
+     * @param projectTypes the list of project types that are supported.
+     */
+    public void setSupportedProjectTypes(ArrayList<FXProjectType> projectTypes) {
+        supportedProjectTypes.addAll(projectTypes);
+    }
+    
+    /**
+     * Tries to find a project type with the given name, version and minorversion.
+     * @param name the name of the project type.
+     * @param version the version of the project type.
+     * @param minorVersion the minor version of the project type.
+     * @return 
+     */
+    public FXProjectType findProjectType(String name, int version, int minorVersion){
+        return supportedProjectTypes.find(name+"."+version+"."+minorVersion);
     }
 }
