@@ -3,6 +3,7 @@ package dae.fxcreator.ui;
 import dae.fxcreator.io.FXProjectTemplate;
 import dae.fxcreator.io.FXProjectTemplateGroup;
 import dae.fxcreator.io.FXProjectTemplates;
+import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,7 +19,10 @@ public class FXProjectTemplatesDialog extends javax.swing.JDialog {
     private FXProjectTemplate result;
     private FXProjectTemplates templateLibrary;
 
-    /** Creates new form FXProjectTemplatesDialog */
+    /** Creates new form FXProjectTemplatesDialog
+     * @param parent the parent frame for the dialog.
+     * @param modal true if the frame is model, false otherwise.
+     */
     public FXProjectTemplatesDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         setTitle("Save as template");
@@ -50,7 +54,7 @@ public class FXProjectTemplatesDialog extends javax.swing.JDialog {
         template.setName(name);
         template.setUILabel(txtUILabel.getText());
         template.setDescription(txtDescription.getText());
-        template.setRelativePath("./"+name+".daefx");
+        template.setRelativePath(Paths.get("./"+name+".daefx"));
         return template;
     }
 
