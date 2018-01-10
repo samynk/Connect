@@ -3,8 +3,11 @@ package dae.fxcreator.io.loaders;
 import dae.fxcreator.io.FXProjectTemplate;
 import dae.fxcreator.io.FXProjectTemplateGroup;
 import dae.fxcreator.io.FXProjectTemplates;
+import dae.fxcreator.io.PathUtil;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
@@ -16,6 +19,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Loads the project templates.
+ *
  * @author Koen
  */
 public class FXProjectTemplateLoader extends DefaultHandler {
@@ -23,7 +27,7 @@ public class FXProjectTemplateLoader extends DefaultHandler {
     /**
      * The resulting template object
      */
-    private FXProjectTemplates template = new FXProjectTemplates();
+    private final FXProjectTemplates template = new FXProjectTemplates();
     /**
      * The current FXProjectTemplateGroup
      */
@@ -35,7 +39,7 @@ public class FXProjectTemplateLoader extends DefaultHandler {
     /**
      * The location of the template file.
      */
-    private File file;
+    private final String templateFile;
 
     private enum Element {
 
@@ -45,26 +49,25 @@ public class FXProjectTemplateLoader extends DefaultHandler {
 
     /**
      * Creates a new FXProjectTemplateLoader object.
+     *
+     * @param templateFile the file to load.
      */
-    public FXProjectTemplateLoader() {
-        file = new File(System.getProperty("user.dir"), "fxtemplates/default.daefx");
+    public FXProjectTemplateLoader(String templateFile) {
+        this.templateFile = templateFile;
     }
 
     /**
      * Loads the current FXProjectTemplates
+     *
      * @return the available project templates.
      */
     public FXProjectTemplates load() {
         try {
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
-            parser.parse(file, this);
+            parser.parse(PathUtil.createUserDirStream(templateFile), this);
 
-        } catch (IOException ex) {
-            Logger.getLogger(FXProjectLoader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(FXProjectLoader.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
+        } catch (IOException | ParserConfigurationException | SAXException ex) {
             Logger.getLogger(FXProjectLoader.class.getName()).log(Level.SEVERE, null, ex);
         }
         return template;
@@ -82,12 +85,14 @@ public class FXProjectTemplateLoader extends DefaultHandler {
             String fileName = buffer.toString();
             if (fileName.startsWith("./")) {
                 // relative file.
-                String absoluteFile = System.getProperty("user.dir") + "/fxtemplates/" + currentGroup.getName() + fileName.substring(1);
-                File templateFile = new File(absoluteFile);
-                currentTemplate.setSourceFile(templateFile);
-                currentTemplate.setRelativePath(fileName);
+                Path templatePath = PathUtil.createUserDirPath(templateFile);
+                Path groupPath = templatePath.resolveSibling(currentGroup.getName());
+                Path absolutePath = groupPath.resolve(fileName).normalize();
+
+                currentTemplate.setSourceFile(absolutePath);
+                currentTemplate.setRelativePath(absolutePath.relativize(templatePath));
             } else {
-                currentTemplate.setSourceFile(new File(fileName));
+                currentTemplate.setSourceFile(Paths.get(fileName));
             }
         } else if ("description".equals(qName)) {
             currentTemplate.setDescription(buffer.toString());
@@ -117,8 +122,6 @@ public class FXProjectTemplateLoader extends DefaultHandler {
         } else if ("startproject".equals(qName)) {
             String templateName = attributes.getValue("template");
             template.setStartProject(templateName);
-        } else if ( "iorule".equals(qName)){
-            String rule= attributes.getValue("outputRule");
         }
     }
 }
