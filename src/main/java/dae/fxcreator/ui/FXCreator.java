@@ -9,9 +9,11 @@ import dae.fxcreator.io.savers.FXProjectSaver;
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.NodeGroup;
+import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.io.codegen.CodeTemplateLibrary;
 import dae.fxcreator.io.codegen.ExportTask;
 import dae.fxcreator.io.loaders.FXGroupLoader;
+import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXSettingLoader;
 import dae.fxcreator.io.savers.FXProjectTemplateSaver;
@@ -32,6 +34,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -140,10 +144,12 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
         setTitle("Umbra Fx");
         addWindowListener(new java.awt.event.WindowAdapter() {
 
+            @Override
             public void windowActivated(java.awt.event.WindowEvent evt) {
                 formWindowActivated(evt);
             }
 
+            @Override
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
             }
@@ -303,8 +309,10 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
         int result = fileChooser.showOpenDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File file = fileChooser.getSelectedFile();
-            settings.addRecentFile(file);
-            loadProject(file);
+            Path p = file.toPath();
+            settings.addRecentFile(p);
+
+            loadProject(p);
             loadRecentFiles();
         }
     }//GEN-LAST:event_mnuOpenActionPerformed
@@ -338,8 +346,9 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
                     // save the project as a template in the correct location.
                     // TODO remove hardcoded directory.
                     String templateLocation = System.getProperty("user.dir") + "/fxtemplates/" + group.getName() + "/" + template.getName() + ".daefx";
-                    template.setSourceFile(new File(templateLocation));
-                    project.setFile(template.getSourceFile());
+                    Path fileLoc = Paths.get(templateLocation);
+                    template.setSourceFile(fileLoc);
+                    project.setFile(fileLoc);
                     project.setLoadedFromTemplate(true);
                     FXProjectSaver projectSaver = new FXProjectSaver(this.project);
                     projectSaver.save(false);
@@ -357,13 +366,13 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
         int result = fileChooser.showSaveDialog(this);
         if (result == JFileChooser.APPROVE_OPTION) {
             File location = fileChooser.getSelectedFile();
-            String filename = location.getName().toLowerCase();
-            if (!filename.endsWith("daefx")) {
-                location = new File(location.getPath() + ".daefx");
+            Path p = Paths.get(location.getPath());
+            if (!PathUtil.checkExtension(p, "daefx")) {
+                p = p.resolveSibling(p.getFileName().toString() + ".daefx");
             }
-            project.setFile(location);
+            project.setFile(p);
             project.setLoadedFromTemplate(false);
-            settings.addRecentFile(location);
+            settings.addRecentFile(p);
             this.setTitle("Umbra FX - " + location.getPath());
             FXProjectSaver saver = new FXProjectSaver(project);
             saver.save(true);
@@ -398,7 +407,7 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
             userSettingsDialog = new UserSettingsDialog(this, FXSingleton.getSingleton().getCurrentProjectType().getNodeTemplateLibrary().getTypeLibrary(), true);
             userSettingsDialog.setTitle("User settings");
             userSettingsDialog.pack();
-            */
+             */
         }
         userSettingsDialog.setVisible(true);
         this.groupNodeEditorPanel1.updateStyles();
@@ -410,17 +419,17 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
     }
     boolean templatesLoaded = false;
 
-    public void loadProject(File file) {
-        FXProjectType type = new FXProjectType("Dae game", 1);
-        project = new FXProject(file, type);
-        project.load();
+    public void loadProject(Path file) {
+        FXProjectLoader fxProjectLoader = new FXProjectLoader(file);
+        project = fxProjectLoader.load();
         techniquePanel.setProject(project);
-        setTitle("Umbra FX - " + file.getPath());
+        setTitle("Umbra FX - " + file.toString());
     }
 
     public void loadRecentFiles() {
         mnuRecentFiles.removeAll();
-        for (File file : settings.getRecentFiles()) {
+        // todo replace with Path objects.
+        for (Path file : settings.getRecentFiles()) {
             OpenFileMenuItem item = new OpenFileMenuItem(file, this);
             mnuRecentFiles.add(item);
         }
@@ -450,11 +459,11 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
 
                 FXProjectType type = fxSettings.findLatestProjectType("dae game");
                 //FXSingleton.getSingleton().setCurrentProjectType(type);
-                project = new FXProject(startProject.getSourceFile(), type);
-                project.load();
+                FXProjectLoader projectLoader = new FXProjectLoader(startProject.getSourceFile());
+                project = projectLoader.load();
                 project.setLoadedFromTemplate(true);
                 techniquePanel.setProject(project);
-               
+
                 this.groupNodeEditorPanel1.setLibrary(type.getNodeTemplateLibrary());
                 groupNodeEditorPanel1.setProject(project);
                 this.techniquePanel.setLibrary(type.getNodeTemplateLibrary());
@@ -467,7 +476,7 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
     }//GEN-LAST:event_formWindowActivated
 
     private void loadTemplates() {
-        FXProjectTemplateLoader templateLoader = new FXProjectTemplateLoader();
+        FXProjectTemplateLoader templateLoader = new FXProjectTemplateLoader("fxtemplates/basic.daefx");
         projectTemplates = templateLoader.load();
 
         for (FXProjectTemplateGroup group : projectTemplates.getGroups()) {
@@ -486,11 +495,9 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
                         String ac = ae.getActionCommand();
                         FXProjectTemplate t = projectTemplates.getTemplate(ac);
                         if (t != null) {
-                            File file = t.getSourceFile();
-                            // to do : replace with correct fx project type.
-                            FXProjectType type = new FXProjectType("dae game", 1);
-                            project = new FXProject(file, type);
-                            project.load();
+                            Path file = t.getSourceFile();
+                            FXProjectLoader loader = new FXProjectLoader(file);
+                            project = loader.load();
                             project.setLoadedFromTemplate(true);
                             techniquePanel.setProject(project);
                             setTitle("Umbra Fx");
