@@ -19,6 +19,7 @@ import dae.fxcreator.node.graph.math.MathLoader;
 import java.awt.Point;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -41,7 +42,11 @@ public class FXProjectLoader extends DefaultHandler {
     /**
      * The FXProject object to read.
      */
-    FXProject project;
+    private FXProject project;
+    /**
+     * The path to read the project from.
+     */
+    private Path path;
     /**
      * The node template library with the templates.
      */
@@ -88,8 +93,9 @@ public class FXProjectLoader extends DefaultHandler {
     private XMLHandler currentExtraHandler = null;
 
     /**
-     * Creates a new FXProjectLoader that loads a file into the project. The NodeTemplateLibrary
-     * object is used to synchronize the setting options.
+     * Creates a new FXProjectLoader that loads a file into the project. The
+     * NodeTemplateLibrary object is used to synchronize the setting options.
+     *
      * @param project the project to load the file into.
      * @param library the library that provides the settings for the nodes.
      */
@@ -100,21 +106,42 @@ public class FXProjectLoader extends DefaultHandler {
         extraHandlers.put("mathformula", new MathLoader());
     }
 
-    public void load() {
+    /**
+     * Loads the project from the given file. The type of the project and the
+     *
+     * @param path the path to load the file from.
+     */
+    public FXProjectLoader(Path path) {
+        this.path = path;
+        project = new FXProject(path);
+
+        positionMatcher = java.util.regex.Pattern.compile("\\[(-?\\d*),(-?\\d*)\\]");
+        extraHandlers.put("mathformula", new MathLoader());
+    }
+
+    /**
+     * Loads the project from the given file.
+     *
+     * @return returns the loaded project, or null if the project could not be
+     * loaded.
+     */
+    public FXProject load() {
         if (project != null) {
             try {
                 SAXParserFactory factory = SAXParserFactory.newInstance();
                 SAXParser parser = factory.newSAXParser();
-                parser.parse(project.getFile(), this);
-                // create the node connections.
+                parser.parse(PathUtil.createBufferedInputStream(project.getFile()), this);
+                return project;
             } catch (IOException | ParserConfigurationException | SAXException ex) {
                 Logger.getLogger(FXProjectLoader.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        return null;
     }
 
     /**
      * Adds a stage to the list of stages.
+     *
      * @param stage the stage to add.
      */
     void addStage(ShaderStage stage) {
@@ -123,6 +150,7 @@ public class FXProjectLoader extends DefaultHandler {
 
     /**
      * Finds a stage in the list of stages.
+     *
      * @param name the name of the stage.
      * @return the ShaderStage object if found, null ohterwise.
      */
@@ -142,7 +170,7 @@ public class FXProjectLoader extends DefaultHandler {
             String type = attributes.getValue("type");
             Point inputPosition = this.parsePosition(attributes.getValue("inputPosition"));
             Point outputPosition = this.parsePosition(attributes.getValue("outputPosition"));
-            ShaderStage stage = new ShaderStage( name, type);
+            ShaderStage stage = new ShaderStage(name, type);
             stage.getInputNode().setPosition(inputPosition.x, inputPosition.y);
             stage.getOutputNode().setPosition(outputPosition.x, outputPosition.y);
 
@@ -202,17 +230,19 @@ public class FXProjectLoader extends DefaultHandler {
 
             if (null == currentElement) {
                 project.addGlobalNode(node);
-            } else switch (currentElement) {
-                case CONTAINERNODE:
-                    NodeGroup ng = nodeGroupStack.peek();
-                    ng.addNode(node);
-                    break;
-                case STATE:
-                    project.addState(node);
-                    break;
-                default:
-                    project.addGlobalNode(node);
-                    break;
+            } else {
+                switch (currentElement) {
+                    case CONTAINERNODE:
+                        NodeGroup ng = nodeGroupStack.peek();
+                        ng.addNode(node);
+                        break;
+                    case STATE:
+                        project.addState(node);
+                        break;
+                    default:
+                        project.addGlobalNode(node);
+                        break;
+                }
             }
 
             currentNode = node;
@@ -310,6 +340,21 @@ public class FXProjectLoader extends DefaultHandler {
         } else if ("project".equals(qName)) {
             String name = attributes.getValue("name");
             project.setName(name);
+        } else if ("projecttype".equals(qName)) {
+            String name = attributes.getValue("name");
+            String version = attributes.getValue("version");
+            String minorVersion = attributes.getValue("minorversion");
+
+            int iVersion = Integer.parseInt(version);
+            int iMinorVersion = Integer.parseInt(minorVersion);
+
+            FXProjectType projectType = FXSingleton.getSingleton().findProjectType(name, iVersion, iMinorVersion);
+            if (projectType != null) {
+                project.setProjectType(projectType);
+                library = project.getNodeTemplateLibrary();
+            }else{
+                // todo warn the user that the project type could not be found.
+            }
         } else if ("value".equals(qName)) {
             charBuffer.delete(0, charBuffer.length());
         } else if ("struct".equals(qName)) {
@@ -447,6 +492,7 @@ public class FXProjectLoader extends DefaultHandler {
 
     /**
      * Adds general settings to a node.
+     *
      * @param node the node to add the general settings to.
      */
     private void addGeneralSettings(ShaderNode node) {
