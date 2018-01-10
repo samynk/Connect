@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 /**
  * This class keeps track of the project templates.
+ *
  * @author Koen
  */
 public class FXProjectTemplates {
@@ -21,6 +22,7 @@ public class FXProjectTemplates {
 
     /**
      * Adds a new group to the project templates.
+     *
      * @param group the group to add to the list of FXProjectTemplateGroups.
      */
     public void addTemplateGroup(FXProjectTemplateGroup currentGroup) {
@@ -30,6 +32,7 @@ public class FXProjectTemplates {
 
     /**
      * Returns the groups in this FXProjectTemplates object.
+     *
      * @return an iterable with the groups.
      */
     public Iterable<FXProjectTemplateGroup> getGroups() {
@@ -38,6 +41,7 @@ public class FXProjectTemplates {
 
     /**
      * Returns the template or null if the template was not found.
+     *
      * @param group the name of the template group.
      * @param templateName the name of the template.
      * @return
@@ -53,6 +57,7 @@ public class FXProjectTemplates {
 
     /**
      * Sets the start project for the editor.
+     *
      * @param templateName the name of the start template.
      */
     public void setStartProject(String templateName) {
@@ -61,6 +66,7 @@ public class FXProjectTemplates {
 
     /**
      * Returns the start project for the editor.
+     *
      * @return the start project for the editor.
      */
     public FXProjectTemplate getStartProject() {
@@ -68,24 +74,26 @@ public class FXProjectTemplates {
         if (dotIndex > -1) {
             String group = startTemplate.substring(0, dotIndex);
             String name = startTemplate.substring(dotIndex + 1);
-            return getTemplate(group,name);
+            return getTemplate(group, name);
         } else {
             return null;
         }
     }
 
-    public FXProjectTemplate getTemplate(String fullName){
+    public FXProjectTemplate getTemplate(String fullName) {
         int dotIndex = fullName.indexOf('.');
-        if ( dotIndex > -1){
+        if (dotIndex > -1) {
             String group = fullName.substring(0, dotIndex);
             String name = fullName.substring(dotIndex + 1);
-            return getTemplate(group,name);
-        }else
+            return getTemplate(group, name);
+        } else {
             return null;
+        }
     }
 
     /**
      * Checks if a group allready exists.
+     *
      * @param groupName the name of the group
      * @return true if the group exists,false otherwise.
      */
@@ -95,10 +103,32 @@ public class FXProjectTemplates {
 
     /**
      * Returns an FXProjectTemplateGroup object.
+     *
      * @param groupName the name of the group.
      * @return the FXProjectTemplateGroup if it exists or null otherwise.
      */
     public FXProjectTemplateGroup getGroup(String groupName) {
         return templateGroupMap.get(groupName);
+    }
+
+    /**
+     * Returns the number of groups in this project template group.
+     *
+     * @return the number of groups.
+     */
+    public int getNrOfGroups() {
+        return templateGroups.size();
+    }
+
+    /**
+     * Returns the first group in the project templates if possible.
+     * @return the first group or null if no groups are available.
+     */
+    public FXProjectTemplateGroup getFirstGroup() {
+        if (templateGroups.size() > 0) {
+            return templateGroups.get(0);
+        } else {
+            return null;
+        }
     }
 }
