@@ -676,17 +676,20 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent e) {
         //System.out.println("Mouse dragged : " + e);
     }
 
+    @Override
     public void mouseMoved(MouseEvent e) {
         //System.out.println("Mouse moved : " + e);
     }
 
     public void setProject(FXProject project) {
         this.project = project;
-        
+        this.library = project.getNodeTemplateLibrary();
+        this.setGroupNode(project.getFirstStage());        
     }
 
     private enum CopyType {
