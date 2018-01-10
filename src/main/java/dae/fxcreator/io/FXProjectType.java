@@ -4,6 +4,7 @@ import dae.fxcreator.io.codegen.CodeTemplateLibrary;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.ShaderType;
 import dae.fxcreator.node.gui.ImageLoader;
+import dae.fxcreator.util.Key;
 import java.awt.Image;
 import java.util.HashMap;
 import java.util.Set;
@@ -17,7 +18,7 @@ import java.util.Set;
  * * the location(s) where the group nodes are stored.
  * @author Koen Samyn
  */
-public class FXProjectType {
+public class FXProjectType implements Key{
     private final String name;
     private final int version;
     private final int minorVersion;
@@ -26,6 +27,7 @@ public class FXProjectType {
     
     private String nodesFile;
     private String groupsFile;
+    private String templatesFile;
     
     private NodeTemplateLibrary nodeTemplateLibrary;
     
@@ -56,13 +58,26 @@ public class FXProjectType {
      * @param name the name of the project type (must be a unique identifier.
      * @param version the version of the project type.
      * @param minorVersion the minor version of this project type.
-     * @param nodesFile 
+     * @param nodesFile the file with the description of the available nodes.
+     * @param templatesFile the file with available templates for this type of project.
      */
-    public FXProjectType(String name, int version, int minorVersion, String nodesFile){
+    public FXProjectType(String name, int version, int minorVersion, String nodesFile,String templatesFile){
         this.name = name;
         this.version = version;
         this.minorVersion = minorVersion;
         this.nodesFile = nodesFile;
+        this.templatesFile = templatesFile;
+    }
+    
+    /**
+     * Returns the key  of this project type. The key is constructed
+     * as the name of the project type with the version and minorversion
+     * included.
+     * @return the key for this project type.
+     */
+    @Override
+    public String getKey(){
+        return getName() + "." + version + "." + minorVersion;
     }
     
     /**
@@ -144,6 +159,10 @@ public class FXProjectType {
     
     public void setGroupsFile(String groupsFile){
         this.groupsFile = groupsFile;
+    }
+    
+    public String getTemplates(){
+        return templatesFile;
     }
 
     public Iterable<CodeTemplateLibrary> getExporterLibraries() {
