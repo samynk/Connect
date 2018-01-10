@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="basic rig">
+    <projecttype name="rigging" version="1" minorversion="0"/>
+    <structs>
+    </structs>
+    <states>
+    </states>
+    <stage name="ArmController" type="vertex" inputPosition="[48,177]" outputPosition="[595,186]">
+        <input name="deltaTime" type="FLOAT"/>
+        <node id="rj1" name="rj" type="joint.revolutejoint" ioEditable="false" position="[20,20]" container="leaf">
+            <output name="axis" type="FLOAT3"/>
+            <output name="position" type="FLOAT3"/>
+            <input name="rotation" type="FLOAT"/>
+        </node>
+    </stage>
+    <technique name="basicshader">
+        <pass  name="one">
+            <stageid id="ArmController"/>
+        </pass>
+    </technique>
+</project>
