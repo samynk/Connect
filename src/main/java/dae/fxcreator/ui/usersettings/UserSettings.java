@@ -9,6 +9,9 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -35,11 +38,11 @@ public class UserSettings extends DefaultHandler {
     /**
      * The list of recent files.
      */
-    private ArrayList<File> recentFiles = new ArrayList<File>();
+    private final ArrayList<Path> recentFiles = new ArrayList<>();
     /**
      * The hashmap with settings for the given resolution.
      */
-    private HashMap<String, UISettings> uiMap = new HashMap<String, UISettings>();
+    private final HashMap<String, UISettings> uiMap = new HashMap<>();
     private LOADSTATE state;
     private UISettings currentUISettings;
     private FXCreator frame;
@@ -74,7 +77,7 @@ public class UserSettings extends DefaultHandler {
         //applySettings();
     }
 
-    public void addRecentFile(File file) {
+    public void addRecentFile(Path file) {
         if (recentFiles.contains(file)) {
             return;
         }
@@ -163,9 +166,9 @@ public class UserSettings extends DefaultHandler {
             bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
             bw.write("<settings>\n");
             bw.write("\t<recentfiles>\n");
-            for (File recentFile : recentFiles) {
+            for (Path recentFile : recentFiles) {
                 bw.write("\t\t<file><![CDATA[");
-                bw.write(recentFile.getPath());
+                bw.write(recentFile.toString());
                 bw.write("]]></file>\n");
             }
             bw.write("\t</recentfiles>\n");
@@ -220,8 +223,8 @@ public class UserSettings extends DefaultHandler {
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if ("file".equals(qName)) {
             String fileLocation = help.toString();
-            File file = new File(fileLocation);
-            if (file.exists()) {
+            Path file = Paths.get(fileLocation);
+            if (Files.exists(file)) {
                 recentFiles.add(file);
             }
         }
@@ -261,7 +264,7 @@ public class UserSettings extends DefaultHandler {
         bw.write("\" ");
     }
 
-    public Iterable<File> getRecentFiles() {
+    public Iterable<Path> getRecentFiles() {
         return recentFiles;
     }
 }
