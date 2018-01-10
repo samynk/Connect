@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<projecttemplates>
+	<startproject  template="rigging.basic"/>
+	<group name="basic" label="Basic rigs">
+		<template  name="basic" label="Simple Rig">
+			<file><![CDATA[./basic.daefx]]></file>
+			<description><![CDATA[A simple rig with some basic controllers and comments]]></description>
+		</template>
+	</group>
+</projecttemplates>
