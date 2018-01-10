@@ -12,6 +12,7 @@ import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderStruct;
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -24,6 +25,7 @@ import javax.swing.tree.TreePath;
 
 /**
  * This class describes an fx project.
+ *
  * @author Koen
  */
 public class FXProject implements TypedNode, TreeModel, TreeNode {
@@ -35,16 +37,15 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     /**
      * The file where the project is stored.
      */
-    private File file;
+    private Path file;
     /**
-     * The type of project. This identifier defines the nodes that can be 
-     * used in the project.
+     * The type of project. This identifier defines the nodes that can be used
+     * in the project.
      */
     private FXProjectType type;
     /**
-     * Indicates that the file was loaded from a template.
-     * If this is the case a new file location needs to be chosen
-     * when the file is saved.
+     * Indicates that the file was loaded from a template. If this is the case a
+     * new file location needs to be chosen when the file is saved.
      */
     private boolean loadedFromTemplate;
     /**
@@ -64,59 +65,96 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Creates a new FXProject object.
+     *
      * @param location the location of the project on the file system.
      * @param type defines the project type.
      */
     public FXProject(String location, FXProjectType type) {
-        file = new File(location);
+        file = Paths.get(location);
         techniques = new TechniqueCollection(this);
         shaderStructs = new ShaderStructCollection(this);
-        
-        loadNodeTemplateLibrary(type);
+        setProjectType(type);
+    }
+
+    /**
+     * Creates a new FXProject object without a project type.
+     *
+     * @param path the location of the project on the file system.
+     */
+    public FXProject(Path path) {
+        this(path, null);
     }
 
     /**
      * Creates a new FXProject object.
+     *
      * @param location the location of the project on the file system.
      * @param type defines the project type.
      */
-    public FXProject(File location, FXProjectType type) {
+    public FXProject(Path location, FXProjectType type) {
         file = location;
         techniques = new TechniqueCollection(this);
-        this.type = type;
         shaderStructs = new ShaderStructCollection(this);
         states = new StatesCollection(this);
-        
-        loadNodeTemplateLibrary(type);
+        setProjectType(type);
+    }
+
+    /**
+     * Sets the type of the project.
+     * @param type the current project type for this project.
+     */
+    public final void setProjectType(FXProjectType type) {
+        if (type != null) {
+            this.type = type;
+            loadNodeTemplateLibrary(type);
+        }
     }
     
+    /**
+     * Returns the type of the project.
+     * @return the type of the project.
+     */
+    public final FXProjectType getProjectType(){
+        return type;
+    }
+    
+    /**
+     * Implementation of the typed node interface.
+     * @return the type of this node.
+     */
+    @Override
+    public String getType(){
+        return name;
+    }
+
     private void loadNodeTemplateLibrary(FXProjectType type1) {
         String sNodesFile = type1.getNodesFile();
         Path nodesFile = PathUtil.createUserDirPath(sNodesFile);
         NodeTemplateLoader ntl = new NodeTemplateLoader(nodesFile);
         library = ntl.load();
     }
-    
+
     /**
      * Returns the node template library for this project.
+     *
      * @return the node template library.
      */
-    public NodeTemplateLibrary getNodeTemplateLibrary(){
+    public NodeTemplateLibrary getNodeTemplateLibrary() {
         return library;
     }
 
     /**
      * Returns the shader type library that is bound to this FXProject object.
+     *
      * @return the shader type library.
      */
     public ShaderTypeLibrary getShaderTypeLibrary() {
         return library.getTypeLibrary();
     }
-    
-    
 
     /**
      * Gets the first technique in this FXProject
+     *
      * @return the first technique.
      */
     public Technique getFirstTechnique() {
@@ -125,36 +163,25 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Sets the file for saving and loading the project.
+     *
      * @param file the location to save the file.
      */
-    public void setFile(File file) {
+    public void setFile(Path file) {
         this.file = file;
     }
 
     /**
      * Gets the file for saving and loading the project.
+     *
      * @return the location of the project.
      */
-    public File getFile() {
+    public Path getFile() {
         return file;
     }
 
     /**
-     * Saves the fx project to file.
-     */
-    public void save() {
-    }
-
-    /**
-     * Loads the fx project from file.
-     */
-    public void load() {
-        FXProjectLoader loader = new FXProjectLoader(this, library);
-        loader.load();
-    }
-
-    /**
      * Adds a node as a global node.
+     *
      * @param node the global node to add.
      */
     public void addGlobalNode(ShaderNode node) {
@@ -164,6 +191,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Adds a technique to the list of techniques defined in the project file.
+     *
      * @param technique the technique to add.
      */
     public void addTechnique(Technique technique) {
@@ -173,6 +201,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Adds a shader stage to this FXProject
+     *
      * @param stage the stage to add.
      */
     public void addShaderStage(ShaderStage stage) {
@@ -181,6 +210,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the shader stages of the project.
+     *
      * @return the shader stages of the project.
      */
     public Iterable<ShaderStage> getStages() {
@@ -189,7 +219,8 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Finds a stage with the specific id.
-     * @param id  the id of the stage.
+     *
+     * @param id the id of the stage.
      * @return the ShaderStage object.
      */
     public ShaderStage findShaderStage(String id) {
@@ -198,6 +229,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the list of global nodes.
+     *
      * @return the list of global nodes.
      */
     public Iterable<ShaderNode> getGlobalNodes() {
@@ -206,6 +238,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the list of techniques.
+     *
      * @return the list of techniques.
      */
     public Iterable<Technique> getTechniques() {
@@ -214,6 +247,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Finds a global node in the list of nodes.
+     *
      * @param id the id of the global node.
      * @return the found global node, or null.
      */
@@ -223,6 +257,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Adds an export file for a given exporter id to the exporter list.
+     *
      * @param exporterId the id for the exporter.
      * @param file the File to export to.
      */
@@ -232,8 +267,10 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Retusn the export destination for a given exporter id.
+     *
      * @param exporterId the exporter id.
-     * @return null if the export destination is not set, the file object otherwise.
+     * @return null if the export destination is not set, the file object
+     * otherwise.
      */
     public ExportFile getExportDestination(String exporterId) {
         return exportSettings.get(exporterId);
@@ -241,6 +278,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the set of exporter ids in this project.
+     *
      * @return the set of exporter ids in this project.
      */
     public Iterable<String> getExportDestinations() {
@@ -249,6 +287,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the name of the project.
+     *
      * @return the name of the project.
      */
     public String getName() {
@@ -257,6 +296,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Sets the name of the project.
+     *
      * @param name the new name of the project.
      */
     public void setName(String name) {
@@ -264,8 +304,8 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     }
 
     /**
-     * Returns the id of the pass, which is the same
-     * as the name.
+     * Returns the id of the pass, which is the same as the name.
+     *
      * @return the id, a synonym for the name.
      */
     @Override
@@ -274,17 +314,9 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     }
 
     /**
-     * Returns the type of project.
-     * @return
-     */
-    @Override
-    public String getType() {
-        return "project";
-    }
-
-    /**
      * The status of this project. If the project was started from a template,
      * this returns true, otherwise false.
+     *
      * @return the loadedFromTemplate
      */
     public boolean isLoadedFromTemplate() {
@@ -294,6 +326,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     /**
      * Sets the status of this project. Set to true if the project was loaded
      * from a template, false if the project was loaded from fil.
+     *
      * @param loadedFromTemplate the loadedFromTemplate to set
      */
     public void setLoadedFromTemplate(boolean loadedFromTemplate) {
@@ -302,15 +335,18 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the root of the tree.
+     *
      * @return
      */
+    @Override
     public Object getRoot() {
         return this;
     }
 
     /**
-     * Gets a child of the specified parent. Either the parent is this object, or
-     * it is an instance of of the TreeNode class.
+     * Gets a child of the specified parent. Either the parent is this object,
+     * or it is an instance of of the TreeNode class.
+     *
      * @param parent the parent object to get the child from.
      * @param index the index of the child.
      * @return the child object at the specific index.
@@ -318,12 +354,15 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     @Override
     public Object getChild(Object parent, int index) {
         if (parent == this) {
-            if (index == 0) {
-                return shaderStructs;
-            } else if (index == 1) {
-                return states;
-            } else if (index == 2) {
-                return techniques;
+            switch (index) {
+                case 0:
+                    return shaderStructs;
+                case 1:
+                    return states;
+                case 2:
+                    return techniques;
+                default:
+                    break;
             }
         } else if (parent instanceof TreeNode) {
             TreeNode node = (TreeNode) parent;
@@ -334,6 +373,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Gets the child count of the provided tree node object.
+     *
      * @param parent the parent to get the child node from.
      * @return the child count.
      */
@@ -350,6 +390,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Checks if this
+     *
      * @param node
      * @return
      */
@@ -367,6 +408,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Called when a cell was edited.
+     *
      * @param path the path that was changed.
      * @param newValue the new value for the display name.
      */
@@ -391,6 +433,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Gets the index of the child object.
+     *
      * @param parent the parent of the child object.
      * @param child the child object.
      * @return the index.
@@ -407,6 +450,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Adds a TreeModel listener to the list of listeners.
+     *
      * @param l the listener to add.
      */
     @Override
@@ -416,6 +460,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Removes the treemodel listener from the list of listeners.
+     *
      * @param l the listener to remove.
      */
     @Override
@@ -471,6 +516,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Adds a shader struct to the list of ShaderStruct objects.
+     *
      * @param shaderStruct the current ShaderStruct object
      */
     public void addShaderStruct(ShaderStruct shaderStruct) {
@@ -489,6 +535,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns a string representation of this object.
+     *
      * @return the string representation of the object.
      */
     @Override
@@ -498,6 +545,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Gets a specific struct from this struct.
+     *
      * @param structid the id of the struct.
      * @return the ShaderStruct object.
      */
@@ -507,6 +555,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the number of techniques in the technique collection.
+     *
      * @return the number of techniques.
      */
     public int getNrOfTechniques() {
@@ -515,6 +564,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Removes a technique from the technique collection.
+     *
      * @param technique the technique to remove.
      */
     public void removeTechnique(Technique technique) {
@@ -523,6 +573,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Notifies the listeners that a row was removed from the model.
+     *
      * @param toRemove the tree node that was removed.
      * @param path the path to the tree node.
      * @param index the index of the node in the parent path.
@@ -538,6 +589,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Notifies the listeners that a row was added to the model.
+     *
      * @param toAdd the node that was added to the tree.
      * @param path the parent path.
      * @param index the index in the parent path.
@@ -554,6 +606,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Notifies the listeners that the struct from a certain point was changed.
+     *
      * @param selectionPath
      */
     public void notifyNodeChanged(TreePath selectionPath) {
@@ -565,6 +618,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Creates a unique name for a technique.
+     *
      * @return a unique name for a new technique.
      */
     public String createUniqueTechniqueName() {
@@ -573,6 +627,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Adds a listener for stage event.
+     *
      * @param listener the new listener for the stage event.
      */
     public void addStageListener(StageListener listener) {
@@ -581,6 +636,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Removes a listener for stage events.
+     *
      * @param listener the listener to remove.
      */
     public void removeStageListener(StageListener listener) {
@@ -589,7 +645,8 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Creates a new ShaderStage name with the specified prefix.
-     * @param prefix 
+     *
+     * @param prefix
      */
     public String createUniqueShaderStageName(String prefix) {
         return stages.createUniqueShaderStageName(prefix);
@@ -597,6 +654,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Creates a unique new struct name.
+     *
      * @return
      */
     public String createUniqueStructName() {
@@ -604,7 +662,8 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     }
 
     /**
-     * Creates a unique  new state name.
+     * Creates a unique new state name.
+     *
      * @param prefix the prefix to use for this name.
      * @return a unique new state name.
      */
@@ -614,6 +673,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the collection of shader structs.
+     *
      * @return the collection of shader structs.
      */
     public ShaderStructCollection getStructCollection() {
@@ -622,6 +682,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Adds a state object to the list of states.
+     *
      * @param state the state object to add.
      */
     public void addState(ShaderNode state) {
@@ -631,6 +692,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the StateCollection object.
+     *
      * @return the state collection object.
      */
     public StatesCollection getStateColllection() {
@@ -639,6 +701,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Returns the states of the StateCollection object.
+     *
      * @return
      */
     public Iterable<ShaderNode> getStates() {
@@ -647,8 +710,10 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Finds a node with the rasterizer state settings.
+     *
      * @param id the id of the node.
-     * @return the ShaderNode with the rasterizer state settings, or null if not found.
+     * @return the ShaderNode with the rasterizer state settings, or null if not
+     * found.
      */
     public ShaderNode findState(String id) {
         return states.findState(id);
@@ -656,8 +721,9 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Adds a symbol listener to this FXProject.
-     * @param listener the object that will receive a notification if symbols were
-     * added to the project.
+     *
+     * @param listener the object that will receive a notification if symbols
+     * were added to the project.
      */
     public void addSymbolListener(SymbolListener listener) {
         Iterator<String> symbols = listener.getListenerSymbols();
@@ -680,6 +746,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Sends the struct symbols to the listener
+     *
      * @param listener the listener to send the struct symbols to.
      */
     private void sendStructSymbols(SymbolListener listener) {
@@ -690,6 +757,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Checks all the shader stages to see if an id is present.
+     *
      * @param id the id to check.
      * @return true if the id is present, false otherwise
      */
@@ -704,6 +772,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Removes the shader stage from this project.
+     *
      * @param currentPass the current pass.
      * @param stage the stage to remove
      * @param checkForUsage if true, this method will check if the shader stage
@@ -724,7 +793,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
                     }
                 }
             }
-            if ( !otherFound ){
+            if (!otherFound) {
                 currentPass.removeShaderStage(stage);
                 this.stages.removeShaderStage(stage);
             }
@@ -733,24 +802,25 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     }
 
     /**
-     * Gets the default extension to use for the give exporter.
+     * Gets the default extension to use for the given exporter.
+     *
      * @param exporterId the id of the exporter.
      * @return the default extension for the exporter.
      */
     public String getExportExtension(String exporterId) {
-       if ( type != null){
-           CodeTemplateLibrary codegen = type.getCodeTemplateLibrary(exporterId);
-           if( codegen != null){
-               return codegen.getDefaultExportExtension();
-           }else{
-               return "fx";
-           }
-       }else{
-           return "fx";
-       }
+        if (type != null) {
+            CodeTemplateLibrary codegen = type.getCodeTemplateLibrary(exporterId);
+            if (codegen != null) {
+                return codegen.getDefaultExportExtension();
+            } else {
+                return "fx";
+            }
+        } else {
+            return "fx";
+        }
     }
 
-    public FXProjectType getProjectType() {
-        return type;
+    public NodeGroup getFirstStage() {
+        return this.stages.getFirstStage();
     }
 }
