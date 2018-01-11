@@ -8,19 +8,17 @@ import dae.fxcreator.io.FXProjectTemplates;
 import dae.fxcreator.io.FXProjectType;
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import dae.fxcreator.io.loaders.FXSettingLoader;
 import dae.fxcreator.ui.actions.NewProjectEvent;
 import dae.fxcreator.ui.actions.ProjectTemplateAction;
-import java.io.File;
-import java.nio.file.Path;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import java.util.ArrayList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.tree.DefaultTreeModel;
 
 /**
  * This is the main user interface for designing visual application.
@@ -94,6 +92,7 @@ public class FXCreator2 extends javax.swing.JFrame {
         FXProjectTemplate template = npe.getProjectTemplate();
         FXProject project = template.createNewProject();
         groupNodeEditorPanel2.setProject(project);
+        this.jTree1.setModel( new DefaultTreeModel(project));
     }
 
     /**
@@ -155,8 +154,6 @@ public class FXCreator2 extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             try {
