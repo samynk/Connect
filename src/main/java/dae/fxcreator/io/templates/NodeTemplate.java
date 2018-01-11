@@ -27,15 +27,12 @@ public class NodeTemplate {
     /**
      * The icon location for this template.
      */
-    private String icon;
-    /**
-     * The container type for this node template.
-     */
-    private String containerType;
+    private final String icon;
     /**
      * The type library for the node template.
      */
     private ShaderTypeLibrary library;
+    
     
 
     /**
@@ -48,8 +45,10 @@ public class NodeTemplate {
      * false otherwise.
      * @param containerType the type of container, can be leaf (no children allowed) or group. Default
      * is leaf.
+     * @param inputAnchor defines where to place the inputs.
+     * @param outputAnchor defines where to place the outputs.
      */
-    public NodeTemplate(String type, String prefix, String icon, boolean ioEditable, String containerType) {
+    public NodeTemplate(String type, String prefix, String icon, boolean ioEditable, String containerType, String inputAnchor, String outputAnchor) {
         if (containerType == null || "leaf".equals(containerType)) {
             nodePrototype = new ShaderNode(prefix, prefix, type, null);
         } else if ("iterator".equals(containerType)) {
@@ -58,8 +57,9 @@ public class NodeTemplate {
             nodePrototype = new NodeContainer(prefix, type);
         }
         nodePrototype.setInputOutputEditable(ioEditable);
+        nodePrototype.setInputAnchor(inputAnchor);
+        nodePrototype.setOutputAnchor(outputAnchor);
         this.icon = icon;
-        this.containerType = containerType;
     }
 
     /**
@@ -193,6 +193,7 @@ public class NodeTemplate {
 
     /**
      * Returns a String representation of this NodeTemplate
+     * @return the string representation of this node template.
      */
     @Override
     public String toString() {
