@@ -688,7 +688,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
 
     public void setProject(FXProject project) {
         this.project = project;
-        this.library = project.getNodeTemplateLibrary();
+        setLibrary(project.getNodeTemplateLibrary());
         this.setGroupNode(project.getFirstStage());        
     }
 
