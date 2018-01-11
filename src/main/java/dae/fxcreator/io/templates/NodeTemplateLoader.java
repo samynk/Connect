@@ -7,10 +7,7 @@ import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.ShaderType;
-import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,9 +19,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * This class loads the node templates from an xml description file.
- * The node templates contain the input nodes, the output nodes and the
- * settings for a given node.
+ * This class loads the node templates from an xml description file. The node
+ * templates contain the input nodes, the output nodes and the settings for a
+ * given node.
+ *
  * @author Koen
  */
 public class NodeTemplateLoader extends DefaultHandler {
@@ -58,7 +56,6 @@ public class NodeTemplateLoader extends DefaultHandler {
     private GradientSetting currentGradientSetting;
     private DefaultSetting currentDefaultSetting;
     private MathSetting currentMathSetting;
-    
 
     enum STATE {
 
@@ -68,6 +65,7 @@ public class NodeTemplateLoader extends DefaultHandler {
 
     /**
      * Creates a new NodeTemplateLoader object.
+     *
      * @param path the path that leads to the node template library.
      */
     public NodeTemplateLoader(Path path) {
@@ -77,6 +75,7 @@ public class NodeTemplateLoader extends DefaultHandler {
 
     /**
      * Load all the available templates.
+     *
      * @return the node template.
      */
     public NodeTemplateLibrary load() {
@@ -106,16 +105,15 @@ public class NodeTemplateLoader extends DefaultHandler {
             String sValueType = attributes.getValue("valueType");
             String icon = attributes.getValue("icon");
             // default is true
-            boolean bValueType = sValueType!=null?Boolean.parseBoolean(sValueType):true;
+            boolean bValueType = sValueType != null ? Boolean.parseBoolean(sValueType) : true;
             int order = 0;
             try {
                 order = Integer.parseInt(sorder);
             } catch (NumberFormatException ex) {
             }
-            ShaderType st = new ShaderType(type, order, bValueType,icon);
+            ShaderType st = new ShaderType(type, order, bValueType, icon);
             library.addType(st);
-            
-            
+
         } else if ("typeset".equals(qName)) {
             String name = attributes.getValue("name");
             String typesAttr = attributes.getValue("types");
@@ -129,13 +127,22 @@ public class NodeTemplateLoader extends DefaultHandler {
             String icon = attributes.getValue("icon");
             String sioEditable = attributes.getValue("ioEditable");
             String containerType = attributes.getValue("container");
-            
+
+            String inputAnchor = attributes.getValue("inputanchor");
+            if (inputAnchor == null) {
+                inputAnchor = "NW";
+            }
+            String outputAnchor = attributes.getValue("outputanchor");
+            if (outputAnchor == null) {
+                outputAnchor = "NE";
+            }
+
             boolean ioEditable = false;
             if (sioEditable != null) {
                 ioEditable = Boolean.parseBoolean(sioEditable);
             }
-            
-            currentTemplate = new NodeTemplate(currentGroup.getName() + "." + type, prefix, icon, ioEditable, containerType);
+
+            currentTemplate = new NodeTemplate(currentGroup.getName() + "." + type, prefix, icon, ioEditable, containerType, inputAnchor, outputAnchor);
             currentGroup.addNodeTemplate(currentTemplate);
             currentState = STATE.NODE;
         } else if ("generalsettings".equals(qName)) {
@@ -150,7 +157,7 @@ public class NodeTemplateLoader extends DefaultHandler {
             String sLabelVisible = attributes.getValue("labelVisible");
             String sValueAsXML = attributes.getValue("valueAsXML");
             String value = attributes.getValue("default");
-            
+
             boolean valueAsAttribute = true;
             boolean visualize = false;
             boolean labelVisible = false;
@@ -165,7 +172,7 @@ public class NodeTemplateLoader extends DefaultHandler {
             if (sLabelVisible != null) {
                 labelVisible = Boolean.parseBoolean(sLabelVisible);
             }
-            if (sValueAsXML != null ){
+            if (sValueAsXML != null) {
                 valueAsXML = Boolean.parseBoolean(sValueAsXML);
             }
             Setting current = null;
@@ -179,8 +186,8 @@ public class NodeTemplateLoader extends DefaultHandler {
             } else if ("floatvector".equals(type)) {
                 currentFloatSetting = new FloatSetting(id, label);
                 current = currentFloatSetting;
-            }else if ("doublevector".equals(type)){
-                currentDoubleSetting = new DoubleSetting(id,label);
+            } else if ("doublevector".equals(type)) {
+                currentDoubleSetting = new DoubleSetting(id, label);
                 current = currentDoubleSetting;
             } else if ("semantic".equals(type)) {
                 currentSemanticSetting = new SemanticSetting(id, label);
@@ -203,11 +210,11 @@ public class NodeTemplateLoader extends DefaultHandler {
             } else if ("gradient".equals(type)) {
                 currentGradientSetting = new GradientSetting(id, label);
                 current = currentGradientSetting;
-            } else if ("math".equals(type)){
-                currentMathSetting = new MathSetting(id,label);
+            } else if ("math".equals(type)) {
+                currentMathSetting = new MathSetting(id, label);
                 current = currentMathSetting;
-            } else if ("default".equals(type)){
-                currentDefaultSetting = new DefaultSetting(id,label,value);
+            } else if ("default".equals(type)) {
+                currentDefaultSetting = new DefaultSetting(id, label, value);
                 current = currentDefaultSetting;
             }
             if (current != null) {
@@ -243,7 +250,11 @@ public class NodeTemplateLoader extends DefaultHandler {
             String type = attributes.getValue("type");
             String semantic = attributes.getValue("semantic");
             String typeRule = attributes.getValue("typerule");
+            String anchor = attributes.getValue("anchor");
             ShaderOutput so = new ShaderOutput(currentTemplate.getShaderNode(), name, semantic, library.getType(type), typeRule);
+            if (anchor != null) {
+                so.setAnchor(anchor);
+            }
             currentTemplate.addOutput(so);
         } else if ("input".equals(qName)) {
             String name = attributes.getValue("name");
@@ -251,10 +262,14 @@ public class NodeTemplateLoader extends DefaultHandler {
             String semantic = attributes.getValue("semantic");
             ShaderType st = library.getType(type);
             String acceptTypeSet = attributes.getValue("acceptTypeSet");
+            String anchor = attributes.getValue("anchor");
             ShaderInput si = new ShaderInput(currentTemplate.getShaderNode(), name, semantic, st, acceptTypeSet);
+            if (anchor != null) {
+                si.setAnchor(anchor);
+            }
             currentTemplate.addInput(si);
 
-        } else if ("inputTemplate".equals(qName)){
+        } else if ("inputTemplate".equals(qName)) {
             String name = attributes.getValue("name");
             String type = attributes.getValue("type");
             String semantic = attributes.getValue("semantic");
@@ -278,6 +293,7 @@ public class NodeTemplateLoader extends DefaultHandler {
 
     /**
      * Adds general settings to a node.
+     *
      * @param node the node to add the general settings to.
      */
     private void addGeneralSettings(NodeTemplate template) {
