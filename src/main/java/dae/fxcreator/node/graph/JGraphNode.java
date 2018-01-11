@@ -15,6 +15,7 @@ import dae.fxcreator.io.templates.SemanticSetting;
 import dae.fxcreator.io.templates.Setting;
 import dae.fxcreator.io.templates.TextSetting;
 import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.IOAnchor;
 import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.ShaderIO;
 import dae.fxcreator.node.ShaderInput;
@@ -54,23 +55,24 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIDefaults;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
 
-
 /**
  * An alternative to the GraphNode class that uses a JPanel
+ *
  * @author Koen
  */
 public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     private GridBagLayout gbl = new GridBagLayout();
     private final JLabel title = new JLabel("Empty");
-    private final BoxPanel leftPanel = new BoxPanel(BoxLayout.Y_AXIS);
-    private final BoxPanel rightPanel = new BoxPanel(BoxLayout.Y_AXIS);
+    private final VerticalPanel westPanel = new VerticalPanel(GridBagConstraints.WEST);
+    private final VerticalPanel eastPanel = new VerticalPanel(GridBagConstraints.EAST);
     private final BoxPanel visualizationPanel = new BoxPanel(BoxLayout.Y_AXIS);
     private GeneralPath border;
     private GeneralPath selBorder;
@@ -98,39 +100,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         title.setText("Node style example");
         title.setOpaque(false);
         title.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.weightx = 1.0;
-        gbc.gridwidth = 2;
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(2, 2, 2, 2);
-
-        add(title, gbc);
-
-        leftPanel.setOpaque(false);
-        leftPanel.setName("input");
-
-        rightPanel.setOpaque(false);
-        rightPanel.setName("output");
-
-        gbc.weightx = 0.5;
-        gbc.weighty = 1;
-        gbc.gridwidth = 1;
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        gbc.fill = GridBagConstraints.BOTH;
-
-        add(leftPanel, gbc);
-        gbc.gridx = 1;
-        add(rightPanel, gbc);
-
-        gbc.gridwidth = 2;
-        gbc.gridx = 0;
-        gbc.gridy = 2;
-        gbc.weighty = 0;
-
-        add(visualizationPanel, gbc);
+        createPanels();
 
         updateStyle();
         validate();
@@ -139,6 +109,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Creates a new JGraphNode object.
+     *
      * @param parent the parent graph editor component.
      * @param node the IONode user object.
      */
@@ -146,15 +117,13 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         this(parent, node, false);
 
         //adjustSize();
-
     }
 
     /**
-     * Adds the possibility to create this JGraphNode as a ref node. The ref node
-     * has the following properties :
-     * 1) A ref node only shows the outputs of the node.
-     * 2) A ref node does not show the settings of the node.
-     * 3) the visual style of a ref node is different.
+     * Adds the possibility to create this JGraphNode as a ref node. The ref
+     * node has the following properties : 1) A ref node only shows the outputs
+     * of the node. 2) A ref node does not show the settings of the node. 3) the
+     * visual style of a ref node is different.
      *
      * Connections will be laid out automatically.
      *
@@ -173,7 +142,6 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
         GraphFont gf = FXSingleton.getSingleton().getFXSettings().getFont("title");
 
-
         title.setText(node.getName());
         if (node.getIcon() != null) {
             String icon = node.getIcon();
@@ -187,12 +155,11 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         title.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
         //title.setBorder(BorderFactory.createMatteBorder(2,2,2,2, Color.yellow));
 
+        westPanel.setOpaque(false);
+        westPanel.setName("input");
 
-        leftPanel.setOpaque(false);
-        leftPanel.setName("input");
-
-        rightPanel.setOpaque(false);
-        rightPanel.setName("output");
+        eastPanel.setOpaque(false);
+        eastPanel.setName("output");
 
         visualizationPanel.setOpaque(false);
         visualizationPanel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -205,9 +172,9 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(2, 2, 2, 2);
 
-        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT,0,0));
+        JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
         topPanel.setOpaque(false);
-        if ( isRefNode){
+        if (isRefNode) {
             Image refImage = ImageLoader.getInstance().getImage("/dae/images/reference.png");
             JLabel refLabel = new JLabel(new ImageIcon(refImage));
             topPanel.add(refLabel);
@@ -220,13 +187,10 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
                 ShaderStruct input = node.getInputStruct();
                 JGraphStruct structPanel = new JGraphStruct(node);
                 structPanel.setModel(input);
-                leftPanel.add(structPanel);
+                westPanel.addNorthComponent(structPanel);
             } else {
                 for (ShaderInput input : node.getInputs()) {
-                    JConnectorPoint jcp = new JConnectorPoint(this, input, JConnectorPoint.POSITION.LEFT);
-                    leftPanel.add(jcp);
-                    children.add(jcp);
-                    connectorMap.put(input.getName(), jcp);
+                    addIOComponent(node, input);
                 }
             }
         }
@@ -235,16 +199,12 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
             ShaderStruct output = node.getOutputStruct();
             JGraphStruct structPanel = new JGraphStruct(node);
             structPanel.setModel(output);
-            rightPanel.add(structPanel);
+            eastPanel.addNorthComponent(structPanel);
         } else {
             for (ShaderOutput output : node.getOutputs()) {
-                JConnectorPoint jcp = new JConnectorPoint(this, output, JConnectorPoint.POSITION.RIGHT);
-                rightPanel.add(jcp);
-                children.add(jcp);
-                connectorMap.put(output.getName(), jcp);
+                addIOComponent(node, output);
             }
         }
-
 
         gbc.weightx = 0.5;
         gbc.weighty = 1;
@@ -252,10 +212,12 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.fill = GridBagConstraints.BOTH;
-        if ( !isRefNode)
-            add(leftPanel, gbc);
+        gbc.insets = new Insets(0, 0, 0, 0);
+        if (!isRefNode) {
+            add(westPanel, gbc);
+        }
         gbc.gridx = 1;
-        add(rightPanel, gbc);
+        add(eastPanel, gbc);
 
         if (!isRefNode) {
             createSettingVisuals(node);
@@ -278,25 +240,104 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         updateStyle();
     }
 
+    private JConnectorPoint addIOComponent(IONode node, ShaderIO io) {
+        JConnectorPoint jcp = null;
+        IOAnchor anchor;
+        if (io.hasAnchor()) {
+            anchor = io.getAnchor();
+        } else {
+            if (io.isInput()) {
+                anchor = node.getInputAnchor();
+            } else {
+                anchor = node.getOutputAnchor();
+            }
+        }
+        switch (anchor) {
+            case NORTHEAST:
+                jcp = new JConnectorPoint(this, io, JConnectorPoint.POSITION.RIGHT);
+                eastPanel.addNorthComponent(jcp);
+                break;
+            case NORTHWEST:
+                jcp = new JConnectorPoint(this, io, JConnectorPoint.POSITION.LEFT);
+                westPanel.addNorthComponent(jcp);
+                break;
+            case SOUTHEAST:
+                jcp = new JConnectorPoint(this, io, JConnectorPoint.POSITION.RIGHT);
+                eastPanel.addSouthComponent(jcp);
+                break;
+            case SOUTHWEST:
+                jcp = new JConnectorPoint(this, io, JConnectorPoint.POSITION.LEFT);
+                westPanel.addSouthComponent(jcp);
+                break;
+        }
+        if (jcp != null) {
+            children.add(jcp);
+            connectorMap.put(io.getName(), jcp);
+        }
+        return jcp;
+    }
+
+    /**
+     * Create the panels are necessary.
+     */
+    private void createPanels() {
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.weightx = 1.0;
+        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(2, 2, 2, 2);
+
+        add(title, gbc);
+
+        westPanel.setOpaque(false);
+        westPanel.setName("input");
+
+        eastPanel.setOpaque(false);
+        eastPanel.setName("output");
+
+        gbc.weightx = 0.5;
+        gbc.weighty = 1;
+        gbc.gridwidth = 1;
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        gbc.fill = GridBagConstraints.BOTH;
+
+        add(westPanel, gbc);
+        gbc.gridx = 1;
+        add(eastPanel, gbc);
+
+        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        gbc.weighty = 0;
+
+        add(visualizationPanel, gbc);
+    }
+
     /**
      * Creates a JGraphNode object that is a reference to another object.
      *
+     * @param parent the parent graph editor object.
+     * @param node the referenced node.
      */
     public JGraphNode(GraphEditor parent, ReferenceNode node) {
-        this(parent,node.getReferencedNode(),true);
-        this.referenceNode =  node;
+        this(parent, node.getReferencedNode(), true);
+        this.referenceNode = node;
         setLocation(node.getPosition());
     }
 
     /**
      * Checks if this is a reference node.
+     *
      * @return true if this is a reference node, false otherwise.
      */
-    public boolean isRefNode(){
+    public boolean isRefNode() {
         return refNode;
     }
 
-    public void updateStyle() {
+    public final void updateStyle() {
         FXSingleton singleton = FXSingleton.getSingleton();
         FXSettings settings = singleton.getFXSettings();
         if (currentStyle == null) {
@@ -352,6 +393,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Returns the model of this node.
+     *
      * @return the model of this node.
      */
     public IONode getUserObject() {
@@ -392,7 +434,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
                 CodeSettingVisualizer csv = new CodeSettingVisualizer();
                 csv.setSetting((CodeSetting) s);
                 visualizationPanel.add(csv);
-            } else if ( s instanceof MathSetting ){
+            } else if (s instanceof MathSetting) {
                 MathVisualizer mv = new MathVisualizer();
                 mv.setSetting(s);
                 visualizationPanel.add(mv);
@@ -432,11 +474,11 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         g.setPaint(backgroundGradient);
         g.fill(border);
 
-
     }
 
     /**
      * Sets the selection status of this JGraphNode.
+     *
      * @param selected true if this JGraphNode is selected , false otherwise.
      */
     public void setSelected(boolean selected) {
@@ -445,6 +487,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Checks if this JGraphNode is selected or not.
+     *
      * @return true if the JGraphNode is selected, false otherwise.
      */
     public boolean isSelected() {
@@ -453,6 +496,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Returns the id of this node.
+     *
      * @return the id of this node.
      */
     public String getNodeId() {
@@ -461,6 +505,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Moves this component with the specified amount.
+     *
      * @param dx the x amount to move this component.
      * @param dy the y amount to move this component.
      */
@@ -486,6 +531,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Draw the connectors.
+     *
      * @param g2d the Graphics2D object.
      */
     public void drawConnectors(GraphEditor editor, Graphics2D g2d) {
@@ -496,6 +542,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Draw the attachments for the connectors.
+     *
      * @param editor the parent panel object.
      * @param g2d the graphics context.
      */
@@ -507,13 +554,14 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Find the location for the connector of the ShaderOutput object.
+     *
      * @param output the ShaderOutput object.
      * @return the location of the JConnectorPoint object.
      */
     public Point getLocation(ShaderOutput output) {
         IONode ionode = output.getParent();
         //JGraphNode jnode = parent.findNode(ionode.getInternalID());
-        JGraphNode jnode =parent.findClosestNode(this, ionode.getInternalID());
+        JGraphNode jnode = parent.findClosestNode(this, ionode.getInternalID());
         if (jnode == null) {
             //System.out.println("could not find the JGraphNode for : " + ionode.getId());
             return new Point(0, 0);
@@ -529,6 +577,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Returns a connector point for the ShaderOutput object.
+     *
      * @param output the ShaderOutput object.
      * @return the JConnectorPoint that represents the output object.
      */
@@ -545,7 +594,9 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Updates the input or output of this JGraphNode.
-     * @param oldName the old name of the input or output, in case the name was changed.
+     *
+     * @param oldName the old name of the input or output, in case the name was
+     * changed.
      * @param name the new name of the input/output.
      */
     public void updateIO(String oldName, String name) {
@@ -562,12 +613,13 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Removes the input or output from this panel.
+     *
      * @param name the name of the input or output.
      */
     public void removeIO(String name) {
         JConnectorPoint jcp = connectorMap.get(name);
-        this.leftPanel.remove(jcp);
-        this.rightPanel.remove(jcp);
+        this.westPanel.remove(jcp);
+        this.eastPanel.remove(jcp);
         connectorMap.remove(name);
         children.remove(jcp);
         adjustSize();
@@ -575,16 +627,14 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Adds an input to this JGraphNode.
+     *
      * @param name the name of the input to add.
      */
     public void addInput(String name) {
         ShaderInput input = this.node.findInput(name);
         if (input != null) {
-            JConnectorPoint jcp = new JConnectorPoint(this, input, JConnectorPoint.POSITION.LEFT);
+            JConnectorPoint jcp = addIOComponent(node, input);
             jcp.updateStyle(currentStyle);
-            leftPanel.add(jcp);
-            children.add(jcp);
-            connectorMap.put(input.getName(), jcp);
 
             adjustSize();
         }
@@ -592,40 +642,38 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Adds an input to this JGraphNode.
+     *
      * @param name the name of the input to add.
      */
     public void addOutput(String name) {
         ShaderOutput output = this.node.findOutput(name);
         if (output != null) {
-            JConnectorPoint jcp = new JConnectorPoint(this, output, JConnectorPoint.POSITION.RIGHT);
+            JConnectorPoint jcp = addIOComponent(node, output);
             jcp.updateStyle(currentStyle);
-            rightPanel.add(jcp);
-            children.add(jcp);
-            connectorMap.put(output.getName(), jcp);
             adjustSize();
 
         }
     }
 
     /**
-     * Sets the output struct for this GraphNode.
-     * This implies that all the output nodes will be removed and replaced
-     * with the fields in the shader struct.
-     * 
+     * Sets the output struct for this GraphNode. This implies that all the
+     * output nodes will be removed and replaced with the fields in the shader
+     * struct.
+     *
      * @param struct the new output struct for this graphnode.
      */
     public void setOutputStruct(ShaderStruct struct) {
         JGraphStruct structPanel = new JGraphStruct(node);
         structPanel.setModel(struct);
-        for (Component c : rightPanel.getComponents()) {
+        for (Component c : eastPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
                 JConnectorPoint jcp = (JConnectorPoint) c;
                 this.children.remove(jcp);
                 this.connectorMap.remove(jcp.getUserObject().getName());
             }
         }
-        rightPanel.removeAll();
-        rightPanel.add(structPanel);
+        eastPanel.removeAll();
+        eastPanel.addNorthComponent(structPanel);
         node.setOutputStruct(struct);
         adjustSize();
 
@@ -634,15 +682,15 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
     public void setInputStruct(ShaderStruct struct) {
         JGraphStruct structPanel = new JGraphStruct(node);
         structPanel.setModel(struct);
-        for (Component c : leftPanel.getComponents()) {
+        for (Component c : westPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
                 JConnectorPoint jcp = (JConnectorPoint) c;
                 this.children.remove(jcp);
                 this.connectorMap.remove(jcp.getUserObject().getName());
             }
         }
-        leftPanel.removeAll();
-        leftPanel.add(structPanel);
+        westPanel.removeAll();
+        westPanel.addNorthComponent(structPanel);
         node.setInputStruct(struct);
         adjustSize();
     }
@@ -655,14 +703,17 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         adjustSize();
     }
 
+    @Override
     public void ioChanged(String oldName, String newName) {
         this.updateIO(oldName, newName);
     }
 
+    @Override
     public void ioRemoved(String name) {
         this.removeIO(name);
     }
 
+    @Override
     public void ioAdded(String name) {
         ShaderIO io = node.getPort(name);
         if (io.isInput()) {
@@ -691,8 +742,8 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         this.validate();
         //this.setSize(this.getPreferredSize());
         this.doLayout();
-        leftPanel.doLayout();
-        rightPanel.doLayout();
+        westPanel.doLayout();
+        eastPanel.doLayout();
         visualizationPanel.doLayout();
         backgroundGradient = null;
         Dimension d = this.getPreferredSize();
@@ -705,6 +756,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         }
     }
 
+    @Override
     public void settingChanged(IONode node, Setting s) {
         if (s.getGroup().equals("UI") && s.getId().equals("style")) {
             String style = s.getSettingValue();
@@ -726,6 +778,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Add a bit of extra size to solve scaling problems with fonts.
+     *
      * @return the preferred size for the node.
      */
     @Override
@@ -736,8 +789,9 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
     }
 
     public void updateStyle(NodeStyle style) {
-        if (style == null)
+        if (style == null) {
             return;
+        }
         currentStyle = style;
         FXSingleton singleton = FXSingleton.getSingleton();
         FXSettings settings = singleton.getFXSettings();
@@ -748,14 +802,14 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         this.normalGG = settings.getGradient(style.getGradientName());
         backgroundGradient = new GradientPaint(0, 0, normalGG.getC1(), 0, getHeight(), normalGG.getC2());
 
-        for (Component c : leftPanel.getComponents()) {
+        for (Component c : westPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
                 JConnectorPoint jcp = (JConnectorPoint) c;
                 jcp.updateStyle(style);
             }
         }
 
-        for (Component c : rightPanel.getComponents()) {
+        for (Component c : eastPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
                 JConnectorPoint jcp = (JConnectorPoint) c;
                 jcp.updateStyle(style);
@@ -766,9 +820,6 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
     }
 
     public static void main(String args[]) throws Exception {
-
-
-
 
         UIDefaults defaults = UIManager.getDefaults();
         Enumeration newKeys = defaults.keys();
@@ -783,7 +834,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     public void highlightPossibleEndTerminals(JTerminal startTerminal) {
         ShaderIO start = startTerminal.getConnectorPoint().getUserObject();
-        for (Component c : leftPanel.getComponents()) {
+        for (Component c : westPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
                 JConnectorPoint jcp = (JConnectorPoint) c;
                 ShaderIO end = jcp.getUserObject();
@@ -795,7 +846,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
     }
 
     void resetPossibleEndTerminals() {
-        for (Component c : leftPanel.getComponents()) {
+        for (Component c : westPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
                 JConnectorPoint jcp = (JConnectorPoint) c;
                 jcp.unhighlight();
@@ -805,22 +856,25 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     /**
      * Return the referenced node.
+     *
      * @return the ReferencedNode object.
      */
     public ReferenceNode getReferencedNode() {
         return referenceNode;
     }
 }
+
 class RoundBorder implements Border {
 
-    private Color color;
-    private GeneralPath border = new GeneralPath();
-    private BasicStroke borderStroke = new BasicStroke(2.0f);
+    private final Color color;
+    private final GeneralPath border = new GeneralPath();
+    private final BasicStroke borderStroke = new BasicStroke(2.0f);
 
     public RoundBorder(Color color) {
         this.color = color;
     }
 
+    @Override
     public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
         int radius = 6;
         border.reset();
@@ -842,10 +896,12 @@ class RoundBorder implements Border {
         g2d.draw(border);
     }
 
+    @Override
     public Insets getBorderInsets(Component c) {
         return new Insets(2, 2, 2, 2);
     }
 
+    @Override
     public boolean isBorderOpaque() {
         return true;
     }
