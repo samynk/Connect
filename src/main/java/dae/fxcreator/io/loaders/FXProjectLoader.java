@@ -253,11 +253,17 @@ public class FXProjectLoader extends DefaultHandler {
             String name = attributes.getValue("name");
             ShaderType type = library.getType(attributes.getValue("type"));
             String semantic = attributes.getValue("semantic");
+            
             if (semantic != null && semantic.length() == 0) {
                 semantic = null;
             }
             ShaderInput input = new ShaderInput(currentNode, name, semantic, type);
             input.setConnectionString(attributes.getValue("connection"));
+            
+            String anchor = attributes.getValue("anchor");
+            if (anchor != null){
+                input.setAnchor(anchor);
+            }
             if (currentNode != null) {
                 currentNode.addInput(input);
             } else if (currentStage != null) {
@@ -271,6 +277,11 @@ public class FXProjectLoader extends DefaultHandler {
             String typeRule = attributes.getValue("typerule");
             ShaderOutput output = new ShaderOutput(currentNode, name, semantic, type, typeRule);
             output.setConnectionString(attributes.getValue("connection"));
+             
+            String anchor = attributes.getValue("anchor");
+            if (anchor != null){
+                output.setAnchor(anchor);
+            }
             if (currentNode != null) {
                 currentNode.addOutput(output);
             } else if (currentStage != null) {
