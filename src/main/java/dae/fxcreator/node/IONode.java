@@ -143,6 +143,15 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
     private boolean outputPin = false;
 
     /**
+     * The default input anchor.
+     */
+    private IOAnchor inputAnchor = IOAnchor.NORTHWEST;
+    /**
+     * The default output anchor.
+     */
+    private IOAnchor outputAnchor = IOAnchor.NORTHEAST;
+
+    /**
      * Creates a new IONode object with an id and a name. The id will be used
      * for code generation purposes and the name will be used for display in the
      * user interface.
@@ -1434,5 +1443,89 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      */
     public FXProjectType getProjectType() {
         return fxProject.getProjectType();
+    }
+
+    /**
+     * Sets the default anchor for inputs.
+     *
+     * @param anchor the anchor for inputs in the form of (N|S) (W|E)
+     */
+    public void setInputAnchor(String anchor) {
+        switch (anchor.toUpperCase()) {
+            case "NE":
+                inputAnchor = IOAnchor.NORTHEAST;
+                break;
+            case "NW":
+                inputAnchor = IOAnchor.NORTHWEST;
+                break;
+            case "SE":
+                inputAnchor = IOAnchor.SOUTHEAST;
+                break;
+            case "SW":
+                inputAnchor = IOAnchor.SOUTHWEST;
+                break;
+            default:
+                inputAnchor = IOAnchor.NORTHWEST;
+        }
+    }
+
+    /**
+     * Sets the default input anchor for this ionode object.
+     *
+     * @param anchor the default anchor.
+     */
+    public void setInputAnchor(IOAnchor anchor) {
+        inputAnchor = anchor;
+    }
+
+    /**
+     * Returns the default input anchor for this node.
+     *
+     * @return the default input anchor for the node.
+     */
+    public IOAnchor getInputAnchor() {
+        return inputAnchor;
+    }
+
+    /**
+     * Sets the default anchor for outputs.
+     *
+     * @param anchor the anchor for inputs in the form of (N|S) (W|E)
+     */
+    public void setOutputAnchor(String anchor) {
+        switch (anchor.toUpperCase()) {
+            case "NE":
+                outputAnchor = IOAnchor.NORTHEAST;
+                break;
+            case "NW":
+                outputAnchor = IOAnchor.NORTHWEST;
+                break;
+            case "SE":
+                outputAnchor = IOAnchor.SOUTHEAST;
+                break;
+            case "SW":
+                outputAnchor = IOAnchor.SOUTHWEST;
+                break;
+            default:
+                outputAnchor = IOAnchor.NORTHWEST;
+        }
+    }
+
+    /**
+     * Sets the default output anchor for this ionode object.
+     *
+     * @param anchor the default anchor.
+     */
+    public void setOutputAnchor(IOAnchor anchor) {
+        outputAnchor = anchor;
+    }
+
+    /**
+     * Returns the default output anchor for this node.
+     *
+     * @return the default output anchor.
+     */
+    public IOAnchor getOutputAnchor() {
+        return outputAnchor;
     }
 }
