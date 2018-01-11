@@ -11,13 +11,10 @@ import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.ShaderStruct;
-import java.awt.Color;
 import java.awt.Point;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -249,6 +246,8 @@ public class FXProjectSaver extends XMLSaver {
         } else {
             writeAttribute(bw, "container", "leaf");
         }
+        writeAttribute(bw, "inputanchor", node.getInputAnchor());
+        writeAttribute(bw, "outputanchor", node.getOutputAnchor());
         bw.write(">\n");
 
         ArrayList<ShaderInput> inputs = node.getInputs();
@@ -259,6 +258,7 @@ public class FXProjectSaver extends XMLSaver {
             writeAttribute(bw, "connection", input.getConnectionString());
             writeAttribute(bw, "type", input.getType().toString());
             writeAttribute(bw, "semantic", input.getSemantic().getValue());
+            writeAttribute(bw, "anchor" , input.getAnchor());
             bw.write("/>\n");
         }
 
@@ -270,6 +270,7 @@ public class FXProjectSaver extends XMLSaver {
             writeAttribute(bw, "connection", output.getConnectionString());
             writeAttribute(bw, "type", output.getType().toString());
             writeAttribute(bw, "semantic", output.getSemantic().getValue());
+            writeAttribute(bw, "anchor" , output.getAnchor());
             if (output.getTypeRule() != null) {
                 writeAttribute(bw, "typerule", output.getTypeRule());
             }
