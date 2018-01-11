@@ -206,6 +206,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      */
     public void addShaderStage(ShaderStage stage) {
         stages.addShaderStage(stage);
+        stage.setFXProject(this);
     }
 
     /**
