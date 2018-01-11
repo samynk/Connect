@@ -10,7 +10,7 @@
         <node id="rj1" name="rj" type="joint.revolutejoint" ioEditable="false" position="[20,20]" container="leaf">
             <output name="axis" type="FLOAT3"/>
             <output name="position" type="FLOAT3"/>
-            <input name="rotation" type="FLOAT"/>
+            <input name="rotation" type="FLOAT" anchor="SE"/>
         </node>
     </stage>
     <technique name="basicshader">
