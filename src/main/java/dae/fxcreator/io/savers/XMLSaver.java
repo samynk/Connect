@@ -1,5 +1,6 @@
 package dae.fxcreator.io.savers;
 
+import dae.fxcreator.node.IOAnchor;
 import java.awt.Color;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -32,6 +33,7 @@ public class XMLSaver {
      * @param fileName the file name relative to the directory of the
      * application.
      * @return a BufferedWriter object.
+     * @throws java.io.IOException
      */
     public BufferedWriter createRelativeFileWriter(String fileName) throws IOException {
         File file = new File(System.getProperty("user.dir"), fileName);
@@ -132,6 +134,24 @@ public class XMLSaver {
             b1 = "0" + b1;
         }
         bw.write("#" + r1 + g1 + b1);
+        bw.write("\"");
+    }
+    
+    /**
+     * Writes an IOAnchor attribute to the buffered writer.
+     * @param bw the buffered writer.
+     * @param name the name of the attribute.
+     * @param value the value of the anchor.
+     * @throws IOException 
+     */
+    public void writeAttribute(BufferedWriter bw, String name, IOAnchor value) throws IOException{
+        if (value == IOAnchor.UNDEFINED) {
+            return;
+        }
+        bw.write(" ");
+        bw.write(name);
+        bw.write("=\"");
+        bw.write(value.getShortDesc());
         bw.write("\"");
     }
 }
