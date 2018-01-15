@@ -1,0 +1,7 @@
+template project{
+    code main << header{
+        << "test of ";
+        << node.id;
+        << "\n";
+    }
+}
