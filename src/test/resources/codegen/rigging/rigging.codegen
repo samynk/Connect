@@ -1,0 +1,7 @@
+template project{
+
+    code main{
+        << "test of " << node.id << "\n";
+        << "Hopefully it works\n";
+    }
+}
