@@ -652,7 +652,7 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
         exportDialog.setVisible(true);
         int retStatus = exportDialog.getReturnStatus();
         if (retStatus == ExportDialog.RET_OK) {
-            ExportTask task = new ExportTask(project, command, fxSettings.getCodeTemplateLibrary(command));
+            ExportTask task = new ExportTask(project, command, null); // fxSettings.getCodeTemplateLibrary(command));
             task.export();
 
             ShaderViewer sv = exportViewers.get(command);

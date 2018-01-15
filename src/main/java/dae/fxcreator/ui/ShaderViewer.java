@@ -2,6 +2,7 @@ package dae.fxcreator.ui;
 
 import dae.fxcreator.io.codegen.ExportTask;
 import java.io.File;
+import java.nio.file.Path;
 
 /**
  *
@@ -43,10 +44,10 @@ public class ShaderViewer extends javax.swing.JPanel {
     public void setExportTask(ExportTask task){
         this.model = task;
         tabSourceCode.removeAll();
-        for (File file : model.getFiles()){
+        for (Path file : model.getFiles()){
             ShaderSource ss = new ShaderSource();
             ss.showFile(file);
-            tabSourceCode.addTab(file.getName(),null,ss,file.getPath());
+            tabSourceCode.addTab(file.getFileName().toString(),null,ss,file.toString());
         }
     }
 

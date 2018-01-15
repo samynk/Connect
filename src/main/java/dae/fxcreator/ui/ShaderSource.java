@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -47,13 +49,11 @@ public class ShaderSource extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    void showFile(File file) {
-        if (file.exists()) {
-            FileReader reader = null;
+    void showFile(Path file) {
+        if (Files.exists(file)) {
             BufferedReader br = null;
             try {
-                reader = new FileReader(file);
-                br = new BufferedReader(reader);
+                br = Files.newBufferedReader(file);
                 StringBuilder result = new StringBuilder();
                 String line;
                 String separator = System.getProperty("line.separator");
