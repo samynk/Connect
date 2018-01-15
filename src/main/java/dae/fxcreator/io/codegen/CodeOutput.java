@@ -1,5 +1,6 @@
 package dae.fxcreator.io.codegen;
 
+import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.node.Semantic;
 import dae.fxcreator.node.ShaderType;
 import java.util.HashMap;
@@ -19,19 +20,19 @@ public class CodeOutput {
     /**
      * A hashmap with the buffer objects.
      */
-    private HashMap<String, StringBuffer> buffers = new HashMap<String, StringBuffer>();
+    private final HashMap<String, StringBuilder> buffers = new HashMap<>();
     /**
      * The default buffer to use.
      */
     private String defaultBufferName;
     /**
-     * The default StringBuffer object.
+     * The default StringBuilder object.
      */
-    private StringBuffer defaultBuffer;
+    private StringBuilder defaultBuffer;
     /**
      * The CodeTemplateLibrary that provides extra functionality.
      */
-    private CodeTemplateLibrary library;
+    private final TemplateClassLibrary library;
 
     /**
      * Creates a new code output object. Three buffers will be created :
@@ -41,7 +42,7 @@ public class CodeOutput {
      * 4) the default buffer where all the standard elements will be stored.
      * @param library the library to create a CodeOutput object for.
      */
-    public CodeOutput(CodeTemplateLibrary library) {
+    public CodeOutput(TemplateClassLibrary library) {
         createBuffer("header");
         createBuffer("struct");
         createBuffer("function");
@@ -54,18 +55,18 @@ public class CodeOutput {
      * @param name the name for the buffer.
      * @return a new empty stringbuffer object.
      */
-    public final StringBuffer createBuffer(String name) {
-        StringBuffer sb = new StringBuffer();
+    public final StringBuilder createBuffer(String name) {
+        StringBuilder sb = new StringBuilder();
         buffers.put(name, sb);
         return sb;
     }
 
     /**
-     * Returns the StringBuffer object.
-     * @param name the name of the StringBuffer object.
-     * @return the StringBuffer object.
+     * Returns the StringBuilder object.
+     * @param name the name of the StringBuilder object.
+     * @return the StringBuilder object.
      */
-    public StringBuffer getBuffer(String name) {
+    public StringBuilder getBuffer(String name) {
         if ( buffers.containsKey(name))
             return buffers.get(name);
         else{
@@ -82,7 +83,7 @@ public class CodeOutput {
         if (bufferName == null)
             return;
         if (!bufferName.equals(defaultBufferName)) {
-            StringBuffer sb = buffers.get(bufferName);
+            StringBuilder sb = buffers.get(bufferName);
             if (sb == null) {
                 sb = createBuffer(bufferName);
                 buffers.put(bufferName, sb);
@@ -104,7 +105,7 @@ public class CodeOutput {
      * Write to the default buffer.
      * @param buffer the buffer to append to the default buffer.
      */
-    public void write(StringBuffer buffer){
+    public void write(StringBuilder buffer){
         defaultBuffer.append(buffer);
     }
 
@@ -136,41 +137,41 @@ public class CodeOutput {
 
     /**
      * Write to the buffer with the provided name.
-     * @param buffername
+     * @param bufferName the name of the buffer to write to.
      * @param text the buffer to append to the default buffer.
      */
-    public void write(String bufferName,StringBuffer text){
-        StringBuffer buffer = this.getBuffer(bufferName);
+    public void write(String bufferName,StringBuilder text){
+        StringBuilder buffer = this.getBuffer(bufferName);
         buffer.append(text);
     }
 
     /**
      * Write to the buffer with the provided name.
-     * @param buffername
+     * @param bufferName the name of the buffer to write to.
      * @param text the string to append to the default buffer.
      */
     public void write(String bufferName,String text){
-        StringBuffer buffer = this.getBuffer(bufferName);
+        StringBuilder buffer = this.getBuffer(bufferName);
         buffer.append(text);
     }
 
     /**
      * Add the provided string to the beginning of the buffer.
-     * @param buffername the name of the buffer.
+     * @param bufferName the name of the buffer.
      * @param text the string to prepend to the buffer.
      */
     public void prepend(String bufferName, String text){
-        StringBuffer buffer = this.getBuffer(bufferName);
+        StringBuilder buffer = this.getBuffer(bufferName);
         buffer.insert(0, text);
     }
 
     /**
      * Write to the buffer with the provided name.
-     * @param buffername
-     * @param text the shader type to append to the default buffer.
+     * @param bufferName the name of the buffer.
+     * @param type the shader type to append to the default buffer.
      */
     public void write(String bufferName,ShaderType type){
-        StringBuffer buffer = this.getBuffer(bufferName);
+        StringBuilder buffer = this.getBuffer(bufferName);
         buffer.append(library.getShaderType(type));
     }
 
@@ -181,17 +182,17 @@ public class CodeOutput {
      */
     public void write(String buffername,Semantic semantic){
         if ( semantic.isValid()){
-            StringBuffer buffer = this.getBuffer(buffername);
+            StringBuilder buffer = this.getBuffer(buffername);
             buffer.append(semantic.toString());
         }
     }
 
 
     /**
-     * Delets all the StringBuffer objects in this CodeOutput object.
+     * Deletes all the StringBuilder objects in this CodeOutput object.
      */
     public void reset() {
-        for ( StringBuffer sb : this.buffers.values()){
+        for ( StringBuilder sb : this.buffers.values()){
             sb.delete(0,sb.length());
         }
     }
@@ -202,6 +203,6 @@ public class CodeOutput {
      * @param contents the new contents for the buffer.
      */
     public void setBuffer(String bufferName, String contents) {
-        buffers.put(bufferName, new StringBuffer(contents));
+        buffers.put(bufferName, new StringBuilder(contents));
     }
 }
