@@ -495,11 +495,4 @@ public class TemplateSubtypeMap {
         sb.append(className);
         sb.append(";\n");
     }
-
-    public static void main(String[] args) {
-        String test = "\n\n test\nnog een test";
-
-        test.replace("\n", "");
-        System.out.println(test);
-    }
 }
