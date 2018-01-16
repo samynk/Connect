@@ -3,14 +3,12 @@ package dae.fxcreator.io;
 import dae.fxcreator.io.codegen.CodeTemplateLibrary;
 import dae.fxcreator.io.events.StageListener;
 import dae.fxcreator.io.events.SymbolListener;
-import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.templates.NodeTemplateLoader;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderStruct;
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -149,7 +147,8 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      * @return the shader type library.
      */
     public ShaderTypeLibrary getShaderTypeLibrary() {
-        return library.getTypeLibrary();
+        
+        return library!=null?library.getTypeLibrary():null;
     }
 
     /**
