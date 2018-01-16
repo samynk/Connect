@@ -119,6 +119,7 @@ public class CodeServlet extends ExecuteBlock {
      * @param context the ExportTask context for this CodeGenerator object.
      */
     public void generateCode(Object codeObject, ExportTask context) {
+        context.addVar("node", codeObject);
         super.execute(codeObject, context);
     }
 
