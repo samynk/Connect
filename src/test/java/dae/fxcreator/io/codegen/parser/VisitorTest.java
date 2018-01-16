@@ -2,6 +2,7 @@ package dae.fxcreator.io.codegen.parser;
 
 import dae.fxcreator.io.FXProject;
 import dae.fxcreator.io.PathUtil;
+import dae.fxcreator.io.ShaderStage;
 import dae.fxcreator.io.codegen.ExportTask;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -63,6 +64,11 @@ public class VisitorTest {
             TemplateClassLibrary tcl = (TemplateClassLibrary)traverseResult;
             
             FXProject testProject = new FXProject(Paths.get("/test/test.fxpoj"));
+            testProject.setName("testProject1");
+            
+            testProject.addShaderStage(new ShaderStage("vertexStage","vertex"));
+            testProject.addShaderStage(new ShaderStage("pixelStage","pixel"));
+            
             ExportTask et = new ExportTask(testProject,PathUtil.createUserDirPath("/test/test.rig"),tcl);
             et.export();
             
