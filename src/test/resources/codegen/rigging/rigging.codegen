@@ -1,7 +1,37 @@
 template project{
 
-    code main{
+    code main {
         << "test of " << node.id << "\n";
         << "Hopefully it works\n";
+        << "\tTest of tab and unicode character \u2663\n";
+        << "Quote test: \"Everything you read on the internet is true!\"";
+
+        for ( n : node.stages ){
+            << "\nThe id of the node is: " << n.name << ".\n";
+            n.call("definition");
+        }
+        
+        << "\n";
+        if ( node.leaf ){
+            << "The node is a leaf.\n";
+        }else{
+            << "The node is not a leaf.\n";
+        }
+
+        if ( node.leaf && node.loadedFromTemplate ){
+            << "The node is loaded from a template and is a leaf.";
+        }else{
+            << "The node is not loaded from a template and/or is not a leaf.\n";
+        }
+
+        if ( ! node.leaf ){
+            << "The node is not a leaf.\n";
+        }
+    }
+}
+
+template shaderstage{
+    code definition{
+        << "Calling the node from a template : " << node.id << "\n";
     }
 }
