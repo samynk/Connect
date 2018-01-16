@@ -39,8 +39,10 @@ public class ExportTask {
     private final CodeOutput output;
     private final HashMap<String, BufferedWriter> streamMap = new HashMap<>();
     private final HashMap<String, Path> fileMap = new HashMap<>();
+    
     private final Deque<StringBuilder> bufferStack = new ArrayDeque<>();
-
+    private final HashMap<String, Object> varMap = new HashMap<>();
+    
     public ExportTask(FXProject project, String exporterId, TemplateClassLibrary library) {
         this.project = project;
         this.library = library;
@@ -340,6 +342,32 @@ public class ExportTask {
      */
     public StringBuilder peekBuffer() {
         return bufferStack.peekLast();
+    }
+
+    /**
+     * Adds a variable to the export task context with the given name.
+     * @param varName the name of the variable.
+     * @param o the variable.
+     */
+    public void addVar(String varName, Object o) {
+        varMap.put(varName, o);
+    }
+    
+    /**
+     * Gets a variable from the hashmap.
+     * @param varName the name of the variable.
+     * @return the object with the given varName or null if not present.
+     */
+    public Object getVar(String varName){
+        return varMap.get(varName);
+    }
+    
+    /**
+     * Removes a variable from the context.
+     * @param varName the variable name to remove.
+     */
+    public void removeVar(String varName){
+        varMap.remove(varName);
     }
 
 }
