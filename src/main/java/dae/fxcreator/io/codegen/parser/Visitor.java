@@ -11,7 +11,9 @@ import dae.fxcreator.io.codegen.parser.exec.ForLoop;
 import dae.fxcreator.io.codegen.parser.exec.IfElseStatement;
 import dae.fxcreator.io.codegen.parser.exec.MethodCall;
 import dae.fxcreator.io.codegen.parser.exec.VarID;
+import dae.fxcreator.io.codegen.parser.exec.WritePortProperty;
 import dae.fxcreator.io.codegen.parser.exec.WriteProperty;
+import dae.fxcreator.io.codegen.parser.exec.WriteSetting;
 import dae.fxcreator.io.codegen.parser.exec.WriteValue;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -28,7 +30,6 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
     private TemplateClass current;
 
     private final Deque<ExecuteBlock> blockStack = new ArrayDeque<>();
-    private static final Pattern ESCAPE_PATTERN = Pattern.compile(Pattern.quote("\\[\\bfnrt]"));
 
     @Override
     public Object visitTemplate(GraphTransformerParser.TemplateContext ctx) {
@@ -43,16 +44,13 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
     @Override
     public Object visitCode(GraphTransformerParser.CodeContext ctx) {
         String codeId = ctx.ID().getText();
-        System.out.println("Code id : " + codeId);
         String subtype = null;
         if (ctx.property() != null) {
             subtype = ctx.property().getText();
-            System.out.println("Subtype is : " + subtype);
         }
         String buffer = null;
         if (ctx.writeToBuffer() != null) {
             buffer = ctx.writeToBuffer().ID().getText();
-            System.out.println("Buffer is : " + buffer);
         }
 
         CodeServlet servlet = current.addCode(codeId, subtype, buffer, false, null);
@@ -65,7 +63,6 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
     @Override
     public Object visitExpression(GraphTransformerParser.ExpressionContext ctx) {
         String customBuffer = ctx.ID() != null ? ctx.ID().getText() : null;
-        System.out.println("custom buffer :" + customBuffer);
 
         ExecuteBlock epBlock = new ExecuteBlock(customBuffer);
         addExecutable(epBlock);
@@ -82,6 +79,10 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
             writeValue(ctx.value());
         } else if (ctx.property() != null) {
             writeProperty(ctx.property());
+        } else if (ctx.portID() != null) {
+            writePortProperty(ctx.portID());
+        } else if ( ctx.setting() != null){
+            writeSetting(ctx.setting());
         }
 
         return super.visitWrite(ctx);
@@ -131,11 +132,11 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
             return new BooleanBinaryOp(first, second, operation);
         } else if (ctx.booleanValue(0) != null) {
             return visitBooleanValue(ctx.booleanValue(0));
-        } else if ( ctx.NOT() != null){
+        } else if (ctx.NOT() != null) {
             BooleanExpression condition = visitCondition(ctx.booleanExpr());
             condition.not();
             return condition;
-        }else{
+        } else {
             return null;
         }
     }
@@ -157,33 +158,31 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
     public Object visitMethodCall(GraphTransformerParser.MethodCallContext ctx) {
         String object = ctx.property().ID(0).getText();
         String method = ctx.property().ID(1).getText();
-        
+
         Object[] parameters = new Object[ctx.parameter().size()];
         int i = 0;
-        for(ParameterContext pc: ctx.parameter()){
-            if ( pc.ID() != null ){
+        for (ParameterContext pc : ctx.parameter()) {
+            if (pc.ID() != null) {
                 parameters[i] = new VarID(pc.ID().getText());
-            }else if (pc.value() != null){
-                if ( pc.value().STRING() != null){
-                    parameters[i] = pc.value().STRING().getText();
-                }else if ( pc.value().BOOLEAN() != null){
+            } else if (pc.value() != null) {
+                if (pc.value().STRING() != null) {
+                    parameters[i] = RuntimeUtil.unescape(pc.value().STRING().getText(), true, true);
+                } else if (pc.value().BOOLEAN() != null) {
                     parameters[i] = Boolean.parseBoolean(pc.value().BOOLEAN().getText());
                 }
             }
             ++i;
         }
-        MethodCall mc = new MethodCall(object,method, parameters);
+        MethodCall mc = new MethodCall(object, method, parameters);
         addExecutable(mc);
         return super.visitMethodCall(ctx); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     private void writeValue(GraphTransformerParser.ValueContext ctx) {
         if (ctx.STRING() != null) {
 
             String toWrite = ctx.STRING().getText();
             String unescaped = RuntimeUtil.unescape(toWrite, true, true);
-            System.out.println("toWrite : " + toWrite);
-            System.out.println("Unescaped : " + unescaped);
             WriteValue value = new WriteValue(unescaped);
             addExecutable(value);
         }
@@ -199,5 +198,21 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
         String p = property.ID(1).getText();
         addExecutable(new WriteProperty(o, p));
 
+    }
+
+    private void writePortProperty(GraphTransformerParser.PortIDContext property) {
+        String o = property.ID(0).getText();
+        String p = null;
+        if (property.DOT() != null) {
+            p = property.ID(1).getText();
+        }
+        addExecutable(new WritePortProperty(o, p));
+    }
+
+    private void writeSetting(GraphTransformerParser.SettingContext setting) {
+        String o = setting.ID().getText();
+        String group = setting.property().ID(0).getText();
+        String prop = setting.property().ID(1).getText();
+        addExecutable(new WriteSetting(o,group,prop));
     }
 }
