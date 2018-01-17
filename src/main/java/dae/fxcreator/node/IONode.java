@@ -78,7 +78,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
     /**
      * The position for this node in the user interface.
      */
-    private Point position = new Point();
+    private final Point position = new Point();
     /**
      * The type of shader node.
      */
@@ -118,7 +118,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
     /**
      * The internal id for the node.
      */
-    private int internalID;
+    private final int internalID;
     /**
      * Is this node the input node for a collection of nodes.
      */
