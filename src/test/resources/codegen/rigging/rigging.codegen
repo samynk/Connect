@@ -1,37 +1,53 @@
 template project{
 
     code main {
-        << "test of " << node.id << "\n";
-        << "Hopefully it works\n";
-        << "\tTest of tab and unicode character \u2663\n";
-        << "Quote test: \"Everything you read on the internet is true!\"";
+        << "<?xml version='1.0' encoding='utf_8' ?>\n"
+        << "<!-- test of the export of :" << node.id << "-->\n";
+        << "<controllers>\n";
+        << "\t<!-- This is a list of behaviours -->\n";
+        << "\t<!--\"It is during our darkest moments that we must focus to see the light.\" - Aristotle -->\n";
 
         for ( n : node.stages ){
-            << "\nThe id of the node is: " << n.name << ".\n";
+            << "\t<behaviour name='" <<  n.name << "'/>\n";
             n.call("definition");
+            << "\t</behaviour>\n";
         }
-        
-        << "\n";
-        if ( node.leaf ){
-            << "The node is a leaf.\n";
-        }else{
-            << "The node is not a leaf.\n";
-        }
-
-        if ( node.leaf && node.loadedFromTemplate ){
-            << "The node is loaded from a template and is a leaf.";
-        }else{
-            << "The node is not loaded from a template and/or is not a leaf.\n";
-        }
-
-        if ( ! node.leaf ){
-            << "The node is not a leaf.\n";
-        }
+        << "</controllers>\n";
     }
 }
 
 template shaderstage{
     code definition{
-        << "Calling the node from a template : " << node.id << "\n";
+        << "\t\t<!-- This is the list of inputs: \n";
+        for(input : node.inputs){
+            << "\t\t\t" << input.name << "\n";
+        }
+        << "\t\t -->\n";
+
+        << "\t\t<!-- This is the list of inputs: \n";
+        for(output : node.outputs){
+            << "\t\t\t" << output.name << "\n";
+        }
+        << "\t\t -->\n";
+
+        for( n : node.nodes ){
+            n.call( "definition");
+        }
+    }
+}
+
+template node{
+    code definition[joint.revolutejoint] {
+        << "\t\t<!--" << "definition for " << node.id << "-->\n";
+        << "\t\t<joint name='" << node.id << ">\n";
+        << "\t\t<!-- This is the list of outputs: \n";
+        for(output : node.outputs){
+            << "\t\t\t" << output.name << " connected status: " <<output.connected << "\n";
+        }
+        << "\t\t\t" << $position.ref << " is connected " << $position.connected << "\n";
+        << "\t\t\t" << $axis.ref << " is connected " << $axis.connected << "\n";
+        << "\t\t\t" << "The ui style is :" << node[UI.style] << "\n";
+        << "\t\t -->\n";
+        << "\t\t</joint>\n";
     }
 }
