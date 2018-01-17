@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <project name="basic rig">
-    <projecttype name="rigging" version="1" minorversion="0"/>
-    <structs>
-    </structs>
-    <states>
-    </states>
-    <stage name="ArmController" type="vertex" inputPosition="[48,177]" outputPosition="[595,186]">
-        <input name="deltaTime" type="FLOAT"/>
-        <node id="rj1" name="rj" type="joint.revolutejoint" ioEditable="false" position="[20,20]" container="leaf">
-            <output name="axis" type="FLOAT3"/>
-            <output name="position" type="FLOAT3"/>
-            <input name="rotation" type="FLOAT" anchor="SE"/>
-        </node>
-    </stage>
-    <technique name="basicshader">
-        <pass  name="one">
-            <stageid id="ArmController"/>
-        </pass>
-    </technique>
+	<projecttype  name="rigging" version="1" minorversion="0"/>
+	<export>
+	</export>
+	<global>
+	</global>
+	<structs>
+	</structs>
+	<states>
+	</states>
+	<stage name="ArmController" type="vertex" inputPosition="[48,177]" outputPosition="[595,186]">
+		<input name="deltaTime" type="FLOAT"/>
+		<node id="rj1" name="rj" type="joint.revolutejoint" ioEditable="false" position="[20,20]" container="leaf" inputanchor="NW" outputanchor="NE">
+			<input name="rotation" type="FLOAT" anchor="SE"/>
+			<output name="axis" type="FLOAT3"/>
+			<output name="position" type="FLOAT3"/>
+		</node>
+		<node id="angleTarget1" name="angleTarget" type="metrics.angletargetmetric" ioEditable="false" position="[207,117]" container="leaf" inputanchor="NW" outputanchor="NE">
+			<input name="jointAxis" connection="rj1.axis" type="FLOAT3"/>
+			<input name="jointPosition" type="FLOAT3"/>
+			<input name="jointEffector" type="FLOAT3"/>
+			<input name="target" type="FLOAT3"/>
+			<output name="angle" type="FLOAT"/>
+			<setting group="UI" id="style" value="emphasis"/>
+		</node>
+		<node id="fuzzyController1" name="fuzzyController" type="controllers.fuzzysystem" ioEditable="true" position="[438,293]" container="leaf" inputanchor="NW" outputanchor="SW">
+			<input name="input1" connection="angleTarget1.angle" type="FLOAT"/>
+			<output name="output1" type="FLOAT"/>
+		</node>
+	</stage>
+	<technique name="basicshader">
+		<pass  name="one">
+			<stageid id="ArmController"/>
+		</pass>
+	</technique>
 </project>
