@@ -30,7 +30,7 @@ public class CodeServlet extends ExecuteBlock {
      * @param defaultBuffer the default buffer this code servlet will write to.
      */
     public CodeServlet(String defaultBuffer) {
-        this(DEFAULT_TYPE, defaultBuffer);
+        this(defaultBuffer, DEFAULT_TYPE);
     }
 
     /**
@@ -39,7 +39,7 @@ public class CodeServlet extends ExecuteBlock {
      * @param type the type of the code servlet.
      * @param defaultBuffer the default buffer this code servlet will write to.
      */
-    public CodeServlet(String type, String defaultBuffer) {
+    public CodeServlet(String defaultBuffer, String type) {
         super(defaultBuffer);
         if (type != null) {
             this.type = type;
