@@ -42,7 +42,7 @@ public class FXProjectLoader extends DefaultHandler {
     /**
      * The FXProject object to read.
      */
-    private FXProject project;
+    private final FXProject project;
     /**
      * The path to read the project from.
      */
@@ -189,6 +189,8 @@ public class FXProjectLoader extends DefaultHandler {
             String type = attributes.getValue("type");
             String sioEditable = attributes.getValue("ioEditable");
             String container = attributes.getValue("container");
+            String inputanchor = attributes.getValue("inputanchor");
+            String outputanchor = attributes.getValue("outputanchor");
             boolean ioEditable = false;
             if (sioEditable != null) {
                 ioEditable = Boolean.parseBoolean(sioEditable);
@@ -223,6 +225,13 @@ public class FXProjectLoader extends DefaultHandler {
                 nc.getOutputNode().setPosition(outputPosition.x, outputPosition.y);
                 node = nc;
             }
+            if (inputanchor != null ){
+                node.setInputAnchor(inputanchor);
+            }
+            if (outputanchor != null){
+                node.setOutputAnchor(outputanchor);
+            }
+            
             node.setInputOutputEditable(ioEditable);
 
             Point p = this.parsePosition(position);
@@ -253,15 +262,15 @@ public class FXProjectLoader extends DefaultHandler {
             String name = attributes.getValue("name");
             ShaderType type = library.getType(attributes.getValue("type"));
             String semantic = attributes.getValue("semantic");
-            
+
             if (semantic != null && semantic.length() == 0) {
                 semantic = null;
             }
             ShaderInput input = new ShaderInput(currentNode, name, semantic, type);
             input.setConnectionString(attributes.getValue("connection"));
-            
+
             String anchor = attributes.getValue("anchor");
-            if (anchor != null){
+            if (anchor != null) {
                 input.setAnchor(anchor);
             }
             if (currentNode != null) {
@@ -277,9 +286,9 @@ public class FXProjectLoader extends DefaultHandler {
             String typeRule = attributes.getValue("typerule");
             ShaderOutput output = new ShaderOutput(currentNode, name, semantic, type, typeRule);
             output.setConnectionString(attributes.getValue("connection"));
-             
+
             String anchor = attributes.getValue("anchor");
-            if (anchor != null){
+            if (anchor != null) {
                 output.setAnchor(anchor);
             }
             if (currentNode != null) {
@@ -310,7 +319,9 @@ public class FXProjectLoader extends DefaultHandler {
                         currentSetting = (Setting) s.clone();
                         this.project.addSymbolListener(currentSetting);
                         FXSettings settings = FXSingleton.getSingleton().getFXSettings();
-                        settings.addSymbolListener(currentSetting);
+                        if (settings != null) {
+                            settings.addSymbolListener(currentSetting);
+                        }
                         currentNode.addSetting(group, currentSetting);
                         String value = attributes.getValue("value");
                         if (value != null) {
@@ -363,7 +374,7 @@ public class FXProjectLoader extends DefaultHandler {
             if (projectType != null) {
                 project.setProjectType(projectType);
                 library = project.getNodeTemplateLibrary();
-            }else{
+            } else {
                 // todo warn the user that the project type could not be found.
             }
         } else if ("value".equals(qName)) {
