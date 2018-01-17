@@ -84,8 +84,7 @@ public class TemplateClass {
             tsm = new TemplateClassSubtypes(codeName);
             subTypes.put(codeName, tsm);
         }
-        CodeServlet cs = new CodeServlet(type);
-        cs.setDefaultBuffer(bufferName);
+        CodeServlet cs = new CodeServlet(bufferName, type);
         cs.setWriteOnce(writeOnce);
         cs.setWriteOnceProperty(writeOnceProperty);
         
