@@ -8,7 +8,7 @@ transform: template*;
 
 template: TEMPLATE ID LBRACE code* RBRACE;
 code: CODE ID (LBRACKET property RBRACKET)? (writeToBuffer)? LBRACE ( methodCall| expression | forLoop | ifStatement)* RBRACE;
-methodCall: property LPARENS (parameter (COMMA parameter) *)? RPARENS SEMICOLUMN ;
+methodCall: ID LPARENS (parameter (COMMA parameter) *)? RPARENS SEMICOLUMN ;
 expression: ID? write+ SEMICOLUMN  ;
 setting : ID LBRACKET property RBRACKET;
 writeToBuffer: PIPE ID;
