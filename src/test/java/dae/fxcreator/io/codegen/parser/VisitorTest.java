@@ -4,16 +4,12 @@ import dae.fxcreator.io.FXProject;
 import dae.fxcreator.io.FXProjectTemplate;
 import dae.fxcreator.io.FXProjectTemplates;
 import dae.fxcreator.io.FXProjectType;
-import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.PathUtil;
-import dae.fxcreator.io.ShaderStage;
 import dae.fxcreator.io.codegen.ExportTask;
 import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
-import dae.fxcreator.io.loaders.FXSettingLoader;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -94,7 +90,7 @@ public class VisitorTest {
             FXProject testProject = basic.createNewProject();
             testProject.setName("testProject1");
 
-            ExportTask et = new ExportTask(testProject, PathUtil.createUserDirPath("/test/test.rig"), tcl);
+            ExportTask et = new ExportTask(testProject, PathUtil.createUserDirPath("test/test.rig"), tcl);
             et.export();
 
             StringBuilder sb = et.getCodeOutput().getBuffer("default");
