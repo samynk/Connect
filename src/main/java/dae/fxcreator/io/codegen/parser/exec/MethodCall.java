@@ -25,6 +25,8 @@ public class MethodCall implements Executable{
         {
             if ( o instanceof TypedNode && parameters[0] instanceof String){
                 context.template((TypedNode)o,(String)parameters[0]);
+                // restore the node parameter
+                context.addVar("node", codeObject);
             }
         }
     }
