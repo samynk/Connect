@@ -1,6 +1,5 @@
 package dae.fxcreator.io;
 
-import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.ShaderIO;
@@ -54,6 +53,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
     /**
      * Checks if the ShaderStage is the same as another stage.
      * Only checks for id and type.
+     * @param o the type to check.
      */
     @Override
     public boolean equals(Object o) {
@@ -102,6 +102,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
      * Adds an input to this ShaderStage object and also adds it to the
      * inputNode object that is a member of this ShaderStage.
      * @param input the new input to add.
+     * @return true if the input was added, false otherwise.
      */
     @Override
     public boolean addInput(ShaderInput input) {
@@ -118,6 +119,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
     /**
      * Removes an input from this ShaderStage object.
      *
+     * @param input the input to remove.
      */
     @Override
     public void removeInput(ShaderInput input) {
@@ -130,6 +132,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
      * Returns the input node associated with the ShaderStage.
      * @return the node that defines the inputs for the stage.
      */
+    @Override
     public ShaderNode getInputNode() {
         return inputNode;
     }
@@ -138,6 +141,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
      * Adds an output to this ShaderStage object and also adds it to the
      * outputNode object that is a member of this ShaderStage.
      * @param output the new input to add.
+     * @return true if the output was added, false otherwise.
      */
     @Override
     public boolean addOutput(ShaderOutput output) {
