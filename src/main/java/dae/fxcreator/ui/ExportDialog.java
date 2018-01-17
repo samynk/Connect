@@ -19,7 +19,7 @@ public class ExportDialog extends javax.swing.JDialog {
     private FXProject project;
     private String exporterId;
 
-    private JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
+    private final JFileChooser chooser = new JFileChooser(System.getProperty("user.dir"));
 
     /** Creates new form ExportDialog */
     public ExportDialog(java.awt.Frame parent, boolean modal) {
