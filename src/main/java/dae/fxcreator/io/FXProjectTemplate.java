@@ -140,6 +140,7 @@ public class FXProjectTemplate implements ActionListener {
         Path file = getSourceFile();
         FXProjectLoader loader = new FXProjectLoader(file);
         FXProject project = loader.load();
+        project.setLoadedFromTemplate(true);
         return project;
     }
 
