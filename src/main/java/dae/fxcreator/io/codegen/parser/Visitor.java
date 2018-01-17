@@ -17,8 +17,6 @@ import dae.fxcreator.io.codegen.parser.exec.WriteSetting;
 import dae.fxcreator.io.codegen.parser.exec.WriteValue;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  *
@@ -156,8 +154,7 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
 
     @Override
     public Object visitMethodCall(GraphTransformerParser.MethodCallContext ctx) {
-        String object = ctx.property().ID(0).getText();
-        String method = ctx.property().ID(1).getText();
+        String method = ctx.ID().getText();
 
         Object[] parameters = new Object[ctx.parameter().size()];
         int i = 0;
@@ -173,7 +170,7 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
             }
             ++i;
         }
-        MethodCall mc = new MethodCall(object, method, parameters);
+        MethodCall mc = new MethodCall(method, parameters);
         addExecutable(mc);
         return super.visitMethodCall(ctx); //To change body of generated methods, choose Tools | Templates.
     }
