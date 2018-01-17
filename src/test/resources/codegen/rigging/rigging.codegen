@@ -1,5 +1,4 @@
 template project{
-
     code main {
         << "<?xml version='1.0' encoding='utf_8' ?>\n"
         << "<!-- test of the export of :" << node.id << "-->\n";
@@ -9,10 +8,11 @@ template project{
 
         for ( n : node.stages ){
             << "\t<behaviour name='" <<  n.name << "'/>\n";
-            n.call("definition");
+            call(n,"definition");
             << "\t</behaviour>\n";
         }
         << "</controllers>\n";
+        writeBufferToStream("default","default");
     }
 }
 
@@ -31,7 +31,7 @@ template shaderstage{
         << "\t\t -->\n";
 
         for( n : node.nodes ){
-            n.call( "definition");
+            call(n, "definition");
         }
     }
 }
@@ -49,5 +49,9 @@ template node{
         << "\t\t\t" << "The ui style is :" << node[UI.style] << "\n";
         << "\t\t -->\n";
         << "\t\t</joint>\n";
+    }
+
+    code connection[joint.revolutejoint]{
+        
     }
 }
