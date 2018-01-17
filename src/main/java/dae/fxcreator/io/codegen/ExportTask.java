@@ -202,6 +202,9 @@ public class ExportTask {
 
     private void createPathStream(String streamName, Path location) {
         try {
+            if (!Files.exists(location.getParent())){
+                Files.createDirectories(location.getParent());
+            }
             if (Files.exists(location.getParent())) {
                 this.streamMap.put(streamName, Files.newBufferedWriter(location));
                 this.fileMap.put(streamName, location);
@@ -369,5 +372,4 @@ public class ExportTask {
     public void removeVar(String varName){
         varMap.remove(varName);
     }
-
 }
