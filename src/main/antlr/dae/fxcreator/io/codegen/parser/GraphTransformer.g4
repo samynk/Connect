@@ -13,7 +13,8 @@ expression: ID? write+ SEMICOLUMN  ;
 setting : ID LBRACKET property RBRACKET;
 writeToBuffer: PIPE ID;
 property : ID DOT ID;
-write: WRITE  (value |  property | setting);
+portID: PORT ID (DOT ID)?;
+write: WRITE  (value |  property | setting | portID);
 value: INT | FLOAT | BOOLEAN | STRING;
 
 forLoop: FOR LPARENS ID COLON property RPARENS LBRACE (expression|methodCall)* RBRACE;
@@ -63,6 +64,7 @@ AND: '&&';
 OR: '||';
 XOR: '^';
 NOT: '!';
+PORT: '$';
 
 
 INT: [+-]?[0-9]+;
@@ -73,4 +75,5 @@ fragment UNICODE : 'u' HEX HEX HEX HEX ;
 fragment HEX : [0-9a-fA-F] ;
 BOOLEAN: 'true' | 'false';
 ID : ([a-z]|[A-Z])+[a-zA-Z0-9]* ;
+
 LINES : [ \t\r\n] -> skip ; // newlines
