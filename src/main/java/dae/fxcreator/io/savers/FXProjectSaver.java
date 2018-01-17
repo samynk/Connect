@@ -38,7 +38,7 @@ public class FXProjectSaver extends XMLSaver {
      * @param saveFileInformation if set to true, the file information will be written.
      */
     public void save(boolean saveFileInformation) {
-        FileOutputStream fos = null;
+        BufferedWriter bw = null;
         try {
             Path projectPath = project.getFile();
             if ( !Files.exists(projectPath)){
@@ -49,7 +49,7 @@ public class FXProjectSaver extends XMLSaver {
                     Files.createDirectories(parentPath);
                 }
             }
-            BufferedWriter bw = Files.newBufferedWriter(project.getFile());
+            bw = Files.newBufferedWriter(project.getFile());
             
             bw.write("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n");
             bw.write("<project");
@@ -60,7 +60,7 @@ public class FXProjectSaver extends XMLSaver {
                 bw.write("\t<projecttype ");
                 writeAttribute(bw, "name", type.getName());
                 writeAttribute(bw, "version", type.getVersion());
-                writeAttribute(bw, "minorVersion", type.getMinorVersion());
+                writeAttribute(bw, "minorversion", type.getMinorVersion());
                 bw.write("/>\n");
             }
             
@@ -77,7 +77,7 @@ public class FXProjectSaver extends XMLSaver {
             Logger.getLogger(FXProjectSaver.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                fos.close();
+                bw.close();
             } catch (IOException ex) {
                 Logger.getLogger(FXProjectSaver.class.getName()).log(Level.SEVERE, null, ex);
             }
