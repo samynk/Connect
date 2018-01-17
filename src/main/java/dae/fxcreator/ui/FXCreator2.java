@@ -8,16 +8,23 @@ import dae.fxcreator.io.FXProjectTemplates;
 import dae.fxcreator.io.FXProjectType;
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
+import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import dae.fxcreator.io.loaders.FXSettingLoader;
+import dae.fxcreator.io.savers.FXProjectSaver;
 import dae.fxcreator.ui.actions.NewProjectEvent;
 import dae.fxcreator.ui.actions.ProjectTemplateAction;
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import java.util.ArrayList;
+import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.tree.DefaultTreeModel;
 
 /**
@@ -31,19 +38,22 @@ public class FXCreator2 extends javax.swing.JFrame {
      * The current project.
      */
     private FXProject project;
+    /**
+     * The file chooser
+     */
+    private javax.swing.JFileChooser fileChooser;
 
     /**
      * Creates new form FXCreator2
      */
     public FXCreator2() {
         initComponents();
-        System.out.println(System.getProperty("user.dir"));
         FXSettingLoader fsl = new FXSettingLoader();
         FXSettings settings = fsl.load();
         FXSingleton.getSingleton().setFxSettings(settings);
 
         initMenu();
-
+        initDialogs();
     }
 
     private void initMenu() {
@@ -87,12 +97,31 @@ public class FXCreator2 extends javax.swing.JFrame {
         FXSingleton.getSingleton().registerListener(this);
     }
 
+    private void initDialogs() {
+        fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileFilter() {
+
+            public boolean accept(File path) {
+                if (path.isDirectory()) {
+                    return true;
+                }
+                String filename = path.getName().toLowerCase();
+                return filename.endsWith("daefx");
+            }
+
+            @Override
+            public String getDescription() {
+                return "FX creator project files";
+            }
+        });
+    }
+
     @Subscribe
     public void createNewProject(NewProjectEvent npe) {
         FXProjectTemplate template = npe.getProjectTemplate();
-        FXProject project = template.createNewProject();
+        project = template.createNewProject();
         groupNodeEditorPanel2.setProject(project);
-        this.jTree1.setModel( new DefaultTreeModel(project));
+        this.jTree1.setModel(new DefaultTreeModel(project));
     }
 
     /**
@@ -114,6 +143,8 @@ public class FXCreator2 extends javax.swing.JFrame {
         mnuFXCreator = new javax.swing.JMenuBar();
         mnuFile = new javax.swing.JMenu();
         mnuNewProject = new javax.swing.JMenu();
+        separator1 = new javax.swing.JPopupMenu.Separator();
+        mnuSaveProject = new javax.swing.JMenuItem();
         mnuEdit = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -139,6 +170,15 @@ public class FXCreator2 extends javax.swing.JFrame {
 
         mnuNewProject.setText("New Project");
         mnuFile.add(mnuNewProject);
+        mnuFile.add(separator1);
+
+        mnuSaveProject.setText("jMenuItem1");
+        mnuSaveProject.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuSaveProjectActionPerformed(evt);
+            }
+        });
+        mnuFile.add(mnuSaveProject);
 
         mnuFXCreator.add(mnuFile);
 
@@ -149,6 +189,35 @@ public class FXCreator2 extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void mnuSaveProjectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuSaveProjectActionPerformed
+        if (project != null) {
+
+            if (!project.isLoadedFromTemplate()) {
+                FXProjectSaver saver = new FXProjectSaver(project);
+                saver.save(true);
+            } else {
+                saveAs();
+            }
+        }
+    }//GEN-LAST:event_mnuSaveProjectActionPerformed
+
+    private void saveAs() {
+        int result = fileChooser.showSaveDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File location = fileChooser.getSelectedFile();
+            Path p = Paths.get(location.getPath());
+            if (!PathUtil.checkExtension(p, "daefx")) {
+                p = p.resolveSibling(p.getFileName().toString() + ".daefx");
+            }
+            project.setFile(p);
+            project.setLoadedFromTemplate(false);
+            FXSingleton.getSingleton().getUserSettings().addRecentFile(p);
+            this.setTitle("Umbra FX - " + location.getPath());
+            FXProjectSaver saver = new FXProjectSaver(project);
+            saver.save(true);
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -178,7 +247,9 @@ public class FXCreator2 extends javax.swing.JFrame {
     private javax.swing.JMenuBar mnuFXCreator;
     private javax.swing.JMenu mnuFile;
     private javax.swing.JMenu mnuNewProject;
+    private javax.swing.JMenuItem mnuSaveProject;
     private javax.swing.JTabbedPane outputTab;
+    private javax.swing.JPopupMenu.Separator separator1;
     private javax.swing.JSplitPane settingsPanel;
     private javax.swing.JScrollPane treeShader;
     // End of variables declaration//GEN-END:variables
