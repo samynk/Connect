@@ -18,7 +18,7 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuSaveProject">
               <Properties>
-                <Property name="text" type="java.lang.String" value="jMenuItem1"/>
+                <Property name="text" type="java.lang.String" value="Save"/>
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mnuSaveProjectActionPerformed"/>
@@ -29,6 +29,11 @@
         <Menu class="javax.swing.JMenu" name="mnuEdit">
           <Properties>
             <Property name="text" type="java.lang.String" value="Edit"/>
+          </Properties>
+        </Menu>
+        <Menu class="javax.swing.JMenu" name="mnuExport">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Export"/>
           </Properties>
         </Menu>
       </SubComponents>
@@ -122,7 +127,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTree" name="jTree1">
+            <Component class="javax.swing.JTree" name="projectTree">
             </Component>
           </SubComponents>
         </Container>
