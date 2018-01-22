@@ -1,6 +1,6 @@
 package dae.fxcreator.io;
 
-import dae.fxcreator.io.codegen.CodeTemplateLibrary;
+import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.ShaderType;
 import dae.fxcreator.node.gui.ImageLoader;
@@ -31,7 +31,7 @@ public class FXProjectType implements Key{
     
     private NodeTemplateLibrary nodeTemplateLibrary;
     
-    private final HashMap<String,CodeTemplateLibrary> codeGenerators =
+    private final HashMap<String,TemplateClassLibrary> codeGenerators =
             new HashMap<>();
     
      /**
@@ -120,12 +120,15 @@ public class FXProjectType implements Key{
         return description;
     }
     
+    
+   
+    
     /**
-     * Adds a CodeTemplateLibrary to the list of possible code generators.
-     * @param library the library to add.
+     * Adds a TemplateClassLibrarary to the list of possible code generators.
+     * @param tcl the library to add.
      */
-    public void addCodeTemplateLibrary(CodeTemplateLibrary library){
-        codeGenerators.put(library.getId(), library);
+    public void addTemplateClassLibrary(TemplateClassLibrary tcl) {
+        codeGenerators.put(tcl.getLabel(), tcl);
     }
     
     /**
@@ -133,7 +136,7 @@ public class FXProjectType implements Key{
      * @param id
      * @return 
      */
-    public CodeTemplateLibrary getCodeTemplateLibrary(String id){
+    public TemplateClassLibrary getCodeTemplateLibrary(String id){
         return codeGenerators.get(id);
     }
     
@@ -165,7 +168,7 @@ public class FXProjectType implements Key{
         return templatesFile;
     }
 
-    public Iterable<CodeTemplateLibrary> getExporterLibraries() {
+    public Iterable<TemplateClassLibrary> getExporterLibraries() {
         return codeGenerators.values();
     }
 
@@ -213,4 +216,6 @@ public class FXProjectType implements Key{
     public String getShaderTypeIconLocation(ShaderType type) {
         return typeIconLocationMap.get(type);
     }
+
+    
 }
