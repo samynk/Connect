@@ -641,7 +641,7 @@ public class MathEditor extends javax.swing.JPanel implements MathContext, Hiera
         if (current != null && !current.isLocked()) {
             MathContainer parent = current.getParentContainer();
             if (parent != null) {
-                GroupMathContainer container = new GroupMathContainer(this, GroupType.ABS.LENGTH);
+                GroupMathContainer container = new GroupMathContainer(this, GroupType.LENGTH);
                 parent.replaceField(current, container);
                 container.addMathField(current);
                 setCurrentElement(container);
@@ -655,7 +655,7 @@ public class MathEditor extends javax.swing.JPanel implements MathContext, Hiera
         if (current != null && !current.isLocked()) {
             MathContainer parent = current.getParentContainer();
             if (parent != null) {
-                GroupMathContainer container = new GroupMathContainer(this, GroupType.ABS.GROUP);
+                GroupMathContainer container = new GroupMathContainer(this, GroupType.GROUP);
                 parent.replaceField(current, container);
                 container.addMathField(current);
                 setCurrentElement(container);
