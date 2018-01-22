@@ -36,12 +36,9 @@ public class Semantic {
      * Sets the value for the semantic.
      * @param semantic the value for the semantic.
      */
-    public void setValue(String semantic){
+    public final void setValue(String semantic){
         this.semantic = semantic;
-        if (this.semantic == null || semantic.length() == 0){
-            isValid = false;
-        }else
-            isValid = true;
+        isValid = !(this.semantic == null || semantic.length() == 0);
     }
 
     /**
