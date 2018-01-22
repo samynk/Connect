@@ -85,20 +85,7 @@ public class FXSettingLoader extends DefaultHandler {
         if ("semantic".equals(qName)) {
             Semantic s = new Semantic(attributes.getValue("label"));
             settings.addSemantic(s);
-        } else if ("exporter".equals(qName)) {
-            String file = attributes.getValue("file");
-            File codegenTemplateFile = new File(System.getProperty("user.dir"), "templates/" + file);
-            CodegenTemplateLoader cgloader = new CodegenTemplateLoader(library, codegenTemplateFile);
-
-            CodeTemplateLibrary cgLibrary = cgloader.load();
-            cgLibrary.setFile(codegenTemplateFile);
-            cgLibrary.setRelFile(file);
-            File sourceDir = new File(System.getProperty("user.dir"), "templates/codegen");
-            cgLibrary.compile(sourceDir, sourceDir);
-            currentProjectType.addCodeTemplateLibrary(cgLibrary);
-            settings.addCodeTemplateLibrary(cgLibrary);
-
-        } else if ("type".equals(qName)) {
+        }  else if ("type".equals(qName)) {
             String value = attributes.getValue("value");
             String semantic = attributes.getValue("semantic");
             String icon = attributes.getValue("icon");
