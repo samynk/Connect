@@ -10,8 +10,16 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dae.fxcreator.io.PathUtil;
+import dae.fxcreator.io.codegen.parser.GraphTransformerLexer;
+import dae.fxcreator.io.codegen.parser.GraphTransformerParser;
+import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
+import dae.fxcreator.io.codegen.parser.Visitor;
 import java.util.ArrayList;
 import java.util.Iterator;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.TokenStream;
 
 /**
  *
@@ -48,10 +56,18 @@ public class FXProjectTypeLoader {
 
                     FXProjectType type = new FXProjectType(name, version, minorversion, nodesFile, templatesFile);
                     JsonNode generators = child.findValue("codegenerators");
-                    Iterator<JsonNode> itGenerator = generators.elements();
-                    while (itGenerator.hasNext()) {
-                        JsonNode generator = itGenerator.next();
-                        System.out.println(generator.asText());
+                    if (generators != null) {
+                        Iterator<JsonNode> itGenerator = generators.elements();
+                        while (itGenerator.hasNext()) {
+                            JsonNode generator = itGenerator.next();
+                            String label = generator.findValue("label").asText();
+                            String description = generator.findValue("description").asText();
+                            String codegen = generator.findValue("codegen").asText();
+                            TemplateClassLibrary tcl = loadExporter(codegen);
+                            tcl.setLabel(label);
+                            tcl.setDescription(description);
+                            type.addTemplateClassLibrary(tcl);
+                        }
                     }
                     projectTypes.add(type);
 
@@ -70,6 +86,26 @@ public class FXProjectTypeLoader {
             } catch (IOException ex) {
                 Logger.getLogger(FXProjectTypeLoader.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }
+    }
+
+    private TemplateClassLibrary loadExporter(String exporterFile) throws IOException {
+        InputStream is = PathUtil.createUserDirStream(exporterFile);
+        CharStream charStream = CharStreams.fromStream(is);
+        GraphTransformerLexer lexer = new GraphTransformerLexer(charStream);
+        TokenStream tokens = new CommonTokenStream(lexer);
+        GraphTransformerParser parser = new GraphTransformerParser(tokens);
+
+        Visitor classVisitor = new Visitor();
+        Object traverseResult = classVisitor.visit(parser.transform());
+
+        int syntaxErrors = parser.getNumberOfSyntaxErrors();
+
+        if (traverseResult != null && syntaxErrors == 0) {
+            TemplateClassLibrary tcl = (TemplateClassLibrary) traverseResult;
+            return tcl;
+        } else {
+            return null;
         }
     }
 
