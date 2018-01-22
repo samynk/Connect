@@ -1,6 +1,7 @@
 package dae.fxcreator.io;
 
 import dae.fxcreator.io.codegen.CodeTemplateLibrary;
+import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.io.events.StageListener;
 import dae.fxcreator.io.events.SymbolListener;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;
@@ -809,7 +810,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      */
     public String getExportExtension(String exporterId) {
         if (type != null) {
-            CodeTemplateLibrary codegen = type.getCodeTemplateLibrary(exporterId);
+            TemplateClassLibrary codegen = type.getCodeTemplateLibrary(exporterId);
             if (codegen != null) {
                 return codegen.getDefaultExportExtension();
             } else {
