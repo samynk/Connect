@@ -1,8 +1,10 @@
 package dae.fxcreator.node.graph.math;
 
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import javax.swing.JLabel;
 
 /**
  *
@@ -39,10 +41,19 @@ public class GroupMathContainer extends MathContainer{
 
     @Override
     public int getBaseLine(){
-        if ( getFirstChild() != null)
-            return getFirstChild().getBaseLine();
-        else
-            return getHeight() / 2;
+        int baseLine = 0;
+        for (Component c : this.getComponents()) {
+            if (c instanceof JLabel) {
+                JLabel label = (JLabel) c;
+                int labelBase = label.getBaseline(label.getWidth(), label.getMinimumSize().height);
+                baseLine = Math.max(baseLine, labelBase);
+            } else if (c instanceof MathGUIElement) {
+                MathGUIElement me = (MathGUIElement) c;
+                baseLine = Math.max(baseLine, me.getBaseLine());
+            }
+        }
+        //System.out.println("Functionmath container baseline : " + baseLine);
+        return baseLine;
     }
 
     private void paintABS(Graphics g){
