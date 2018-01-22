@@ -178,6 +178,9 @@ public class FXCreator2 extends javax.swing.JFrame {
 
         mainPanel.setRightComponent(settingsPanel);
 
+        javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Project");
+        projectTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
+        projectTree.setRootVisible(false);
         treeShader.setViewportView(projectTree);
 
         mainPanel.setLeftComponent(treeShader);
