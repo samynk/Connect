@@ -6,6 +6,7 @@ import dae.fxcreator.node.ShaderIO;
 import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.util.Key;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -13,7 +14,7 @@ import java.util.HashMap;
  *
  * @author Koen
  */
-public class ShaderStage extends IONode implements NodeGroup, TypedNode {
+public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key{
 
     private final ArrayList<IONode> nodes = new ArrayList<>();
     private final ArrayList<ReferenceNode> referenceNodes = new ArrayList<>();
@@ -48,6 +49,15 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode {
 
         nodeMap.put("input", inputNode);
         nodeMap.put("output", outputNode);
+    }
+    
+    /**
+     * Return the key for storage into hash maps.
+     * @return the key for this shaderstage.
+     */
+    @Override
+    public String getKey(){
+        return this.getId();
     }
 
     /**
