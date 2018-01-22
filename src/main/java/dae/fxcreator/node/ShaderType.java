@@ -38,7 +38,7 @@ public class ShaderType {
      * Creates a new ShaderType object
      * @param type the type
      * @param order the order for the type, for sorting
-     * @param valueType indicates that this shadertype describes an actual value that can 
+     * @param valueType indicates that this shader type describes an actual value that can 
      * set on a variable or returned as a result of a function.
      */
     public ShaderType(String type,int order, boolean valueType){
@@ -52,7 +52,7 @@ public class ShaderType {
      * Creates a new ShaderType object
      * @param type the type
      * @param order the order for the type, for sorting
-     * @param valueType indicates that this shadertype describes an actual value that can 
+     * @param valueType indicates that this shader type describes an actual value that can 
      * set on a variable or returned as a result of a function.
      * @param icon the icon for this shader type.
      */
@@ -104,10 +104,7 @@ public class ShaderType {
             return false;
         }
         final ShaderType other = (ShaderType) obj;
-        if ((this.type == null) ? (other.type != null) : !this.type.equals(other.type)) {
-            return false;
-        }
-        return true;
+        return !((this.type == null) ? (other.type != null) : !this.type.equals(other.type));
     }
 
     @Override
