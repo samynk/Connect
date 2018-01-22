@@ -7,8 +7,8 @@ import java.awt.Point;
  * @author Koen
  */
 public class ReferenceNode {
-    private IONode reference;
-    private Point position;
+    private final IONode reference;
+    private final Point position;
 
 
     public ReferenceNode(IONode reference, Point position){
