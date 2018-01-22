@@ -41,8 +41,6 @@ public class FXSettingSaver extends XMLSaver{
             this.writeHeader(bw,"settings");
             writeUI(bw);
             writeSemantics(bw);
-            
-            writeProjectTypes(bw);
             bw.write("</settings>");
             bw.close();
         } catch (IOException ex) {
@@ -103,67 +101,4 @@ public class FXSettingSaver extends XMLSaver{
         }
         bw.append("\t</semantics>\n");
     }
-
-    /**
-     * Writes the exporters to file.
-     * @param bw the BufferedWrite to write the exporters to.
-     */
-    public void writeExporters(BufferedWriter bw, FXProjectType type )throws IOException
-    {
-        
-        for (CodeTemplateLibrary ctl : type.getExporterLibraries())
-        {
-            bw.write("\t\t\t<exporter");
-            writeAttribute(bw,"file",ctl.getRelFile());
-            bw.write("/>\n");
-        }
-      
-    }
-
-    /**
-     * Writes the types to file. 
-     * @param bw
-     */
-    private void writeTypes(BufferedWriter bw,FXProjectType projectType) throws IOException {
-        bw.append("\t<types>\n");
-        for ( ShaderType type : projectType.getShaderTypes()){
-            bw.write("\t\t<type");
-            this.writeAttribute(bw, "value", type.getType());
-            this.writeAttribute(bw, "icon" ,projectType.getShaderTypeIconLocation(type));
-            bw.write("/>\n");
-        }
-        bw.append("\t</types>\n");
-    }
-    
-    private void writeProjectTypes(BufferedWriter bw ) throws IOException
-    {
-        bw.append("\n<projecttypes>\n");
-        for( FXProjectType type : fxSettings.getProjectTypes())
-        {
-            bw.write("\t\t<projecttype ");
-            this.writeAttribute(bw, "name", type.getName());
-            this.writeAttribute(bw, "version",type.getVersion());
-            bw.write(">\n");
-            
-            bw.write("\t\t\t<description><![CDATA[\n");
-            bw.write(type.getDescription().trim());
-            bw.write("\n\t\t\t]]></description>\n");
-            
-            bw.write("\t\t\t<nodes ");
-            writeAttribute(bw, "file", type.getNodesFile());
-            bw.write("/>\n");
-            
-            bw.write("\t\t\t<groups ");
-            writeAttribute(bw, "file", type.getGroupsFile());
-            bw.write("/>\n");
-            
-            writeExporters(bw,type);
-            writeTypes(bw,type);
-            
-            
-            bw.write("\t\t</projecttype>\n");
-        }
-        bw.append("\n</projecttypes>\n");
-    }
-    
 }
