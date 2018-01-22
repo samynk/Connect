@@ -1,6 +1,5 @@
 package dae.fxcreator.io;
 
-import dae.fxcreator.io.codegen.CodeTemplateLibrary;
 import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.io.events.StageListener;
 import dae.fxcreator.io.events.SymbolListener;
@@ -54,7 +53,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     private final ArrayList<ShaderNode> globalNodes = new ArrayList<>();
     private final HashMap<String, ShaderNode> globalNodeMap = new HashMap<>();
     private final TechniqueCollection techniques;
-    private final ShaderStageCollection stages = new ShaderStageCollection();
+    private final ShaderStageCollection stages;
     private StatesCollection states;
     private final HashMap<String, ExportFile> exportSettings = new HashMap<>();
     private final ShaderStructCollection shaderStructs;
@@ -69,10 +68,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      * @param type defines the project type.
      */
     public FXProject(String location, FXProjectType type) {
-        file = Paths.get(location);
-        techniques = new TechniqueCollection(this);
-        shaderStructs = new ShaderStructCollection(this);
-        setProjectType(type);
+        this(Paths.get(location),type);
     }
 
     /**
@@ -95,6 +91,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
         techniques = new TechniqueCollection(this);
         shaderStructs = new ShaderStructCollection(this);
         states = new StatesCollection(this);
+        stages = new ShaderStageCollection(this);
         setProjectType(type);
     }
 
@@ -361,6 +358,8 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
                 case 1:
                     return states;
                 case 2:
+                    return stages;
+                case 3:
                     return techniques;
                 default:
                     break;
@@ -381,7 +380,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     @Override
     public int getChildCount(Object parent) {
         if (parent == this) {
-            return 3;
+            return 4;
         } else if (parent instanceof TreeNode) {
             TreeNode node = (TreeNode) parent;
             return node.getChildCount();
@@ -476,6 +475,8 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
                 return shaderStructs;
             case 1:
                 return states;
+            case 2:
+                return stages;
             default:
                 return null;
         }
@@ -483,7 +484,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     @Override
     public int getChildCount() {
-        return 1;
+        return 4;
     }
 
     @Override
