@@ -15,9 +15,13 @@ import java.util.logging.Logger;
 public class TemplateClassLibrary {
 
     /**
-     * The id for the CodeTemplateLibrary.
+     * The id for the TemplateClassLibrary.
      */
     private String id;
+    /**
+     * The description for the TemplateClassLibrary.
+     */
+    private String description;
     /**
      * Maps a template id to a code generation template.
      */
@@ -165,6 +169,14 @@ public class TemplateClassLibrary {
      */
     public void setLabel(String label) {
         this.label = label;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public String getDescription(){
+        return description;
     }
 
     /**
