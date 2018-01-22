@@ -29,10 +29,15 @@ dependencies {
     antlr "org.antlr:antlr4:4.7.1" 
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
     compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
+    compile(project('core'))
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
 
 generateGrammarSource {
     maxHeapSize = "64m"
     arguments += ["-visitor", "-long-messages"]
+}
+
+project ('core'){
+    apply plugin : 'java'
 }
