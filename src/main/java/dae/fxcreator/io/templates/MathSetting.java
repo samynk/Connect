@@ -37,6 +37,7 @@ public class MathSetting extends Setting{
         return formula;
     }
 
+    @Override
     public void setSettingValueAsObject(Object o) {
         if ( o instanceof MathFormula ){
             this.formula = (MathFormula)o;
