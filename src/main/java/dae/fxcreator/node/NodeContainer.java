@@ -4,7 +4,6 @@ import dae.fxcreator.io.NodeGroup;
 import dae.fxcreator.io.NodeGroupWalker;
 import dae.fxcreator.io.TypedNode;
 import dae.fxcreator.io.templates.Setting;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
