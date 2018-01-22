@@ -50,6 +50,11 @@
             <output name="angle" type="FLOAT"/>
             <setting group="UI" id="style" label="UI Style" default="emphasis" type="default"/>
         </node>
+        <node type="math" prefix="math" icon="/dae/images/math.png" ioEditable="true">
+            <input name="i1" type="FLOAT3"/>
+            <output name="o1" type="FLOAT3"/>
+            <setting group="Value" label="Math" id="code" type="math" valueAsAttribute="false" valueAsXML="true" visualize="true"/>
+        </node>
     </group>
     <group name="controllers" icon="/dae/images/rigging/fuzzysystem.png" category="module">
         <node type="fuzzysystem" prefix="fuzzyController" icon="/dae/images//rigging/fuzzysystem.png" ioEditable="true" outputanchor="SW">
