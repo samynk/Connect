@@ -9,13 +9,15 @@ import javax.swing.tree.TreeNode;
 
 /**
  * This class allows for the definition of a shader structs. Shader structs can
- * be used for global parameters in a shader definition, but off course also
- * to define the input / output structures for shader stages.
+ * be used for global parameters in a shader definition, but off course also to
+ * define the input / output structures for shader stages.
+ *
  * @author Koen
  */
-public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,TypedNode{
+public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, TypedNode {
+
     private String id;
-    private ArrayList<ShaderField> fields = new ArrayList<ShaderField>();
+    private final ArrayList<ShaderField> fields = new ArrayList<>();
 
     private ShaderStructCollection parent;
 
@@ -24,48 +26,54 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
     /**
      * A list of listeners.
      */
-    private ArrayList<StructListener> listeners = new ArrayList<StructListener>();
+    private final ArrayList<StructListener> listeners = new ArrayList<>();
 
     /**
      * Creates a new empty ShaderStruct object.
+     *
      * @param id the id for the ShaderStruct object, as used in code generation.
+     * @param typeLibrary
      */
-    public ShaderStruct(String id,ShaderTypeLibrary typeLibrary){
+    public ShaderStruct(String id, ShaderTypeLibrary typeLibrary) {
         // no specified order for a ShaderStruct.
-        super( id, -1);
+        super(id, -1);
         this.id = id;
         this.typeLibrary = typeLibrary;
     }
 
     /**
      * Returns the type library that is used by this struct.
+     *
      * @return the type library.
      */
-    public ShaderTypeLibrary getTypeLibrary(){
+    public ShaderTypeLibrary getTypeLibrary() {
         return typeLibrary;
     }
 
     /**
      * Returns the id for the ShaderStruct object.
+     *
      * @return the id for the shader struct object.
      */
-    public String getId(){
+    public String getId() {
         return id;
     }
 
     /**
      * Sets the id for the ShaderStruct object.
+     *
      * @param id the new id for the struct.
      */
-    public void setId(String id){
+    public void setId(String id) {
         this.id = id;
     }
 
     /**
      * Adds a shader field to the list of fields.
+     *
      * @param field the field to add.
      */
-    public void addShaderField(ShaderField field){
+    public void addShaderField(ShaderField field) {
         fields.add(field);
         field.setParent(this);
         this.notifyFieldInserted(field);
@@ -73,28 +81,32 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Removes a shader field from the list of fields.
+     *
      * @param field the field to remove.
      */
-    public void removeShaderField(ShaderField field){
+    public void removeShaderField(ShaderField field) {
         fields.remove(field);
     }
 
     /**
-     * Checks if a field with the given name is present in
-     * this ShaderStruct object.
+     * Checks if a field with the given name is present in this ShaderStruct
+     * object.
+     *
      * @param name the name of the field.
      * @return true if the field is present, false otherwise.
      */
-    public boolean containsField(String name){
-        for (ShaderField field : fields){
-            if ( field.getName().equals(name))
+    public boolean containsField(String name) {
+        for (ShaderField field : fields) {
+            if (field.getName().equals(name)) {
                 return true;
+            }
         }
         return false;
     }
 
     /**
      * Returns the list of fields in this ShaderStruct definition.
+     *
      * @return the list of fields.
      */
     public Iterable<ShaderField> getFields() {
@@ -103,15 +115,17 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Returns a String representation of this ShaderStruct.
+     *
      * @return the string representation of the ShaderStruct object.
      */
     @Override
-    public String toString(){
+    public String toString() {
         return id;
     }
 
     /**
      * Returns the child at the specific index.
+     *
      * @param childIndex the index
      * @return always
      */
@@ -121,14 +135,16 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Returns the number of children in this ShaderStruct.
+     *
      * @return the number of children.
      */
     public int getChildCount() {
-       return fields.size();
+        return fields.size();
     }
 
     /**
      * The parent of this ShaderStruct object.
+     *
      * @return the parent.
      */
     public TreeNode getParent() {
@@ -137,6 +153,7 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Gets the index of a specific child object.
+     *
      * @param node the node to get the index of.
      * @return the index of the node object
      */
@@ -146,6 +163,7 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Checks if this node allows children.
+     *
      * @return always true.
      */
     public boolean getAllowsChildren() {
@@ -154,6 +172,7 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Checks if this node is a leaf object.
+     *
      * @return always false.
      */
     public boolean isLeaf() {
@@ -163,8 +182,10 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
     public Enumeration children() {
         return null;
     }
+
     /**
      * Returns the field at the specific index.
+     *
      * @param index the index to use.
      * @return the ShaderField object.
      */
@@ -174,6 +195,7 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Removes a shader field from the list of fields.
+     *
      * @param index the index of the shader field to remove.
      */
     public void removeShaderField(int index) {
@@ -182,6 +204,7 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Returns the number of fields in this ShaderStruct object.
+     *
      * @return the number of fields.
      */
     public int getNrOfFields() {
@@ -190,31 +213,36 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Notifies the listeners that a field was changed.
-     * @param oldValue a ShaderField object that contains the old values of the field.
-     * @param newValue a ShaderField object that contains the new values of the field.
+     *
+     * @param oldValue a ShaderField object that contains the old values of the
+     * field.
+     * @param newValue a ShaderField object that contains the new values of the
+     * field.
      */
-    public void notifyFieldChanged(ShaderField newValue, ShaderField oldValue){
-        for ( StructListener l : listeners){
+    public void notifyFieldChanged(ShaderField newValue, ShaderField oldValue) {
+        for (StructListener l : listeners) {
             l.structFieldUpdated(this, newValue, oldValue);
         }
     }
 
     /**
      * Notifies the listeners that a field was removed.
+     *
      * @param field the field that was removed.
      */
-    public void notifyFieldRemoved(ShaderField field){
-        for ( StructListener l : listeners) {
+    public void notifyFieldRemoved(ShaderField field) {
+        for (StructListener l : listeners) {
             l.structFieldRemoved(this, field);
         }
     }
 
-     /**
+    /**
      * Notifies the listeners that a field was inserted.
+     *
      * @param field the field that was removed.
      */
-    public void notifyFieldInserted(ShaderField field){
-        for ( StructListener l : listeners) {
+    public void notifyFieldInserted(ShaderField field) {
+        for (StructListener l : listeners) {
             l.structFieldInserted(this, field);
         }
     }
@@ -222,14 +250,15 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
     /**
      * Notifies the listeners that the id of the struct was changed.
      */
-    public void notifyStructIdChanged(){
-        for ( StructListener l : listeners) {
+    public void notifyStructIdChanged() {
+        for (StructListener l : listeners) {
             l.structIdChanged(this);
         }
     }
 
     /**
      * Adds a struct listener to the list of listeners.
+     *
      * @param listener the listener to add.
      */
     public void addStructListener(StructListener listener) {
@@ -239,14 +268,16 @@ public class ShaderStruct extends ShaderType implements TreeNode,Cloneable,Typed
 
     /**
      * Removes a struct listener from the list of listeners.
+     *
      * @param listener the listener to remove.
      */
-    public void removeStructListener(StructListener listener){
+    public void removeStructListener(StructListener listener) {
         listeners.remove(listener);
     }
 
     /**
      * Returns the type of object
+     *
      * @return always "struct".
      */
     public String getType() {
