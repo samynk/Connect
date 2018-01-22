@@ -4,9 +4,7 @@
         "version": 1,
         "minorversion":0,
         "nodes": "nodes/daev1/nodes.xml",
-        "templates":"fxtemplates/default.daefx",
-        "codegenerators": ["templates/daev1/daev1.codegen"]
-        
+        "templates":"fxtemplates/default.daefx"
     },
     {
         "name": "rigging",
@@ -14,6 +12,12 @@
         "minorversion":0,
         "nodes": "nodes/rigging/nodes.xml",
         "templates": "fxtemplates/rigging/rigging.daefx",
-        "codegenerators": ["templates/daev1/daev1.codegen"]
+        "codegenerators": [
+            {
+                "label":"Rigging", 
+                "description":"Exports a graph as a rigging definition file.",
+                "codegen":"templates/rigging/rigging.codegen"
+            }
+        ]
     }
 ]
