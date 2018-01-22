@@ -1,9 +1,9 @@
 package dae.fxcreator.io.codegen;
 
 import dae.fxcreator.io.ExportFile;
-import dae.fxcreator.io.FXProject;
+import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.PathUtil;
-import dae.fxcreator.io.TypedNode;
+import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.io.codegen.parser.CodeServlet;
 import dae.fxcreator.io.codegen.parser.TemplateClass;
 import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;

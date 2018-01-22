@@ -3,7 +3,7 @@
  */
 package dae.fxcreator.loaders;
 
-import dae.fxcreator.io.FXProjectType;
+import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import java.util.ArrayList;
 import org.junit.After;

@@ -1,4 +1,4 @@
-package dae.fxcreator.io;
+package dae.fxcreator.node;
 
 /**
  * Interface to adopt by every object that plays a role in outputting a nodestructure

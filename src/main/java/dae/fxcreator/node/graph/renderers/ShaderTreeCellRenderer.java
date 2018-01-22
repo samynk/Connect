@@ -1,9 +1,9 @@
 package dae.fxcreator.node.graph.renderers;
 
-import dae.fxcreator.io.FXProject;
-import dae.fxcreator.io.Pass;
-import dae.fxcreator.io.ShaderStage;
-import dae.fxcreator.io.Technique;
+import dae.fxcreator.node.project.FXProject;
+import dae.fxcreator.node.project.Pass;
+import dae.fxcreator.node.project.ShaderStage;
+import dae.fxcreator.node.project.Technique;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderStruct;
 import dae.fxcreator.node.gui.ImageLoader;

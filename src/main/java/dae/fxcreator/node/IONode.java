@@ -1,9 +1,7 @@
 package dae.fxcreator.node;
 
-import dae.fxcreator.io.FXProject;
-import dae.fxcreator.io.FXProjectType;
-import dae.fxcreator.io.NodeGroupWalker;
-import dae.fxcreator.io.TypedNode;
+import dae.fxcreator.node.project.FXProject;
+import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.events.IOListener;
 import dae.fxcreator.io.events.SettingListener;
 import dae.fxcreator.io.templates.Setting;

@@ -1,5 +1,7 @@
-package dae.fxcreator.io;
+package dae.fxcreator.node.project;
 
+import dae.fxcreator.node.TypedNode;
+import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderNode;
 import java.util.ArrayList;

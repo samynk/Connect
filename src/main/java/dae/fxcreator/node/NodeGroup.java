@@ -1,4 +1,4 @@
-package dae.fxcreator.io;
+package dae.fxcreator.node;
 
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ReferenceNode;

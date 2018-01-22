@@ -1,6 +1,6 @@
 package dae.fxcreator.io.loaders;
 
-import dae.fxcreator.io.FXProjectType;
+import dae.fxcreator.node.project.FXProjectType;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;

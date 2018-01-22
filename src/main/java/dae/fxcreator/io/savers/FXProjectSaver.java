@@ -1,5 +1,11 @@
 package dae.fxcreator.io.savers;
 
+import dae.fxcreator.node.project.FXProjectType;
+import dae.fxcreator.node.NodeGroup;
+import dae.fxcreator.node.project.ShaderStage;
+import dae.fxcreator.node.project.Pass;
+import dae.fxcreator.node.project.Technique;
+import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.*;
 import dae.fxcreator.io.templates.Setting;
 import dae.fxcreator.node.IONode;

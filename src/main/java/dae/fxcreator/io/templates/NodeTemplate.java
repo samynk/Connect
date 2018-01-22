@@ -1,7 +1,7 @@
 package dae.fxcreator.io.templates;
 
-import dae.fxcreator.io.FXProject;
-import dae.fxcreator.io.ShaderStage;
+import dae.fxcreator.node.project.FXProject;
+import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IteratorNode;
 import dae.fxcreator.node.NodeContainer;

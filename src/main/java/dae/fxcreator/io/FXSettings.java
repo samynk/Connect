@@ -1,5 +1,6 @@
 package dae.fxcreator.io;
 
+import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.codegen.CodeTemplateLibrary;
 import dae.fxcreator.io.codegen.ExporterLibrary;
 import dae.fxcreator.io.events.SymbolListener;

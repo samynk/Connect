@@ -1,6 +1,6 @@
 package dae.fxcreator.io.codegen;
 
-import dae.fxcreator.io.TypedNode;
+import dae.fxcreator.node.TypedNode;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;

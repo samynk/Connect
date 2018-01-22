@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph.menus;
 
-import dae.fxcreator.io.FXProject;
-import dae.fxcreator.io.ShaderStructCollection;
+import dae.fxcreator.node.project.FXProject;
+import dae.fxcreator.node.project.ShaderStructCollection;
 import dae.fxcreator.node.ShaderStruct;
 import dae.fxcreator.node.graph.TechniqueEditorPanel;
 import java.awt.event.ActionEvent;

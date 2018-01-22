@@ -1,8 +1,5 @@
 package dae.fxcreator.node;
 
-import dae.fxcreator.io.NodeGroup;
-import dae.fxcreator.io.NodeGroupWalker;
-import dae.fxcreator.io.TypedNode;
 import dae.fxcreator.io.templates.Setting;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,5 +1,7 @@
 package dae.fxcreator.io;
 
+import dae.fxcreator.node.project.FXProjectType;
+import dae.fxcreator.node.project.FXProject;
 import java.nio.file.Path;
 import javax.swing.tree.TreeNode;
 

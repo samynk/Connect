@@ -2,7 +2,7 @@ package dae.fxcreator.node.graph.events;
 
 //TreeDragSource.java
 
-import dae.fxcreator.io.TypedNode;
+import dae.fxcreator.node.TypedNode;
 import java.awt.datatransfer.StringSelection;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DragGestureEvent;

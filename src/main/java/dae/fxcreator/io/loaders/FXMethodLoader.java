@@ -1,6 +1,6 @@
 package dae.fxcreator.io.loaders;
 
-import dae.fxcreator.io.NodeGroup;
+import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.io.templates.NodeTemplate;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.templates.Setting;

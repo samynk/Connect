@@ -1,8 +1,8 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.io.FXProject;
+import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.io.NodeGroup;
+import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.io.templates.NodeContainerProxy;
 import dae.fxcreator.io.templates.NodeTemplate;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;

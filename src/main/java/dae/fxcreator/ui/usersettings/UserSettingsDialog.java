@@ -1,6 +1,6 @@
 package dae.fxcreator.ui.usersettings;
 
-import dae.fxcreator.io.FXProject;
+import dae.fxcreator.node.project.FXProject;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Collections;

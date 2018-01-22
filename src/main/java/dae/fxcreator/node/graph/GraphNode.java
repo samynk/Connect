@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.io.FXProjectType;
+import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.IONode;

@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.io.FXProject;
-import dae.fxcreator.io.ShaderStage;
+import dae.fxcreator.node.project.FXProject;
+import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.io.events.SettingListener;
 import dae.fxcreator.io.templates.Setting;
 import dae.fxcreator.node.IONode;

@@ -1,7 +1,5 @@
 package dae.fxcreator.node;
 
-import dae.fxcreator.io.NodeGroup;
-import dae.fxcreator.io.NodeGroupWalker;
 import dae.fxcreator.io.events.SettingListener;
 import dae.fxcreator.io.templates.Setting;
 import dae.fxcreator.io.type.ShaderTypeLibrary;

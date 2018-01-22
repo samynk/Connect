@@ -1,8 +1,8 @@
 package dae.fxcreator.node.graph.menus;
 
-import dae.fxcreator.io.FXProject;
-import dae.fxcreator.io.Pass;
-import dae.fxcreator.io.ShaderStage;
+import dae.fxcreator.node.project.FXProject;
+import dae.fxcreator.node.project.Pass;
+import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.io.events.StageListener;
 import dae.fxcreator.io.templates.NodeTemplate;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;

@@ -1,6 +1,6 @@
 package dae.fxcreator.ui.usersettings;
 
-import dae.fxcreator.io.FXProject;
+import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.type.ShaderTypeLibrary;

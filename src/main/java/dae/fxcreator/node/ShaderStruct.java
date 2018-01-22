@@ -1,7 +1,6 @@
 package dae.fxcreator.node;
 
-import dae.fxcreator.io.ShaderStructCollection;
-import dae.fxcreator.io.TypedNode;
+import dae.fxcreator.node.project.ShaderStructCollection;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import java.util.ArrayList;
 import java.util.Enumeration;

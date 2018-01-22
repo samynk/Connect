@@ -1,6 +1,6 @@
 package dae.fxcreator.io.loaders;
 
-import dae.fxcreator.io.FXProjectType;
+import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.io.codegen.CodeTemplateLibrary;

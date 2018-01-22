@@ -1,5 +1,6 @@
 package dae.fxcreator.io;
 
+import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.loaders.FXProjectLoader;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

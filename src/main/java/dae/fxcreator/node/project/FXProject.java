@@ -1,5 +1,9 @@
-package dae.fxcreator.io;
+package dae.fxcreator.node.project;
 
+import dae.fxcreator.io.ExportFile;
+import dae.fxcreator.node.NodeGroup;
+import dae.fxcreator.io.PathUtil;
+import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.io.events.StageListener;
 import dae.fxcreator.io.events.SymbolListener;

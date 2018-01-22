@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.menus;
 
-import dae.fxcreator.io.FXProject;
+import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.ShaderField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

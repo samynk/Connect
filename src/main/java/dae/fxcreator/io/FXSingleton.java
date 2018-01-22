@@ -1,5 +1,6 @@
 package dae.fxcreator.io;
 
+import dae.fxcreator.node.project.FXProjectType;
 import com.google.common.eventbus.EventBus;
 import dae.fxcreator.ui.usersettings.UserSettings;
 import dae.fxcreator.util.ListHashMap;

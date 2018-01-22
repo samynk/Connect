@@ -1,13 +1,10 @@
 package dae.fxcreator.util;
 
-import dae.fxcreator.io.NodeGroup;
-import dae.fxcreator.io.ShaderStage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import javax.swing.tree.TreeNode;
 
 /**
  * A combination of a hashmap and a list.

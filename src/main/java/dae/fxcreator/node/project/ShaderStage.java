@@ -1,5 +1,8 @@
-package dae.fxcreator.io;
+package dae.fxcreator.node.project;
 
+import dae.fxcreator.node.NodeGroup;
+import dae.fxcreator.node.NodeGroupWalker;
+import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.ShaderIO;

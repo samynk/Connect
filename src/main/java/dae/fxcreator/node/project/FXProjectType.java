@@ -1,4 +1,4 @@
-package dae.fxcreator.io;
+package dae.fxcreator.node.project;
 
 import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;

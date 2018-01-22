@@ -1,11 +1,11 @@
 package dae.fxcreator.ui;
 
 import com.google.common.eventbus.Subscribe;
-import dae.fxcreator.io.FXProject;
+import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.FXProjectTemplate;
 import dae.fxcreator.io.FXProjectTemplateGroup;
 import dae.fxcreator.io.FXProjectTemplates;
-import dae.fxcreator.io.FXProjectType;
+import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.PathUtil;

@@ -1,6 +1,6 @@
 package dae.fxcreator.node;
 
-import dae.fxcreator.io.FXProject;
+import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.templates.Setting;
 import java.util.ArrayList;
 import java.util.List;

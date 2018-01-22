@@ -5,7 +5,7 @@
  */
 package dae.fxcreator.node;
 
-import dae.fxcreator.io.FXProjectType;
+import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;

@@ -1,5 +1,6 @@
-package dae.fxcreator.io;
+package dae.fxcreator.node.project;
 
+import dae.fxcreator.node.project.FXProject;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;

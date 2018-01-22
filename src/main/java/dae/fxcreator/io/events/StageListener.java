@@ -1,7 +1,7 @@
 package dae.fxcreator.io.events;
 
-import dae.fxcreator.io.FXProject;
-import dae.fxcreator.io.ShaderStage;
+import dae.fxcreator.node.project.FXProject;
+import dae.fxcreator.node.project.ShaderStage;
 
 /**
  * Listener interface for objects that are interested in changes

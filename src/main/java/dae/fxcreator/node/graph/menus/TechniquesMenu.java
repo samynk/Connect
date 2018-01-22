@@ -1,8 +1,8 @@
 package dae.fxcreator.node.graph.menus;
 
-import dae.fxcreator.io.FXProject;
-import dae.fxcreator.io.Technique;
-import dae.fxcreator.io.TechniqueCollection;
+import dae.fxcreator.node.project.FXProject;
+import dae.fxcreator.node.project.Technique;
+import dae.fxcreator.node.project.TechniqueCollection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;

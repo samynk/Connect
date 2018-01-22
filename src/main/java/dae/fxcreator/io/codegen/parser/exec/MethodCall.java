@@ -1,6 +1,6 @@
 package dae.fxcreator.io.codegen.parser.exec;
 
-import dae.fxcreator.io.TypedNode;
+import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.io.codegen.ExportTask;
 
 /**
