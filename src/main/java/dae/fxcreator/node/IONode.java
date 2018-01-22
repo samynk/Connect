@@ -14,12 +14,10 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.tree.TreeNode;
 
 /**
- * This class desribes the properties of an Input Output node.
+ * This class describes the properties of an Input Output node.
  *
  * @author Koen
  */
@@ -1310,16 +1308,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
     }
 
     public static void main(String[] args) {
-        Pattern rulePattern = java.util.regex.Pattern.compile("\\b([\\w|\\d]*)(?:,([\\w|\\d]*))*\\b");
-        String test = "op1,op2,op3,op4";
-        Matcher m = rulePattern.matcher(test);
-        System.out.println(m.groupCount());
-        if (m.find()) {
-            int groupcount = m.groupCount();
-            for (int i = 1; i <= groupcount; ++i) {
-                System.out.println(m.group(i));
-            }
-        }
+        
 
     }
 
