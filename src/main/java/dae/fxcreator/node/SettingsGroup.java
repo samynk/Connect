@@ -13,13 +13,13 @@ public class SettingsGroup {
     /**
      * The name for the settings group.
      */
-    private String name;
+    private final String name;
 
-    private ArrayList<Setting> settings = new ArrayList<Setting>();
-    private HashMap<String,Setting> settingsMap = new HashMap<String,Setting>();
+    private final ArrayList<Setting> settings = new ArrayList<>();
+    private final HashMap<String,Setting> settingsMap = new HashMap<>();
 
     /**
-     * Creates a new SettingsGroup object with the given anem.
+     * Creates a new SettingsGroup object with the given name.
      * @param name the name for the settings group.
      */
     public SettingsGroup(String name){
