@@ -9,6 +9,7 @@ import javax.swing.tree.TreeNode;
 
 /**
  * The definition of a field inside the shader struct.
+ *
  * @author Koen
  */
 public class ShaderField implements Cloneable, TreeNode {
@@ -27,7 +28,7 @@ public class ShaderField implements Cloneable, TreeNode {
     /**
      * The semantic of the shader field.
      */
-    private Semantic semantic = new Semantic();
+    private final Semantic semantic = new Semantic();
     /**
      * The type of the shader field.
      */
@@ -39,7 +40,7 @@ public class ShaderField implements Cloneable, TreeNode {
     /**
      * A pattern for the string representation of this field.
      */
-    private Pattern valuePattern;
+    private static final Pattern VALUE_PATTERN = Pattern.compile("(.*?)\\s([^\\:]*?)(?:\\:(.*?))?");
 
     /**
      * Creates a new ShaderField object.
@@ -51,13 +52,13 @@ public class ShaderField implements Cloneable, TreeNode {
         this.name = name;
         this.semantic.setValue(semantic);
         this.type = type;
-
-        valuePattern = Pattern.compile("(.*?)\\s([^\\:]*?)(?:\\:(.*?))?");
     }
 
     /**
      * Returns a clone of this object.
+     *
      * @return the clone of this object.
+     * @throws java.lang.CloneNotSupportedException if clone is not supported.
      */
     @Override
     public Object clone() throws CloneNotSupportedException {
@@ -66,15 +67,17 @@ public class ShaderField implements Cloneable, TreeNode {
 
     /**
      * Set the ShaderStruct object that is the parent of this struct object.
+     *
      * @param parent the parent of this ShaderField object.
      */
-    public void setParent(ShaderStruct struct) {
-        parent = struct;
+    public void setParent(ShaderStruct parent) {
+        this.parent = parent;
     }
 
     /**
-     * Returns the name of this shaderfield.
-     * @return the name of the shaderfield.
+     * Returns the name of this shader field.
+     *
+     * @return the name of the shader field.
      */
     public String getName() {
         return name;
@@ -82,6 +85,7 @@ public class ShaderField implements Cloneable, TreeNode {
 
     /**
      * Sets the name of the shaderfield.
+     *
      * @param name the name of the shaderfield.
      */
     public void setName(String name) {
@@ -97,12 +101,12 @@ public class ShaderField implements Cloneable, TreeNode {
             } else {
                 this.name = name;
             }
-
         }
     }
 
     /**
      * Returns the semantic of this shaderfield.
+     *
      * @return the semantic of the shaderfield.
      */
     public Semantic getSemantic() {
@@ -111,6 +115,7 @@ public class ShaderField implements Cloneable, TreeNode {
 
     /**
      * Sets the semantic of this shaderfield.
+     *
      * @param semantic the new semantic value.
      */
     public void setSemantic(String semantic) {
@@ -131,7 +136,8 @@ public class ShaderField implements Cloneable, TreeNode {
     }
 
     /**
-     * Returns the type of the shaderfield.
+     * Returns the type of the shader field.
+     *
      * @return the type.
      */
     public ShaderType getType() {
@@ -139,8 +145,9 @@ public class ShaderField implements Cloneable, TreeNode {
     }
 
     /**
-     * Sets the type of the shaderfield.
-     * @param type the new type for the shaderfield.
+     * Sets the type of the shader field.
+     *
+     * @param type the new type for the shader field.
      */
     public void setType(ShaderType type) {
         if (this.type != type) {
@@ -162,64 +169,79 @@ public class ShaderField implements Cloneable, TreeNode {
 
     /**
      * Returns the child at a specific position.
+     *
      * @param childIndex the index of the child.
      * @return always null, because this is a tree node.
      */
+    @Override
     public TreeNode getChildAt(int childIndex) {
         return null;
     }
 
     /**
      * Returns the number of children of this node.
+     *
      * @return always 0, this is a leaf node.
      */
+    @Override
     public int getChildCount() {
         return 0;
     }
 
     /**
      * Returns the ShaderStruct object this ShaderField belongs to.
+     *
      * @return the TreeNode object that is the parent.
      */
+    @Override
     public TreeNode getParent() {
         return this.parent;
     }
 
     /**
      * Returns the index of a TreeNode object.
+     *
      * @param node the index of the node object.
      * @return -1, this node does not support child objects.
      */
+    @Override
     public int getIndex(TreeNode node) {
         return -1;
     }
 
     /**
      * Checks if this node supports children.
+     *
      * @return always false.
      */
+    @Override
     public boolean getAllowsChildren() {
         return false;
     }
 
     /**
      * Checks if this node is a leaf node.
+     *
      * @return always true.
      */
+    @Override
     public boolean isLeaf() {
         return true;
     }
 
     /**
      * Not supported because Enumeration objects are ancient evils.
+     *
      * @return always null.
      */
+    @Override
     public Enumeration children() {
         return null;
     }
 
     /**
      * Return a String representation of this field.
+     *
      * @return a String representation of this field.
      */
     @Override
@@ -233,7 +255,7 @@ public class ShaderField implements Cloneable, TreeNode {
 
     /**
      * Delete a field from the struct.
-     * 
+     *
      */
     public void deleteFromStruct() {
         if (parent != null) {
@@ -243,19 +265,16 @@ public class ShaderField implements Cloneable, TreeNode {
 
     /**
      * Decodes field values in the format : type name<:semantic>
-     * @param toString
+     *
+     * @param value the string to decode.
+     * @return true if the value has the correct format, false otherwise.
      */
     public boolean decode(String value) {
-        Matcher m = valuePattern.matcher(value);
+        Matcher m = VALUE_PATTERN.matcher(value);
         if (m.matches()) {
-            System.out.println(m.groupCount());
-
             if (m.groupCount() > 1) {
                 String dtype = m.group(1);
-                System.out.println(dtype);
                 String dname = m.group(2);
-                System.out.println(dname);
-                System.out.println(m.group(3));
                 try {
                     ShaderType dst = parent.typeLibrary.getType(dtype);
                     this.setType(dst);
@@ -263,39 +282,18 @@ public class ShaderField implements Cloneable, TreeNode {
                 }
                 this.setName(dname);
             }
-            if (m.groupCount() == 2) {
-                return true;
-            } else if (m.groupCount() == 3) {
-                String dsemantic = m.group(3);
-                this.setSemantic(dsemantic);
-                return true;
-            } else {
-                return false;
+            switch (m.groupCount()) {
+                case 2:
+                    return true;
+                case 3:
+                    String dsemantic = m.group(3);
+                    this.setSemantic(dsemantic);
+                    return true;
+                default:
+                    return false;
             }
         } else {
             return false;
         }
-    }
-
-    public static void main(String[] args) {
-        ShaderField field = new ShaderField("test", "WORLD", new ShaderType("FLOAT4",8));
-        field.decode("FLOAT3 test2:WORLD");
-        System.out.println("first test:");
-        printField(field);
-
-
-        field.decode("FLOAT2 test3");
-        System.out.println("second test:");
-        printField(field);
-
-        field.decode("FLOAT3 newfield:WORLD");
-        System.out.println("third test:");
-        printField(field);
-    }
-
-    private static void printField(ShaderField field){
-        System.out.println("Type = " + field.getType());
-        System.out.println("Name = " + field.getName());
-        System.out.println("Semantic = "+ field.getSemantic());
     }
 }
