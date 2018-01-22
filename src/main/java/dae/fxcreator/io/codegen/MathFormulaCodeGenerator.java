@@ -20,7 +20,7 @@ public class MathFormulaCodeGenerator {
      */
     public String createFormula(MathFormula root){
         StringBuilder result = new StringBuilder();
-        root.build(result, this);
+        //root.build(result, this);
         return result.toString();
     }
     

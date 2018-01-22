@@ -1,10 +1,7 @@
 package dae.fxcreator.io.codegen;
 
-import dae.fxcreator.io.ExportFile;
 import dae.fxcreator.node.project.FXProject;
-import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.node.TypedNode;
-import dae.fxcreator.io.codegen.parser.CodeServlet;
 import dae.fxcreator.io.codegen.parser.TemplateClass;
 import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.io.templates.MathSetting;
@@ -14,8 +11,6 @@ import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -48,10 +43,13 @@ public class ExportTask {
         this.library = library;
         this.output = new CodeOutput(library);
 
+        // to do fix exporting.
+        /*
         ExportFile ef = this.project.getExportDestination(exporterId);
         Path file = Paths.get(ef.getDirectory().getPath(), ef.getFilename() + "." + ef.getExtension());
 
         createPathStream("default", file);
+        */
     }
 
     public ExportTask(FXProject project, Path exportLocation, TemplateClassLibrary library) {

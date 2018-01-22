@@ -109,7 +109,7 @@ public class MultipleMathElement extends MathElement {
         }
     }
 
-    @Override
+//    @Override
     public void build(StringBuilder result, MathFormulaCodeGenerator codeGenerator) {
         result.append("<multiple elements not yet implemented>");
     }

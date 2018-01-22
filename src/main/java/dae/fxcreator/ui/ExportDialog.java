@@ -41,6 +41,7 @@ public class ExportDialog extends javax.swing.JDialog {
             return;
         }
 
+        /*
         ExportFile export = project.getExportDestination(exporterId);
        
         if ( export != null){
@@ -59,6 +60,7 @@ public class ExportDialog extends javax.swing.JDialog {
             txtExtension.setText(extension);
             project.addExportDestination(exporterId, new ExportFile(dir,project.getName(),extension));
         }
+        */
     }
 
     /** @return the return status of this dialog - one of RET_OK or RET_CANCEL */
@@ -219,21 +221,25 @@ public class ExportDialog extends javax.swing.JDialog {
     private void btnChooseDirectoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseDirectoryActionPerformed
         int option = chooser.showOpenDialog(this);
         if (option == JFileChooser.APPROVE_OPTION){
+            /*
             ExportFile export = project.getExportDestination(exporterId);
             if ( export != null){
                 
                 txtExport.setText(chooser.getSelectedFile().getPath());
             }
+            */
         }
     }//GEN-LAST:event_btnChooseDirectoryActionPerformed
 
     private void doClose(int retStatus) {
         returnStatus = retStatus;
         if ( returnStatus == RET_OK){
+            /*
             ExportFile export = project.getExportDestination(exporterId);
             export.setDirectory(new File(txtExport.getText()));
             export.setFilename(txtShaderName.getText());
             export.setExtension(txtExtension.getText());
+            */
         }
         setVisible(false);
         dispose();

@@ -1,10 +1,10 @@
 package dae.fxcreator.node.project;
 
-import dae.fxcreator.io.ExportFile;
+//import dae.fxcreator.io.ExportFile;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.node.TypedNode;
-import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
+//import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.io.events.StageListener;
 import dae.fxcreator.io.events.SymbolListener;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;
@@ -59,7 +59,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     private final TechniqueCollection techniques;
     private final ShaderStageCollection stages;
     private StatesCollection states;
-    private final HashMap<String, ExportFile> exportSettings = new HashMap<>();
+    //private final HashMap<String, ExportFile> exportSettings = new HashMap<>();
     private final ShaderStructCollection shaderStructs;
     private final ArrayList<TreeModelListener> listeners = new ArrayList<>();
     private final ArrayList<StageListener> stageListeners = new ArrayList<>();
@@ -256,17 +256,20 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     public ShaderNode findGlobalNode(String id) {
         return globalNodeMap.get(id);
     }
-
+    
+    /*
     /**
      * Adds an export file for a given exporter id to the exporter list.
      *
      * @param exporterId the id for the exporter.
      * @param file the File to export to.
      */
+    /*
     public void addExportDestination(String exporterId, ExportFile file) {
         this.exportSettings.put(exporterId, file);
     }
-
+    */
+    
     /**
      * Retusn the export destination for a given exporter id.
      *
@@ -274,18 +277,22 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      * @return null if the export destination is not set, the file object
      * otherwise.
      */
+    /*
     public ExportFile getExportDestination(String exporterId) {
         return exportSettings.get(exporterId);
     }
+    */
 
     /**
      * Returns the set of exporter ids in this project.
      *
      * @return the set of exporter ids in this project.
      */
+    /*
     public Iterable<String> getExportDestinations() {
         return exportSettings.keySet();
     }
+    */
 
     /**
      * Returns the name of the project.
@@ -813,6 +820,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      * @param exporterId the id of the exporter.
      * @return the default extension for the exporter.
      */
+    /*
     public String getExportExtension(String exporterId) {
         if (type != null) {
             TemplateClassLibrary codegen = type.getCodeTemplateLibrary(exporterId);
@@ -825,6 +833,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
             return "fx";
         }
     }
+    */
 
     public NodeGroup getFirstStage() {
         return this.stages.getFirstStage();

@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.math;
 
-import dae.fxcreator.io.codegen.MathFormulaCodeGenerator;
+//import dae.fxcreator.io.codegen.MathFormulaCodeGenerator;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -85,6 +85,7 @@ public class MathFormula extends MathElement {
      * @param aThis
      * @return 
      */
+    /*
     public void build(StringBuilder result, MathFormulaCodeGenerator codeGenerator) {
         for(MathElement element: this.roots)
         {
@@ -92,4 +93,5 @@ public class MathFormula extends MathElement {
             result.append('\n');
         }
     }
+    */
 }

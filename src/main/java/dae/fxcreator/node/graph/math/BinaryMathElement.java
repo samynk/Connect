@@ -146,7 +146,7 @@ public class BinaryMathElement extends MathElement {
         }
     }
 
-    @Override
+    
     public void build(StringBuilder result, MathFormulaCodeGenerator codeGenerator) {
         MathTemplate template = codeGenerator.getMathTemplate(this.operation.getText());
         for (MathInstruction mi : template.getMathInstructions())
@@ -160,7 +160,7 @@ public class BinaryMathElement extends MathElement {
                 }else{
                     child = this.getSecondElement();
                 }
-                child.build(result, codeGenerator);
+                //child.build(result, codeGenerator);
             }
         }
     }

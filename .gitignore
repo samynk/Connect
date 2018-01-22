@@ -1,3 +1,4 @@
 /templates/codegen/
 /test/test.rig
 /.gradle
+/core/build/

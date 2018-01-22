@@ -101,6 +101,7 @@ public class FXProjectSaver extends XMLSaver {
 
     private void writeExport(BufferedWriter bw) throws IOException {
         bw.write("\t<export>\n");
+        /*
         for (String id : project.getExportDestinations()) {
             ExportFile destination = project.getExportDestination(id);
             bw.write("\t\t<file ");
@@ -113,6 +114,7 @@ public class FXProjectSaver extends XMLSaver {
             bw.write("]]>");
             bw.write("</file>");
         }
+        */
         bw.write("\t</export>\n");
     }
 

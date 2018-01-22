@@ -1,9 +1,9 @@
 package dae.fxcreator.io.templates;
 
 import dae.fxcreator.io.PathUtil;
-import dae.fxcreator.io.loaders.FXMethodLoader;
-import dae.fxcreator.io.savers.FXMethodListSaver;
-import dae.fxcreator.io.savers.FXMethodSaver;
+//import dae.fxcreator.io.loaders.FXMethodLoader;
+//import dae.fxcreator.io.savers.FXMethodListSaver;
+//import dae.fxcreator.io.savers.FXMethodSaver;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;
@@ -254,6 +254,7 @@ public class NodeTemplateLibrary implements TreeModel {
         return methodMap.values();
     }
 
+    // todo move this method to the io subproject.
     /**
      * Saves a NodeContainer to the storage.
      * @param container the container to store.
@@ -276,24 +277,25 @@ public class NodeTemplateLibrary implements TreeModel {
         }
 
         Path saveFilePath = startDir.resolve( paths[paths.length - 1] + ".daefx");
-       
-        
-       
+        /*
         FXMethodSaver saver = new FXMethodSaver(PathUtil.createUserDirPath(saveFilePath), container);
         saver.save();
         this.addMethod(proxy);
         saveMethodList();
+        */
     }
 
+    // todo: move this method to the io subproject.
     /**
      * Saves the list of available groups to the groups.xml file.
      */
     public void saveMethodList() {
         Path groupFile = location.getParent().resolve("groups.xml");
         
-
+        /*
         FXMethodListSaver saver = new FXMethodListSaver(this, PathUtil.createUserDirPath(groupFile));
         saver.save();
+        */
     }
 
     /**
@@ -324,10 +326,14 @@ public class NodeTemplateLibrary implements TreeModel {
             if (!Files.exists(groupPath)) {
                 return null;
             } else {
+                // todo : move to io subproject
+                /*
                 FXMethodLoader loader = new FXMethodLoader(groupPath, this);
                 loader.load();
                 proxy.setNodeContainer(loader.getResult());
                 return proxy.createNodeContainer();
+                */
+                return null;
             }
         }
     }

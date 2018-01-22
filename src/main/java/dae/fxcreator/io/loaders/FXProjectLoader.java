@@ -363,7 +363,7 @@ public class FXProjectLoader extends DefaultHandler {
             String name = attributes.getValue("name");
             String extension = attributes.getValue("extension");
             currentExportFile = new ExportFile(name, extension);
-            project.addExportDestination(exporterId, currentExportFile);
+            //project.addExportDestination(exporterId, currentExportFile);
             charBuffer.delete(0, charBuffer.length());
         } else if ("project".equals(qName)) {
             String name = attributes.getValue("name");

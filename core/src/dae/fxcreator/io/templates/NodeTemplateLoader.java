@@ -1,7 +1,7 @@
 package dae.fxcreator.io.templates;
 
 import dae.fxcreator.io.PathUtil;
-import dae.fxcreator.io.loaders.FXProjectLoader;
+//import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderNode;
@@ -85,7 +85,7 @@ public class NodeTemplateLoader extends DefaultHandler {
                 SAXParser parser = factory.newSAXParser();
                 parser.parse(PathUtil.createUserDirStream(path), this);
             } catch (IOException | ParserConfigurationException | SAXException ex) {
-                Logger.getLogger(FXProjectLoader.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NodeTemplateLoader.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         return this.library;

@@ -119,7 +119,7 @@ public class UnaryMathElement extends MathElement {
         }
     }
 
-    @Override
+    //@Override
     public void build(StringBuilder result, MathFormulaCodeGenerator codeGenerator) {
         MathTemplate mt = codeGenerator.getMathTemplate(this.operation.getText());
         if ( mt != null)
@@ -129,7 +129,7 @@ public class UnaryMathElement extends MathElement {
                 if ( mi.isLiteral()){
                     result.append(mi.getText());
                 }else{
-                    this.child.build(result, codeGenerator);
+                    //this.child.build(result, codeGenerator);
                 }
             }
         }

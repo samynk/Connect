@@ -248,10 +248,12 @@ public class FXCreator2 extends javax.swing.JFrame {
     
     private void adjustExporterMenu(){
         mnuExport.removeAll();
+        /*
         for ( TemplateClassLibrary tcl : project.getProjectType().getExporterLibraries()){
             ExportAction ea = new ExportAction(tcl);
             mnuExport.add(ea);
         }
+        */
     }
 
     /**

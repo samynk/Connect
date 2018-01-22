@@ -1,7 +1,7 @@
 
 package dae.fxcreator.node.graph.math;
 
-import dae.fxcreator.io.codegen.MathFormulaCodeGenerator;
+//import dae.fxcreator.io.codegen.MathFormulaCodeGenerator;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
@@ -47,5 +47,5 @@ public abstract class MathElement {
 
     public abstract Dimension calculateSize(Graphics2D g2d);
 
-    public abstract void build(StringBuilder result, MathFormulaCodeGenerator codeGenerator);
+    //public abstract void build(StringBuilder result, MathFormulaCodeGenerator codeGenerator);
 }

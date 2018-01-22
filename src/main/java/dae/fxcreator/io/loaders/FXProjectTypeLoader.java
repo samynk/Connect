@@ -66,7 +66,7 @@ public class FXProjectTypeLoader {
                             TemplateClassLibrary tcl = loadExporter(codegen);
                             tcl.setLabel(label);
                             tcl.setDescription(description);
-                            type.addTemplateClassLibrary(tcl);
+                            //type.addTemplateClassLibrary(tcl);
                         }
                     }
                     projectTypes.add(type);

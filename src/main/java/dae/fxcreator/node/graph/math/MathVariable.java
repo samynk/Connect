@@ -99,7 +99,7 @@ public class MathVariable extends MathElement {
         g2d.setColor(backup);
     }
 
-    @Override
+    //@Override
     public void build(StringBuilder result, MathFormulaCodeGenerator codeGenerator) {
         MathConstant mc = codeGenerator.getMathConstant(this.varName);
         if ( mc != null ){

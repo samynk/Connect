@@ -110,7 +110,7 @@ public class FunctionMathElement extends MathElement {
         }
     }
 
-    @Override
+    
     public void build(StringBuilder result, MathFormulaCodeGenerator codeGenerator) {
         MathTemplate template = codeGenerator.getMathTemplate(this.getFunctionName());
         for (MathInstruction mi : template.getMathInstructions()) {
@@ -118,7 +118,7 @@ public class FunctionMathElement extends MathElement {
                 result.append(mi.getText());
             } else if (mi.isOperand()) {
                 MathElement child = this.parameters.get(mi.getOpIndex() - 1);
-                child.build(result, codeGenerator);
+                //child.build(result, codeGenerator);
             }
         }
     }
