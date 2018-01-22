@@ -10,7 +10,7 @@ import java.awt.Stroke;
  * the size and baseline of each element separately. 2) Determine the total size
  * needed to render the formula. 3) Render the formula.
  *
- * @author samyn_000
+ * @author Koen Samyn
  */
 public class MathFormulaRenderer {
 
