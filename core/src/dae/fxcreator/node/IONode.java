@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.tree.TreeNode;
 
 /**
@@ -191,6 +193,43 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
         internalID = idcount++;
     }
     
+    /**
+     * Copy constructor 
+     * @param toCopy the IONode to copy.
+     */
+    public IONode(IONode toCopy){
+        this(toCopy.getId(), toCopy.getName(), toCopy.getType(), toCopy.fxProject);
+         
+        setInputOutputEditable(toCopy.isInputOutputEditable());
+        setIcon(this.getIcon());
+        // copy inputs
+        List<ShaderInput> cinputs = toCopy.getInputs();
+        for (ShaderInput input : cinputs) {
+            ShaderInput copy = new ShaderInput(this, input.getName(), input.getSemantic().getValue(), input.getType(), input.getAcceptTypeSet());
+            copy.setConnectionString(input.getConnectionString());
+            this.addInput(copy);
+        }
+        List<ShaderOutput> coutputs = toCopy.getOutputs();
+        for (ShaderOutput output : coutputs) {
+            ShaderOutput copy = new ShaderOutput(this, output.getName(), output.getSemantic().getValue(), output.getType(), output.getTypeRule());
+            copy.setConnectionString(output.getConnectionString());
+            this.addOutput(copy);
+        }
+
+        List<SettingsGroup> settingsGroup = toCopy.getSettingsGroups();
+        for (SettingsGroup group : settingsGroup) {
+            List<Setting> settings = group.getSettings();
+            for (Setting setting : settings) {
+                try {
+                    this.addSetting(group.getName(), (Setting) setting.clone());
+                } catch (CloneNotSupportedException ex) {
+                    Logger.getLogger(IONode.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        this.outputPin = toCopy.outputPin;
+    }
+    
         /**
      * Returns the group of the node type
      *
@@ -223,8 +262,10 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      *
      * @return the cloned object.
      * @throws CloneNotSupportedException
+     * @deprecated use copy constructor instead.
      */
     @Override
+    @Deprecated
     public Object clone() throws CloneNotSupportedException {
         super.clone();
         IONode node = new IONode(this.getId(), this.getName(), fxProject);
