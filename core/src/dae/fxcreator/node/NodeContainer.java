@@ -173,7 +173,7 @@ public class NodeContainer extends ShaderNode implements NodeGroup, TypedNode {
 
     /**
      * Adds an input to this NodeContainer object and also adds it to the
-     * inputNode object that is a member of this ShaderStage.
+     * inputNode object that is a member of this NodeContainer.
      *
      * @param input the new input to add.
      */
