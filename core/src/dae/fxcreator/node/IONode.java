@@ -17,7 +17,7 @@ import javax.swing.tree.TreeNode;
 /**
  * This class describes the properties of an Input Output node.
  *
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
 
@@ -79,6 +79,14 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      * The type of shader node.
      */
     private String type;
+        /**
+     * The group type .
+     */
+    private String typeGroup;
+    /**
+     * The type name.
+     */
+    private String typeName;
     /**
      * The separator for variable name generation for this node.
      */
@@ -124,7 +132,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      */
     private boolean outputNode = false;
     /**
-     *
+     * the static variable that keeps track of the created nodes.
      */
     private static int idcount = 0;
     /**
@@ -157,8 +165,23 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      * @param project the project this node is part of.
      */
     public IONode(String id, String name, FXProject project) {
+        this(id,name,null,project);
+    }
+    
+       /**
+     * Creates a new IONode object with an id and a name. The id will be used
+     * for code generation purposes and the name will be used for display in the
+     * user interface.
+     *
+     * @param id the id of the node.
+     * @param name the name for the node.
+     * @param type the type of the node.
+     * @param project the project this node is part of.
+     */
+    public IONode(String id, String name, String type, FXProject project) {
         this.id = id;
         this.name = name;
+        setType(type);
 
         addSetting("Node", new TextSetting("id", "node id", id));
         addSetting("Node", new TextSetting("name", "node name", name));
@@ -167,7 +190,30 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
 
         internalID = idcount++;
     }
+    
+        /**
+     * Returns the group of the node type
+     *
+     * @return the group of the type of this node.
+     */
+    public String getTypeGroup() {
+        return typeGroup;
+    }
 
+    /**
+     * Returns the name of the node type without the group.
+     *
+     * @return the name of type.
+     */
+    public String getTypeName() {
+        return typeName;
+    }
+
+    /**
+     * Returns the internal id of this node.
+     *
+     * @return the id of this node.
+     */
     public int getInternalID() {
         return internalID;
     }
@@ -305,6 +351,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      * Adds an input to this node.
      *
      * @param input the input to add.
+     * @return true if the input was added, false otherwise.
      */
     public boolean addInput(ShaderInput input) {
         if (!inputMap.containsKey(input.getName())) {
@@ -344,12 +391,13 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
     /**
      * Finds an input in this node.
      *
-     * @param inputName the name for the input.
+     * @param inputNameOrSemantic the name or semantic for the input.
+     * @return returns the ShaderInput object.
      */
-    public ShaderInput findInput(String inputName) {
-        ShaderInput si = inputMap.get(inputName);
+    public ShaderInput findInput(String inputNameOrSemantic) {
+        ShaderInput si = inputMap.get(inputNameOrSemantic);
         if (si == null) {
-            return semanticInputMap.get(inputName);
+            return semanticInputMap.get(inputNameOrSemantic);
         } else {
             return si;
         }
@@ -440,7 +488,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
     }
 
     /**
-     * Returns the first output of the node if one exist, otherwise null.
+     * Returns the first output of the node if one exists, otherwise null.
      *
      * @return the first output of the node.
      */
@@ -503,6 +551,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      *
      * @return the id for this shader node.
      */
+    @Override
     public String getId() {
         return id;
     }
@@ -525,6 +574,32 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
             Setting s = sg.getSetting("id");
             s.setSettingValue(id);
         }
+    }
+
+    /**
+     * Set the type of the IONode.
+     *
+     * @param type the type of the IONode object.
+     */
+    public final void setType(String type) {
+        this.type = type;
+        if (type != null) {
+            int dotIndex = type.indexOf('.');
+            if (dotIndex > -1) {
+                typeGroup = type.substring(0, dotIndex);
+                typeName = type.substring(dotIndex + 1);
+            }
+        }
+    }
+
+    /**
+     * Returns the type of the IONode object.
+     *
+     * @return the type of the IONode object.
+     */
+    @Override
+    public String getType() {
+        return type;
     }
 
     /**
@@ -572,6 +647,12 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
     /**
      * Add a Setting to this ShaderNode. The replace parameter controls if the
      * setting will replace a previous setting or not.
+     *
+     * @param groupName the name of the group
+     * @param setting the setting object with the id of the setting and the
+     * value of the setting.
+     * @param replace if true, this setting will replace an existing setting, if
+     * false, the setting object will be added to the list of settings.
      */
     public void addSetting(String groupName, Setting setting, boolean replace) {
         if (!replace) {
@@ -609,6 +690,8 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      *
      * @param group the name of the group.
      * @param name the name of the setting.
+     * @return the setting with the given group and name, or null if no such
+     * setting exists.
      */
     public Setting getSetting(String group, String name) {
         SettingsGroup sg = settingsGroupsMap.get(group);
@@ -658,6 +741,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      *
      * @param settingGroup the group of the setting.
      * @param id the id of the setting.
+     * @return the value of the setting as a string.
      */
     public String getSettingValue(String settingGroup, String id) {
         SettingsGroup sg = settingsGroupsMap.get(settingGroup);
@@ -747,6 +831,10 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
         }
     }
 
+     /**
+     * Remove the input with the specified index.
+     * @param index the index to remove.
+     */
     public void removeInput(int index) {
         if (index >= 0 && index < inputs.size()) {
             ShaderInput input = this.inputs.get(index);
@@ -754,6 +842,10 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
         }
     }
 
+    /**
+     * Remove the output with the specified index.
+     * @param index the index to remove.
+     */
     public void removeOutput(int index) {
         if (index >= 0 && index < outputs.size()) {
             ShaderOutput output = this.outputs.get(index);
@@ -761,12 +853,14 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
         }
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getType() {
-        return type;
+    /**
+     * Remove all the outputs in this node.
+     */
+    public void removeOutputs() {
+        ArrayList<ShaderOutput> outputs = (ArrayList<ShaderOutput>) this.getOutputs().clone();
+        for (ShaderOutput output : outputs) {
+            this.removeOutput(output);
+        }
     }
 
     /**
@@ -1037,7 +1131,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
         if (so.getSemantic().isValid()) {
             this.outputMap.remove(so.getSemantic().getValue());
         }
-        ArrayList<ShaderInput> inputClones = new ArrayList<ShaderInput>();
+        ArrayList<ShaderInput> inputClones = new ArrayList<>();
         for (ShaderInput input : so.getInputs()) {
             inputClones.add(input);
         }
@@ -1096,6 +1190,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      * @param field the field that was changed.
      * @param oldValue an object that contains the old values of the field.
      */
+    @Override
     public void structFieldUpdated(ShaderStruct struct, ShaderField field, ShaderField oldValue) {
         if (struct == inputStruct) {
             if (ShaderField.nameChanged(field, oldValue)) {
@@ -1135,6 +1230,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      *
      * @param field the field that was inserted.
      */
+    @Override
     public void structFieldInserted(ShaderStruct struct, ShaderField field) {
         if (struct == inputStruct) {
             ShaderInput input = new ShaderInput(this, field.getName(), field.getSemantic().getValue(), field.getType());
@@ -1150,6 +1246,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
      *
      * @param field the field that was removed.
      */
+    @Override
     public void structFieldRemoved(ShaderStruct struct, ShaderField field) {
         if (struct == inputStruct) {
             ShaderInput input = this.findInput(field.getName());
@@ -1305,11 +1402,6 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
         }
     }
 
-    public static void main(String[] args) {
-        
-
-    }
-
     /**
      * Sets the fx project this node belongs to.
      *
@@ -1339,7 +1431,7 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
     private String icon = "";
 
     /**
-     * Sets the icon for this shader node.
+     * Sets the icon location for this shader node.
      *
      * @param icon the icon for this shadernode.
      */
@@ -1347,34 +1439,74 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
         this.icon = icon;
     }
 
+    /**
+     * Return the icon location for this shader node.
+     *
+     * @return the icon location as a string.
+     */
     public String getIcon() {
         return icon;
     }
 
+    /**
+     * Defines if a node can be removed from the module or not.
+     *
+     * @param removable true if the node can be removed, false otherwise.
+     */
     public void setRemovable(boolean removable) {
         this.removable = removable;
     }
 
+    /**
+     * Checks if the node can be removed or not.
+     *
+     * @return true if the node can be removed, false otherwise.
+     */
     public boolean isRemovable() {
         return removable;
     }
 
+    /**
+     * Checks if this node is an input node.
+     *
+     * @return true if the node is an input node, false otherwise.
+     */
     public boolean isInputNode() {
         return inputNode;
     }
 
+    /**
+     * Checks if the node is an output node.
+     *
+     * @return true if the node is an output node, false otherwise.
+     */
     public boolean isOutputNode() {
         return outputNode;
     }
 
+    /**
+     * Set this node as an input node or not.
+     *
+     * @param inputNode true if this node should be an input node, false
+     * otherwise.
+     */
     public void setInputNode(boolean inputNode) {
         this.inputNode = inputNode;
     }
 
+    /**
+     * Set this node as an output node or not.
+     *
+     * @param outputNode true if this node should be an output node, false
+     * otherwise.
+     */
     public void setOutputNode(boolean outputNode) {
         this.outputNode = outputNode;
     }
 
+    /**
+     * Clear all the settings from this node.
+     */
     public void clearSettings() {
         this.settingsGroupsMap.clear();
         this.settingsGroups.clear();

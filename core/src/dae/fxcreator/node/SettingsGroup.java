@@ -7,7 +7,7 @@ import java.util.List;
 
 /**
  * Groups settings together for a shader node.
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class SettingsGroup {
     /**
@@ -74,10 +74,20 @@ public class SettingsGroup {
         return this.settings;
     }
 
+    /**
+     * Returns a specific setting from this group of settings.
+     * @param name the name of the setting
+     * @return the Setting object, or null if no object exists.
+     */
     public Setting getSetting(String name) {
         return settingsMap.get(name);
     }
 
+    /**
+     * Returns true if the setting with the name is present.
+     * @param name the name of the setting.
+     * @return true if the setting is present, false otherwise.
+     */
     public boolean hasSetting(String name) {
         return settingsMap.containsKey(name);
     }

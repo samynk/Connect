@@ -2,9 +2,11 @@ package dae.fxcreator.node;
 
 /**
  * Describes a shader type that can be set as type for an input or output port.
- * @author Koen
+ *
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class ShaderType {
+
     /**
      * The type name
      */
@@ -21,42 +23,39 @@ public class ShaderType {
      * Indicates that the shader type is an actual value.
      */
     private final boolean valueType;
-    
+
     /**
      * Creates a new ShaderType object
+     *
      * @param type the type
      * @param order the order for the type, for sorting
      */
-    public ShaderType(String type,int order){
-        this.type = type;
-        this.order = order;
-        this.valueType = true;
-        this.icon = null;
+    public ShaderType(String type, int order) {
+        this(type, order, true, null);
     }
-    
+
     /**
      * Creates a new ShaderType object
+     *
      * @param type the type
      * @param order the order for the type, for sorting
-     * @param valueType indicates that this shader type describes an actual value that can 
-     * set on a variable or returned as a result of a function.
+     * @param valueType indicates that this shader type describes an actual
+     * value that can set on a variable or returned as a result of a function.
      */
-    public ShaderType(String type,int order, boolean valueType){
-        this.type = type;
-        this.order = order;
-        this.valueType = valueType;
-        this.icon = null;
+    public ShaderType(String type, int order, boolean valueType) {
+        this(type, order, valueType, null);
     }
-    
-     /**
+
+    /**
      * Creates a new ShaderType object
+     *
      * @param type the type
      * @param order the order for the type, for sorting
-     * @param valueType indicates that this shader type describes an actual value that can 
-     * set on a variable or returned as a result of a function.
+     * @param valueType indicates that this shader type describes an actual
+     * value that can set on a variable or returned as a result of a function.
      * @param icon the icon for this shader type.
      */
-    public ShaderType(String type,int order, boolean valueType, String icon){
+    public ShaderType(String type, int order, boolean valueType, String icon) {
         this.type = type;
         this.order = order;
         this.valueType = valueType;
@@ -65,33 +64,36 @@ public class ShaderType {
 
     /**
      * Returns the type of this ShaderType object.
+     *
      * @return the type.
      */
-    public String getType(){
+    public String getType() {
         return type;
     }
-    
+
     /**
      * Return the icon for this ShaderType object.
+     *
      * @return the icon for the shadertype object.
      */
-    public String getIcon(){
+    public String getIcon() {
         return icon;
     }
 
     /**
      * @return the order for the type.
      */
-    public int getOrder(){
+    public int getOrder() {
         return order;
     }
-    
+
     /**
-     * Returns true if this shader type describes a value that can be set on an object or
-     * can be returned as a result of a function, otherwise false.
+     * Returns true if this shader type describes a value that can be set on an
+     * object or can be returned as a result of a function, otherwise false.
+     *
      * @return true if the type describes a value type, false otherwise.
      */
-    public boolean isValueType(){
+    public boolean isValueType() {
         return valueType;
     }
 
@@ -116,10 +118,11 @@ public class ShaderType {
 
     /**
      * Returns the string representation for this type.
+     *
      * @return the String representation for this type.
      */
     @Override
-    public String toString(){
+    public String toString() {
         return this.type;
     }
 

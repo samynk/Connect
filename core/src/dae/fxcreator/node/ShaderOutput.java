@@ -3,8 +3,8 @@ package dae.fxcreator.node;
 import java.util.ArrayList;
 
 /**
- *
- * @author Koen
+ * The output implementation of the ShaderIO 
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class ShaderOutput extends ShaderIO {
     /**
@@ -28,6 +28,8 @@ public class ShaderOutput extends ShaderIO {
      * @param name the name for the ShaderOutput.
      * @param semantic the semantic for the ShaderOutput (null is allowed).
      * @param type the type of the ShaderOutput.
+     * @param typeRule a type rule can define the type of the output based on rules that will
+     * be applied on the inputs.
      */
     public ShaderOutput(IONode parent, String name, String semantic, String type, String typeRule) {
         super(parent,name, semantic, parent.shaderTypeLib.getType(type));
@@ -40,6 +42,8 @@ public class ShaderOutput extends ShaderIO {
      * @param name the name for the ShaderOutput.
      * @param semantic the semantic for the ShaderOutput (null is allowed).
      * @param type the type of the ShaderOutput.
+     * @param typeRule a type rule can define the type of the output based on rules that will
+     * be applied on the inputs.
      */
     public ShaderOutput(IONode parent, String name, String semantic, ShaderType type, String typeRule) {
         super(parent, name, semantic, type);

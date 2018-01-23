@@ -11,7 +11,7 @@ import javax.swing.tree.TreeNode;
  * be used for global parameters in a shader definition, but off course also to
  * define the input / output structures for shader stages.
  *
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, TypedNode {
 
@@ -54,6 +54,7 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
      *
      * @return the id for the shader struct object.
      */
+    @Override
     public String getId() {
         return id;
     }
@@ -113,21 +114,12 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
     }
 
     /**
-     * Returns a String representation of this ShaderStruct.
-     *
-     * @return the string representation of the ShaderStruct object.
-     */
-    @Override
-    public String toString() {
-        return id;
-    }
-
-    /**
      * Returns the child at the specific index.
      *
      * @param childIndex the index
      * @return always
      */
+    @Override
     public TreeNode getChildAt(int childIndex) {
         return this.fields.get(childIndex);
     }
@@ -137,6 +129,7 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
      *
      * @return the number of children.
      */
+    @Override
     public int getChildCount() {
         return fields.size();
     }
@@ -146,6 +139,7 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
      *
      * @return the parent.
      */
+    @Override
     public TreeNode getParent() {
         return parent;
     }
@@ -156,6 +150,7 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
      * @param node the node to get the index of.
      * @return the index of the node object
      */
+    @Override
     public int getIndex(TreeNode node) {
         return fields.indexOf(node);
     }
@@ -165,6 +160,7 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
      *
      * @return always true.
      */
+    @Override
     public boolean getAllowsChildren() {
         return true;
     }
@@ -174,10 +170,12 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
      *
      * @return always false.
      */
+    @Override
     public boolean isLeaf() {
         return false;
     }
 
+    @Override
     public Enumeration children() {
         return null;
     }
@@ -261,7 +259,6 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
      * @param listener the listener to add.
      */
     public void addStructListener(StructListener listener) {
-        System.out.println("Adding listener : " + listener);
         listeners.add(listener);
     }
 
@@ -279,7 +276,18 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
      *
      * @return always "struct".
      */
+    @Override
     public String getType() {
         return "struct";
+    }
+    
+        /**
+     * Returns a String representation of this ShaderStruct.
+     *
+     * @return the string representation of the ShaderStruct object.
+     */
+    @Override
+    public String toString() {
+        return id;
     }
 }

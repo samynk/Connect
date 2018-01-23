@@ -2,25 +2,17 @@ package dae.fxcreator.node;
 
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.templates.Setting;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * This class describes the general form for a shader node. A shader node has
  * inputs/output and settings.
  *
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class ShaderNode extends IONode implements Cloneable {
 
-    /**
-     * The group type .
-     */
-    private String typeGroup;
-    /**
-     * The type name.
-     */
-    private String typeName;
+
 
     /**
      * Creates a new ShaderNode object with an id, a name and a type. The id is
@@ -35,32 +27,10 @@ public class ShaderNode extends IONode implements Cloneable {
     public ShaderNode(String id, String name, String type, FXProject project) {
         super(id, name, project);
         super.setType(type);
-        if (type != null) {
-            int dotIndex = type.indexOf('.');
-            if (dotIndex > -1) {
-                typeGroup = type.substring(0, dotIndex);
-                typeName = type.substring(dotIndex + 1);
-            }
-        }
+        
     }
 
-    /**
-     * Returns the group of the node type
-     *
-     * @return the group of the type of this node.
-     */
-    public String getTypeGroup() {
-        return typeGroup;
-    }
 
-    /**
-     * Returns the name of the node type without the group.
-     *
-     * @return the name of type.
-     */
-    public String getTypeName() {
-        return typeName;
-    }
 
     @Override
     public Object clone() throws CloneNotSupportedException {
@@ -100,15 +70,5 @@ public class ShaderNode extends IONode implements Cloneable {
         node.setInputAnchor( getInputAnchor() );
         node.setOutputAnchor( getOutputAnchor() );
         return node;
-    }
-
-    /**
-     * Remove all the outputs in this node.
-     */
-    public void removeOutputs() {
-        ArrayList<ShaderOutput> outputs = (ArrayList<ShaderOutput>) this.getOutputs().clone();
-        for (ShaderOutput output : outputs) {
-            this.removeOutput(output);
-        }
     }
 }

@@ -3,7 +3,7 @@ package dae.fxcreator.node;
 /**
  * Interface to adopt by every object that plays a role in outputting a nodestructure
  * to file.
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public interface TypedNode {
     /**

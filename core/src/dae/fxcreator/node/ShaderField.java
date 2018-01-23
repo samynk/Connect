@@ -10,7 +10,7 @@ import javax.swing.tree.TreeNode;
 /**
  * The definition of a field inside the shader struct.
  *
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class ShaderField implements Cloneable, TreeNode {
 
@@ -84,9 +84,9 @@ public class ShaderField implements Cloneable, TreeNode {
     }
 
     /**
-     * Sets the name of the shaderfield.
+     * Sets the name of the shader field.
      *
-     * @param name the name of the shaderfield.
+     * @param name the name of the shader field.
      */
     public void setName(String name) {
         if (!name.equals(this.name)) {
@@ -105,16 +105,16 @@ public class ShaderField implements Cloneable, TreeNode {
     }
 
     /**
-     * Returns the semantic of this shaderfield.
+     * Returns the semantic of this shader field.
      *
-     * @return the semantic of the shaderfield.
+     * @return the semantic of the shader field.
      */
     public Semantic getSemantic() {
         return semantic;
     }
 
     /**
-     * Sets the semantic of this shaderfield.
+     * Sets the semantic of this shader field.
      *
      * @param semantic the new semantic value.
      */

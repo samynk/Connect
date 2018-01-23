@@ -4,7 +4,7 @@ package dae.fxcreator.node;
  * This class defines the possible inputs for a shader node. A shader input has
  * a type and a name.
  *
- * @author Koen Samyn
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class ShaderInput extends ShaderIO {    
     /**
@@ -172,6 +172,7 @@ public class ShaderInput extends ShaderIO {
      *
      * @param type the type for the shader input object.
      */
+    @Override
     public void setType(ShaderType type) {
         super.setType(type);
         notifyListeners();

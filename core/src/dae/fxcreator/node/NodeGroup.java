@@ -1,15 +1,10 @@
 package dae.fxcreator.node;
 
-import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ReferenceNode;
-import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
-import dae.fxcreator.node.ShaderOutput;
 import java.util.List;
 
 /**
  * Interface to describe objects that can contain shadernodes.
- * @author Koen
+ * @author Koen Samnyn (samyn.koen@gmail.com)
  */
 public interface NodeGroup extends TypedNode{
 
@@ -75,6 +70,7 @@ public interface NodeGroup extends TypedNode{
     public Iterable<IONode> getSortedNodes();
     /**
      * Returns the type of node container.
+     * @return the type of the container.
      */
     public String getContainerType();
      /**
@@ -91,7 +87,7 @@ public interface NodeGroup extends TypedNode{
     public void setSubType(String subType);
     /**
      * Get a unique id with the prefix.
-     * @param string the prefix for the new id.
+     * @param prefix the prefix for the new id.
      * @return the new id.
      */
     public String getUniqueId(String prefix);
@@ -102,10 +98,12 @@ public interface NodeGroup extends TypedNode{
     public void addReferenceNode(ReferenceNode rn);
     /**
      * Removes the reference node from the list of reference nodes.
+     * @param rn the reference node to remove.
      */
     public void removeReferenceNode(ReferenceNode rn);
     /**
      * Returns the reference nodes.
+     * @return an iterable with the reference nodes.
      */
     public Iterable<ReferenceNode> getReferenceNodes();
 }

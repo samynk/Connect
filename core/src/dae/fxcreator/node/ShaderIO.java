@@ -8,12 +8,13 @@ import javax.swing.event.ChangeListener;
  * This interface defines the common property of the ShaderInput and
  * ShaderOutput class.
  *
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public abstract class ShaderIO {
+
     private IONode parent;
     private String name;
-    private Semantic semantic = new Semantic();
+    private final Semantic semantic = new Semantic();
     private ShaderType type;
     private IOAnchor anchor = IOAnchor.UNDEFINED;
 
@@ -22,26 +23,36 @@ public abstract class ShaderIO {
      */
     private final ArrayList<ChangeListener> listeners = new ArrayList<>();
 
+    /**
+     * Creates a new ShaderIO object.
+     *
+     * @param parent the parent IO node object.
+     * @param name the name of the input or output.
+     * @param semantic the value for the semantic.
+     * @param type the type of the port.
+     */
     public ShaderIO(IONode parent, String name, String semantic, ShaderType type) {
         this.parent = parent;
         this.name = name;
         this.semantic.setValue(semantic);
         this.type = type;
     }
-    
+
     /**
      * Returns the parent IONode object.
+     *
      * @return the parent IONode object.
      */
-    public IONode getParent(){
+    public IONode getParent() {
         return parent;
     }
-    
+
     /**
      * Sets the parent IONode object of this ShaderIO object.
+     *
      * @param parent the new parent of this object.
      */
-    public void setParent(IONode parent){
+    public void setParent(IONode parent) {
         this.parent = parent;
     }
 
@@ -60,15 +71,15 @@ public abstract class ShaderIO {
      * @param name the name for the shader input object.
      */
     public void setName(String name) {
-        
+
         if (!this.name.equals(name)) {
             String oldName = this.name;
-           this.name = name;
+            this.name = name;
             if (this.parent != null) {
-                if ( isInput() ){
-                    parent.remapInputName(oldName, (ShaderInput)this);
-                }else{
-                    parent.remapOutputName(oldName, (ShaderOutput)this);
+                if (isInput()) {
+                    parent.remapInputName(oldName, (ShaderInput) this);
+                } else {
+                    parent.remapOutputName(oldName, (ShaderOutput) this);
                 }
             }
         }
@@ -82,20 +93,20 @@ public abstract class ShaderIO {
     public Semantic getSemantic() {
         return semantic;
     }
-    
-        /**
+
+    /**
      * Sets the semantic of the ShaderInput object.
      *
-     * @param semantic the new sementic for this input object.
+     * @param semantic the new semantic for this input object.
      */
     public void setSemantic(String semantic) {
         if (!semantic.equals(this.semantic.getValue())) {
             String oldValue = this.semantic.getValue();
             this.semantic.setValue(semantic);
-            if ( isInput() ){
-                parent.remapInputSemantic(oldValue, (ShaderInput)this);
-            }else{
-                parent.remapOutputSemantic(oldValue,(ShaderOutput)this);
+            if (isInput()) {
+                parent.remapInputSemantic(oldValue, (ShaderInput) this);
+            } else {
+                parent.remapOutputSemantic(oldValue, (ShaderOutput) this);
             }
         }
     }
@@ -103,7 +114,7 @@ public abstract class ShaderIO {
     /**
      * Returns the shader type for the ShaderIO object.
      *
-     * @return the shadertype.
+     * @return the shader type.
      */
     public ShaderType getType() {
         return type;
@@ -202,7 +213,7 @@ public abstract class ShaderIO {
     public void removeChangeListener(ChangeListener cl) {
         listeners.remove(cl);
     }
-    
+
     /**
      * Sets the default anchor for outputs.
      *
@@ -226,25 +237,28 @@ public abstract class ShaderIO {
                 anchor = IOAnchor.UNDEFINED;
         }
     }
-    
+
     /**
      * Return the anchor for this shader io object.
+     *
      * @return the NodeAnchor enum value.
      */
-    public IOAnchor getAnchor(){
+    public IOAnchor getAnchor() {
         return anchor;
     }
-    
+
     /**
      * Sets the anchor to a new value..
+     *
      * @param anchor the new value for the anchor.
      */
-    public void setAnchor(IOAnchor anchor){
+    public void setAnchor(IOAnchor anchor) {
         this.anchor = anchor;
     }
-    
+
     /**
      * checks if this input or output has a defined anchor.
+     *
      * @return true if this object has an anchor, false otherwise.
      */
     public boolean hasAnchor() {

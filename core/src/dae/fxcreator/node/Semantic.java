@@ -2,7 +2,7 @@ package dae.fxcreator.node;
 
 /**
  * Provides support for semantics.
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class Semantic {
     private String semantic;
@@ -80,6 +80,7 @@ public class Semantic {
 
     /**
      * Returns the value for the semantic.
+     * @return the actual string for the semantic.
      */
     @Override
     public String toString(){

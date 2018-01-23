@@ -11,19 +11,19 @@ import java.util.List;
  * This is a specialization of the NodeContainer class.
  * This specialization is needed because a loop variable has
  * to be introduced.
- * @author Koen
+ * @author  Koen Samyn (samyn.koen@gmail.com)
  */
 public class IteratorNode extends ShaderNode implements NodeGroup,SettingListener {
-    private ArrayList<IONode> nodes = new ArrayList<IONode>();
-    private ArrayList<ReferenceNode> referenceNodes = new ArrayList<ReferenceNode>();
-    private HashMap<String, IONode> nodeMap = new HashMap<String, IONode>();
-    private ShaderNode inputNode;
-    private ShaderNode outputNode;
+    private final ArrayList<IONode> nodes = new ArrayList<>();
+    private final ArrayList<ReferenceNode> referenceNodes = new ArrayList<>();
+    private final HashMap<String, IONode> nodeMap = new HashMap<>();
+    private final ShaderNode inputNode;
+    private final ShaderNode outputNode;
 
 
     private ShaderOutput arrayVariable;
     private ShaderOutput loopVariable;
-    private ShaderNode loopNode;
+    private final ShaderNode loopNode;
     private ShaderStruct outputStruct;
 
     private String subType="";
@@ -243,7 +243,8 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
      * Adds a node to this NodeContainer object.
      * @param node the node to add.
      */
-    public void addNode(IONode node) {
+    @Override
+    public final void addNode(IONode node) {
         nodes.add(node);
         nodeMap.put(node.getId(), node);
         node.setFXProject(getFXProject());
@@ -253,6 +254,7 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
      * Removes a node from this NodeContainer object.
      * @param node the node to remove.
      */
+    @Override
     public void removeNode(IONode node) {
         nodes.remove(node);
         nodeMap.remove(node.getId());
@@ -269,16 +271,28 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
        return nodeMap.get(id);
     }
 
+    /**
+     * Returns an Iterable to loop over the nodes.
+     * @return an Iterable to loop over the nodes.
+     */
     @Override
     public Iterable<IONode> getNodes() {
         return this.nodes;
     }
 
+    /**
+     * Returns the shader node that is the input of this block.
+     * @return the input node object.
+     */
     @Override
     public final ShaderNode getInputNode() {
         return inputNode;
     }
 
+    /**
+     * Returns the shader node that is the output of this block.
+     * @return the output node object.
+     */
     @Override
     public final ShaderNode getOutputNode() {
         return outputNode;
@@ -353,6 +367,7 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
      * method definition file.
      * @return the subtype.
      */
+    @Override
     public String getSubType() {
        return subType;
     }

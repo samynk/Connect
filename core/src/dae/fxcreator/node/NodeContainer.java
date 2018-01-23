@@ -9,7 +9,7 @@ import java.util.List;
  * This class represents a grouping of nodes. This can be used to implement an
  * iterator block, or function.
  *
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class NodeContainer extends ShaderNode implements NodeGroup, TypedNode {
 
@@ -44,6 +44,8 @@ public class NodeContainer extends ShaderNode implements NodeGroup, TypedNode {
 
     /**
      * Creates a new NodeContainer object.
+     * @param name the name of the NodeContainer object.
+     * @param type the type of the NodeContainer object.
      */
     public NodeContainer(String name, String type) {
         super(name, name, type, null);
@@ -90,6 +92,7 @@ public class NodeContainer extends ShaderNode implements NodeGroup, TypedNode {
      * Creates the node connections between the nodes. This only works if all
      * the nodes are loaded into the shader stage.
      */
+    @Override
     public void connectNodes() {
         for (IONode node : nodes) {
             connectNode(node);
