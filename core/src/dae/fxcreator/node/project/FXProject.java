@@ -659,7 +659,8 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     /**
      * Creates a new ShaderStage name with the specified prefix.
      *
-     * @param prefix
+     * @param prefix the prefix for the name.
+     * @return a unique namd for the shaderstage.
      */
     public String createUniqueShaderStageName(String prefix) {
         return stages.createUniqueShaderStageName(prefix);
