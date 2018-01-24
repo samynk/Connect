@@ -78,6 +78,7 @@ public class ExportTask {
      *
      * @param io the node that contains the input and output ports.
      * @param code the code that contains references to inputs and outputs.
+     * @return a string with the replaced input/output names.
      */
     public String replaceIONames(IONode io, String code) {
         String result = code;
@@ -171,7 +172,8 @@ public class ExportTask {
      *
      * @param object the object that contains the information for the template.
      * @param method the method to call.
-     * @param type
+     * @param group the group of the typed node object.
+     * @param subType the subType of the typed node object.
      */
     public void template(TypedNode object, String method, String group, String subType) {
         String className = object.getClass().getName();
@@ -188,6 +190,7 @@ public class ExportTask {
      * @param node the node that contains the math formula.
      * @param settingGroup the setting group where the math formula is stored.
      * @param settingId the setting id where the math formula is stored.
+     * @return the math code.
      */
     public String generateMathCode(ShaderNode node, String settingGroup, String settingId) {
         Setting math = node.getSetting(settingGroup, settingId);
@@ -242,6 +245,10 @@ public class ExportTask {
         }
     }
 
+    /**
+     * Close the stream with the given name.
+     * @param streamName the name of the stream to close.
+     */
     public void closeStream(String streamName) {
         BufferedWriter bw = streamMap.get(streamName);
         if (bw != null) {
@@ -294,13 +301,20 @@ public class ExportTask {
         }
     }
 
+    /**
+     * Clears the buffer of all its contents.
+     * @param bufferName the buffer to clear.
+     */
     public void clearBuffer(String bufferName) {
         StringBuilder sb = this.output.getBuffer(bufferName);
         if (sb != null) {
-            sb.delete(0, sb.length());
+            sb.setLength(0);
         }
     }
 
+    /**
+     * Export the project to the output buffers and streams.
+     */
     public void export() {
         pushBuffer(this.output.getBuffer("default"));
         this.template(project, "main");
