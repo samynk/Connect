@@ -1,6 +1,6 @@
 package dae.fxcreator.io.events;
 
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
 
 /**
