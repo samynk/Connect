@@ -1,6 +1,5 @@
 package dae.fxcreator.node.project;
 
-//import dae.fxcreator.io.ExportFile;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.node.TypedNode;
@@ -59,7 +58,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     private final TechniqueCollection techniques;
     private final ShaderStageCollection stages;
     private StatesCollection states;
-    //private final HashMap<String, ExportFile> exportSettings = new HashMap<>();
+    private final HashMap<String, ExportFile> exportSettings = new HashMap<>();
     private final ShaderStructCollection shaderStructs;
     private final ArrayList<TreeModelListener> listeners = new ArrayList<>();
     private final ArrayList<StageListener> stageListeners = new ArrayList<>();
@@ -257,42 +256,37 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
         return globalNodeMap.get(id);
     }
     
-    /*
     /**
      * Adds an export file for a given exporter id to the exporter list.
      *
      * @param exporterId the id for the exporter.
      * @param file the File to export to.
      */
-    /*
     public void addExportDestination(String exporterId, ExportFile file) {
         this.exportSettings.put(exporterId, file);
     }
-    */
+    
     
     /**
-     * Retusn the export destination for a given exporter id.
+     * Returns the export destination for a given exporter id.
      *
      * @param exporterId the exporter id.
      * @return null if the export destination is not set, the file object
      * otherwise.
      */
-    /*
     public ExportFile getExportDestination(String exporterId) {
         return exportSettings.get(exporterId);
     }
-    */
 
     /**
      * Returns the set of exporter ids in this project.
      *
      * @return the set of exporter ids in this project.
      */
-    /*
     public Iterable<String> getExportDestinations() {
         return exportSettings.keySet();
     }
-    */
+    
 
     /**
      * Returns the name of the project.
@@ -400,10 +394,10 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     }
 
     /**
-     * Checks if this
+     * Checks if this node is a leaf.
      *
-     * @param node
-     * @return
+     * @param node the node to check.
+     * @return true if the node is a leaf, false if the node is not a leaf.
      */
     @Override
     public boolean isLeaf(Object node) {
