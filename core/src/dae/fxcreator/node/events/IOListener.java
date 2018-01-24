@@ -1,4 +1,4 @@
-package dae.fxcreator.io.events;
+package dae.fxcreator.node.events;
 
 /**
  * Interface to listen for IO events.

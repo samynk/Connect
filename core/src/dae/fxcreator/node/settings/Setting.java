@@ -1,6 +1,6 @@
 package dae.fxcreator.node.settings;
 
-import dae.fxcreator.io.events.SymbolListener;
+import dae.fxcreator.node.events.SymbolListener;
 import dae.fxcreator.node.IONode;
 import java.util.ArrayList;
 import java.util.Iterator;

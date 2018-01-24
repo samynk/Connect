@@ -1,4 +1,4 @@
-package dae.fxcreator.io.events;
+package dae.fxcreator.node.events;
 
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;

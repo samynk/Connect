@@ -1,4 +1,4 @@
-package dae.fxcreator.io.events;
+package dae.fxcreator.node.events;
 
 import java.util.Iterator;
 

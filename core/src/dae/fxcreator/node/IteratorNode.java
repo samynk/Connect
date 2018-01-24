@@ -1,6 +1,6 @@
 package dae.fxcreator.node;
 
-import dae.fxcreator.io.events.SettingListener;
+import dae.fxcreator.node.events.SettingListener;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import java.util.ArrayList;

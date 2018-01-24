@@ -2,8 +2,8 @@ package dae.fxcreator.node;
 
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.FXProjectType;
-import dae.fxcreator.io.events.IOListener;
-import dae.fxcreator.io.events.SettingListener;
+import dae.fxcreator.node.events.IOListener;
+import dae.fxcreator.node.events.SettingListener;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.settings.TextSetting;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
