@@ -87,8 +87,9 @@ public class GradientSetting extends Setting {
 
     /**
      * Sets the setting value of this setting as an object.
-     * @param the new value for this setting.
+     * @param o the new value for this setting.
      */
+    @Override
     public void setSettingValueAsObject(Object o){
         this.setSettingValue(o.toString());
     }
