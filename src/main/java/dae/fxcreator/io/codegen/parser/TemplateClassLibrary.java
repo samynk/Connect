@@ -76,10 +76,10 @@ public class TemplateClassLibrary {
      * Creates a new CodeTemplateLibrary object.
      */
     public TemplateClassLibrary() {
-        addTemplateClassNameMapping("pass", "dae.fxcreator.io.Pass");
-        addTemplateClassNameMapping("technique", "dae.fxcreator.io.Technique");
-        addTemplateClassNameMapping("project", "dae.fxcreator.io.FXProject");
-        addTemplateClassNameMapping("shaderstage", "dae.fxcreator.io.ShaderStage");
+        addTemplateClassNameMapping("pass", "dae.fxcreator.node.project.Pass");
+        addTemplateClassNameMapping("technique", "dae.fxcreator.node.project.Technique");
+        addTemplateClassNameMapping("project", "dae.fxcreator.node.project.FXProject");
+        addTemplateClassNameMapping("shaderstage", "dae.fxcreator.node.project.ShaderStage");
         addTemplateClassNameMapping("node","dae.fxcreator.node.ShaderNode");
         addTemplateClassNameMapping("method","dae.fxcreator.node.NodeContainer");
         addTemplateClassNameMapping("struct","dae.fxcreator.node.ShaderStruct");

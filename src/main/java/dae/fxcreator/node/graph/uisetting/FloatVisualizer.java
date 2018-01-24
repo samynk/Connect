@@ -1,8 +1,8 @@
 package dae.fxcreator.node.graph.uisetting;
 
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.io.templates.FloatSetting;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.FloatSetting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.gui.GraphFont;
 import java.awt.Graphics;
 import javax.swing.JLabel;

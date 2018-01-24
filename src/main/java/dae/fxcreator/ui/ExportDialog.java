@@ -1,6 +1,6 @@
 package dae.fxcreator.ui;
 
-import dae.fxcreator.io.ExportFile;
+import dae.fxcreator.node.project.ExportFile;
 import dae.fxcreator.node.project.FXProject;
 import java.io.File;
 import java.nio.file.Path;

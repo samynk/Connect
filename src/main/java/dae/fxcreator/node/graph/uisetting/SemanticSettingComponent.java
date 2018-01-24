@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.templates.SemanticSetting;
+import dae.fxcreator.node.settings.SemanticSetting;
 import dae.fxcreator.node.graph.model.SemanticDataModel;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

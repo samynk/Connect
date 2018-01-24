@@ -1,9 +1,9 @@
 package dae.fxcreator.node.graph.uisetting;
 
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.io.templates.IntSetting;
-import dae.fxcreator.io.templates.OptionSetting;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.IntSetting;
+import dae.fxcreator.node.settings.OptionSetting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.gui.GraphFont;
 import java.awt.Color;
 import java.awt.Dimension;

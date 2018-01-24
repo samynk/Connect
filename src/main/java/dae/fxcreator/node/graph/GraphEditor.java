@@ -3,7 +3,7 @@ package dae.fxcreator.node.graph;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.io.events.SettingListener;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderIO;
 import dae.fxcreator.node.ShaderInput;

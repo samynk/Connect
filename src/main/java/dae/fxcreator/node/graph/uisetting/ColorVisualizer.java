@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.templates.ColorSetting;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.ColorSetting;
+import dae.fxcreator.node.settings.Setting;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;

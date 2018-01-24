@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.templates.ColorSetting;
+import dae.fxcreator.node.settings.ColorSetting;
 import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

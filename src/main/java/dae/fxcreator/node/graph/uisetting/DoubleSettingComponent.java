@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.templates.DoubleSetting;
-import dae.fxcreator.io.templates.FloatSetting;
+import dae.fxcreator.node.settings.DoubleSetting;
+import dae.fxcreator.node.settings.FloatSetting;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;

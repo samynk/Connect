@@ -7,7 +7,7 @@ import dae.fxcreator.node.project.Pass;
 import dae.fxcreator.node.project.Technique;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.*;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.ReferenceNode;

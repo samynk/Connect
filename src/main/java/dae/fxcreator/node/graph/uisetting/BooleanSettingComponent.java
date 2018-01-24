@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.templates.BooleanSetting;
+import dae.fxcreator.node.settings.BooleanSetting;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

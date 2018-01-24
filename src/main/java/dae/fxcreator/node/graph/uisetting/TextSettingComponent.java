@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.templates.TextSetting;
+import dae.fxcreator.node.settings.TextSetting;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;

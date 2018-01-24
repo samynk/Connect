@@ -1,7 +1,7 @@
 package dae.fxcreator.io.codegen.parser.exec;
 
 import dae.fxcreator.io.codegen.ExportTask;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

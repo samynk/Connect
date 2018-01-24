@@ -1,5 +1,6 @@
 package dae.fxcreator.io.loaders;
 
+import dae.fxcreator.node.project.ExportFile;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.node.project.ShaderStage;
@@ -9,7 +10,7 @@ import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.*;
 import dae.fxcreator.io.templates.NodeTemplate;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IteratorNode;
 import dae.fxcreator.node.NodeContainer;
@@ -40,8 +41,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- *
- * @author Koen
+ * Loads a project from file.
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class FXProjectLoader extends DefaultHandler {
 
@@ -49,10 +50,6 @@ public class FXProjectLoader extends DefaultHandler {
      * The FXProject object to read.
      */
     private final FXProject project;
-    /**
-     * The path to read the project from.
-     */
-    private Path path;
     /**
      * The node template library with the templates.
      */
@@ -114,11 +111,11 @@ public class FXProjectLoader extends DefaultHandler {
 
     /**
      * Loads the project from the given file. The type of the project and the
+     * node template library will be read from the project.
      *
      * @param path the path to load the file from.
      */
     public FXProjectLoader(Path path) {
-        this.path = path;
         project = new FXProject(path);
 
         positionMatcher = java.util.regex.Pattern.compile("\\[(-?\\d*),(-?\\d*)\\]");
@@ -363,7 +360,7 @@ public class FXProjectLoader extends DefaultHandler {
             String name = attributes.getValue("name");
             String extension = attributes.getValue("extension");
             currentExportFile = new ExportFile(name, extension);
-            //project.addExportDestination(exporterId, currentExportFile);
+            project.addExportDestination(exporterId, currentExportFile);
             charBuffer.delete(0, charBuffer.length());
         } else if ("project".equals(qName)) {
             String name = attributes.getValue("name");

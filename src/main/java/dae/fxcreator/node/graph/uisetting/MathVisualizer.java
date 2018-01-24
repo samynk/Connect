@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.templates.MathSetting;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.MathSetting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.graph.math.MathFormula;
 import dae.fxcreator.node.graph.math.MathFormulaRenderer;
 import java.awt.Color;

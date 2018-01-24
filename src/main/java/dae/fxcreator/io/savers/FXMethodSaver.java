@@ -1,7 +1,7 @@
 package dae.fxcreator.io.savers;
 
 import dae.fxcreator.node.NodeGroup;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;

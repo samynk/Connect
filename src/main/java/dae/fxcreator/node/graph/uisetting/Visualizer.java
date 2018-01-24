@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.Setting;
 
 /**
  * Interface that all Visualizers must implement.

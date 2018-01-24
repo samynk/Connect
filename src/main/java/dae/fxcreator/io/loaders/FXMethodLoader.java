@@ -3,7 +3,7 @@ package dae.fxcreator.io.loaders;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.io.templates.NodeTemplate;
 import dae.fxcreator.io.templates.NodeTemplateLibrary;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IteratorNode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;

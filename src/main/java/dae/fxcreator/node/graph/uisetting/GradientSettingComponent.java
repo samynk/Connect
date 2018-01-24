@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.templates.GradientSetting;
+import dae.fxcreator.node.settings.GradientSetting;
 import dae.fxcreator.node.gui.GraphGradient;
 import java.awt.Color;
 import java.awt.GradientPaint;
