@@ -1,4 +1,4 @@
-package dae.fxcreator.io.templates;
+package dae.fxcreator.node.templates;
 
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.project.FXProject;
@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  * This class is a template for the behaviour of a node in the user interface.
  * This class also determines the settings for a particular node and how these
  * settings are presented (for example : combobox, text, image file, constant).
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class NodeTemplate {
 

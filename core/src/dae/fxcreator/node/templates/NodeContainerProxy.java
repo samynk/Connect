@@ -1,13 +1,15 @@
-package dae.fxcreator.io.templates;
+package dae.fxcreator.node.templates;
 
 import dae.fxcreator.node.NodeContainer;
 
 /**
- * This objects stores the information about a node group (such as the
- * file location.
- * @author Koen
+ * This objects stores the information about a node group (such as the file
+ * location.
+ *
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class NodeContainerProxy {
+
     /**
      * The prefix for nodes of this type.
      */
@@ -15,11 +17,11 @@ public class NodeContainerProxy {
     /**
      * The icon for the node container
      */
-    private String icon;
+    private final String icon;
     /**
      * The label for the node group definition.
      */
-    private String label;
+    private final String label;
     /**
      * The type name for the node container.
      */
@@ -27,7 +29,7 @@ public class NodeContainerProxy {
     /**
      * The description for the node container.
      */
-    private String description;
+    private final String description;
     /**
      * Set to true if the NodeContainer object is loaded.
      */
@@ -39,11 +41,14 @@ public class NodeContainerProxy {
 
     /**
      * Creates a new NodeContainerProxy object
-     * @param fileLocation
-     * @param icon
-     * @param label
+     *
+     * @param prefix the prefix for the node container.
+     * @param type the type of the node container.
+     * @param icon the icon of the node container.
+     * @param label the label of the node container.
+     * @param description the description of the node container.
      */
-    public NodeContainerProxy(String prefix, String type, String icon, String label,String description) {
+    public NodeContainerProxy(String prefix, String type, String icon, String label, String description) {
         this.prefix = prefix;
         this.type = type;
         this.icon = icon;
@@ -53,14 +58,16 @@ public class NodeContainerProxy {
 
     /**
      * Returns the prefix for new nodes of this type.
+     *
      * @return the prefix for the node.
      */
-    public String getPrefix(){
+    public String getPrefix() {
         return prefix;
     }
 
     /**
      * Return the type for the node container.
+     *
      * @return the type.
      */
     public String getType() {
@@ -69,6 +76,7 @@ public class NodeContainerProxy {
 
     /**
      * Return the icon for the node group.
+     *
      * @return the location for the icon.
      */
     public String getIcon() {
@@ -77,6 +85,7 @@ public class NodeContainerProxy {
 
     /**
      * Return the label for the node container.
+     *
      * @return the label.
      */
     public String getLabel() {
@@ -85,33 +94,39 @@ public class NodeContainerProxy {
 
     /**
      * Returns the description for the node container.
+     *
      * @return the description
      */
-    public String getDescription(){
+    public String getDescription() {
         return description;
     }
 
     /**
      * Checks if the NodeContainer object was loaded from file.
+     *
      * @return true if the NodeContainer object was loaded, false otherwise.
      */
-    boolean isLoaded() {
+    public boolean isLoaded() {
         return loaded;
     }
 
     /**
-     * Sets the NodeContainer object for this proxy. If the container is not null,
-     * loaded will be set to true.
+     * Sets the NodeContainer object for this proxy. If the container is not
+     * null, loaded will be set to true.
+     *
      * @param container the container to set.
      */
     public void setNodeContainer(NodeContainer container) {
         this.container = container;
         loaded = (container != null);
-        container.setSubType(type);
+        if (loaded) {
+            this.container.setSubType(type);
+        }
     }
 
     /**
      * Creates a new NodeContainer for use in a project.
+     *
      * @return the new NodeContainer object.
      */
     public NodeContainer createNodeContainer() {

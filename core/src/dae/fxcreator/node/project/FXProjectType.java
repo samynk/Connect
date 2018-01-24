@@ -1,6 +1,6 @@
 package dae.fxcreator.node.project;
 
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.ShaderType;
 import dae.fxcreator.node.gui.ImageLoader;
 import dae.fxcreator.util.Key;

@@ -6,7 +6,7 @@ import dae.fxcreator.node.TypedNode;
 //import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.io.events.StageListener;
 import dae.fxcreator.io.events.SymbolListener;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.templates.NodeTemplateLoader;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.ShaderField;

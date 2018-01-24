@@ -1,4 +1,4 @@
-package dae.fxcreator.io.templates;
+package dae.fxcreator.node.templates;
 
 //import dae.fxcreator.io.loaders.FXMethodLoader;
 //import dae.fxcreator.io.savers.FXMethodListSaver;
@@ -22,7 +22,7 @@ import javax.swing.tree.TreePath;
 /**
  * This library object contains all the templates that are available in a shader project.
  * This NodeTemplateLibrary can be used as a tree node in a tree control.
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class NodeTemplateLibrary implements TreeModel {
 
@@ -277,6 +277,7 @@ public class NodeTemplateLibrary implements TreeModel {
         }
 
         Path saveFilePath = startDir.resolve( paths[paths.length - 1] + ".daefx");
+        // todo move to io project.
         /*
         FXMethodSaver saver = new FXMethodSaver(PathUtil.createUserDirPath(saveFilePath), container);
         saver.save();

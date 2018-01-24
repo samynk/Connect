@@ -1,4 +1,4 @@
-package dae.fxcreator.io.templates;
+package dae.fxcreator.node.templates;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,15 +6,15 @@ import java.util.List;
 
 /**
  * This class creates a subgroup of node templates that are related to each other.
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class TemplateGroup {
     private String name;
     private String icon;
     private String category;
 
-    private ArrayList<NodeTemplate>  nodeTemplates = new ArrayList<NodeTemplate>();
-    private HashMap<String,NodeTemplate> nodeTemplateMap = new HashMap<String,NodeTemplate>();
+    private final ArrayList<NodeTemplate>  nodeTemplates = new ArrayList<>();
+    private final HashMap<String,NodeTemplate> nodeTemplateMap = new HashMap<>();
 
     /**
      * Creates a new template group
@@ -78,9 +78,8 @@ public class TemplateGroup {
     }
 
      /**
-     * Determines the visibility of this group.
-     * @param visible true if this group should be included in toolbars and
-     * popup menus, false otherw
+     * Sets the category name of this template group.
+     * @param category the new name of this template group.
      */
     public void setCategory(String category) {
         this.category = category;

@@ -1,5 +1,8 @@
 package dae.fxcreator.io.templates;
 
+import dae.fxcreator.node.templates.TemplateGroup;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplate;
 import dae.fxcreator.node.settings.TextSetting;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.settings.SemanticSetting;
