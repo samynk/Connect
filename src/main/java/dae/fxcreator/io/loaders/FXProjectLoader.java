@@ -23,9 +23,9 @@ import dae.fxcreator.node.ShaderStruct;
 import dae.fxcreator.node.ShaderType;
 import dae.fxcreator.node.graph.math.MathLoader;
 import java.awt.Point;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.logging.Level;
@@ -231,13 +231,13 @@ public class FXProjectLoader extends DefaultHandler {
                 nc.getOutputNode().setPosition(outputPosition.x, outputPosition.y);
                 node = nc;
             }
-            if (inputanchor != null ){
+            if (inputanchor != null) {
                 node.setInputAnchor(inputanchor);
             }
-            if (outputanchor != null){
+            if (outputanchor != null) {
                 node.setOutputAnchor(outputanchor);
             }
-            
+
             node.setInputOutputEditable(ioEditable);
 
             Point p = this.parsePosition(position);
@@ -504,7 +504,7 @@ public class FXProjectLoader extends DefaultHandler {
             }
         } else if ("file".equals(qName)) {
             String dir = charBuffer.toString();
-            currentExportFile.setDirectory(new File(dir));
+            currentExportFile.setDirectory(Paths.get(dir));
         } else if (currentExtraHandler != null) {
         }
     }
