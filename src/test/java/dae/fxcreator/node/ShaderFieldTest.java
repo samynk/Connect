@@ -8,7 +8,7 @@ package dae.fxcreator.node;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.templates.NodeTemplateLoader;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import java.util.ArrayList;
