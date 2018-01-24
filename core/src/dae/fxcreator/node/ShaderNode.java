@@ -1,7 +1,7 @@
 package dae.fxcreator.node;
 
 import dae.fxcreator.node.project.FXProject;
-import dae.fxcreator.io.templates.Setting;
+import dae.fxcreator.node.settings.Setting;
 import java.util.List;
 
 /**
