@@ -5,7 +5,7 @@ import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.io.codegen.CodeTemplateLibrary;
 import dae.fxcreator.io.codegen.CodegenTemplateLoader;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.templates.NodeTemplateLoader;
 import dae.fxcreator.node.Semantic;
 import dae.fxcreator.node.gui.GraphFont;

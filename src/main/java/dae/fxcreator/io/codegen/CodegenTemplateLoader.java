@@ -1,7 +1,7 @@
 package dae.fxcreator.io.codegen;
 
 import dae.fxcreator.io.loaders.FXProjectLoader;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.ShaderType;
 import java.io.BufferedReader;
 import java.io.File;

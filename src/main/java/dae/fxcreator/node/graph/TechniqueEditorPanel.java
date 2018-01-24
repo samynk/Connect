@@ -6,7 +6,7 @@ import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.node.project.ShaderStructCollection;
 import dae.fxcreator.node.project.Technique;
 import dae.fxcreator.node.project.TechniqueCollection;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderInput;

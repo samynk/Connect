@@ -1,7 +1,7 @@
 package dae.fxcreator.io.templates.ui;
 
 import dae.fxcreator.io.PathUtil;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.templates.NodeTemplateLoader;
 import java.nio.file.Files;
 import java.nio.file.Path;

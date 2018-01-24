@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.Semantic;
 import dae.fxcreator.node.ShaderStruct;

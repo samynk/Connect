@@ -1,6 +1,6 @@
 package dae.fxcreator.io.templates.ui;
 
-import dae.fxcreator.io.templates.NodeTemplate;
+import dae.fxcreator.node.templates.NodeTemplate;
 
 /**
  *

@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import java.awt.Dimension;
 import javax.swing.JPanel;
 

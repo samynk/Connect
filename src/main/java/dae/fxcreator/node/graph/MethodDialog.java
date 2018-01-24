@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.io.templates.NodeContainerProxy;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeContainerProxy;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 
 /**
  *

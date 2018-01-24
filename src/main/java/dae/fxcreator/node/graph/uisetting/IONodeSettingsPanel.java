@@ -2,7 +2,7 @@ package dae.fxcreator.node.graph.uisetting;
 
 import com.google.common.eventbus.Subscribe;
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.event.NodeEvent;

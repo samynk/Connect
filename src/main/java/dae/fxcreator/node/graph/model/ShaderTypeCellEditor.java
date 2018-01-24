@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.model;
 
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.ShaderType;
 import java.awt.Component;

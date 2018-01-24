@@ -1,7 +1,7 @@
 package dae.fxcreator.io.savers;
 
-import dae.fxcreator.io.templates.NodeContainerProxy;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeContainerProxy;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
 import java.io.IOException;

@@ -1,6 +1,6 @@
 package dae.fxcreator.io.templates.ui;
 
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 
 /**
  * This panel shows the various node groups and the nodes inside of it.

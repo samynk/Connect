@@ -1,7 +1,7 @@
 package dae.fxcreator.io.loaders;
 
-import dae.fxcreator.io.templates.NodeContainerProxy;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeContainerProxy;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;

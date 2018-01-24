@@ -18,7 +18,7 @@ import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXSettingLoader;
 import dae.fxcreator.io.savers.FXProjectTemplateSaver;
 import dae.fxcreator.io.savers.FXSettingSaver;
-import dae.fxcreator.io.templates.NodeTemplateLibrary;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.templates.NodeTemplateLoader;
 import dae.fxcreator.node.graph.Connector;
 import dae.fxcreator.node.graph.GraphListener;
