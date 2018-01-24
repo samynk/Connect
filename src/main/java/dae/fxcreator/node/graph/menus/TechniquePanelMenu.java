@@ -3,7 +3,7 @@ package dae.fxcreator.node.graph.menus;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.Pass;
 import dae.fxcreator.node.project.ShaderStage;
-import dae.fxcreator.io.events.StageListener;
+import dae.fxcreator.node.events.StageListener;
 import dae.fxcreator.node.templates.NodeTemplate;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.ShaderNode;

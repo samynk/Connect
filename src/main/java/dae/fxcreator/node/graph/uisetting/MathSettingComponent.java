@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph.uisetting;
 
-import dae.fxcreator.io.events.IOListener;
+import dae.fxcreator.node.events.IOListener;
 import dae.fxcreator.node.settings.MathSetting;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderInput;

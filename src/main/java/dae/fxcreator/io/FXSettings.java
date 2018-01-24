@@ -3,7 +3,7 @@ package dae.fxcreator.io;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.codegen.CodeTemplateLibrary;
 import dae.fxcreator.io.codegen.ExporterLibrary;
-import dae.fxcreator.io.events.SymbolListener;
+import dae.fxcreator.node.events.SymbolListener;
 import dae.fxcreator.node.Semantic;
 import dae.fxcreator.node.gui.GradientListModel;
 import dae.fxcreator.node.gui.GraphFont;

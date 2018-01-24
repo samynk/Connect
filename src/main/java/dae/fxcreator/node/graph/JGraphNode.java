@@ -2,8 +2,8 @@ package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.FXSettings;
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.io.events.IOListener;
-import dae.fxcreator.io.events.SettingListener;
+import dae.fxcreator.node.events.IOListener;
+import dae.fxcreator.node.events.SettingListener;
 import dae.fxcreator.node.settings.BooleanSetting;
 import dae.fxcreator.node.settings.CodeSetting;
 import dae.fxcreator.node.settings.ColorSetting;
