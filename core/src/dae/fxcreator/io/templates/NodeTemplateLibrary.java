@@ -1,9 +1,9 @@
 package dae.fxcreator.io.templates;
 
-import dae.fxcreator.io.PathUtil;
 //import dae.fxcreator.io.loaders.FXMethodLoader;
 //import dae.fxcreator.io.savers.FXMethodListSaver;
 //import dae.fxcreator.io.savers.FXMethodSaver;
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;

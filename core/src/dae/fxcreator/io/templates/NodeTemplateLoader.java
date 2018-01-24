@@ -1,5 +1,19 @@
 package dae.fxcreator.io.templates;
 
+import dae.fxcreator.node.settings.TextSetting;
+import dae.fxcreator.node.settings.Setting;
+import dae.fxcreator.node.settings.SemanticSetting;
+import dae.fxcreator.node.settings.OptionSetting;
+import dae.fxcreator.node.settings.MathSetting;
+import dae.fxcreator.node.settings.IntSetting;
+import dae.fxcreator.node.settings.ImageFileSetting;
+import dae.fxcreator.node.settings.GradientSetting;
+import dae.fxcreator.node.settings.FloatSetting;
+import dae.fxcreator.node.settings.DoubleSetting;
+import dae.fxcreator.node.settings.DefaultSetting;
+import dae.fxcreator.node.settings.ColorSetting;
+import dae.fxcreator.node.settings.CodeSetting;
+import dae.fxcreator.node.settings.BooleanSetting;
 import dae.fxcreator.io.PathUtil;
 //import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.node.SettingsGroup;

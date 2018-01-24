@@ -1,5 +1,6 @@
 package dae.fxcreator.io.templates;
 
+import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
