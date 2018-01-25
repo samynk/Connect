@@ -9,7 +9,7 @@ import dae.fxcreator.io.savers.FXProjectSaver;
 import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.NodeGroup;
-import dae.fxcreator.io.PathUtil;
+import dae.fxcreator.io.util.PathUtil;
 import dae.fxcreator.io.codegen.CodeTemplateLibrary;
 import dae.fxcreator.node.transform.ExportTask;
 import dae.fxcreator.io.loaders.FXGroupLoader;
