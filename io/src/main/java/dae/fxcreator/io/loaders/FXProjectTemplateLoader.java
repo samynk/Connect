@@ -3,7 +3,7 @@ package dae.fxcreator.io.loaders;
 import dae.fxcreator.io.templates.FXProjectTemplate;
 import dae.fxcreator.io.templates.FXProjectTemplateGroup;
 import dae.fxcreator.io.templates.FXProjectTemplates;
-import dae.fxcreator.io.PathUtil;
+import dae.fxcreator.io.util.PathUtil;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
