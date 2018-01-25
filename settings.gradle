@@ -1,4 +1,4 @@
-rootProject.name = 'FXCreator'
+rootProject.name = '_FXCreator'
 include 'core'
 include 'uimodel'
 include 'io'
