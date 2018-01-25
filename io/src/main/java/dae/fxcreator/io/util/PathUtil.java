@@ -1,7 +1,7 @@
 /*
  * Digital Arts and Entertainment 2017
  */
-package dae.fxcreator.io;
+package dae.fxcreator.io.util;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
