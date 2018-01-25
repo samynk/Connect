@@ -6,7 +6,7 @@ import dae.fxcreator.io.templates.FXProjectTemplate;
 import dae.fxcreator.io.templates.FXProjectTemplates;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.io.PathUtil;
+import dae.fxcreator.io.util.PathUtil;
 import dae.fxcreator.node.transform.ExportTask;
 import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
