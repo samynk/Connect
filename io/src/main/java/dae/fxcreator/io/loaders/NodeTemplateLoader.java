@@ -17,7 +17,7 @@ import dae.fxcreator.node.settings.DefaultSetting;
 import dae.fxcreator.node.settings.ColorSetting;
 import dae.fxcreator.node.settings.CodeSetting;
 import dae.fxcreator.node.settings.BooleanSetting;
-import dae.fxcreator.io.PathUtil;
+import dae.fxcreator.io.util.PathUtil;
 //import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.ShaderInput;
