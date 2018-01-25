@@ -19,7 +19,7 @@ import dae.fxcreator.io.loaders.FXSettingLoader;
 import dae.fxcreator.io.savers.FXProjectTemplateSaver;
 import dae.fxcreator.io.savers.FXSettingSaver;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
-import dae.fxcreator.io.templates.NodeTemplateLoader;
+import dae.fxcreator.io.loaders.NodeTemplateLoader;
 import dae.fxcreator.node.graph.Connector;
 import dae.fxcreator.node.graph.GraphListener;
 import dae.fxcreator.node.graph.GraphNodeLink;
@@ -420,10 +420,12 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
     boolean templatesLoaded = false;
 
     public void loadProject(Path file) {
+        /*
         FXProjectLoader fxProjectLoader = new FXProjectLoader(file);
         project = fxProjectLoader.load();
         techniquePanel.setProject(project);
         setTitle("Umbra FX - " + file.toString());
+        */
     }
 
     public void loadRecentFiles() {
@@ -457,8 +459,8 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
             loadTemplates();
             FXProjectTemplate startProject = projectTemplates.getStartProject();
             if (startProject != null) {
-                // to do : replace with selection of project type.
 
+                /*
                 FXProjectType type = fxSettings.findLatestProjectType("dae game");
                 //FXSingleton.getSingleton().setCurrentProjectType(type);
                 FXProjectLoader projectLoader = new FXProjectLoader(startProject.getSourceFile());
@@ -470,7 +472,7 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
                 groupNodeEditorPanel1.setProject(project);
                 this.techniquePanel.setLibrary(type.getNodeTemplateLibrary());
                 this.iONodeSettingsPanel1.setNodeTemplateLibrary(type.getNodeTemplateLibrary());
-
+                */
             }
 
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
@@ -498,11 +500,13 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
                         FXProjectTemplate t = projectTemplates.getTemplate(ac);
                         if (t != null) {
                             Path file = t.getSourceFile();
+                            /*
                             FXProjectLoader loader = new FXProjectLoader(file);
                             project = loader.load();
                             project.setLoadedFromTemplate(true);
                             techniquePanel.setProject(project);
                             setTitle("Umbra Fx");
+                            */
                         }
                     }
                 });

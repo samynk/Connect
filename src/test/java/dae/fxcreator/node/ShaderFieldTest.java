@@ -9,7 +9,7 @@ import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
-import dae.fxcreator.io.templates.NodeTemplateLoader;
+import dae.fxcreator.io.loaders.NodeTemplateLoader;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import java.util.ArrayList;
 import org.junit.After;

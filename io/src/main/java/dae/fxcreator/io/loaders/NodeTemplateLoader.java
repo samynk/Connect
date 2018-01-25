@@ -1,4 +1,4 @@
-package dae.fxcreator.io.templates;
+package dae.fxcreator.io.loaders;
 
 import dae.fxcreator.node.templates.TemplateGroup;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;

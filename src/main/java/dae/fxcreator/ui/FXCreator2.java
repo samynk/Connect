@@ -15,6 +15,7 @@ import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import dae.fxcreator.io.loaders.FXSettingLoader;
 import dae.fxcreator.io.savers.FXProjectSaver;
+import dae.fxcreator.node.project.FXProjectTypeRegistry;
 import dae.fxcreator.ui.actions.ExportAction;
 import dae.fxcreator.ui.actions.ExportProjectEvent;
 import dae.fxcreator.ui.actions.NewProjectEvent;
@@ -93,10 +94,7 @@ public class FXCreator2 extends javax.swing.JFrame {
                 }
             }
         }
-        FXSingleton.getSingleton().setSupportedProjectTypes(loader.getProjectTypes());
-        //groupNodeEditorPanel2.setLibrary(project.getNodeTemplateLibrary());
-        //groupNodeEditorPanel2.setProject(project);
-
+        FXSingleton.getSingleton().getProjectTypeRegistry().setSupportedProjectTypes(loader.getProjectTypes());
         FXSingleton.getSingleton().registerListener(this);
     }
 
@@ -122,22 +120,23 @@ public class FXCreator2 extends javax.swing.JFrame {
     @Subscribe
     public void createNewProject(NewProjectEvent npe) {
         FXProjectTemplate template = npe.getProjectTemplate();
-        project = template.createNewProject();
+        FXProjectTypeRegistry registry = FXSingleton.getSingleton().getProjectTypeRegistry();
+        project = template.createNewProject(registry);
         groupNodeEditorPanel2.setProject(project);
-        this.projectTree.setModel(new DefaultTreeModel(project));
-        
+        //this.projectTree.setModel(new DefaultTreeModel(project));
+
         adjustExporterMenu();
     }
-    
+
     @Subscribe
-    public void exportProject(ExportProjectEvent epe){
-        if ( project != null ){
+    public void exportProject(ExportProjectEvent epe) {
+        if (project != null) {
             TemplateClassLibrary tcl = epe.getTemplateClassLibrary();
             ExportTask et = new ExportTask(project, PathUtil.createUserDirPath("test/test.rig"), tcl);
             et.export();
             ShaderViewer sv = new ShaderViewer();
             sv.setExportTask(et);
-            outputTab.add(tcl.getLabel(),sv);
+            outputTab.add(tcl.getLabel(), sv);
         }
     }
 
@@ -245,15 +244,15 @@ public class FXCreator2 extends javax.swing.JFrame {
             saver.save(true);
         }
     }
-    
-    private void adjustExporterMenu(){
+
+    private void adjustExporterMenu() {
         mnuExport.removeAll();
-        /*
-        for ( TemplateClassLibrary tcl : project.getProjectType().getExporterLibraries()){
+
+        for (TemplateClassLibrary tcl : project.getProjectType().getExporterLibraries()) {
             ExportAction ea = new ExportAction(tcl);
             mnuExport.add(ea);
         }
-        */
+
     }
 
     /**

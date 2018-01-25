@@ -2,6 +2,9 @@ package dae.fxcreator.io.templates;
 
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.loaders.FXProjectLoader;
+import dae.fxcreator.node.project.FXProjectType;
+import dae.fxcreator.node.project.FXProjectTypeRegistry;
+import dae.fxcreator.util.ListHashMap;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.nio.file.Path;
@@ -135,11 +138,12 @@ public class FXProjectTemplate implements ActionListener {
 
     /**
      * Loads the file into a new project.
+     * @param projectTypes the list of available project types.
      * @return returns a new FXProject instantiated from the given template.
      */
-    public FXProject createNewProject() {
+    public FXProject createNewProject(FXProjectTypeRegistry projectTypes) {
         Path file = getSourceFile();
-        FXProjectLoader loader = new FXProjectLoader(file);
+        FXProjectLoader loader = new FXProjectLoader(file, projectTypes);
         FXProject project = loader.load();
         project.setLoadedFromTemplate(true);
         return project;

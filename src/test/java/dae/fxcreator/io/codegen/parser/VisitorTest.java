@@ -51,7 +51,7 @@ public class VisitorTest {
         loader.load();
         ArrayList<FXProjectType> projectTypes = loader.getProjectTypes();
         
-        FXSingleton.getSingleton().setSupportedProjectTypes(loader.getProjectTypes());
+        FXSingleton.getSingleton().getProjectTypeRegistry().setSupportedProjectTypes(loader.getProjectTypes());
 
         for (FXProjectType projectType : projectTypes) {
             if ("rigging".equals(projectType.getName())) {
@@ -88,7 +88,8 @@ public class VisitorTest {
 
             Assert.assertNotNull("Rigging project template is null", basic);
             
-            FXProject testProject = basic.createNewProject();
+            
+            FXProject testProject = basic.createNewProject(FXSingleton.getSingleton().getProjectTypeRegistry());
             testProject.setName("testProject1");
 
             ExportTask et = new ExportTask(testProject, PathUtil.createUserDirPath("test/test.rig"), tcl);

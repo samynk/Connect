@@ -22,6 +22,7 @@ import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.ShaderStruct;
 import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.project.FXProjectTypeRegistry;
 import java.awt.Point;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -41,6 +42,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Loads a project from file.
+ *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class FXProjectLoader extends DefaultHandler {
@@ -49,6 +51,10 @@ public class FXProjectLoader extends DefaultHandler {
      * The FXProject object to read.
      */
     private final FXProject project;
+    /**
+     * The available project types.
+     */
+    private FXProjectTypeRegistry fxProjectTypes;
     /**
      * The node template library with the templates.
      */
@@ -113,12 +119,14 @@ public class FXProjectLoader extends DefaultHandler {
      * node template library will be read from the project.
      *
      * @param path the path to load the file from.
+     * @param projectTypes the available project types.
      */
-    public FXProjectLoader(Path path) {
+    public FXProjectLoader(Path path, FXProjectTypeRegistry projectTypes) {
         project = new FXProject(path);
-
+        fxProjectTypes = projectTypes;
         positionMatcher = java.util.regex.Pattern.compile("\\[(-?\\d*),(-?\\d*)\\]");
         extraHandlers.put("mathformula", new MathLoader());
+
     }
 
     /**
@@ -322,11 +330,11 @@ public class FXProjectLoader extends DefaultHandler {
                         this.project.addSymbolListener(currentSetting);
                         // todo replace with dependency injection.
                         /**
-                        FXSettings settings = FXSingleton.getSingleton().getFXSettings();
-                        if (settings != null) {
-                            settings.addSymbolListener(currentSetting);
-                        }
-                        */
+                         * FXSettings settings =
+                         * FXSingleton.getSingleton().getFXSettings(); if
+                         * (settings != null) {
+                         * settings.addSymbolListener(currentSetting); }
+                         */
                         currentNode.addSetting(group, currentSetting);
                         String value = attributes.getValue("value");
                         if (value != null) {
@@ -375,18 +383,15 @@ public class FXProjectLoader extends DefaultHandler {
             int iVersion = Integer.parseInt(version);
             int iMinorVersion = Integer.parseInt(minorVersion);
 
-            /**
-             * todo replace with dependency injection.
-             */
-            /*
-            FXProjectType projectType = FXSingleton.getSingleton().findProjectType(name, iVersion, iMinorVersion);
+            
+            FXProjectType projectType = fxProjectTypes.findProjectType(name, iVersion, iMinorVersion);
             if (projectType != null) {
                 project.setProjectType(projectType);
                 library = project.getNodeTemplateLibrary();
             } else {
                 // todo warn the user that the project type could not be found.
             }
-            */
+             
         } else if ("value".equals(qName)) {
             charBuffer.delete(0, charBuffer.length());
         } else if ("struct".equals(qName)) {
@@ -538,7 +543,7 @@ public class FXProjectLoader extends DefaultHandler {
                         /*
                         FXSettings settings = FXSingleton.getSingleton().getFXSettings();
                         settings.addSymbolListener(cloned);
-                        */
+                         */
                         node.addSetting(s.getGroup(), cloned);
                     } catch (CloneNotSupportedException ex) {
                         ex.printStackTrace();

@@ -6,7 +6,6 @@ import dae.fxcreator.gui.model.NodeStyle;
 import dae.fxcreator.gui.model.GraphFont;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
-import dae.fxcreator.io.templates.NodeTemplateLoader;
 import dae.fxcreator.node.Semantic;
 import dae.fxcreator.gui.model.GraphGradient;
 

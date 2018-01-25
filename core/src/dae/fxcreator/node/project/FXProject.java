@@ -3,11 +3,9 @@ package dae.fxcreator.node.project;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.node.TypedNode;
-//import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
 import dae.fxcreator.node.events.StageListener;
 import dae.fxcreator.node.events.SymbolListener;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
-import dae.fxcreator.io.templates.NodeTemplateLoader;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderNode;
@@ -105,7 +103,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     public final void setProjectType(FXProjectType type) {
         if (type != null) {
             this.type = type;
-            loadNodeTemplateLibrary(type);
+            this.library = type.getNodeTemplateLibrary();
         }
     }
     
@@ -127,10 +125,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     }
 
     private void loadNodeTemplateLibrary(FXProjectType type1) {
-        String sNodesFile = type1.getNodesFile();
-        Path nodesFile = PathUtil.createUserDirPath(sNodesFile);
-        NodeTemplateLoader ntl = new NodeTemplateLoader(nodesFile);
-        library = ntl.load();
+        library = type1.getNodeTemplateLibrary();
     }
 
     /**

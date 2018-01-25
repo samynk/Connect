@@ -2,6 +2,7 @@ package dae.fxcreator.node.project;
 
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.transform.TemplateClassLibrary;
 import dae.fxcreator.util.Key;
 import java.awt.Image;
 import java.util.HashMap;
@@ -29,10 +30,10 @@ public class FXProjectType implements Key{
     
     private NodeTemplateLibrary nodeTemplateLibrary;
     
-    /*
+    
     private final HashMap<String,TemplateClassLibrary> codeGenerators =
             new HashMap<>();
-    */
+    
     
      /**
      * The hash map with the shader type - icon association.
@@ -127,22 +128,20 @@ public class FXProjectType implements Key{
      * Adds a TemplateClassLibrarary to the list of possible code generators.
      * @param tcl the library to add.
      */
-    /*
+    
     public void addTemplateClassLibrary(TemplateClassLibrary tcl) {
         codeGenerators.put(tcl.getLabel(), tcl);
     }
-    */
+    
     
     /**
      * Returns the CodeTemplateLibrary object with the given id.
      * @param id
      * @return 
      */
-    /*
     public TemplateClassLibrary getCodeTemplateLibrary(String id){
         return codeGenerators.get(id);
     }
-    */
     
     /**
      * Sets the node templates to use in combination with this project type.
@@ -172,11 +171,14 @@ public class FXProjectType implements Key{
         return templatesFile;
     }
 
-    /*
+    /**
+     * Returns the list of exporters for this project type.
+     * @return the list of exporters.
+     */
     public Iterable<TemplateClassLibrary> getExporterLibraries() {
         return codeGenerators.values();
     }
-    */
+    
 
     /**
      * Returns the node templates to use in combination with this library.

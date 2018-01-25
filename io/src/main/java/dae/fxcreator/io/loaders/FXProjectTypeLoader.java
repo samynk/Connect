@@ -14,6 +14,8 @@ import dae.fxcreator.io.codegen.parser.GraphTransformerLexer;
 import dae.fxcreator.io.codegen.parser.GraphTransformerParser;
 import dae.fxcreator.node.transform.TemplateClassLibrary;
 import dae.fxcreator.io.codegen.parser.Visitor;
+import dae.fxcreator.node.templates.NodeTemplateLibrary;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.antlr.v4.runtime.CharStream;
@@ -54,7 +56,14 @@ public class FXProjectTypeLoader {
                     String nodesFile = child.findValue("nodes").asText();
                     String templatesFile = child.findValue("templates").asText();
 
+                    
+                    Path pNodesFile = PathUtil.createUserDirPath(nodesFile);
+                    NodeTemplateLoader ntl = new NodeTemplateLoader(pNodesFile);
+                    NodeTemplateLibrary library = ntl.load();
+
                     FXProjectType type = new FXProjectType(name, version, minorversion, nodesFile, templatesFile);
+                    type.setNodeTemplateLibrary(library);
+                    
                     JsonNode generators = child.findValue("codegenerators");
                     if (generators != null) {
                         Iterator<JsonNode> itGenerator = generators.elements();
@@ -66,7 +75,7 @@ public class FXProjectTypeLoader {
                             TemplateClassLibrary tcl = loadExporter(codegen);
                             tcl.setLabel(label);
                             tcl.setDescription(description);
-                            //type.addTemplateClassLibrary(tcl);
+                            type.addTemplateClassLibrary(tcl);
                         }
                     }
                     projectTypes.add(type);
