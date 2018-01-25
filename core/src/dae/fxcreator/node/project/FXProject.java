@@ -1,7 +1,6 @@
 package dae.fxcreator.node.project;
 
 import dae.fxcreator.node.NodeGroup;
-import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.node.events.StageListener;
 import dae.fxcreator.node.events.SymbolListener;
