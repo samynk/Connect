@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import dae.fxcreator.io.PathUtil;
+import dae.fxcreator.io.util.PathUtil;
 import dae.fxcreator.io.codegen.parser.GraphTransformerLexer;
 import dae.fxcreator.io.codegen.parser.GraphTransformerParser;
 import dae.fxcreator.node.transform.TemplateClassLibrary;
