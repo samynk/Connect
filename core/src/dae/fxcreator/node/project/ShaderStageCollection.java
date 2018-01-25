@@ -1,21 +1,19 @@
 package dae.fxcreator.node.project;
 
 import dae.fxcreator.node.NodeGroup;
-import dae.fxcreator.node.project.FXProject;
+import dae.fxcreator.util.List;
 import dae.fxcreator.util.ListHashMap;
-import java.util.Collections;
-import java.util.Enumeration;
-import javax.swing.tree.TreeNode;
 
 /**
  * Contains all the shader stages in the project.
  *
  * @author Koen
  */
-public class ShaderStageCollection implements TreeNode {
+public class ShaderStageCollection implements List {
 
     private final ListHashMap<ShaderStage> stageMap = new ListHashMap<>();
     private final FXProject parent;
+    private String label = "Modules";
 
     /**
      * Creates a new ShaderStageCollection object.
@@ -67,6 +65,7 @@ public class ShaderStageCollection implements TreeNode {
      * Creates a unique shader stage name.
      *
      * @param prefix the prefix for the shader stage name.
+     * @return a unique shader stage name.
      */
     public String createUniqueShaderStageName(String prefix) {
         String name = prefix;
@@ -88,8 +87,8 @@ public class ShaderStageCollection implements TreeNode {
     }
 
     @Override
-    public TreeNode getChildAt(int childIndex) {
-        return stageMap.getItem(childIndex);
+    public Object getChild(int index) {
+        return stageMap.getItem(index);
     }
 
     @Override
@@ -98,31 +97,30 @@ public class ShaderStageCollection implements TreeNode {
     }
 
     @Override
-    public TreeNode getParent() {
-        return parent;
-    }
-
-    @Override
-    public int getIndex(TreeNode node) {
-        if (node instanceof ShaderStage) {
-            return stageMap.indexOf((ShaderStage)node);
+    public int getIndexOfChild(Object child) {
+        if (child instanceof ShaderStage) {
+            return stageMap.indexOf((ShaderStage)child);
         } else {
             return -1;
         }
     }
 
     @Override
-    public boolean getAllowsChildren() {
-        return true;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     @Override
-    public boolean isLeaf() {
-        return false;
+    public String getLabel() {
+        return label;
     }
-
+    
+    /**
+     * Returns the label of this ShaderStageCollection.
+     * @return the label for this collection.
+     */
     @Override
-    public Enumeration children() {
-        return stageMap.enumeration();
+    public String toString(){
+        return label;
     }
 }

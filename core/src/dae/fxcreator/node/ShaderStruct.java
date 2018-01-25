@@ -3,8 +3,6 @@ package dae.fxcreator.node;
 import dae.fxcreator.node.project.ShaderStructCollection;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import javax.swing.tree.TreeNode;
 
 /**
  * This class allows for the definition of a shader structs. Shader structs can
@@ -13,7 +11,7 @@ import javax.swing.tree.TreeNode;
  *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, TypedNode {
+public class ShaderStruct extends ShaderType implements Cloneable, TypedNode {
 
     private String id;
     private final ArrayList<ShaderField> fields = new ArrayList<>();
@@ -111,73 +109,6 @@ public class ShaderStruct extends ShaderType implements TreeNode, Cloneable, Typ
      */
     public Iterable<ShaderField> getFields() {
         return fields;
-    }
-
-    /**
-     * Returns the child at the specific index.
-     *
-     * @param childIndex the index
-     * @return always
-     */
-    @Override
-    public TreeNode getChildAt(int childIndex) {
-        return this.fields.get(childIndex);
-    }
-
-    /**
-     * Returns the number of children in this ShaderStruct.
-     *
-     * @return the number of children.
-     */
-    @Override
-    public int getChildCount() {
-        return fields.size();
-    }
-
-    /**
-     * The parent of this ShaderStruct object.
-     *
-     * @return the parent.
-     */
-    @Override
-    public TreeNode getParent() {
-        return parent;
-    }
-
-    /**
-     * Gets the index of a specific child object.
-     *
-     * @param node the node to get the index of.
-     * @return the index of the node object
-     */
-    @Override
-    public int getIndex(TreeNode node) {
-        return fields.indexOf(node);
-    }
-
-    /**
-     * Checks if this node allows children.
-     *
-     * @return always true.
-     */
-    @Override
-    public boolean getAllowsChildren() {
-        return true;
-    }
-
-    /**
-     * Checks if this node is a leaf object.
-     *
-     * @return always false.
-     */
-    @Override
-    public boolean isLeaf() {
-        return false;
-    }
-
-    @Override
-    public Enumeration children() {
-        return null;
     }
 
     /**

@@ -12,6 +12,7 @@ import javax.swing.tree.TreePath;
 
 /**
  * The menu for the ShaderField objects.
+ *
  * @author Koen
  */
 public class ShaderFieldMenu extends JPopupMenu implements ActionListener {
@@ -27,6 +28,7 @@ public class ShaderFieldMenu extends JPopupMenu implements ActionListener {
 
     /**
      * Creates a new ShaderFieldMenu object that is bound to the JTree object.
+     *
      * @param tree the tree that displays the popup menu.
      */
     public ShaderFieldMenu(JTree tree) {
@@ -45,16 +47,19 @@ public class ShaderFieldMenu extends JPopupMenu implements ActionListener {
 
     /**
      * Sets the project to edit with this menu.
+     *
      * @param project
      */
-    public void setProject(FXProject project){
+    public void setProject(FXProject project) {
         this.project = project;
     }
 
     /**
      * Called when the menu was clicked.
+     *
      * @param ae the ActionEvent object.
      */
+    @Override
     public void actionPerformed(ActionEvent ae) {
         String ac = ae.getActionCommand();
         if (ac.equals("changefield")) {
@@ -66,12 +71,8 @@ public class ShaderFieldMenu extends JPopupMenu implements ActionListener {
             TreePath selection = tree.getSelectionPath();
             if (selection != null && selection.getLastPathComponent() instanceof ShaderField) {
                 ShaderField field = (ShaderField) selection.getLastPathComponent();
-                TreeNode parent = field.getParent();
-                if (parent != null) {
-                    int index = parent.getIndex(field);
-                    field.deleteFromStruct();
-                    project.notifyNodeRemoved(field, selection.getParentPath(), index);
-                }
+                field.deleteFromStruct();
+                //project.notifyNodeRemoved(field, selection.getParentPath(), index);
             }
         }
     }

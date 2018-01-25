@@ -52,6 +52,7 @@ public class TechniquesMenu extends JPopupMenu implements ActionListener {
      * Called when a menu was clicked.
      * @param e the ActionEvent object.
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (project != null) {
             TreePath selectionPath = tree.getSelectionPath();
@@ -61,7 +62,7 @@ public class TechniquesMenu extends JPopupMenu implements ActionListener {
                 String name = tc.createUniqueTechniqueName();
                 Technique tech = new Technique(project, name);
                 tc.addTechnique(tech);
-                project.notifyNodeAdded(tech, selectionPath,tc.getIndex(tech));
+                //project.notifyNodeAdded(tech, selectionPath,tc.getIndex(tech));
             }
         }
     }

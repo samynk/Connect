@@ -61,7 +61,7 @@ public class StructMenu extends JPopupMenu implements ActionListener {
         ShaderStruct struct = new ShaderStruct(name,project.getShaderTypeLibrary());
         panel.editStruct(struct);
         project.addShaderStruct(struct);
-        project.notifyNodeAdded(struct, tree.getSelectionPath(), collection.getIndex(struct));
+        //project.notifyNodeAdded(struct, tree.getSelectionPath(), collection.getIndex(struct));
         
     }
 }

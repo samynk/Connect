@@ -21,7 +21,7 @@ import javax.swing.tree.TreeNode;
  *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
+public class IONode implements TypedNode, StructListener, Cloneable {
 
     /**
      * The ShaderTypeLibrary with the type information.
@@ -1306,79 +1306,6 @@ public class IONode implements TreeNode, TypedNode, StructListener, Cloneable {
     @Override
     public void structIdChanged(ShaderStruct struct) {
     }
-
-    /**
-     * The ShaderStage object has no children.
-     *
-     * @param childIndex the index of the child.
-     * @return always null.
-     */
-    @Override
-    public TreeNode getChildAt(int childIndex) {
-        return null;
-    }
-
-    /**
-     * The ShaderStage object has no children.
-     *
-     * @return always 0
-     */
-    @Override
-    public int getChildCount() {
-        return 0;
-    }
-
-    /**
-     * This node can have different parents.
-     *
-     * @return the parent of this object, always null.
-     */
-    @Override
-    public TreeNode getParent() {
-        return null;
-    }
-
-    /**
-     * Node has no children, returns -1.
-     *
-     * @param node the node to get the index of.
-     * @return always -1.
-     */
-    @Override
-    public int getIndex(TreeNode node) {
-        return -1;
-    }
-
-    /**
-     * This node does not have child elements, returns null.
-     *
-     * @return always false.
-     */
-    @Override
-    public boolean getAllowsChildren() {
-        return false;
-    }
-
-    /**
-     * This node is a leaf.
-     *
-     * @return always true.
-     */
-    @Override
-    public boolean isLeaf() {
-        return true;
-    }
-
-    /**
-     * not supported, enumerations are evil.
-     *
-     * @return always null.
-     */
-    @Override
-    public Enumeration children() {
-        return null;
-    }
-
     // input output rules.
     /**
      * Adapt the output types to the input types.

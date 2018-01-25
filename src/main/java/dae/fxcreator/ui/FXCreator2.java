@@ -7,6 +7,7 @@ import dae.fxcreator.io.templates.FXProjectTemplateGroup;
 import dae.fxcreator.io.templates.FXProjectTemplates;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.gui.model.FXSettings;
+import dae.fxcreator.gui.model.ProjectTreeModel;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.util.PathUtil;
 import dae.fxcreator.node.transform.ExportTask;
@@ -123,7 +124,7 @@ public class FXCreator2 extends javax.swing.JFrame {
         FXProjectTypeRegistry registry = FXSingleton.getSingleton().getProjectTypeRegistry();
         project = template.createNewProject(registry);
         groupNodeEditorPanel2.setProject(project);
-        //this.projectTree.setModel(new DefaultTreeModel(project));
+        this.projectTree.setModel(new ProjectTreeModel(project));
 
         adjustExporterMenu();
     }

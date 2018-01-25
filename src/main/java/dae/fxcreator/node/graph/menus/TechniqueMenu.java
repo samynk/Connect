@@ -93,6 +93,7 @@ public class TechniqueMenu extends JPopupMenu implements ActionListener {
      * Called when the user clicks the menu.
      * @param e the event with the action.
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getActionCommand().equals("changename")) {
             tree.startEditingAtPath(tree.getSelectionPath());
@@ -101,9 +102,9 @@ public class TechniqueMenu extends JPopupMenu implements ActionListener {
             if (selectedPath.getLastPathComponent() instanceof Technique) {
                 Technique tech = (Technique) selectedPath.getLastPathComponent();
                 TechniqueCollection tc = getTCFromPath(selectedPath);
-                int removedIndex = tc.getIndex(tech);
+                int removedIndex = tc.getIndexOfChild(tech);
                 project.removeTechnique(tech);
-                project.notifyNodeRemoved(tech, selectedPath.getParentPath(),removedIndex);
+                //project.notifyNodeRemoved(tech, selectedPath.getParentPath(),removedIndex);
                 tree.repaint();
             }
         }else if ( e.getActionCommand().equals("addpass")){
@@ -113,7 +114,7 @@ public class TechniqueMenu extends JPopupMenu implements ActionListener {
                 String passName = tech.createUniquePassName();
                 Pass pass =new Pass(passName);
                 tech.addPass(pass);
-                project.notifyNodeAdded(pass, selectedPath,tech.getIndex(pass));
+                // project.notifyNodeAdded(pass, selectedPath,tech.getIndex(pass));
                 tree.repaint();
             }
         }

@@ -6,27 +6,21 @@ import dae.fxcreator.node.events.StageListener;
 import dae.fxcreator.node.events.SymbolListener;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
-import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.transform.TemplateClassLibrary;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 /**
  * This class describes an fx project.
  *
  * @author Koen
  */
-public class FXProject implements TypedNode, TreeModel, TreeNode {
+public class FXProject implements TypedNode {
 
     /**
      * The name for the project
@@ -57,7 +51,6 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     private StatesCollection states;
     private final HashMap<String, ExportFile> exportSettings = new HashMap<>();
     private final ShaderStructCollection shaderStructs;
-    private final ArrayList<TreeModelListener> listeners = new ArrayList<>();
     private final ArrayList<StageListener> stageListeners = new ArrayList<>();
     private final HashMap<String, ArrayList<SymbolListener>> symbolListeners = new HashMap<>();
 
@@ -68,7 +61,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      * @param type defines the project type.
      */
     public FXProject(String location, FXProjectType type) {
-        this(Paths.get(location),type);
+        this(Paths.get(location), type);
     }
 
     /**
@@ -97,6 +90,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
 
     /**
      * Sets the type of the project.
+     *
      * @param type the current project type for this project.
      */
     public final void setProjectType(FXProjectType type) {
@@ -105,26 +99,24 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
             this.library = type.getNodeTemplateLibrary();
         }
     }
-    
+
     /**
      * Returns the type of the project.
+     *
      * @return the type of the project.
      */
-    public final FXProjectType getProjectType(){
+    public final FXProjectType getProjectType() {
         return type;
     }
-    
+
     /**
      * Implementation of the typed node interface.
+     *
      * @return the type of this node.
      */
     @Override
-    public String getType(){
+    public String getType() {
         return name;
-    }
-
-    private void loadNodeTemplateLibrary(FXProjectType type1) {
-        library = type1.getNodeTemplateLibrary();
     }
 
     /**
@@ -142,9 +134,11 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      * @return the shader type library.
      */
     public ShaderTypeLibrary getShaderTypeLibrary() {
-        
-        return library!=null?library.getTypeLibrary():null;
+
+        return library != null ? library.getTypeLibrary() : null;
     }
+    
+    
 
     /**
      * Gets the first technique in this FXProject
@@ -211,6 +205,14 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     public Iterable<ShaderStage> getStages() {
         return stages.getList();
     }
+    
+    /**
+     * Returns the shader stage collection.
+     * @return the shader stage collection.
+     */
+    public ShaderStageCollection getStageCollection(){
+        return stages;
+    }
 
     /**
      * Finds a stage with the specific id.
@@ -249,7 +251,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     public ShaderNode findGlobalNode(String id) {
         return globalNodeMap.get(id);
     }
-    
+
     /**
      * Adds an export file for a given exporter id to the exporter list.
      *
@@ -259,8 +261,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     public void addExportDestination(String exporterId, ExportFile file) {
         this.exportSettings.put(exporterId, file);
     }
-    
-    
+
     /**
      * Returns the export destination for a given exporter id.
      *
@@ -280,7 +281,6 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
     public Iterable<String> getExportDestinations() {
         return exportSettings.keySet();
     }
-    
 
     /**
      * Returns the name of the project.
@@ -328,191 +328,6 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      */
     public void setLoadedFromTemplate(boolean loadedFromTemplate) {
         this.loadedFromTemplate = loadedFromTemplate;
-    }
-
-    /**
-     * Returns the root of the tree.
-     *
-     * @return
-     */
-    @Override
-    public Object getRoot() {
-        return this;
-    }
-
-    /**
-     * Gets a child of the specified parent. Either the parent is this object,
-     * or it is an instance of of the TreeNode class.
-     *
-     * @param parent the parent object to get the child from.
-     * @param index the index of the child.
-     * @return the child object at the specific index.
-     */
-    @Override
-    public Object getChild(Object parent, int index) {
-        if (parent == this) {
-            switch (index) {
-                case 0:
-                    return shaderStructs;
-                case 1:
-                    return states;
-                case 2:
-                    return stages;
-                case 3:
-                    return techniques;
-                default:
-                    break;
-            }
-        } else if (parent instanceof TreeNode) {
-            TreeNode node = (TreeNode) parent;
-            return node.getChildAt(index);
-        }
-        return null;
-    }
-
-    /**
-     * Gets the child count of the provided tree node object.
-     *
-     * @param parent the parent to get the child node from.
-     * @return the child count.
-     */
-    @Override
-    public int getChildCount(Object parent) {
-        if (parent == this) {
-            return 4;
-        } else if (parent instanceof TreeNode) {
-            TreeNode node = (TreeNode) parent;
-            return node.getChildCount();
-        }
-        return 0;
-    }
-
-    /**
-     * Checks if this node is a leaf.
-     *
-     * @param node the node to check.
-     * @return true if the node is a leaf, false if the node is not a leaf.
-     */
-    @Override
-    public boolean isLeaf(Object node) {
-        if (node == this) {
-            return false;
-        } else if (node instanceof TreeNode) {
-            TreeNode tn = (TreeNode) node;
-            return tn.isLeaf();
-        } else {
-            return true;
-        }
-    }
-
-    /**
-     * Called when a cell was edited.
-     *
-     * @param path the path that was changed.
-     * @param newValue the new value for the display name.
-     */
-    @Override
-    public void valueForPathChanged(TreePath path, Object newValue) {
-        // change the name.
-        Object o = path.getLastPathComponent();
-        if (o instanceof Technique) {
-            Technique t = (Technique) o;
-            t.setName(newValue.toString());
-        } else if (o instanceof Pass) {
-            Pass p = (Pass) o;
-            p.setName(newValue.toString());
-        } else if (o instanceof ShaderStage) {
-            ShaderStage ss = (ShaderStage) o;
-            ss.setId(newValue.toString());
-        } else if (o instanceof ShaderField) {
-            ShaderField sf = (ShaderField) o;
-            sf.decode(newValue.toString());
-        }
-    }
-
-    /**
-     * Gets the index of the child object.
-     *
-     * @param parent the parent of the child object.
-     * @param child the child object.
-     * @return the index.
-     */
-    @Override
-    public int getIndexOfChild(Object parent, Object child) {
-        if (parent instanceof TreeNode) {
-            TreeNode node = (TreeNode) parent;
-            return node.getIndex((TreeNode) child);
-        } else {
-            return -1;
-        }
-    }
-
-    /**
-     * Adds a TreeModel listener to the list of listeners.
-     *
-     * @param l the listener to add.
-     */
-    @Override
-    public void addTreeModelListener(TreeModelListener l) {
-        listeners.add(l);
-    }
-
-    /**
-     * Removes the treemodel listener from the list of listeners.
-     *
-     * @param l the listener to remove.
-     */
-    @Override
-    public void removeTreeModelListener(TreeModelListener l) {
-        listeners.remove(l);
-    }
-
-    @Override
-    public TreeNode getChildAt(int childIndex) {
-        switch (childIndex) {
-            case 0:
-                return shaderStructs;
-            case 1:
-                return states;
-            case 2:
-                return stages;
-            default:
-                return null;
-        }
-    }
-
-    @Override
-    public int getChildCount() {
-        return 4;
-    }
-
-    @Override
-    public TreeNode getParent() {
-        return null;
-    }
-
-    @Override
-    public int getIndex(TreeNode node) {
-        if (node == shaderStructs) {
-            return 0;
-        } else {
-            return -1;
-        }
-    }
-
-    @Override
-    public boolean getAllowsChildren() {
-        return true;
-    }
-
-    @Override
-    public boolean isLeaf() {
-        return false;
-    }
-
-    @Override
-    public Enumeration children() {
-        return null;
     }
 
     /**
@@ -570,51 +385,6 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      */
     public void removeTechnique(Technique technique) {
         techniques.removeTechnique(technique);
-    }
-
-    /**
-     * Notifies the listeners that a row was removed from the model.
-     *
-     * @param toRemove the tree node that was removed.
-     * @param path the path to the tree node.
-     * @param index the index of the node in the parent path.
-     */
-    public void notifyNodeRemoved(TreeNode toRemove, TreePath path, int index) {
-        int indices[] = {index};
-        Object removed[] = {toRemove};
-        TreeModelEvent tme = new TreeModelEvent(this, path, indices, removed);
-        for (TreeModelListener listener : listeners) {
-            listener.treeNodesRemoved(tme);
-        }
-    }
-
-    /**
-     * Notifies the listeners that a row was added to the model.
-     *
-     * @param toAdd the node that was added to the tree.
-     * @param path the parent path.
-     * @param index the index in the parent path.
-     */
-    public void notifyNodeAdded(TreeNode toAdd, TreePath path, int index) {
-        int indices[] = {index};
-        Object added[] = {toAdd};
-
-        TreeModelEvent tme = new TreeModelEvent(this, path, indices, added);
-        for (TreeModelListener listener : listeners) {
-            listener.treeNodesInserted(tme);
-        }
-    }
-
-    /**
-     * Notifies the listeners that the struct from a certain point was changed.
-     *
-     * @param selectionPath
-     */
-    public void notifyNodeChanged(TreePath selectionPath) {
-        TreeModelEvent tme = new TreeModelEvent(this, selectionPath);
-        for (TreeModelListener listener : listeners) {
-            listener.treeStructureChanged(tme);
-        }
     }
 
     /**
@@ -809,7 +579,6 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
      * @param exporterId the id of the exporter.
      * @return the default extension for the exporter.
      */
-    /*
     public String getExportExtension(String exporterId) {
         if (type != null) {
             TemplateClassLibrary codegen = type.getCodeTemplateLibrary(exporterId);
@@ -822,8 +591,7 @@ public class FXProject implements TypedNode, TreeModel, TreeNode {
             return "fx";
         }
     }
-    */
-
+     
     public NodeGroup getFirstStage() {
         return this.stages.getFirstStage();
     }

@@ -1,20 +1,17 @@
 package dae.fxcreator.node.project;
 
-import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.ShaderNode;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
-import javax.swing.tree.TreeNode;
 
 /**
  * This object contains the collection of states in a project.
  * @author Koen
  */
-public class StatesCollection implements TreeNode {
+public class StatesCollection{
 
-    private HashMap<String, ShaderNode> stateMap = new HashMap<String, ShaderNode>();
-    private ArrayList<ShaderNode> states = new ArrayList<ShaderNode>();
+    private final HashMap<String, ShaderNode> stateMap = new HashMap<>();
+    private final ArrayList<ShaderNode> states = new ArrayList<>();
     private FXProject parent;
 
     /**
@@ -63,64 +60,6 @@ public class StatesCollection implements TreeNode {
      */
     public Iterable<ShaderNode> getStates(){
         return states;
-    }
-
-    /**
-     * Returns the child node at the provided index.
-     * @param childIndex the index of the child.
-     * @return the object at the specific child node.
-     */
-    public TreeNode getChildAt(int childIndex) {
-        return states.get(childIndex);
-    }
-
-    /**
-     * Returns the number of children in this node.
-     * @return the number of children.
-     */
-    public int getChildCount() {
-        return states.size();
-    }
-
-    /**
-     * Returns the parent of this node.
-     * @return the node of the parent.
-     */
-    public TreeNode getParent() {
-        return parent;
-    }
-
-    /**
-     * Gets the index of a given child.
-     * @param node the node to get the index of.
-     * @return the index of the child node.
-     */
-    public int getIndex(TreeNode node) {
-        return states.indexOf(node);
-    }
-
-    /**
-     * Checks if this element allows children.
-     * @return true
-     */
-    public boolean getAllowsChildren() {
-        return true;
-    }
-
-    /**
-     * Checks if this is a leaf element.
-     * @return always true.
-     */
-    public boolean isLeaf() {
-        return true;
-    }
-
-    /**
-     * not implemented.
-     * @return
-     */
-    public Enumeration children() {
-        return null;
     }
 
     /**

@@ -60,7 +60,7 @@ public class PassMenu extends JPopupMenu implements ActionListener {
             Pass p = (Pass) path.getLastPathComponent();
             Technique t = getTechniqueFromPath(path);
             if ( t != null )
-                mnuDeletePass.setEnabled(t.getChildCount() > 1);
+                mnuDeletePass.setEnabled(t.hasPasses());
             else
                 mnuDeletePass.setEnabled(false);
             mnuChangeName.setEnabled(true);
@@ -99,15 +99,17 @@ public class PassMenu extends JPopupMenu implements ActionListener {
      * Called when a menu is clicked.
      * @param ae
      */
+    @Override
     public void actionPerformed(ActionEvent ae) {
         if ( ae.getActionCommand().equals("deletepass")){
             Technique t = getTechniqueFromPath(tree.getSelectionPath());
             Object pass = tree.getSelectionPath().getLastPathComponent();
             if ( t!=null &&pass instanceof Pass){
                 Pass p = (Pass)pass;
-               int removeIndex = t.getIndex(p);
+                int removeIndex = t.getIndexOfChild(p);
                 t.removePass(p);
-                project.notifyNodeRemoved(p, tree.getSelectionPath().getParentPath(),removeIndex);
+                
+                //project.notifyNodeRemoved(p, tree.getSelectionPath().getParentPath(),removeIndex);
             }
             tree.repaint();
         }else if ( ae.getActionCommand().equals("changename")){

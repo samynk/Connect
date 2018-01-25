@@ -1,19 +1,15 @@
 package dae.fxcreator.node.project;
 
 import dae.fxcreator.node.TypedNode;
-import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderNode;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import javax.swing.tree.TreeNode;
-import javax.swing.tree.TreePath;
 
 /**
  * This object describes a pass declaration for a shader.
  * @author Koen Samyn
  */
-public class Pass implements TypedNode, TreeNode {
+public class Pass implements TypedNode {
 
     /**
      * The name for the pass object.
@@ -26,7 +22,7 @@ public class Pass implements TypedNode, TreeNode {
     /**
      * The list of ShaderStage objects.
      */
-    private ArrayList<ShaderStage> stages = new ArrayList<ShaderStage>();
+    private final ArrayList<ShaderStage> stages = new ArrayList<>();
     /**
      * The rasterizer state of this pass.
      */
@@ -69,13 +65,14 @@ public class Pass implements TypedNode, TreeNode {
      * as the name.
      * @return the id, a synonum for the name.
      */
+    @Override
     public String getId() {
         return name;
     }
 
     /**
      * Adds a shader stage to the list of shader stages.
-     * @param stage the shader stage to add.
+     * @param toAdd the shader stage to add.
      */
     public void addShaderStage(ShaderStage toAdd) {
         String toAddType = toAdd.getType();
@@ -93,14 +90,15 @@ public class Pass implements TypedNode, TreeNode {
             int index = stages.indexOf(toRemove);
             if (index > -1) {
                 stages.remove(toRemove);
-                notifyRemoved(toRemove, index);
+                // notifyRemoved(toRemove, index);
             }
         } else {
             stages.add(toAdd);
-            notifyAdded(toAdd);
+            // notifyAdded(toAdd);
         }
     }
 
+    /*
     private void notifyRemoved(ShaderStage toRemove, int index) {
         if (this.parent != null && parent.getFXProject() != null) {
             FXProject root = parent.getFXProject();
@@ -131,6 +129,7 @@ public class Pass implements TypedNode, TreeNode {
             }
         }
     }
+    */
 
     /**
      * Checks if a stage is present in this pass.
@@ -213,64 +212,6 @@ public class Pass implements TypedNode, TreeNode {
      */
     public String getType() {
         return "pass";
-    }
-
-    /**
-     * Gets a child at the specific index.
-     * @param childIndex the index of the child.
-     * @return the child at the specific index.
-     */
-    public TreeNode getChildAt(int childIndex) {
-        return stages.get(childIndex);
-    }
-
-    /**
-     * Returns the number of shaderstages in this pass.
-     * @return the number stages
-     */
-    public int getChildCount() {
-        return stages.size();
-    }
-
-    /**
-     * Returns the parent of this object, not used.
-     * @return always null.
-     */
-    public TreeNode getParent() {
-        return parent;
-    }
-
-    /**
-     * Returns the index of a child object.
-     * @param node the node to get the index of.
-     * @return the index.
-     */
-    public int getIndex(TreeNode node) {
-        return stages.indexOf(node);
-    }
-
-    /**
-     * Checks if this node allows children.
-     * @return always false.
-     */
-    public boolean getAllowsChildren() {
-        return true;
-    }
-
-    /**
-     * Checks if this node is a leaf object.
-     * @return always true.
-     */
-    public boolean isLeaf() {
-        return false;
-    }
-
-    /**
-     * Returns an enumeration of all children, not implemented and not used.
-     * @return null
-     */
-    public Enumeration children() {
-        return null;
     }
 
     /**

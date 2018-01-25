@@ -1,5 +1,6 @@
 package dae.fxcreator.node.graph;
 
+import dae.fxcreator.gui.model.ProjectTreeModel;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.Pass;
 import dae.fxcreator.node.project.ShaderStage;
@@ -93,7 +94,7 @@ public class TechniqueEditorPanel extends javax.swing.JPanel implements GraphLis
 
     public void setProject(FXProject project) {
         this.project = project;
-        treeShader.setModel(project);
+        treeShader.setModel(new ProjectTreeModel(project));
         graphEditor1.setProject(project);
         graphEditor1.enableDrop();
 
@@ -215,7 +216,7 @@ public class TechniqueEditorPanel extends javax.swing.JPanel implements GraphLis
             structEditor.setModel(struct);
             structEditor.setVisible(true);
 
-            project.notifyNodeChanged(treeShader.getSelectionPath());
+            //project.notifyNodeChanged(treeShader.getSelectionPath());
         }
     }//GEN-LAST:event_mnuChangeStructActionPerformed
 

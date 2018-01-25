@@ -1,18 +1,16 @@
 package dae.fxcreator.node;
 
-import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.swing.tree.TreeNode;
 
 /**
  * The definition of a field inside the shader struct.
  *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public class ShaderField implements Cloneable, TreeNode {
+public class ShaderField implements Cloneable {
 
     public static boolean nameChanged(ShaderField field, ShaderField oldValue) {
         return !field.name.equals(oldValue.name);
@@ -44,6 +42,7 @@ public class ShaderField implements Cloneable, TreeNode {
 
     /**
      * Creates a new ShaderField object.
+     *
      * @param name the name for the shaderfield.
      * @param semantic the semantic for the shaderfield.
      * @param type the type of the shaderfield.
@@ -165,78 +164,6 @@ public class ShaderField implements Cloneable, TreeNode {
                 this.type = type;
             }
         }
-    }
-
-    /**
-     * Returns the child at a specific position.
-     *
-     * @param childIndex the index of the child.
-     * @return always null, because this is a tree node.
-     */
-    @Override
-    public TreeNode getChildAt(int childIndex) {
-        return null;
-    }
-
-    /**
-     * Returns the number of children of this node.
-     *
-     * @return always 0, this is a leaf node.
-     */
-    @Override
-    public int getChildCount() {
-        return 0;
-    }
-
-    /**
-     * Returns the ShaderStruct object this ShaderField belongs to.
-     *
-     * @return the TreeNode object that is the parent.
-     */
-    @Override
-    public TreeNode getParent() {
-        return this.parent;
-    }
-
-    /**
-     * Returns the index of a TreeNode object.
-     *
-     * @param node the index of the node object.
-     * @return -1, this node does not support child objects.
-     */
-    @Override
-    public int getIndex(TreeNode node) {
-        return -1;
-    }
-
-    /**
-     * Checks if this node supports children.
-     *
-     * @return always false.
-     */
-    @Override
-    public boolean getAllowsChildren() {
-        return false;
-    }
-
-    /**
-     * Checks if this node is a leaf node.
-     *
-     * @return always true.
-     */
-    @Override
-    public boolean isLeaf() {
-        return true;
-    }
-
-    /**
-     * Not supported because Enumeration objects are ancient evils.
-     *
-     * @return always null.
-     */
-    @Override
-    public Enumeration children() {
-        return null;
     }
 
     /**

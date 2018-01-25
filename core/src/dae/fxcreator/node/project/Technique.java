@@ -1,19 +1,19 @@
 package dae.fxcreator.node.project;
 
 import dae.fxcreator.node.TypedNode;
-import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.util.Key;
+import dae.fxcreator.util.List;
 import java.util.ArrayList;
-import java.util.Enumeration;
-import javax.swing.tree.TreeNode;
 
 /**
  * The shader class that contains the information about shader passes.
+ *
  * @author Koen
  */
-public class Technique implements TypedNode, TreeNode {
+public class Technique implements TypedNode, Key, List{
 
-    private ArrayList<Pass> passes = new ArrayList<Pass>();
+    private final ArrayList<Pass> passes = new ArrayList<>();
     private String name;
     private FXProject project;
     /**
@@ -23,6 +23,7 @@ public class Technique implements TypedNode, TreeNode {
 
     /**
      * Constructs a new shader object with a given name.
+     *
      * @param parent the FXProject parent.
      * @param name the name for this shader.
      */
@@ -31,16 +32,23 @@ public class Technique implements TypedNode, TreeNode {
         this.name = name;
     }
 
+    @Override
+    public String getKey() {
+        return name;
+    }
+
     /**
      * Set the technique collection that is the parent of this Technique.
+     *
      * @param parent the techniquecollection that is the parent.
      */
-    public void setParent(TechniqueCollection parent){
+    public void setParent(TechniqueCollection parent) {
         this.parent = parent;
     }
 
     /**
      * Returns the name of this shader.
+     *
      * @return the name of the shader.
      */
     public String getName() {
@@ -49,6 +57,7 @@ public class Technique implements TypedNode, TreeNode {
 
     /**
      * Sets the name for this shader.
+     *
      * @param name the new name for the shader.
      */
     public void setName(String name) {
@@ -56,8 +65,8 @@ public class Technique implements TypedNode, TreeNode {
     }
 
     /**
-     * Returns the id of the pass, which is the same
-     * as the name.
+     * Returns the id of the pass, which is the same as the name.
+     *
      * @return the id, a synonum for the name.
      */
     public String getId() {
@@ -66,6 +75,7 @@ public class Technique implements TypedNode, TreeNode {
 
     /**
      * Adds a pass to this shader object.
+     *
      * @param pass the pass to add.
      */
     public void addPass(Pass pass) {
@@ -75,15 +85,21 @@ public class Technique implements TypedNode, TreeNode {
 
     /**
      * Removes a pass from this pass object.
+     *
      * @param p the pass to remove.
      */
     public void removePass(Pass p) {
         this.passes.remove(p);
         p.setParent(null);
     }
+    
+    public boolean hasPasses(){
+        return passes.size() > 0;
+    }
 
     /**
      * Return the FXProject parent of this pass.
+     *
      * @return the FXProject that is the parent of this pass.
      */
     public FXProject getFXProject() {
@@ -92,6 +108,7 @@ public class Technique implements TypedNode, TreeNode {
 
     /**
      * Returns the passes in this technique.
+     *
      * @return the passes.
      */
     public ArrayList<Pass> getPasses() {
@@ -129,6 +146,7 @@ public class Technique implements TypedNode, TreeNode {
 
     /**
      * Returns the first pass of this Technique object.
+     *
      * @return the first pass.
      */
     public Pass getFirstPass() {
@@ -141,15 +159,42 @@ public class Technique implements TypedNode, TreeNode {
 
     /**
      * Finds a global node in the project.
+     *
      * @param id the global node.
      * @return the global node with the specified id.
      */
     public ShaderNode findGlobalNode(String id) {
         return project.findGlobalNode(id);
     }
+    
+     @Override
+    public Object getChild(int index) {
+        return passes.get(index);
+    }
+
+    @Override
+    public int getChildCount() {
+        return passes.size();
+    }
+
+    @Override
+    public int getIndexOfChild(Object child) {
+        return passes.indexOf(child);
+    }
+
+    @Override
+    public void setLabel(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String getLabel() {
+        return name;
+    }
 
     /**
      * Returns the type of this object.
+     *
      * @return
      */
     public String getType() {
@@ -157,65 +202,8 @@ public class Technique implements TypedNode, TreeNode {
     }
 
     /**
-     * Gets a child at the specific index.
-     * @param childIndex the index of the child.
-     * @return the child at the specific index.
-     */
-    public TreeNode getChildAt(int childIndex) {
-        return passes.get(childIndex);
-    }
-
-    /**
-     * Returns the number of passes in this technique.
-     * @return the number of passes.
-     */
-    public int getChildCount() {
-        return passes.size();
-    }
-
-    /**
-     * Returns the parent of this object, not used.
-     * @return always null.
-     */
-    public TreeNode getParent() {
-        return parent;
-    }
-
-    /**
-     * Returns the index of a child object.
-     * @param node the node to get the index of.
-     * @return the index.
-     */
-    public int getIndex(TreeNode node) {
-        return passes.indexOf(node);
-    }
-
-    /**
-     * Checks if this node allows children.
-     * @return always true.
-     */
-    public boolean getAllowsChildren() {
-        return true;
-    }
-
-    /**
-     * Checks if this node is a leaf object.
-     * @return always false.
-     */
-    public boolean isLeaf() {
-        return false;
-    }
-
-    /**
-     * Returns an enumeration of all children, not implemented and not used.
-     * @return null
-     */
-    public Enumeration children() {
-        return null;
-    }
-
-    /**
      * Returns a string representation of this technique.
+     *
      * @return the string representation of the technique.
      */
     @Override
