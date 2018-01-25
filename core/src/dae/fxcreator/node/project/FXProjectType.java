@@ -2,7 +2,6 @@ package dae.fxcreator.node.project;
 
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.ShaderType;
-import dae.fxcreator.node.gui.ImageLoader;
 import dae.fxcreator.util.Key;
 import java.awt.Image;
 import java.util.HashMap;
@@ -193,20 +192,9 @@ public class FXProjectType implements Key{
      * @param icon the location for the icon.
      */
     public void addIconForType(ShaderType shaderType, String icon) {
-        Image image = ImageLoader.getInstance().getImage(icon);
-        this.typeIconMap.put(shaderType, image);
         this.typeIconLocationMap.put(shaderType, icon);
     }
-    
-    /**
-     * Gets an icon for the given shadertype.
-     * @param type the ShaderType to get an icon for.
-     * @return the image , or null if no image was found.
-     */
-    public Image getIconForType(ShaderType type) {
-        return typeIconMap.get(type);
-    }
-
+ 
     /**
      * Returns the list of defined shadertypes.
      * @return the list of defined shader types.
@@ -223,6 +211,4 @@ public class FXProjectType implements Key{
     public String getShaderTypeIconLocation(ShaderType type) {
         return typeIconLocationMap.get(type);
     }
-
-    
 }

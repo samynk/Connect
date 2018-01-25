@@ -1,8 +1,8 @@
 package dae.fxcreator.ui.usersettings;
 
-import dae.fxcreator.io.FXSettings;
+import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.node.gui.GraphFont;
+import dae.fxcreator.gui.model.GraphFont;
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.ItemEvent;

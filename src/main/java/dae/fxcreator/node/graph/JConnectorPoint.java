@@ -1,14 +1,13 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.node.project.FXProjectType;
-import dae.fxcreator.io.FXSettings;
+import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.ShaderIO;
 import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.gui.GraphFont;
-import dae.fxcreator.node.gui.ImageLoader;
-import dae.fxcreator.node.gui.NodeStyle;
+import dae.fxcreator.gui.model.GraphFont;
+import dae.fxcreator.gui.model.ImageLoader;
+import dae.fxcreator.gui.model.NodeStyle;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;

@@ -1,5 +1,7 @@
 package dae.fxcreator.node.graph.math;
 
+import dae.fxcreator.node.graphmath.MathVariable;
+import dae.fxcreator.node.graphmath.MathElement;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Insets;

@@ -1,7 +1,7 @@
 package dae.fxcreator.ui.actions;
 
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
+import dae.fxcreator.node.transform.TemplateClassLibrary;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;

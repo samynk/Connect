@@ -1,5 +1,6 @@
 package dae.fxcreator.node.graph.math;
 
+import dae.fxcreator.node.graphmath.MathElement;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;

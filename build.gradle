@@ -26,18 +26,26 @@ dependencies {
     // TODO: Add dependencies here ...
     // You can read more about how to add dependency here:
     //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
-    antlr "org.antlr:antlr4:4.7.1" 
+     
     compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
     compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
     compile(project('core'))
+    compile(project('io'))
+    compile(project('uimodel'))
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
 
-generateGrammarSource {
-    maxHeapSize = "64m"
-    arguments += ["-visitor", "-long-messages"]
-}
+
 
 project ('core'){
     apply plugin : 'java'
+}
+
+project ('io'){
+    apply plugin: 'java'
+    apply plugin: 'antlr'
+}
+
+project('uimodel'){
+    apply plugin: 'java'
 }

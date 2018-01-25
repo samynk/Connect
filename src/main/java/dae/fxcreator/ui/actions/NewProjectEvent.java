@@ -1,6 +1,6 @@
 package dae.fxcreator.ui.actions;
 
-import dae.fxcreator.io.FXProjectTemplate;
+import dae.fxcreator.io.templates.FXProjectTemplate;
 
 /**
  * Event object to signal the creation of a new event.

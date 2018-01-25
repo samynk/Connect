@@ -1,6 +1,6 @@
 package dae.fxcreator.ui;
 
-import dae.fxcreator.io.codegen.ExportTask;
+import dae.fxcreator.node.transform.ExportTask;
 import java.nio.file.Path;
 
 /**

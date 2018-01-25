@@ -1,5 +1,8 @@
 package dae.fxcreator.node.graph.math;
 
+import dae.fxcreator.node.graphmath.MultipleMathElement;
+import dae.fxcreator.node.graphmath.Operation;
+import dae.fxcreator.node.graphmath.MathElement;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;

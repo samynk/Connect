@@ -1,6 +1,6 @@
 package dae.fxcreator.ui.actions;
 
-import dae.fxcreator.io.codegen.parser.TemplateClassLibrary;
+import dae.fxcreator.node.transform.TemplateClassLibrary;
 
 /**
  *

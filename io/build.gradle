@@ -1,0 +1,47 @@
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir 'src/main/java'
+        }
+        resources {
+            srcDir 'resources' 
+        }
+    }
+
+    test {
+        java {
+            srcDir 'test'
+        }
+        resources {
+            srcDir 'resources'
+        }
+    }
+}
+
+dependencies {
+    testCompile 'junit:junit:4.8.2'
+    antlr "org.antlr:antlr4:4.7.1"
+    compile('com.google.guava:guava:23.6-jre')
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
+    compile(project(':core'));
+    compile(project(':uimodel'));
+}
+
+test {
+    reports.junitXml.destination = file('build/test-results/')
+
+    reports {
+        junitXml.enabled = true
+    }               
+}
+
+generateGrammarSource {
+    maxHeapSize = "64m"
+    arguments += ["-visitor", "-long-messages"]
+}

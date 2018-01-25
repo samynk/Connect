@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.io.FXSettings;
+import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.events.IOListener;
 import dae.fxcreator.node.events.SettingListener;
@@ -31,10 +31,10 @@ import dae.fxcreator.node.graph.uisetting.OptionVisualizer;
 import dae.fxcreator.node.graph.uisetting.SemanticVisualizer;
 import dae.fxcreator.node.graph.uisetting.TextSettingVisualizer;
 import dae.fxcreator.node.graph.uisetting.Visualizer;
-import dae.fxcreator.node.gui.GraphFont;
-import dae.fxcreator.node.gui.GraphGradient;
-import dae.fxcreator.node.gui.ImageLoader;
-import dae.fxcreator.node.gui.NodeStyle;
+import dae.fxcreator.gui.model.GraphFont;
+import dae.fxcreator.gui.model.GraphGradient;
+import dae.fxcreator.gui.model.ImageLoader;
+import dae.fxcreator.gui.model.NodeStyle;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Component;

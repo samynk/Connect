@@ -1,6 +1,6 @@
 package dae.fxcreator.ui.actions;
 
-import dae.fxcreator.io.FXProjectTemplate;
+import dae.fxcreator.io.templates.FXProjectTemplate;
 import dae.fxcreator.io.FXSingleton;
 import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;

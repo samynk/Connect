@@ -1,6 +1,6 @@
 package dae.fxcreator.io.codegen;
 
-import dae.fxcreator.node.graph.math.MathFormula;
+import dae.fxcreator.node.graphmath.MathFormula;
 import java.util.HashMap;
 
 /**

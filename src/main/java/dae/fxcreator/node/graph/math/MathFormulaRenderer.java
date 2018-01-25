@@ -1,5 +1,6 @@
 package dae.fxcreator.node.graph.math;
 
+import dae.fxcreator.node.graphmath.MathFormula;
 import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics2D;

@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph.model;
 
 import dae.fxcreator.io.FXSettingListener;
-import dae.fxcreator.io.FXSettings;
+import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.Semantic;
 import java.util.ArrayList;
@@ -23,7 +23,8 @@ public class SemanticDataModel implements ComboBoxModel, FXSettingListener {
     public SemanticDataModel() {
         suggestions = new ArrayList<String>();
         FXSingleton.getSingleton().addFXSettingListener(this);
-
+        // todo use the semantics of the current project type.
+        /*
         FXSettings fxSettings = FXSingleton.getSingleton().getFXSettings();
         if (fxSettings != null) {
             for (Semantic s : fxSettings.getSemantics()) {
@@ -31,6 +32,7 @@ public class SemanticDataModel implements ComboBoxModel, FXSettingListener {
             }
             Collections.sort(suggestions);
         }
+        */
     }
 
     public SemanticDataModel(ArrayList<String> suggestions) {
@@ -64,9 +66,12 @@ public class SemanticDataModel implements ComboBoxModel, FXSettingListener {
 
     public void fxSettingChanged(FXSettings fxSetting) {
         suggestions.clear();
+        // todo use semantics of current project type.
+        /*
         for (Semantic s : fxSetting.getSemantics()) {
             suggestions.add(s.getValue());
         }
+        */
         
         System.out.println("Suggestions are : "+suggestions.isEmpty());
         if (!suggestions.isEmpty()) {

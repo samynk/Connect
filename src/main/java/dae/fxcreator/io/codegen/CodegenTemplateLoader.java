@@ -1,5 +1,6 @@
 package dae.fxcreator.io.codegen;
 
+import dae.fxcreator.node.transform.CodeFormatter;
 import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.ShaderType;

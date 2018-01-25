@@ -1,12 +1,13 @@
 package dae.fxcreator.io.codegen.parser;
 
+import dae.fxcreator.node.transform.TemplateClassLibrary;
 import dae.fxcreator.node.project.FXProject;
-import dae.fxcreator.io.FXProjectTemplate;
-import dae.fxcreator.io.FXProjectTemplates;
+import dae.fxcreator.io.templates.FXProjectTemplate;
+import dae.fxcreator.io.templates.FXProjectTemplates;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.PathUtil;
-import dae.fxcreator.io.codegen.ExportTask;
+import dae.fxcreator.node.transform.ExportTask;
 import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import java.io.IOException;

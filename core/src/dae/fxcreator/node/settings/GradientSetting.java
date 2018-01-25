@@ -1,21 +1,23 @@
 package dae.fxcreator.node.settings;
 
-import dae.fxcreator.node.gui.GraphGradient;
 import java.awt.Color;
 
 /**
  * This class stores colors that can be used as a gradient.
+ *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class GradientSetting extends Setting {
-    private GraphGradient gradient = new GraphGradient();
+
+    private Color[] colors = new Color[2];
+
     /*
      * Creates a new GradientSetting object.
      * @param name the name for the setting.
      * @param label the label for the setting.
      */
-    public GradientSetting(String name, String label){
-        super(name,label);
+    public GradientSetting(String name, String label) {
+        super(name, label);
     }
 
     @Override
@@ -23,19 +25,34 @@ public class GradientSetting extends Setting {
         return "type";
     }
 
+    private String expand(String toExpand) {
+        if (toExpand.length() == 1) {
+            return "0" + toExpand;
+        } else {
+            return toExpand;
+        }
+    }
+
     @Override
     public String getSettingValue() {
-        return gradient.toString();
+        String r1 = expand(Integer.toHexString(colors[0].getRed()));
+        String g1 = expand(Integer.toHexString(colors[0].getGreen()));
+        String b1 = expand(Integer.toHexString(colors[0].getBlue()));
+        String r2 = expand(Integer.toHexString(colors[1].getRed()));
+        String g2 = expand(Integer.toHexString(colors[11].getGreen()));
+        String b2 = expand(Integer.toHexString(colors[1].getBlue()));
+
+        return "[#" + r1 + g1 + b1 + ",#" + r2 + g2 + b2 + "]";
     }
 
     @Override
     public String getFormattedValue() {
-        return gradient.toString();
+        return getSettingValue();
     }
 
     @Override
     public Object getSettingValueAsObject() {
-        return gradient;
+        return colors;
     }
 
     @Override
@@ -43,53 +60,50 @@ public class GradientSetting extends Setting {
         int start = value.indexOf('[');
         int middle = value.indexOf(",");
         int end = value.indexOf("]");
-        if ( start > -1 && middle > start){
-            Color c1 = Color.decode(value.substring(start+1,middle));
-            gradient.setC1(c1);
+        if (start > -1 && middle > start) {
+            Color c1 = Color.decode(value.substring(start + 1, middle));
+            colors[0] = c1;
 
         }
-        if ( middle > -1 && end > middle){
-            Color c2 = Color.decode(value.substring(middle+1,end));
-            gradient.setC2(c2);
+        if (middle > -1 && end > middle) {
+            Color c2 = Color.decode(value.substring(middle + 1, end));
+            colors[1] = c2;
         }
     }
 
-    public Color getColor1(){
-        return this.gradient.getC1();
+    public Color getColor1() {
+        return colors[0];
     }
 
-    public Color getColor2(){
-        return this.gradient.getC2();
+    public Color getColor2() {
+        return colors[1];
     }
 
     public void setColor1(Color selected) {
-        gradient.setC1(selected);
+        colors[0] = selected;
         setDefaultValue(false);
         notifySettingChanged();
     }
 
-    public void setColor2(Color selected){
-        gradient.setC2(selected);
+    public void setColor2(Color selected) {
+        colors[1] = selected;
         setDefaultValue(false);
         notifySettingChanged();
-    }
-
-    public GraphGradient getGradient() {
-        return this.gradient;
     }
 
     /**
      * Sets the setting value of this setting as an object.
+     *
      * @param o the new value for this setting.
      */
     @Override
-    public void setSettingValueAsObject(Object o){
+    public void setSettingValueAsObject(Object o) {
         this.setSettingValue(o.toString());
     }
 
-     @Override
+    @Override
     public Object clone() throws CloneNotSupportedException {
-        GradientSetting clone = new GradientSetting(getId(),getLabel());
+        GradientSetting clone = new GradientSetting(getId(), getLabel());
         clone.setSettingValue(this.getSettingValue());
         clone.setVisualized(this.isVisualized());
         clone.setLabelVisible(this.isLabelVisible());

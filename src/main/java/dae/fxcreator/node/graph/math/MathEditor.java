@@ -1,5 +1,13 @@
 package dae.fxcreator.node.graph.math;
 
+import dae.fxcreator.node.graphmath.MultipleMathElement;
+import dae.fxcreator.node.graphmath.UnaryMathElement;
+import dae.fxcreator.node.graphmath.MathVariable;
+import dae.fxcreator.node.graphmath.Operation;
+import dae.fxcreator.node.graphmath.MathFormula;
+import dae.fxcreator.node.graphmath.MathElement;
+import dae.fxcreator.node.graphmath.FunctionMathElement;
+import dae.fxcreator.node.graphmath.BinaryMathElement;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;

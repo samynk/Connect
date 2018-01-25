@@ -1,17 +1,17 @@
 package dae.fxcreator.ui;
 
 import dae.fxcreator.node.project.FXProject;
-import dae.fxcreator.io.FXProjectTemplate;
-import dae.fxcreator.io.FXProjectTemplateGroup;
-import dae.fxcreator.io.FXProjectTemplates;
+import dae.fxcreator.io.templates.FXProjectTemplate;
+import dae.fxcreator.io.templates.FXProjectTemplateGroup;
+import dae.fxcreator.io.templates.FXProjectTemplates;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.savers.FXProjectSaver;
-import dae.fxcreator.io.FXSettings;
+import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.io.PathUtil;
 import dae.fxcreator.io.codegen.CodeTemplateLibrary;
-import dae.fxcreator.io.codegen.ExportTask;
+import dae.fxcreator.node.transform.ExportTask;
 import dae.fxcreator.io.loaders.FXGroupLoader;
 import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
@@ -24,7 +24,7 @@ import dae.fxcreator.node.graph.Connector;
 import dae.fxcreator.node.graph.GraphListener;
 import dae.fxcreator.node.graph.GraphNodeLink;
 import dae.fxcreator.node.graph.JGraphNode;
-import dae.fxcreator.node.gui.ImageLoader;
+import dae.fxcreator.gui.model.ImageLoader;
 import dae.fxcreator.ui.usersettings.OpenFileMenuItem;
 import dae.fxcreator.ui.usersettings.UserSettings;
 import dae.fxcreator.ui.usersettings.UserSettingsDialog;
@@ -445,12 +445,14 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
 
             templatesLoaded = true;
 
+            /*
             for (CodeTemplateLibrary codelib : fxSettings.exporterLibraries()) {
                 JMenuItem export = new JMenuItem(codelib.getLabel());
                 export.setActionCommand(codelib.getId());
                 export.addActionListener(this);
                 mnuExport.add(export);
             }
+            */
 
             loadTemplates();
             FXProjectTemplate startProject = projectTemplates.getStartProject();

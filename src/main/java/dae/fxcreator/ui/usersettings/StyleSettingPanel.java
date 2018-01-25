@@ -1,7 +1,7 @@
 package dae.fxcreator.ui.usersettings;
 
 import dae.fxcreator.node.project.FXProject;
-import dae.fxcreator.io.FXSettings;
+import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IONode;
@@ -10,8 +10,8 @@ import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.ShaderType;
 import dae.fxcreator.node.graph.JGraphNode;
 import dae.fxcreator.node.gui.GradientCellRenderer;
-import dae.fxcreator.node.gui.GraphGradient;
-import dae.fxcreator.node.gui.NodeStyle;
+import dae.fxcreator.gui.model.GraphGradient;
+import dae.fxcreator.gui.model.NodeStyle;
 import java.awt.BorderLayout;
 import javax.swing.ComboBoxModel;
 import javax.swing.DefaultComboBoxModel;

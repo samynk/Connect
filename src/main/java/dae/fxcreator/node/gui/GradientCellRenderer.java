@@ -1,5 +1,6 @@
 package dae.fxcreator.node.gui;
 
+import dae.fxcreator.gui.model.GraphGradient;
 import dae.fxcreator.node.graph.uisetting.GradientPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;

@@ -1,9 +1,9 @@
 package dae.fxcreator.ui.usersettings;
 
-import dae.fxcreator.io.FXSettings;
+import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.gui.GradientCellRenderer;
-import dae.fxcreator.node.gui.GraphGradient;
+import dae.fxcreator.gui.model.GraphGradient;
 import java.awt.Color;
 import javax.swing.JOptionPane;
 

@@ -1,8 +1,8 @@
 package dae.fxcreator.ui;
 
-import dae.fxcreator.io.FXProjectTemplate;
-import dae.fxcreator.io.FXProjectTemplateGroup;
-import dae.fxcreator.io.FXProjectTemplates;
+import dae.fxcreator.io.templates.FXProjectTemplate;
+import dae.fxcreator.io.templates.FXProjectTemplateGroup;
+import dae.fxcreator.io.templates.FXProjectTemplates;
 import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 

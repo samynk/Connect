@@ -1,5 +1,6 @@
 package dae.fxcreator.io.codegen;
 
+import dae.fxcreator.node.transform.ExportTask;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderIO;
 import dae.fxcreator.node.ShaderType;

@@ -6,7 +6,7 @@ import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.node.project.Technique;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderStruct;
-import dae.fxcreator.node.gui.ImageLoader;
+import dae.fxcreator.gui.model.ImageLoader;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FontMetrics;

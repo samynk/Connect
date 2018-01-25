@@ -1,6 +1,6 @@
 package dae.fxcreator.node.settings;
 
-import dae.fxcreator.node.graph.math.MathFormula;
+import dae.fxcreator.node.graphmath.MathFormula;
 import java.awt.Image;
 
 

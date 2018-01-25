@@ -1,5 +1,6 @@
 package dae.fxcreator.io.codegen;
 
+import dae.fxcreator.node.transform.ExportTask;
 import dae.fxcreator.node.TypedNode;
 import java.io.File;
 import java.util.Collection;

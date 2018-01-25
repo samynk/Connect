@@ -2,7 +2,7 @@ package dae.fxcreator.node.graph.uisetting;
 
 import dae.fxcreator.node.settings.MathSetting;
 import dae.fxcreator.node.settings.Setting;
-import dae.fxcreator.node.graph.math.MathFormula;
+import dae.fxcreator.node.graphmath.MathFormula;
 import dae.fxcreator.node.graph.math.MathFormulaRenderer;
 import java.awt.Color;
 import java.awt.Dimension;

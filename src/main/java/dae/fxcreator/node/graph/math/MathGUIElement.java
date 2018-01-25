@@ -1,5 +1,7 @@
 package dae.fxcreator.node.graph.math;
 
+import dae.fxcreator.node.graphmath.MathElement;
+
 /**
  *
  * @author Koen

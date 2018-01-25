@@ -1,7 +1,8 @@
 package dae.fxcreator.io.codegen;
 
+import dae.fxcreator.node.transform.CodeFormatter;
 import dae.fxcreator.node.ShaderType;
-import dae.fxcreator.node.graph.math.MathFormula;
+import dae.fxcreator.node.graphmath.MathFormula;
 import java.io.File;
 import java.util.Collection;
 import java.util.HashMap;

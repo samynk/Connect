@@ -3,7 +3,7 @@ package dae.fxcreator.node.graph.uisetting;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.settings.FloatSetting;
 import dae.fxcreator.node.settings.Setting;
-import dae.fxcreator.node.gui.GraphFont;
+import dae.fxcreator.gui.model.GraphFont;
 import java.awt.Graphics;
 import javax.swing.JLabel;
 

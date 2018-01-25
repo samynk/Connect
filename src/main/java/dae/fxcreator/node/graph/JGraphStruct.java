@@ -5,8 +5,8 @@ import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderStruct;
 import dae.fxcreator.node.StructListener;
-import dae.fxcreator.node.gui.GraphFont;
-import dae.fxcreator.node.gui.GraphGradient;
+import dae.fxcreator.gui.model.GraphFont;
+import dae.fxcreator.gui.model.GraphGradient;
 import java.awt.Color;
 
 

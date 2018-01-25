@@ -4,7 +4,7 @@ import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderField;
-import dae.fxcreator.node.gui.ImageLoader;
+import dae.fxcreator.gui.model.ImageLoader;
 import java.awt.FlowLayout;
 import java.awt.Image;
 import javax.swing.ImageIcon;

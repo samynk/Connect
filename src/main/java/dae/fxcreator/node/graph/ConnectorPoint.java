@@ -1,10 +1,10 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.io.FXSettings;
+import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.ShaderType;
-import dae.fxcreator.node.gui.GraphFont;
-import dae.fxcreator.node.gui.ImageLoader;
+import dae.fxcreator.gui.model.GraphFont;
+import dae.fxcreator.gui.model.ImageLoader;
 import java.awt.*;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.Rectangle2D;

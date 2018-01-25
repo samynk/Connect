@@ -6,8 +6,8 @@ package dae.fxcreator.node.event;
 import dae.fxcreator.node.IONode;
 
 /**
- * Event object for use within the different 
- * @author Koen Samyn
+ * Event object for use within the different user interface panels.
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class NodeEvent {
     public enum Type{SELECTED,REMOVED,ADDED};
