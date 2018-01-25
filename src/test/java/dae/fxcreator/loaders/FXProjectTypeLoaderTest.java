@@ -46,7 +46,7 @@ public class FXProjectTypeLoaderTest {
         
         ArrayList<FXProjectType> types = loader.getProjectTypes();
         
-        assertEquals(types.size(),1);
+        assertEquals(types.size(),2);
         
         FXProjectType first = types.get(0);
         assertEquals("daegame", first.getName());
