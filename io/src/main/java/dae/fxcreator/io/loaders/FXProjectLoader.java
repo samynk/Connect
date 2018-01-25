@@ -1,5 +1,6 @@
 package dae.fxcreator.io.loaders;
 
+import dae.fxcreator.io.util.PathUtil;
 import dae.fxcreator.node.project.ExportFile;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.node.NodeGroup;
