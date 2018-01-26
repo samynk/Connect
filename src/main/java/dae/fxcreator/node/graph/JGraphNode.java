@@ -55,7 +55,6 @@ import java.util.HashMap;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.UIDefaults;
@@ -63,7 +62,7 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 
 /**
- * An alternative to the GraphNode class that uses a JPanel
+ * This class visualizes an IONode.
  *
  * @author Koen
  */
