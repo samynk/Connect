@@ -28,8 +28,8 @@ public class Connector {
     /**
      * The stroke for the connector.
      */
-    private BasicStroke stroke = new BasicStroke(1.0f);
-    private BasicStroke strokea = new BasicStroke(3.0f);
+    private final BasicStroke stroke = new BasicStroke(1.0f);
+    private final BasicStroke strokea = new BasicStroke(3.0f);
     private Color w = Color.white;
     private Color dw = Color.white.darker();
     private ShaderInput shaderInput;
