@@ -18,10 +18,9 @@ import dae.fxcreator.node.settings.ColorSetting;
 import dae.fxcreator.node.settings.CodeSetting;
 import dae.fxcreator.node.settings.BooleanSetting;
 import dae.fxcreator.io.util.PathUtil;
-//import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.ShaderType;
 import java.io.IOException;
@@ -314,7 +313,7 @@ public class NodeTemplateLoader extends DefaultHandler {
      * @param node the node to add the general settings to.
      */
     private void addGeneralSettings(NodeTemplate template) {
-        ShaderNode node = template.getShaderNode();
+        IONode node = template.getShaderNode();
         for (SettingsGroup sg : library.getGeneralSettingGroups()) {
             for (Setting s : sg.getSettings()) {
                 try {

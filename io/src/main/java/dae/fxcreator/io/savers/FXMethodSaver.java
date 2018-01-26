@@ -1,14 +1,11 @@
 package dae.fxcreator.io.savers;
 
-import dae.fxcreator.io.savers.FXProjectSaver;
-import dae.fxcreator.io.savers.XMLSaver;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.node.settings.Setting;
-import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderOutput;
 import java.awt.Point;
 import java.io.BufferedWriter;
@@ -72,7 +69,7 @@ public class FXMethodSaver extends XMLSaver {
             writeAttribute(bw, "outputPosition", "[" + pout.x + "," + pout.y + "]");
             bw.write(">\n");
 
-            ShaderNode inputNode = container.getInputNode();
+            IONode inputNode = container.getInputNode();
             for (ShaderOutput output : inputNode.getOutputs()) {
                 writeTabs(bw, 2);
                 bw.write("<input");
@@ -83,7 +80,7 @@ public class FXMethodSaver extends XMLSaver {
                 bw.write("/>\n");
             }
 
-            ShaderNode outputNode = container.getOutputNode();
+            IONode outputNode = container.getOutputNode();
             for (ShaderInput input : outputNode.getInputs()) {
                 writeTabs(bw, 2);
                 bw.write("<output");
@@ -105,8 +102,8 @@ public class FXMethodSaver extends XMLSaver {
         bw.write("<node");
         writeAttribute(bw, "id", node.getId());
         writeAttribute(bw, "name", node.getName());
-        if (node instanceof ShaderNode) {
-            ShaderNode sn = (ShaderNode) node;
+        if (node instanceof IONode) {
+            IONode sn = (IONode) node;
             writeAttribute(bw, "type", sn.getType());
         }
         writeAttribute(bw, "ioEditable", Boolean.toString(node.isInputOutputEditable()));

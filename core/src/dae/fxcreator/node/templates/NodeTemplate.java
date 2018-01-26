@@ -4,11 +4,11 @@ import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IteratorNode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  * This class is a template for the behaviour of a node in the user interface.
  * This class also determines the settings for a particular node and how these
  * settings are presented (for example : combobox, text, image file, constant).
+ *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class NodeTemplate {
@@ -24,7 +25,7 @@ public class NodeTemplate {
     /**
      * The node prototype that can be cloned to create new nodes.
      */
-    private ShaderNode nodePrototype;
+    private IONode nodePrototype;
     /**
      * The icon location for this template.
      */
@@ -33,25 +34,25 @@ public class NodeTemplate {
      * The type library for the node template.
      */
     private ShaderTypeLibrary library;
-    
-    
 
     /**
      * Creates a new nodetemplate. The template also determines a prefix for the
      * created node.
+     *
      * @param type the type of node.
-     * @param prefix the prefix for id's and variable names for newly created nodes.
+     * @param prefix the prefix for id's and variable names for newly created
+     * nodes.
      * @param icon the icon for the node.
-     * @param ioEditable set this to true if the inputs/outputs of this node are editable,
-     * false otherwise.
-     * @param containerType the type of container, can be leaf (no children allowed) or group. Default
-     * is leaf.
+     * @param ioEditable set this to true if the inputs/outputs of this node are
+     * editable, false otherwise.
+     * @param containerType the type of container, can be leaf (no children
+     * allowed) or group. Default is leaf.
      * @param inputAnchor defines where to place the inputs.
      * @param outputAnchor defines where to place the outputs.
      */
     public NodeTemplate(String type, String prefix, String icon, boolean ioEditable, String containerType, String inputAnchor, String outputAnchor) {
         if (containerType == null || "leaf".equals(containerType)) {
-            nodePrototype = new ShaderNode(prefix, prefix, type, null);
+            nodePrototype = new IONode(prefix, prefix, type, null);
         } else if ("iterator".equals(containerType)) {
             nodePrototype = new IteratorNode(prefix, type, null);
         } else if ("group".equals(containerType)) {
@@ -65,6 +66,7 @@ public class NodeTemplate {
 
     /**
      * Returns the type of the node without the group information.
+     *
      * @return the type.
      */
     public String getTypeName() {
@@ -73,6 +75,7 @@ public class NodeTemplate {
 
     /**
      * Adds a setting to the list of settings for this template.
+     *
      * @param group the group this setting belongs to.
      * @param setting the setting to add to the template.
      */
@@ -82,14 +85,16 @@ public class NodeTemplate {
 
     /**
      * Returns the shader node that is the prototype to create new nodes.
-     * @return the ShaderNode prototype.
+     *
+     * @return the IONode prototype.
      */
-    public ShaderNode getShaderNode() {
+    public IONode getShaderNode() {
         return nodePrototype;
     }
 
     /**
-     * Add an output to the ShaderNode.
+     * Add an output to the IONode.
+     *
      * @param so the new output for the shader node.
      */
     public void addOutput(ShaderOutput so) {
@@ -98,6 +103,7 @@ public class NodeTemplate {
 
     /**
      * Add an input to the ShaderNOde.
+     *
      * @param si the new input for the shader node.
      */
     public void addInput(ShaderInput si) {
@@ -106,6 +112,7 @@ public class NodeTemplate {
 
     /**
      * Returns the location for the icon.
+     *
      * @return the icon for this template.
      */
     public String getIcon() {
@@ -114,6 +121,7 @@ public class NodeTemplate {
 
     /**
      * Returns the type of the node.
+     *
      * @return the type of the node.
      */
     public String getType() {
@@ -121,26 +129,24 @@ public class NodeTemplate {
     }
 
     /**
-     * Creates a ShaderNode, starting from the node prototype.
+     * Creates a IONode, starting from the node prototype.
+     *
      * @param project the project that the new node will belong to.
-     * @return a new ShaderNode, ready for use.
+     * @return a new IONode, ready for use.
      */
-    public ShaderNode createShaderNode(FXProject project) {
-        try {
-            ShaderNode result = (ShaderNode)nodePrototype.clone();
-            result.setFXProject(project);
-            result.setIcon(this.icon);
-            return result;
-        } catch (CloneNotSupportedException ex) {
-            return null;
-        }
+    public IONode createShaderNode(FXProject project) {
+        IONode result = new IONode(nodePrototype);
+        result.setFXProject(project);
+        result.setIcon(this.icon);
+        return result;
     }
 
     /**
      * Creates a ShaderStage, starting from the node prototype.
+     *
      * @param project the project to create a shader stage for.
-     * @return a new ShaderStage, with an id that is set to the
-     * prefix for the specific shaderstage.
+     * @return a new ShaderStage, with an id that is set to the prefix for the
+     * specific shaderstage.
      *
      */
     public ShaderStage createShaderStage(FXProject project) {
@@ -154,17 +160,18 @@ public class NodeTemplate {
             ShaderOutput co = new ShaderOutput(stage, output.getName(), output.getSemantic().getValue(), output.getType(), output.getTypeRule());
             stage.addOutput(co);
         }
-        stage.getInputNode().setPosition(20,20);
-        stage.getOutputNode().setPosition(300,20);
+        stage.getInputNode().setPosition(20, 20);
+        stage.getOutputNode().setPosition(300, 20);
         return stage;
     }
 
     /**
-     * Adds the new settings in the template node to the settings in the
-     * shader node.
+     * Adds the new settings in the template node to the settings in the shader
+     * node.
+     *
      * @param node the node to add the new settings to.
      */
-    public void addNewSettings(ShaderNode node) {
+    public void addNewSettings(IONode node) {
         for (SettingsGroup sg : nodePrototype.getSettingsGroups()) {
             for (Setting s : sg.getSettings()) {
                 if (!node.hasSetting(sg.getName(), s.getId())) {
@@ -181,9 +188,10 @@ public class NodeTemplate {
 
     /**
      * Sets the list of accepted shadertypes in the node.
+     *
      * @param currentNode the node to synchronize with the shader types.
      */
-    public void addAcceptShaderTypes(ShaderNode currentNode) {
+    public void addAcceptShaderTypes(IONode currentNode) {
         for (ShaderInput si : nodePrototype.getInputs()) {
             ShaderInput toSync = currentNode.findInput(si.getName());
             if (toSync != null) {
@@ -194,6 +202,7 @@ public class NodeTemplate {
 
     /**
      * Returns a String representation of this NodeTemplate
+     *
      * @return the string representation of this node template.
      */
     @Override
@@ -203,6 +212,7 @@ public class NodeTemplate {
 
     /**
      * Adds a templated input to list of template inputs.
+     *
      * @param si the template input to add.
      */
     public void addTemplateInput(ShaderInput si) {

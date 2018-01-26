@@ -2,7 +2,6 @@ package dae.fxcreator.node.project;
 
 import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderNode;
 import java.util.ArrayList;
 
 /**
@@ -26,7 +25,7 @@ public class Pass implements TypedNode {
     /**
      * The rasterizer state of this pass.
      */
-    private ShaderNode rasterizerState;
+    private IONode rasterizerState;
 
     /**
      * Creates a new Pass object.
@@ -186,7 +185,7 @@ public class Pass implements TypedNode {
      * Returns the rasterizer state for this pass.
      * @return the rasterizerState
      */
-    public ShaderNode getRasterizerState() {
+    public IONode getRasterizerState() {
         return rasterizerState;
     }
 
@@ -194,7 +193,7 @@ public class Pass implements TypedNode {
      * Sets the rasterizer state for the pass.
      * @param rasterizerState the rasterizerState to set
      */
-    public void setRasterizerState(ShaderNode rasterizerState) {
+    public void setRasterizerState(IONode rasterizerState) {
         this.rasterizerState = rasterizerState;
     }
 

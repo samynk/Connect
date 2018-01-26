@@ -6,7 +6,7 @@ import dae.fxcreator.node.events.StageListener;
 import dae.fxcreator.node.events.SymbolListener;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderStruct;
 import dae.fxcreator.node.transform.TemplateClassLibrary;
 import java.nio.file.Path;
@@ -44,8 +44,8 @@ public class FXProject implements TypedNode {
      * The NodeTemplateLibrary
      */
     private NodeTemplateLibrary library = null;
-    private final ArrayList<ShaderNode> globalNodes = new ArrayList<>();
-    private final HashMap<String, ShaderNode> globalNodeMap = new HashMap<>();
+    private final ArrayList<IONode> globalNodes = new ArrayList<>();
+    private final HashMap<String, IONode> globalNodeMap = new HashMap<>();
     private final TechniqueCollection techniques;
     private final ShaderStageCollection stages;
     private StatesCollection states;
@@ -172,7 +172,7 @@ public class FXProject implements TypedNode {
      *
      * @param node the global node to add.
      */
-    public void addGlobalNode(ShaderNode node) {
+    public void addGlobalNode(IONode node) {
         globalNodes.add(node);
         globalNodeMap.put(node.getId(), node);
     }
@@ -229,7 +229,7 @@ public class FXProject implements TypedNode {
      *
      * @return the list of global nodes.
      */
-    public Iterable<ShaderNode> getGlobalNodes() {
+    public Iterable<IONode> getGlobalNodes() {
         return this.globalNodes;
     }
 
@@ -248,7 +248,7 @@ public class FXProject implements TypedNode {
      * @param id the id of the global node.
      * @return the found global node, or null.
      */
-    public ShaderNode findGlobalNode(String id) {
+    public IONode findGlobalNode(String id) {
         return globalNodeMap.get(id);
     }
 
@@ -457,7 +457,7 @@ public class FXProject implements TypedNode {
      *
      * @param state the state object to add.
      */
-    public void addState(ShaderNode state) {
+    public void addState(IONode state) {
         this.states.addState(state);
 
     }
@@ -476,7 +476,7 @@ public class FXProject implements TypedNode {
      *
      * @return
      */
-    public Iterable<ShaderNode> getStates() {
+    public Iterable<IONode> getStates() {
         return states.getStates();
     }
 
@@ -484,10 +484,10 @@ public class FXProject implements TypedNode {
      * Finds a node with the rasterizer state settings.
      *
      * @param id the id of the node.
-     * @return the ShaderNode with the rasterizer state settings, or null if not
+     * @return the IONode with the rasterizer state settings, or null if not
      * found.
      */
-    public ShaderNode findState(String id) {
+    public IONode findState(String id) {
         return states.findState(id);
     }
 

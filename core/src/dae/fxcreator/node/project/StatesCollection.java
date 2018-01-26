@@ -1,6 +1,6 @@
 package dae.fxcreator.node.project;
 
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,8 +10,8 @@ import java.util.HashMap;
  */
 public class StatesCollection{
 
-    private final HashMap<String, ShaderNode> stateMap = new HashMap<>();
-    private final ArrayList<ShaderNode> states = new ArrayList<>();
+    private final HashMap<String, IONode> stateMap = new HashMap<>();
+    private final ArrayList<IONode> states = new ArrayList<>();
     private FXProject parent;
 
     /**
@@ -40,7 +40,7 @@ public class StatesCollection{
      * Adds a state node to the list of nodes.
      * @param node the node to add to the list of states.
      */
-    public void addState(ShaderNode node){
+    public void addState(IONode node){
         states.add(node);
         stateMap.put(node.getId(),node);
     }
@@ -49,7 +49,7 @@ public class StatesCollection{
      * Removes a state node from the list of nodes.
      * @param node the node to remove.
      */
-    public void removeState(ShaderNode node){
+    public void removeState(IONode node){
         states.remove(node);
         stateMap.remove(node.getId());
     }
@@ -58,16 +58,16 @@ public class StatesCollection{
      * Returns the list of state objects.
      * @param return the list of state objects.
      */
-    public Iterable<ShaderNode> getStates(){
+    public Iterable<IONode> getStates(){
         return states;
     }
 
     /**
      * Finds a state with the specified id.
      * @param id the id to find a node for.
-     * @return the ShaderNode with the specified id.
+     * @return the IONode with the specified id.
      */
-    public ShaderNode findState(String id) {
+    public IONode findState(String id) {
         return stateMap.get(id);
     }
 

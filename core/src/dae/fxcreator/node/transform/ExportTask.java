@@ -2,11 +2,9 @@ package dae.fxcreator.node.transform;
 
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.TypedNode;
-import dae.fxcreator.node.settings.MathSetting;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
 import dae.fxcreator.node.ShaderOutput;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -190,7 +188,7 @@ public class ExportTask {
      * @param settingId the setting id where the math formula is stored.
      * @return the math code.
      */
-    public String generateMathCode(ShaderNode node, String settingGroup, String settingId) {
+    public String generateMathCode(IONode node, String settingGroup, String settingId) {
         Setting math = node.getSetting(settingGroup, settingId);
         // todo replace with data driven approach.
 //        if (math != null && math instanceof MathSetting) {

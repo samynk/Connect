@@ -53,19 +53,19 @@ public interface NodeGroup extends TypedNode{
      * Returns the input node associated with the ShaderStage.
      * @return the node that defines the inputs for the stage.
      */
-    public ShaderNode getInputNode();
+    public IONode getInputNode();
 
     /**
      * Returns the output node associated with the ShaderStage.
      * @return the node that defines the outputs for the stage.
      */
-    public ShaderNode getOutputNode();
+    public IONode getOutputNode();
     /**
      * Returns a list of nodes that are sorted by dependency. In other
      * words if the outputs of a node are used by another node, the output node
      * will be first in the list, the node that consumes the outputs will be placed
      * after this first node.
-     * @return a sorted list of ShaderNode objects.
+     * @return a sorted list of IONode objects.
      */
     public Iterable<IONode> getSortedNodes();
     /**

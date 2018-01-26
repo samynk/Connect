@@ -6,7 +6,7 @@ import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.node.events.StageListener;
 import dae.fxcreator.node.templates.NodeTemplate;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.graph.TechniqueEditorPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -232,7 +232,7 @@ public class TechniquePanelMenu extends JPopupMenu implements StageListener, Act
 
         public void actionPerformed(ActionEvent ae) {
             NodeTemplate template = library.getNodeTemplate("stages.rasterizerstate");
-            ShaderNode state = template.createShaderNode(project);
+            IONode state = template.createShaderNode(project);
             String newid = project.createUniqueStateName(state.getId());
             state.setId(newid);
             state.setName(newid);

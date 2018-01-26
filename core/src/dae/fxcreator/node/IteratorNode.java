@@ -13,17 +13,17 @@ import java.util.List;
  * to be introduced.
  * @author  Koen Samyn (samyn.koen@gmail.com)
  */
-public class IteratorNode extends ShaderNode implements NodeGroup,SettingListener {
+public class IteratorNode extends IONode implements NodeGroup,SettingListener {
     private final ArrayList<IONode> nodes = new ArrayList<>();
     private final ArrayList<ReferenceNode> referenceNodes = new ArrayList<>();
     private final HashMap<String, IONode> nodeMap = new HashMap<>();
-    private final ShaderNode inputNode;
-    private final ShaderNode outputNode;
+    private final IONode inputNode;
+    private final IONode outputNode;
 
 
     private ShaderOutput arrayVariable;
     private ShaderOutput loopVariable;
-    private final ShaderNode loopNode;
+    private final IONode loopNode;
     private ShaderStruct outputStruct;
 
     private String subType="";
@@ -40,15 +40,15 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
         super(id, id, type,null);
         this.addSettingListener(this);
 
-        inputNode = new ShaderNode("input", "input", "group.input",null);
-        outputNode = new ShaderNode("output", "output", "group.output",null);
+        inputNode = new IONode("input", "input", "group.input",null);
+        outputNode = new IONode("output", "output", "group.output",null);
         inputNode.setSeparator(".");
         outputNode.setSeparator(".");
 
         nodeMap.put(inputNode.getName(),inputNode);
         nodeMap.put(outputNode.getName(), outputNode);
         
-        loopNode = new ShaderNode("loop", "loop", "group.loop", null);
+        loopNode = new IONode("loop", "loop", "group.loop", null);
         loopNode.setSeparator(".");
         loopNode.setPosition(20, 20);
 
@@ -285,7 +285,7 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
      * @return the input node object.
      */
     @Override
-    public final ShaderNode getInputNode() {
+    public final IONode getInputNode() {
         return inputNode;
     }
 
@@ -294,7 +294,7 @@ public class IteratorNode extends ShaderNode implements NodeGroup,SettingListene
      * @return the output node object.
      */
     @Override
-    public final ShaderNode getOutputNode() {
+    public final IONode getOutputNode() {
         return outputNode;
     }
 

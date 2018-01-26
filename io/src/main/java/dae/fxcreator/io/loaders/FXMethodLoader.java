@@ -1,6 +1,5 @@
 package dae.fxcreator.io.loaders;
 
-import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.node.templates.NodeTemplate;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
@@ -9,7 +8,7 @@ import dae.fxcreator.node.IteratorNode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.ShaderType;
 import java.awt.Point;
@@ -55,7 +54,7 @@ public class FXMethodLoader extends DefaultHandler {
     ELEMENT currentElement;
     private final Stack<NodeGroup> nodeGroupStack = new Stack<>();
 
-    private ShaderNode currentNode;
+    private IONode currentNode;
 
     private Setting currentSetting;
 
@@ -123,9 +122,9 @@ public class FXMethodLoader extends DefaultHandler {
                 ioEditable = Boolean.parseBoolean(sioEditable);
 
             }
-            ShaderNode node = null;
+            IONode node = null;
             if (container == null || "leaf".equals(container)) {
-                node = new ShaderNode(id, name, type, null);
+                node = new IONode(id, name, type, null);
             } else if ("iterator".equals(container)) {
                 Point inputPosition = this.parsePosition(attributes.getValue("inputPosition"));
                 Point outputPosition = this.parsePosition(attributes.getValue("outputPosition"));

@@ -9,12 +9,10 @@ import dae.fxcreator.node.settings.TextSetting;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import java.awt.Point;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.tree.TreeNode;
 
 /**
  * This class describes the properties of an Input Output node.
@@ -81,7 +79,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
      * The type of shader node.
      */
     private String type;
-        /**
+    /**
      * The group type .
      */
     private String typeGroup;
@@ -167,10 +165,10 @@ public class IONode implements TypedNode, StructListener, Cloneable {
      * @param project the project this node is part of.
      */
     public IONode(String id, String name, FXProject project) {
-        this(id,name,null,project);
+        this(id, name, null, project);
     }
-    
-       /**
+
+    /**
      * Creates a new IONode object with an id and a name. The id will be used
      * for code generation purposes and the name will be used for display in the
      * user interface.
@@ -192,14 +190,15 @@ public class IONode implements TypedNode, StructListener, Cloneable {
 
         internalID = idcount++;
     }
-    
+
     /**
-     * Copy constructor 
+     * Copy constructor
+     *
      * @param toCopy the IONode to copy.
      */
-    public IONode(IONode toCopy){
+    public IONode(IONode toCopy) {
         this(toCopy.getId(), toCopy.getName(), toCopy.getType(), toCopy.fxProject);
-         
+
         setInputOutputEditable(toCopy.isInputOutputEditable());
         setIcon(this.getIcon());
         // copy inputs
@@ -216,6 +215,13 @@ public class IONode implements TypedNode, StructListener, Cloneable {
             this.addOutput(copy);
         }
 
+        List<ShaderInput> templateInputsCopy = toCopy.getTemplateInputs();
+        for (ShaderInput input : templateInputsCopy) {
+            ShaderInput copy = new ShaderInput(this, input.getName(), input.getSemantic().getValue(), input.getType(), input.getAcceptTypeSet());
+            copy.setConnectionString(input.getConnectionString());
+            this.addTemplateInput(copy);
+        }
+
         List<SettingsGroup> settingsGroup = toCopy.getSettingsGroups();
         for (SettingsGroup group : settingsGroup) {
             List<Setting> settings = group.getSettings();
@@ -229,8 +235,8 @@ public class IONode implements TypedNode, StructListener, Cloneable {
         }
         this.outputPin = toCopy.outputPin;
     }
-    
-        /**
+
+    /**
      * Returns the group of the node type
      *
      * @return the group of the type of this node.
@@ -872,8 +878,9 @@ public class IONode implements TypedNode, StructListener, Cloneable {
         }
     }
 
-     /**
+    /**
      * Remove the input with the specified index.
+     *
      * @param index the index to remove.
      */
     public void removeInput(int index) {
@@ -885,6 +892,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
 
     /**
      * Remove the output with the specified index.
+     *
      * @param index the index to remove.
      */
     public void removeOutput(int index) {
@@ -1306,6 +1314,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
     @Override
     public void structIdChanged(ShaderStruct struct) {
     }
+
     // input output rules.
     /**
      * Adapt the output types to the input types.

@@ -3,11 +3,10 @@ package dae.fxcreator.node.project;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.node.NodeGroupWalker;
 import dae.fxcreator.node.TypedNode;
-import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.ShaderIO;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.util.Key;
 import dae.fxcreator.util.Label;
@@ -23,8 +22,8 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
     private final ArrayList<IONode> nodes = new ArrayList<>();
     private final ArrayList<ReferenceNode> referenceNodes = new ArrayList<>();
     private final HashMap<String, IONode> nodeMap = new HashMap<>();
-    private final ShaderNode inputNode;
-    private final ShaderNode outputNode;
+    private final IONode inputNode;
+    private final IONode outputNode;
     /**
      * A possible subtype for this IONode.
      */
@@ -42,8 +41,8 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
         super(name, name, null);
         super.setType(type);
 
-        inputNode = new ShaderNode("input", "input", "group.input", null);
-        outputNode = new ShaderNode("output", "output", "group.output", null);
+        inputNode = new IONode("input", "input", "group.input", null);
+        outputNode = new IONode("output", "output", "group.output", null);
         inputNode.setSeparator(".");
         outputNode.setSeparator(".");
         inputNode.setRemovable(false);
@@ -167,7 +166,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @return the node that defines the inputs for the stage.
      */
     @Override
-    public ShaderNode getInputNode() {
+    public IONode getInputNode() {
         return inputNode;
     }
 
@@ -208,7 +207,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @return the node that defines the outputs for the stage.
      */
     @Override
-    public ShaderNode getOutputNode() {
+    public IONode getOutputNode() {
         return outputNode;
     }
 
@@ -238,7 +237,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
     /**
      * Returns the list of nodes that are present in this shader stage.
      *
-     * @return the list of ShaderNode objects.
+     * @return the list of IONode objects.
      */
     @Override
     public Iterable<IONode> getNodes() {
@@ -249,7 +248,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * Finds a node in the list of nodes.
      *
      * @param key the key for the node.
-     * @return the ShaderNode with the provided id, or null if no ShaderNode was
+     * @return the IONode with the provided id, or null if no IONode was
      * found.
      */
     @Override
@@ -304,7 +303,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * first in the list, the node that consumes the outputs will be placed
      * after this first node.
      *
-     * @return a sorted list of ShaderNode objects.
+     * @return a sorted list of IONode objects.
      */
     @Override
     public Iterable<IONode> getSortedNodes() {

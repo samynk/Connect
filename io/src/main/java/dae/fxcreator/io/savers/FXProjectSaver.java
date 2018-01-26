@@ -6,21 +6,17 @@ import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.node.project.Pass;
 import dae.fxcreator.node.project.Technique;
 import dae.fxcreator.node.project.FXProject;
-import dae.fxcreator.io.*;
-import dae.fxcreator.io.savers.XMLSaver;
 import dae.fxcreator.node.settings.Setting;
-import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.ShaderStruct;
 import java.awt.Point;
 import java.io.BufferedWriter;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -94,7 +90,7 @@ public class FXProjectSaver extends XMLSaver {
 
     private void writeRasterizerStates(BufferedWriter bw) throws IOException {
         bw.write("\t<states>\n");
-        for (ShaderNode node : project.getStateColllection().getStates()) {
+        for (IONode node : project.getStateColllection().getStates()) {
             this.writeShaderNode(bw, node, 2);
         }
         bw.write("\t</states>\n");
@@ -121,7 +117,7 @@ public class FXProjectSaver extends XMLSaver {
 
     private void writeGlobals(BufferedWriter bw) throws IOException {
         bw.write("\t<global>\n");
-        for (ShaderNode node : project.getGlobalNodes()) {
+        for (IONode node : project.getGlobalNodes()) {
             writeShaderNode(bw, node, 2);
         }
         bw.write("\t</global>\n");
@@ -162,7 +158,7 @@ public class FXProjectSaver extends XMLSaver {
             writeAttribute(bw, "outputPosition", "[" + pout.x + "," + pout.y + "]");
             bw.write(">\n");
 
-            ShaderNode inputNode = stage.getInputNode();
+            IONode inputNode = stage.getInputNode();
             for (ShaderOutput output : inputNode.getOutputs()) {
                 writeTabs(bw, 2);
                 bw.write("<input");
@@ -173,7 +169,7 @@ public class FXProjectSaver extends XMLSaver {
                 bw.write("/>\n");
             }
 
-            ShaderNode outputNode = stage.getOutputNode();
+            IONode outputNode = stage.getOutputNode();
             for (ShaderInput input : outputNode.getInputs()) {
                 writeTabs(bw, 2);
                 bw.write("<output");
@@ -213,7 +209,7 @@ public class FXProjectSaver extends XMLSaver {
                     bw.write("/>\n");
                 }
                 if (p.hasRasterizerState()) {
-                    ShaderNode state = p.getRasterizerState();
+                    IONode state = p.getRasterizerState();
                     bw.write("\t\t\t<rasterizerState ");
                     writeAttribute(bw, "id", state.getId());
                     bw.write("/>\n");
@@ -237,8 +233,8 @@ public class FXProjectSaver extends XMLSaver {
         bw.write("<node");
         writeAttribute(bw, "id", node.getId());
         writeAttribute(bw, "name", node.getName());
-        if (node instanceof ShaderNode) {
-            ShaderNode sn = (ShaderNode) node;
+        if (node instanceof IONode) {
+            IONode sn = (IONode) node;
             writeAttribute(bw, "type", sn.getType());
         }
         writeAttribute(bw, "ioEditable", Boolean.toString(node.isInputOutputEditable()));

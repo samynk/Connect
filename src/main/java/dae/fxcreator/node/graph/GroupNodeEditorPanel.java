@@ -11,7 +11,7 @@ import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.event.NodeEvent;
 import dae.fxcreator.gui.model.ImageLoader;
@@ -443,7 +443,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
             String command = e.getActionCommand();
             NodeTemplate template = library.getNodeTemplate(command);
 
-            ShaderNode node = template.createShaderNode(project);
+            IONode node = template.createShaderNode(project);
             String newId = this.nodeGroup.getUniqueId(node.getId());
             node.setId(newId);
             nodeGroup.addNode(node);

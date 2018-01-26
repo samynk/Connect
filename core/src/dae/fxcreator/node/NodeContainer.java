@@ -11,13 +11,13 @@ import java.util.List;
  *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public class NodeContainer extends ShaderNode implements NodeGroup, TypedNode {
+public class NodeContainer extends IONode implements NodeGroup, TypedNode {
 
     private final ArrayList<IONode> nodes = new ArrayList<>();
     private final ArrayList<ReferenceNode> referenceNodes = new ArrayList<>();
     private final HashMap<String, IONode> nodeMap = new HashMap<>();
-    private final ShaderNode inputNode;
-    private final ShaderNode outputNode;
+    private final IONode inputNode;
+    private final IONode outputNode;
 
     private String subType;
 
@@ -49,8 +49,8 @@ public class NodeContainer extends ShaderNode implements NodeGroup, TypedNode {
      */
     public NodeContainer(String name, String type) {
         super(name, name, type, null);
-        inputNode = new ShaderNode("input", "input", "group.input", null);
-        outputNode = new ShaderNode("output", "output", "group.output", null);
+        inputNode = new IONode("input", "input", "group.input", null);
+        outputNode = new IONode("output", "output", "group.output", null);
         inputNode.setSeparator(".");
         outputNode.setSeparator(".");
 
@@ -257,7 +257,7 @@ public class NodeContainer extends ShaderNode implements NodeGroup, TypedNode {
      * Finds a node in the list of nodes.
      *
      * @param id the id for the node.
-     * @return the ShaderNode with the provided id, or null if no ShaderNode was
+     * @return the IONode with the provided id, or null if no IONode was
      * found.
      */
     public IONode findNode(String id) {
@@ -268,11 +268,11 @@ public class NodeContainer extends ShaderNode implements NodeGroup, TypedNode {
         return this.nodes;
     }
 
-    public ShaderNode getInputNode() {
+    public IONode getInputNode() {
         return inputNode;
     }
 
-    public ShaderNode getOutputNode() {
+    public IONode getOutputNode() {
         return outputNode;
     }
 

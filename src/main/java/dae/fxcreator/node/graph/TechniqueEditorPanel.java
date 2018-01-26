@@ -11,7 +11,7 @@ import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderStruct;
 import dae.fxcreator.node.graph.menus.PassMenu;
 import dae.fxcreator.node.graph.menus.ShaderFieldMenu;
@@ -311,14 +311,14 @@ public class TechniqueEditorPanel extends javax.swing.JPanel implements GraphLis
         GraphNode output = cp.getParent();
 
         GraphNode input = link.getTo().getParent();
-        ShaderNode inputNode = (ShaderNode) input.getUserObject();
+        IONode inputNode = (IONode) input.getUserObject();
         ShaderInput si = inputNode.findInput(link.getTo().getLabel());
         si.setConnectionString(output.getId() + "." + cp.getLabel());
     }
 
     public void linkRemoved(GraphNodeLink link) {
         GraphNode input = link.getTo().getParent();
-        ShaderNode inputNode = (ShaderNode) input.getUserObject();
+        IONode inputNode = (IONode) input.getUserObject();
         ShaderInput si = inputNode.findInput(link.getTo().getLabel());
         si.setConnectionString("");
     }

@@ -19,7 +19,7 @@ import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.SettingsGroup;
 import dae.fxcreator.node.ShaderField;
 import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderOutput;
 import dae.fxcreator.node.ShaderStruct;
 import dae.fxcreator.node.ShaderType;
@@ -67,7 +67,7 @@ public class FXProjectLoader extends DefaultHandler {
     /**
      * The current shadernode.
      */
-    ShaderNode currentNode;
+    IONode currentNode;
     /**
      * The current technique
      */
@@ -207,10 +207,10 @@ public class FXProjectLoader extends DefaultHandler {
                 ioEditable = Boolean.parseBoolean(sioEditable);
 
             }
-            ShaderNode node = null;
+            IONode node = null;
             if (container == null || "leaf".equals(container)) {
                 NodeTemplate template = library.getNodeTemplate(type);
-                node = new ShaderNode(id, name, type, null);
+                node = new IONode(id, name, type, null);
                 if (template != null) {
                     node.setIcon(template.getIcon());
                 }
@@ -411,7 +411,7 @@ public class FXProjectLoader extends DefaultHandler {
             currentElement = ELEMENT.STATE;
         } else if ("rasterizerState".equals(qName)) {
             String id = attributes.getValue("id");
-            ShaderNode rs = project.findState(id);
+            IONode rs = project.findState(id);
             if (rs != null) {
                 currentPass.setRasterizerState(rs);
             }
@@ -478,8 +478,8 @@ public class FXProjectLoader extends DefaultHandler {
                 addGeneralSettings(currentNode);
                 if (!nodeGroupStack.isEmpty()) {
                     Object node = nodeGroupStack.peek();
-                    if (node instanceof ShaderNode) {
-                        currentNode = (ShaderNode) node;
+                    if (node instanceof IONode) {
+                        currentNode = (IONode) node;
                     } else {
                         currentNode = null;
                     }
@@ -533,7 +533,7 @@ public class FXProjectLoader extends DefaultHandler {
      *
      * @param node the node to add the general settings to.
      */
-    private void addGeneralSettings(ShaderNode node) {
+    private void addGeneralSettings(IONode node) {
         for (SettingsGroup sg : library.getGeneralSettingGroups()) {
             for (Setting s : sg.getSettings()) {
                 if (!node.hasSetting(s.getGroup(), s.getId())) {

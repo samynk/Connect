@@ -1,7 +1,7 @@
 package dae.fxcreator.node.project;
 
 import dae.fxcreator.node.TypedNode;
-import dae.fxcreator.node.ShaderNode;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.util.Key;
 import dae.fxcreator.util.List;
 import java.util.ArrayList;
@@ -163,7 +163,7 @@ public class Technique implements TypedNode, Key, List{
      * @param id the global node.
      * @return the global node with the specified id.
      */
-    public ShaderNode findGlobalNode(String id) {
+    public IONode findGlobalNode(String id) {
         return project.findGlobalNode(id);
     }
     
