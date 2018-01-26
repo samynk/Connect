@@ -3,7 +3,6 @@ package dae.fxcreator.node.graph.model;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JTable;
 import javax.swing.table.TableCellEditor;
@@ -20,6 +19,7 @@ public class SemanticCellEditor  extends AbstractCellEditor implements TableCell
         tf = new SuggestionTextField(new SemanticDataModel());
     }
 
+    @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int rowIndex, int vColIndex) {
         // 'value' is value contained in the cell located at (rowIndex, vColIndex)
         tf.setSelectedItem(value.toString());
@@ -29,10 +29,12 @@ public class SemanticCellEditor  extends AbstractCellEditor implements TableCell
     // This method is called when editing is completed.
     // It must return the new value to be stored in the cell.
 
+    @Override
     public Object getCellEditorValue() {
         return tf.getSelectedItem();
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         fireEditingStopped();
     }
