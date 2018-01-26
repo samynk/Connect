@@ -237,6 +237,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
     /**
      * Draw the connectors
      *
+     * @param editor the parent editor panel for this connector point.
      * @param g2d the graphic context.
      */
     public void drawConnector(GraphEditor editor, Graphics2D g2d) {
@@ -295,6 +296,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
      *
      * @param e the state change event.
      */
+    @Override
     public void stateChanged(ChangeEvent e) {
         if (e.getSource() == this.userObject) {
             this.syncWithModel();
