@@ -13,11 +13,11 @@ import javax.swing.JComboBox;
 public class SuggestionTextField extends JComboBox implements KeyListener {
 
     private ArrayList<String> suggestions;
-    private SemanticDataModel model;
+    private final SemanticDataModel model;
 
     /**
      * Creates a new suggestion text field with a list of words as suggestions.
-     * @param suggestions the list of suggestions.
+     * @param model the list of suggestions.
      */
     public SuggestionTextField(SemanticDataModel model) {
         this.model = model;
@@ -39,6 +39,7 @@ public class SuggestionTextField extends JComboBox implements KeyListener {
         System.out.println("index :" + index);
     }
 
+    @Override
     public void keyTyped(KeyEvent e) {
         String text = this.getEditor().getItem().toString();
         int index = Collections.binarySearch(suggestions, text);
@@ -52,10 +53,12 @@ public class SuggestionTextField extends JComboBox implements KeyListener {
         }
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
 
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
         
     }
