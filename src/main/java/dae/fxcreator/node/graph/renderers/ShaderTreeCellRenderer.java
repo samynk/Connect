@@ -21,14 +21,14 @@ import javax.swing.tree.DefaultTreeCellRenderer;
  * @author Koen
  */
 public class ShaderTreeCellRenderer extends DefaultTreeCellRenderer {
-    private Icon imgProject;
-    private Icon imgStruct;
-    private Icon imgField;
-    private Icon imgTechnique;
-    private Icon imgPass;
-    private Icon imgVertexShader;
-    private Icon imgPixelShader;
-    private Icon imgGeometryShader;
+    private final Icon imgProject;
+    private final Icon imgStruct;
+    private final Icon imgField;
+    private final Icon imgTechnique;
+    private final Icon imgPass;
+    private final Icon imgVertexShader;
+    private final Icon imgPixelShader;
+    private final Icon imgGeometryShader;
 
 
     public ShaderTreeCellRenderer() {
@@ -68,10 +68,6 @@ public class ShaderTreeCellRenderer extends DefaultTreeCellRenderer {
                 label.setIcon(imgGeometryShader);
             }
         }
-        //String text = label.getText();
-        //FontMetrics fm = label.getFontMetrics(label.getFont());
-        //Dimension d = label.getPreferredSize();
-        //label.setMinimumSize(new Dimension(fm.stringWidth(text),d.height));
         return label;
     }
 }
