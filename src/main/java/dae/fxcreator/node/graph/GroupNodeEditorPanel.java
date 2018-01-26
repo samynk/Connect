@@ -182,7 +182,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
         if (graphEditor1.getSelectedNode() != null) {
             graphEditor1.removeSelectedNodes();
         } else if (graphEditor1.getSelectedConnector() != null) {
-            graphEditor1.removeLink(graphEditor1.getSelectedConnector());
+            //graphEditor1.removeLink(graphEditor1.getSelectedConnector());
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -355,10 +355,6 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
         }
     }
 
-    @Override
-    public void linkSelected(GraphNodeLink link) {
-    }
-
     protected void maybeShowPopup(MouseEvent e) {
         if (e.isPopupTrigger()) {
             graphEditor1.setInsertPosition(e.getPoint());
@@ -455,14 +451,6 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
             JGraphNode gn = new JGraphNode(graphEditor1, node);
             graphEditor1.setInsertionNode(gn);
         }
-    }
-
-    @Override
-    public void linkAdded(Connector connector) {
-    }
-
-    @Override
-    public void linkRemoved(Connector connector) {
     }
 
     @Override

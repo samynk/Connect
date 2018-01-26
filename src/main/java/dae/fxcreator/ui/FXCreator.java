@@ -4,25 +4,18 @@ import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.io.templates.FXProjectTemplate;
 import dae.fxcreator.io.templates.FXProjectTemplateGroup;
 import dae.fxcreator.io.templates.FXProjectTemplates;
-import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.savers.FXProjectSaver;
 import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.io.util.PathUtil;
-import dae.fxcreator.io.codegen.CodeTemplateLibrary;
 import dae.fxcreator.node.transform.ExportTask;
-import dae.fxcreator.io.loaders.FXGroupLoader;
-import dae.fxcreator.io.loaders.FXProjectLoader;
 import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXSettingLoader;
 import dae.fxcreator.io.savers.FXProjectTemplateSaver;
 import dae.fxcreator.io.savers.FXSettingSaver;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
-import dae.fxcreator.io.loaders.NodeTemplateLoader;
-import dae.fxcreator.node.graph.Connector;
 import dae.fxcreator.node.graph.GraphListener;
-import dae.fxcreator.node.graph.GraphNodeLink;
 import dae.fxcreator.node.graph.JGraphNode;
 import dae.fxcreator.gui.model.ImageLoader;
 import dae.fxcreator.ui.usersettings.OpenFileMenuItem;
@@ -645,9 +638,7 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
     public void nodeMoved(JGraphNode node) {
     }
 
-    @Override
-    public void linkSelected(GraphNodeLink link) {
-    }
+   
     private ExportDialog exportDialog;
     private HashMap<String, ShaderViewer> exportViewers = new HashMap<>();
 
@@ -669,14 +660,6 @@ public class FXCreator extends javax.swing.JFrame implements GraphListener, Acti
             sv.setExportTask(task);
             tabEditor.addTab(command + " code", sv);
         }
-    }
-
-    @Override
-    public void linkAdded(Connector connector) {
-    }
-
-    @Override
-    public void linkRemoved(Connector connector) {
     }
 
     @Override

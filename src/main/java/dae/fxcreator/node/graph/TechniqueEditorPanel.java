@@ -302,6 +302,7 @@ public class TechniqueEditorPanel extends javax.swing.JPanel implements GraphLis
         ionode.setPosition(node.getX(), node.getY());
     }
 
+    /*
     public void linkSelected(GraphNodeLink link) {
     }
 
@@ -321,7 +322,8 @@ public class TechniqueEditorPanel extends javax.swing.JPanel implements GraphLis
         ShaderInput si = inputNode.findInput(link.getTo().getLabel());
         si.setConnectionString("");
     }
-
+*/
+    
     /**
      * Sets the library with node templates.
      * @param library the library that defines templates.

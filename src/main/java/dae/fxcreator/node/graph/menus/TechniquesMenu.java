@@ -12,7 +12,7 @@ import javax.swing.tree.TreePath;
 
 /**
  *
- * @author Koen
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class TechniquesMenu extends JPopupMenu implements ActionListener {
 

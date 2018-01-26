@@ -31,19 +31,4 @@ public interface GraphListener {
      * @param node the node that was moved.
      */
     public void nodeMoved(JGraphNode node);
-    /**
-     * Called when a link is selected.
-     * @param link the link that was selected.
-     */
-    public void linkSelected(GraphNodeLink link);
-    /**
-     * Called when a link was added.
-     * @param link the link that was added.
-     */
-    public void linkAdded(Connector connector);
-    /**
-     * Called when a link was removed.
-     * @param link the link that was removed.
-     */
-    public void linkRemoved(Connector connector);
 }

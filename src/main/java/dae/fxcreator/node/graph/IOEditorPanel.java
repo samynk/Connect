@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  *
  * @author Koen
  */
-public class IOEditorPanel extends JPanel implements IONodeModelListener {
+public class IOEditorPanel extends JPanel{
 
     private IONode model;
     private NodeTemplateLibrary library;

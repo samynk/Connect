@@ -36,13 +36,13 @@ import javax.swing.RepaintManager;
  */
 public class GraphEditor extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener, DropTargetListener, SettingListener, KeyListener {
 
-    private ArrayList<JGraphNode> nodes = new ArrayList<JGraphNode>();
-    private HashMap<Integer, JGraphNode> nodeMap = new HashMap<Integer, JGraphNode>();
-    private HashMap<Integer, ArrayList<JGraphNode>> refNodeMap = new HashMap<Integer, ArrayList<JGraphNode>>();
-    private ArrayList<Connector> connectors = new ArrayList<Connector>();
+    private final ArrayList<JGraphNode> nodes = new ArrayList<>();
+    private final HashMap<Integer, JGraphNode> nodeMap = new HashMap<>();
+    private final HashMap<Integer, ArrayList<JGraphNode>> refNodeMap = new HashMap<>();
+    private final ArrayList<Connector> connectors = new ArrayList<>();
     // selection
     private JGraphNode selectedNode;
-    private ArrayList<JGraphNode> selectedNodes = new ArrayList<JGraphNode>();
+    private ArrayList<JGraphNode> selectedNodes = new ArrayList<>();
     private Connector selectedConnector;
     private JGraphNode insertionNode;
     private JTerminal startTerminal;
@@ -53,10 +53,10 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
     final static BasicStroke dashed = new BasicStroke(2.0f,
             BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f, dash1, 5.0f);
     private float currentScale = 100.0f;
-    private Point offset = new Point(0, 0);
+    private final Point offset = new Point(0, 0);
     private Point insertLocation = new Point(100, 100);
     private AffineTransform currentInverseTransform;
-    private ArrayList<ZoomListener> zoomListeners = new ArrayList<ZoomListener>();
+    private final ArrayList<ZoomListener> zoomListeners = new ArrayList<>();
     private boolean fullRepaint = false;
     
     /** Creates a new instance of GraphEditor */
@@ -125,13 +125,14 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
      * @return the list of selected nodes.
      */
     public java.util.List<IONode> getSelectedNodes() {
-        ArrayList<IONode> result = new ArrayList<IONode>();
+        ArrayList<IONode> result = new ArrayList<>();
         for (JGraphNode node : this.selectedNodes) {
             result.add(node.getUserObject());
         }
         return result;
     }
 
+    @Override
     public void mouseWheelMoved(MouseWheelEvent e) {
         int amount = e.getScrollAmount() * 2;
         if (e.getWheelRotation() > 0) {
@@ -164,10 +165,12 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         this.insertLocation = point;
     }
 
+    @Override
     public void keyTyped(KeyEvent e) {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Override
     public void keyPressed(KeyEvent e) {
         //System.out.println("key pressed");
         //throw new UnsupportedOperationException("Not supported yet.");
@@ -177,18 +180,19 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    @Override
     public void keyReleased(KeyEvent e) {
         //System.out.println("Key typed");
         if (e.getKeyCode() == KeyEvent.VK_DELETE) {
             this.removeSelectedNodes();
             if (this.selectedConnector != null) {
-                this.removeLink(selectedConnector);
+                selectedConnector.disconnect();
+                repaint();
             }
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
             this.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
             this.currentState = GraphState.IDLE;
         }
-        //throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void setScale(int i) {
@@ -416,15 +420,6 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         this.selectedConnector = connector;
     }
 
-    public static void main(String[] args) throws Exception {
-        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        JFrame frame = new JFrame("Graph test");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(new Dimension(400, 400));
-        frame.add(new TechniqueEditorPanel());
-        frame.setVisible(true);
-    }
-
     private void addKeyListener() {
         if (this.layout == Layout.FREE) {
             this.requestFocus();
@@ -592,6 +587,7 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
+    @Override
     public void mouseDragged(MouseEvent mouseEvent) {
         //System.out.println("Mouse dragging");
         if (currentState != GraphState.PAN) {
@@ -666,10 +662,12 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         return true;
     }
 
+    @Override
     public void mouseEntered(MouseEvent mouseEvent) {
        // System.out.println("Mouse entered");
     }
 
+    @Override
     public void mouseExited(MouseEvent mouseEvent) {
        // System.out.println("Mouse exited");
     }
@@ -701,6 +699,7 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         currentMousePosition = mouseEvent.getPoint();
     }
 
+    @Override
     public void mouseReleased(MouseEvent mouseEvent) {
 
         /*
@@ -781,6 +780,7 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
      * @param node the node that was changed.
      * @param s the setting that was changed.
      */
+    @Override
     public void settingChanged(IONode node, Setting s) {
         if (s.getGroup().equals("Node")) {
             if (s.getId().equals("id")) {
@@ -875,11 +875,6 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         nodeRemoved(node);
     }
 
-    public void removeLink(Connector connector) {
-        connector.disconnect();
-        linkRemoved(connector);
-    }
-
     public JGraphNode getInsertionNode() {
         return insertionNode;
     }
@@ -946,15 +941,6 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         }
 
     }
-
-    protected void linkRemoved(Connector connector) {
-        for (GraphListener gl : listeners) {
-            gl.linkRemoved(connector);
-        }
-
-        repaint();
-    }
-
     /**
      * Called when a node has moved.
      * @param node the node that was moved.
@@ -962,13 +948,6 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
     protected void nodeMoved(JGraphNode node) {
         for (GraphListener gl : listeners) {
             gl.nodeMoved(node);
-        }
-
-    }
-
-    protected void linkAdded(Connector connector) {
-        for (GraphListener gl : listeners) {
-            gl.linkAdded(connector);
         }
 
     }
@@ -982,16 +961,20 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
      * Called when the user drags a struct into a ShaderNode.
      * @param dtde
      */
+    @Override
     public void dragOver(DropTargetDragEvent dtde) {
     }
 
+    @Override
     public void dropActionChanged(DropTargetDragEvent dtde) {
         System.out.println(dtde.getTransferable());
     }
 
+    @Override
     public void dragExit(DropTargetEvent dte) {
     }
 
+    @Override
     public void drop(DropTargetDropEvent dtde) {
         try {
             String object = dtde.getTransferable().getTransferData(DataFlavor.stringFlavor).toString();
@@ -1044,9 +1027,7 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
 
                 }
             }
-        } catch (UnsupportedFlavorException ex) {
-            Logger.getLogger(GraphEditor.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
+        } catch (UnsupportedFlavorException | IOException ex) {
             Logger.getLogger(GraphEditor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
