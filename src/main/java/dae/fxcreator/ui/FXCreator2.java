@@ -16,11 +16,23 @@ import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import dae.fxcreator.io.loaders.FXSettingLoader;
 import dae.fxcreator.io.savers.FXProjectSaver;
+import dae.fxcreator.node.ShaderField;
+import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.graph.menus.ModulesMenu;
+import dae.fxcreator.node.graph.renderers.ShaderTreeCellRenderer;
 import dae.fxcreator.node.project.FXProjectTypeRegistry;
+import dae.fxcreator.node.project.Pass;
+import dae.fxcreator.node.project.ShaderStage;
+import dae.fxcreator.node.project.ShaderStructCollection;
+import dae.fxcreator.node.project.Technique;
+import dae.fxcreator.node.project.TechniqueCollection;
+import dae.fxcreator.ui.actions.ActionManager;
+import dae.fxcreator.ui.actions.AddModuleAction;
 import dae.fxcreator.ui.actions.ExportAction;
 import dae.fxcreator.ui.actions.ExportProjectEvent;
 import dae.fxcreator.ui.actions.NewProjectEvent;
 import dae.fxcreator.ui.actions.ProjectTemplateAction;
+import dae.fxcreator.ui.actions.RemoveModuleAction;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,7 +43,6 @@ import javax.swing.JFileChooser;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.filechooser.FileFilter;
-import javax.swing.tree.DefaultTreeModel;
 
 /**
  * This is the main user interface for designing visual application.
@@ -48,6 +59,10 @@ public class FXCreator2 extends javax.swing.JFrame {
      * The file chooser
      */
     private javax.swing.JFileChooser fileChooser;
+    /**
+     * The context menus for the project tree.
+     */
+    private ModulesMenu modulesContextMenu;
 
     /**
      * Creates new form FXCreator2
@@ -58,8 +73,16 @@ public class FXCreator2 extends javax.swing.JFrame {
         FXSettings settings = fsl.load();
         FXSingleton.getSingleton().setFxSettings(settings);
 
+        initActions();
+        initTree();
         initMenu();
         initDialogs();
+    }
+
+    private void initActions() {
+        ActionManager am = ActionManager.getInstance();
+        am.registerAction(new AddModuleAction());
+        am.registerAction(new RemoveModuleAction());
     }
 
     private void initMenu() {
@@ -99,10 +122,16 @@ public class FXCreator2 extends javax.swing.JFrame {
         FXSingleton.getSingleton().registerListener(this);
     }
 
+    private void initTree() {
+        projectTree.setCellRenderer(new ShaderTreeCellRenderer());
+        modulesContextMenu = new ModulesMenu(projectTree);
+    }
+
     private void initDialogs() {
         fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileFilter() {
 
+            @Override
             public boolean accept(File path) {
                 if (path.isDirectory()) {
                     return true;
@@ -181,6 +210,11 @@ public class FXCreator2 extends javax.swing.JFrame {
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Project");
         projectTree.setModel(new javax.swing.tree.DefaultTreeModel(treeNode1));
         projectTree.setRootVisible(false);
+        projectTree.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                projectTreeMouseReleased(evt);
+            }
+        });
         treeShader.setViewportView(projectTree);
 
         mainPanel.setLeftComponent(treeShader);
@@ -225,6 +259,33 @@ public class FXCreator2 extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_mnuSaveProjectActionPerformed
+
+    private void projectTreeMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_projectTreeMouseReleased
+        if (evt.isPopupTrigger()) {
+            int row = projectTree.getRowForLocation(evt.getX(), evt.getY());
+
+            projectTree.setSelectionRow(row);
+            Object o = projectTree.getSelectionPath().getLastPathComponent();
+            if (o instanceof ShaderStage) {
+                modulesContextMenu.show(projectTree, evt.getX(), evt.getY());
+            }
+            /*
+            if (o instanceof ShaderStruct) {
+                treePopup.show(treeShader, evt.getX(), evt.getY());
+            } else if (o instanceof TechniqueCollection) {
+                techniquesMenu.show(treeShader, evt.getX(), evt.getY());
+            } else if (o instanceof Technique) {
+                techniqueMenu.show(treeShader, evt.getX(), evt.getY());
+            } else if (o instanceof Pass) {
+                passMenu.show(treeShader, evt.getX(), evt.getY());
+            } else if (o instanceof ShaderStructCollection) {
+                structMenu.show(treeShader, evt.getX(), evt.getY());
+            } else if (o instanceof ShaderField) {
+                shaderFieldMenu.show(treeShader, evt.getX(), evt.getY());
+            }
+             */
+        }
+    }//GEN-LAST:event_projectTreeMouseReleased
 
     /**
      * Saves the project as a new file.
