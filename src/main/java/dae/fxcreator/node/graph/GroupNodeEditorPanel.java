@@ -7,7 +7,6 @@ import dae.fxcreator.node.templates.NodeContainerProxy;
 import dae.fxcreator.node.templates.NodeTemplate;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.templates.TemplateGroup;
-import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.ShaderInput;
@@ -543,13 +542,9 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
             // 2) find unconnected outputs ( unconnected + connected to node outside of the group)
             for (IONode node : nodes) {
                 if (node instanceof Cloneable) {
-                    try {
-                        IONode clone = (IONode) node.clone();
+                        IONode clone = new IONode(node);
                         clone.setPosition(node.getPosition().x, node.getPosition().y);
                         nc.addNode(clone);
-                    } catch (CloneNotSupportedException ex) {
-                        continue;
-                    }
                 }
             }
 
