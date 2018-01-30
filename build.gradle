@@ -1,4 +1,5 @@
 apply plugin: 'application'
+version = "1.0.0"
 
 sourceCompatibility = '1.8'
 [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
@@ -34,6 +35,11 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
 
+subprojects {
+    apply plugin: 'java'
+    archivesBaseName = "connect-${it.name}"
+}
+
 project ('core'){
     apply plugin : 'java'
 }
@@ -44,5 +50,9 @@ project ('io'){
 }
 
 project('uimodel'){
+    apply plugin: 'java'
+}
+
+project('plugin'){
     apply plugin: 'java'
 }
