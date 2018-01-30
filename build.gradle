@@ -34,8 +34,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.10'
 }
 
-
-
 project ('core'){
     apply plugin : 'java'
 }

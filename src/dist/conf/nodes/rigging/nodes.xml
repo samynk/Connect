@@ -57,7 +57,7 @@
         </node>
     </group>
     <group name="controllers" icon="/dae/images/rigging/fuzzysystem.png" category="module">
-        <node type="fuzzysystem" prefix="fuzzyController" icon="/dae/images//rigging/fuzzysystem.png" ioEditable="true" outputanchor="SW">
+        <node type="fuzzysystem" prefix="fuzzyController" icon="/dae/images/rigging/fuzzysystem.png" ioEditable="true" outputanchor="SW">
             <input name="input1" type="FLOAT"/>
             <output name="output1" type="FLOAT"/>
         </node>

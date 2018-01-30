@@ -86,7 +86,7 @@ public class FXCreator2 extends javax.swing.JFrame {
     }
 
     private void initMenu() {
-        FXProjectTypeLoader loader = new FXProjectTypeLoader("conf/fxcreator.json");
+        FXProjectTypeLoader loader = new FXProjectTypeLoader("fxcreator.json");
         loader.load();
         ArrayList<FXProjectType> projectTypes = loader.getProjectTypes();
         for (FXProjectType projectType : projectTypes) {

@@ -52,7 +52,7 @@ public class FXSettingLoader extends DefaultHandler {
         
         if (!Files.exists(file)) {
             System.out.println(file.toString() + " does not exist!");
-            file = PathUtil.createUserDirPath("templates/settings.xml");
+            file = PathUtil.createUserDirPath("ui/settings.xml");
         }
         if (Files.exists(file)) {
             try {

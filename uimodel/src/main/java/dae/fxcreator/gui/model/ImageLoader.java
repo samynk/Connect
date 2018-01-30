@@ -20,7 +20,7 @@ public class ImageLoader {
             return null;
         }
         try{
-            //System.out.println("Loading : " + resource);
+            System.out.println("Loading : " + resource);
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Image image = toolkit.getImage(getClass().getResource(resource));
             tracker.addImage(image,count++);

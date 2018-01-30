@@ -16,7 +16,7 @@
             {
                 "label":"Rigging", 
                 "description":"Exports a graph as a rigging definition file.",
-                "codegen":"templates/rigging/rigging.codegen"
+                "codegen":"transformers/rigging/rigging.codegen"
             }
         ]
     }

@@ -1,9 +1,0 @@
-[
-	{
-		"name": "daegame",
-		"version": 1,
-                "minorversion":0,
-                "nodes": "nodes/daev1/nodes.xml",
-                "codegenerators": ["templates/daev1/daev1.codegen"]
-	}
-]
