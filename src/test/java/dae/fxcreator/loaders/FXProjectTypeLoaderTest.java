@@ -41,7 +41,7 @@ public class FXProjectTypeLoaderTest {
  
     @Test
     public void testFXProjectTypeLoader() {
-        FXProjectTypeLoader loader = new FXProjectTypeLoader("conf/fxcreator.json");
+        FXProjectTypeLoader loader = new FXProjectTypeLoader("fxcreator.json");
         loader.load();
         
         ArrayList<FXProjectType> types = loader.getProjectTypes();

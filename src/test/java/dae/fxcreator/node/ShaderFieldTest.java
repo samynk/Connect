@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package dae.fxcreator.node;
 
 import dae.fxcreator.node.project.FXProjectType;
@@ -10,7 +5,6 @@ import dae.fxcreator.io.util.PathUtil;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.loaders.NodeTemplateLoader;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -46,7 +40,7 @@ public class ShaderFieldTest {
 
     @Test
     public void testDecode() {
-        FXProjectTypeLoader loader = new FXProjectTypeLoader("conf/fxcreator.json");
+        FXProjectTypeLoader loader = new FXProjectTypeLoader("fxcreator.json");
         loader.load();
 
         ArrayList<FXProjectType> types = loader.getProjectTypes();

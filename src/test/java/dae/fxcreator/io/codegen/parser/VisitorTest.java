@@ -47,7 +47,7 @@ public class VisitorTest {
 
     @Before
     public void setUp() {
-        FXProjectTypeLoader loader = new FXProjectTypeLoader("conf/fxcreator.json");
+        FXProjectTypeLoader loader = new FXProjectTypeLoader("fxcreator.json");
         loader.load();
         ArrayList<FXProjectType> projectTypes = loader.getProjectTypes();
         
@@ -71,7 +71,7 @@ public class VisitorTest {
     @Test
     public void testProjectTemplate() {
         try {
-            CharStream charStream = CharStreams.fromStream(ClassLoader.getSystemResourceAsStream("codegen/rigging/rigging.codegen"));
+            CharStream charStream = CharStreams.fromStream(PathUtil.createUserDirStream("transformers/rigging/rigging.codegen"));
             GraphTransformerLexer lexer = new GraphTransformerLexer(charStream);
             TokenStream tokens = new CommonTokenStream(lexer);
             GraphTransformerParser parser = new GraphTransformerParser(tokens);
@@ -92,7 +92,7 @@ public class VisitorTest {
             FXProject testProject = basic.createNewProject(FXSingleton.getSingleton().getProjectTypeRegistry());
             testProject.setName("testProject1");
 
-            ExportTask et = new ExportTask(testProject, PathUtil.createUserDirPath("test/test.rig"), tcl);
+            ExportTask et = new ExportTask(testProject, PathUtil.createUserHomePath("test/test.rig"), tcl);
             et.export();
 
             StringBuilder sb = et.getCodeOutput().getBuffer("default");
