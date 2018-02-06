@@ -17,17 +17,9 @@ if (!hasProperty('mainClass')) {
 
 repositories {
     mavenCentral()
-    // You may define additional repositories, or even remove "mavenCentral()".
-    // Read more about repositories here:
-    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:repositories
 }
 
 dependencies {
-    // TODO: Add dependencies here ...
-    // You can read more about how to add dependency here:
-    //   http://www.gradle.org/docs/current/userguide/dependency_management.html#sec:how_to_declare_your_dependencies
-     
-    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.9.3'
     compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
     compile(project('core'))
     compile(project('io'))
@@ -42,6 +34,7 @@ subprojects {
 
 project ('core'){
     apply plugin : 'java'
+    apply plugin : 'antlr'
 }
 
 project ('io'){

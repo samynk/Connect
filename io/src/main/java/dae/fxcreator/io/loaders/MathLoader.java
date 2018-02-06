@@ -109,7 +109,7 @@ public class MathLoader extends XMLHandler {
         } else if ("operation".equals(qName)) {
             MathElement parent = current.peek();
             String type = attributes.getValue("type");
-            Operation op = new Operation(type);
+            Operation op = Operation.parseOperation(type);
             parent.addOperator(op);
         }
     }

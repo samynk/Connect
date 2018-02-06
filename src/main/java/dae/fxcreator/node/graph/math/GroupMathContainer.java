@@ -110,7 +110,7 @@ public class GroupMathContainer extends MathContainer{
             element.setChild(child);
 
          }
-         element.setOperation( new Operation(type.name()));
+         element.setOperation(Operation.GROUP);
          return element;
      }
 }

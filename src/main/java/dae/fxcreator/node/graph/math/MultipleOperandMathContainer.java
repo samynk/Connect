@@ -84,7 +84,7 @@ public class MultipleOperandMathContainer extends MathContainer {
     }
 
     public void addOperand(String operation) {
-        Operation op = new Operation(operation);
+        Operation op = Operation.parseOperation(operation);
         if (lastIsOperand()) {
             MathField field = new MathField("a");
             elementGBC.gridx = elements.size();
@@ -100,7 +100,7 @@ public class MultipleOperandMathContainer extends MathContainer {
     @Override
     public void addMathField(MathGUIElement element) {
         if (lastIsMathElement()) {
-            Operation op = new Operation("+");
+            Operation op = Operation.PLUS;
             elementGBC.gridx = elements.size();
             this.add(new JLabel("+"), elementGBC);
             elements.add(op);
@@ -201,7 +201,7 @@ public class MultipleOperandMathContainer extends MathContainer {
             gbl.setConstraints(c, gbc);
         }
 
-        Operation op = new Operation(operation);
+        Operation op = Operation.parseOperation(operation);
         elementGBC.gridx = index + 1;
         elements.add(index + 1, op);
         
@@ -226,7 +226,7 @@ public class MultipleOperandMathContainer extends MathContainer {
                 element.addMathElement(me);
             }else if ( elem instanceof Operation ){
                 Operation op = (Operation)elem;
-                element.addOperator(new Operation(op.getText()));
+                element.addOperator(Operation.parseOperation(op.getText()));
             }
         }
         return element;

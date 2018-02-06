@@ -8,6 +8,8 @@ import dae.fxcreator.node.transform.TemplateClassLibrary;
 import dae.fxcreator.node.transform.exec.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 /**
  *
@@ -28,6 +30,23 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
         library.addTemplate(current);
         super.visitTemplate(ctx);
         return library;
+    }
+
+    @Override
+    public Object visitMapping(GraphTransformerParser.MappingContext ctx) {
+        String key = ctx.key.getText();
+        List<TerminalNode> packageList = ctx.ID();
+        StringBuilder className = new StringBuilder();
+        if (packageList.size() > 1) {
+            for (int i = 1; i < packageList.size(); ++i) {
+                className.append(packageList.get(i));
+                className.append('.');
+             }
+            className.deleteCharAt(className.length()-1);
+        }
+        String sClassName = className.toString();
+        library.addTemplateClassNameMapping(key, sClassName);
+        return className.toString();
     }
 
     @Override
@@ -70,7 +89,7 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
             writeProperty(ctx.property());
         } else if (ctx.portID() != null) {
             writePortProperty(ctx.portID());
-        } else if ( ctx.setting() != null){
+        } else if (ctx.setting() != null) {
             writeSetting(ctx.setting());
         }
 
@@ -158,6 +177,11 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
                 } else if (pc.value().BOOLEAN() != null) {
                     parameters[i] = Boolean.parseBoolean(pc.value().BOOLEAN().getText());
                 }
+            } else if (pc.setting() != null ){
+                String varID = pc.setting().ID().getText();
+                String groupID = pc.setting().property().ID(0).getText();
+                String settingID = pc.setting().property().ID(1).getText();
+                parameters[i] = new NodeSetting(varID,groupID,settingID);
             }
             ++i;
         }
@@ -201,6 +225,6 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
         String o = setting.ID().getText();
         String group = setting.property().ID(0).getText();
         String prop = setting.property().ID(1).getText();
-        addExecutable(new WriteSetting(o,group,prop));
+        addExecutable(new WriteSetting(o, group, prop));
     }
 }

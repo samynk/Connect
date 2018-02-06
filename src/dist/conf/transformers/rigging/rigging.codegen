@@ -1,3 +1,8 @@
+map{
+    math -> dae.fxcreator.node.graphmath.MathFormula;
+    opbinary -> dae.fxcreator.node.graphmath.BinaryMathElement;
+}
+
 template project{
     code main {
         << "<?xml version='1.0' encoding='utf_8' ?>\n"
@@ -53,5 +58,29 @@ template node{
 
     code connection[joint.revolutejoint]{
         
+    }
+
+    code definition[metrics.math]{
+        << "\t\t\t<!-- Calling metric.math template -->\n" ;
+        << "\t\t\t<!-- The code is :" << node[Value.math] << "-->\n";
+        call(node[Value.math],"main");
+        << "\t\t\t<!-- End of metrics.math template -->\n" ;
+    }
+}
+
+template math{
+    code main{
+        << "\t\t\t// math node\n";
+        for ( n : node.roots ){
+            << "\t\t\t root\n";
+            call(n,"formula");
+        }
+    }
+}
+template opbinary{
+    code formula[binary.ASSIGN]{
+        call(node.left,"formula");
+        << "="; 
+        call(node.right,"formula");
     }
 }

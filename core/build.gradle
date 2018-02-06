@@ -8,7 +8,7 @@ repositories {
 sourceSets {
     main {
         java {
-            srcDir 'src'
+            srcDir 'src/main/java'
         }
         resources {
             srcDir 'resources' 
@@ -28,6 +28,7 @@ sourceSets {
 dependencies {
 	testCompile 'junit:junit:4.8.2'
         compile('com.google.guava:guava:23.6-jre')
+        antlr "org.antlr:antlr4:4.7.1"
 }
 
 test {
@@ -36,4 +37,11 @@ test {
 	reports {
 		junitXml.enabled = true
 	}               
+}
+
+
+generateGrammarSource {
+    
+    maxHeapSize = "64m"
+    arguments += ["-visitor", "-long-messages"]
 }

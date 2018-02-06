@@ -57,7 +57,7 @@ public class OperatorMathContainer extends MathContainer {
         secondElement.anchor = GridBagConstraints.NORTH;
         secondElement.insets = new Insets(0, 2, 0, 2);
 
-        operand = new Operation(operator);
+        operand = Operation.parseOperation(operator);
         setIsGroup(true);
     }
 
@@ -203,7 +203,7 @@ public class OperatorMathContainer extends MathContainer {
             MathElement rightElement = right.createFormula();
             element.setSecondElement(rightElement);
         }
-        element.setOperation(new Operation(operand.getText()));
+        element.setOperation(Operation.parseOperation(operand.getText()));
         return element;
     }
 }

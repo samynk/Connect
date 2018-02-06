@@ -195,7 +195,7 @@ public class PowerMathContainer extends MathContainer {
             MathElement powerElement = power.createFormula();
             element.setSecondElement(powerElement);
         }
-        element.setOperation(new Operation("POWER"));
+        element.setOperation(Operation.POWER);
         return element;
     }
 }

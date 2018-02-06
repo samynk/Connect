@@ -4,7 +4,10 @@ grammar GraphTransformer;
    package dae.fxcreator.io.codegen.parser;
 } 
 		
-transform: template*;
+transform: map? template*;
+
+map: MAP LBRACE mapping* RBRACE;
+mapping: key=ID PIPE (ID (DOT ID)*) SEMICOLUMN;
 
 template: TEMPLATE ID LBRACE code* RBRACE;
 code: CODE ID (LBRACKET property RBRACKET)? (writeToBuffer)? LBRACE ( methodCall| expression | forLoop | ifStatement)* RBRACE;
@@ -28,7 +31,7 @@ ifStatement: IF LPARENS booleanExpr RPARENS LBRACE expression* RBRACE elseStatem
 elseStatement: ELSE LBRACE expression* RBRACE;
 
 
-parameter: ID | value | property;
+parameter: setting | value | property | ID;
 
 BACKSLASH: '\\';
 ASSIGN: '=';
@@ -49,6 +52,7 @@ COMMA: ',';
 SEMICOLUMN:';';
 COLON: ':';
 TEMPLATE: 'template';
+MAP : 'map';
 CODE: 'code';
 FOR: 'for';
 IF: 'if';

@@ -83,7 +83,7 @@ public class SQRTMathContainer extends MathContainer{
         UnaryMathElement element = new UnaryMathElement();
         if ( getFirstChild() != null )
             element.setChild(getFirstChild().createFormula());
-        element.setOperation(new Operation("SQRT"));
+        element.setOperation(Operation.SQUAREROOT);
         return element;
     }
 

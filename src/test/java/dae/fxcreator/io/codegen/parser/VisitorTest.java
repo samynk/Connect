@@ -10,6 +10,8 @@ import dae.fxcreator.io.util.PathUtil;
 import dae.fxcreator.node.transform.ExportTask;
 import dae.fxcreator.io.loaders.FXProjectTemplateLoader;
 import dae.fxcreator.io.loaders.FXProjectTypeLoader;
+import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.project.ShaderStage;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -50,7 +52,7 @@ public class VisitorTest {
         FXProjectTypeLoader loader = new FXProjectTypeLoader("fxcreator.json");
         loader.load();
         ArrayList<FXProjectType> projectTypes = loader.getProjectTypes();
-        
+
         FXSingleton.getSingleton().getProjectTypeRegistry().setSupportedProjectTypes(loader.getProjectTypes());
 
         for (FXProjectType projectType : projectTypes) {
@@ -68,29 +70,40 @@ public class VisitorTest {
     public void tearDown() {
     }
 
+    private GraphTransformerParser loadParser(String path) throws IOException{
+        CharStream charStream = CharStreams.fromStream(PathUtil.createUserDirStream(path));
+        GraphTransformerLexer lexer = new GraphTransformerLexer(charStream);
+        TokenStream tokens = new CommonTokenStream(lexer);
+        GraphTransformerParser parser = new GraphTransformerParser(tokens);
+
+        int syntaxErrors = parser.getNumberOfSyntaxErrors();
+        Assert.assertEquals("There were syntax errors", 0, syntaxErrors);
+        
+        return parser;
+    }
+
     @Test
     public void testProjectTemplate() {
         try {
-            CharStream charStream = CharStreams.fromStream(PathUtil.createUserDirStream("transformers/rigging/rigging.codegen"));
-            GraphTransformerLexer lexer = new GraphTransformerLexer(charStream);
-            TokenStream tokens = new CommonTokenStream(lexer);
-            GraphTransformerParser parser = new GraphTransformerParser(tokens);
-
+            GraphTransformerParser parser = loadParser("transformers/rigging/rigging.codegen");
             Visitor classVisitor = new Visitor();
             Object traverseResult = classVisitor.visit(parser.transform());
-
-            int syntaxErrors = parser.getNumberOfSyntaxErrors();
-            Assert.assertEquals("There were syntax errors", 0, syntaxErrors);
 
             Assert.assertTrue(traverseResult instanceof TemplateClassLibrary);
 
             TemplateClassLibrary tcl = (TemplateClassLibrary) traverseResult;
 
             Assert.assertNotNull("Rigging project template is null", basic);
-            
-            
+
             FXProject testProject = basic.createNewProject(FXSingleton.getSingleton().getProjectTypeRegistry());
             testProject.setName("testProject1");
+            
+            ShaderStage stage = testProject.findShaderStage("ArmController");
+            Assert.assertNotNull(stage);
+            
+            IONode node = stage.findNode("math1");
+            Assert.assertNotNull(node);
+            
 
             ExportTask et = new ExportTask(testProject, PathUtil.createUserHomePath("test/test.rig"), tcl);
             et.export();
@@ -107,4 +120,23 @@ public class VisitorTest {
             Logger.getLogger(VisitorTest.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    /*
+    @Test
+    public void testMathExport() {
+        try {
+            GraphTransformerParser parser = loadParser("transformers/rigging/rigging.codegen");
+            Visitor classVisitor = new Visitor();
+            Object traverseResult = classVisitor.visit(parser.transform());
+
+            Assert.assertTrue(traverseResult instanceof TemplateClassLibrary);
+            
+            TemplateClassLibrary tcl = (TemplateClassLibrary)traverseResult;
+            
+            
+        } catch (IOException ex) {
+            Logger.getLogger(VisitorTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+*/
 }

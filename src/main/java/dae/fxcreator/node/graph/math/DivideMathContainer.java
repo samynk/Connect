@@ -183,7 +183,7 @@ public class DivideMathContainer extends MathContainer {
             MathElement divisorElement = divisor.createFormula();
             element.setSecondElement(divisorElement);
         }
-        element.setOperation(new Operation("/"));
+        element.setOperation(Operation.DIVIDE);
         return element;
     }
 }

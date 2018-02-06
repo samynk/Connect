@@ -28,6 +28,13 @@
 			<input name="input1" connection="angleTarget1.angle" type="FLOAT"/>
 			<output name="output1" type="FLOAT"/>
 		</node>
+                <node id="math1" name="math" type="metrics.math" ioEditable="true" container="leaf" inputanchor="NW" outputanchor="SW">
+                    <input name="i1" type="FLOAT"/>
+                    <output name="o2" type="FLOAT"/>
+                    <setting group="Value" label="Math" id="math" type="math" valueAsAttribute="false" visualize="true">
+                        <value><![CDATA[o1 = 2 * i1]]]></value>
+                    </setting>
+                </node>
 	</stage>
 	<technique name="basicshader">
 		<pass  name="one">

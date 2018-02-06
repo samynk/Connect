@@ -80,8 +80,9 @@ public class FXProjectLoader extends DefaultHandler {
      * The current exporter file.
      */
     ExportFile currentExportFile;
-    Pattern positionMatcher;
-    int defaultx, defaulty;
+    private final static Pattern POSITION_PATTERN = java.util.regex.Pattern.compile("\\[(-?\\d*),(-?\\d*)\\]");
+
+    private int defaultx, defaulty;
     private Setting currentSetting;
     private final StringBuffer charBuffer = new StringBuffer();
     /**
@@ -111,8 +112,6 @@ public class FXProjectLoader extends DefaultHandler {
     public FXProjectLoader(FXProject project, NodeTemplateLibrary library) {
         this.project = project;
         this.library = library;
-        positionMatcher = java.util.regex.Pattern.compile("\\[(-?\\d*),(-?\\d*)\\]");
-        extraHandlers.put("mathformula", new MathLoader());
     }
 
     /**
@@ -125,9 +124,6 @@ public class FXProjectLoader extends DefaultHandler {
     public FXProjectLoader(Path path, FXProjectTypeRegistry projectTypes) {
         project = new FXProject(path);
         fxProjectTypes = projectTypes;
-        positionMatcher = java.util.regex.Pattern.compile("\\[(-?\\d*),(-?\\d*)\\]");
-        extraHandlers.put("mathformula", new MathLoader());
-
     }
 
     /**
@@ -384,7 +380,6 @@ public class FXProjectLoader extends DefaultHandler {
             int iVersion = Integer.parseInt(version);
             int iMinorVersion = Integer.parseInt(minorVersion);
 
-            
             FXProjectType projectType = fxProjectTypes.findProjectType(name, iVersion, iMinorVersion);
             if (projectType != null) {
                 project.setProjectType(projectType);
@@ -392,7 +387,7 @@ public class FXProjectLoader extends DefaultHandler {
             } else {
                 // todo warn the user that the project type could not be found.
             }
-             
+
         } else if ("value".equals(qName)) {
             charBuffer.delete(0, charBuffer.length());
         } else if ("struct".equals(qName)) {
@@ -436,7 +431,7 @@ public class FXProjectLoader extends DefaultHandler {
         if (position == null) {
             return new Point(0, 0);
         }
-        Matcher m = positionMatcher.matcher(position);
+        Matcher m = POSITION_PATTERN.matcher(position);
         if (!(position == null) && m.matches()) {
             int x = Integer.parseInt(m.group(1));
             int y = Integer.parseInt(m.group(2));
