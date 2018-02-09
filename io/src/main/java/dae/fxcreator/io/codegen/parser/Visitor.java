@@ -41,8 +41,8 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
             for (int i = 1; i < packageList.size(); ++i) {
                 className.append(packageList.get(i));
                 className.append('.');
-             }
-            className.deleteCharAt(className.length()-1);
+            }
+            className.deleteCharAt(className.length() - 1);
         }
         String sClassName = className.toString();
         library.addTemplateClassNameMapping(key, sClassName);
@@ -51,10 +51,14 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
 
     @Override
     public Object visitCode(GraphTransformerParser.CodeContext ctx) {
-        String codeId = ctx.ID().getText();
+        String codeId = ctx.codeID.getText();
         String subtype = null;
-        if (ctx.property() != null) {
-            subtype = ctx.property().getText();
+        if (ctx.setting() != null) {
+            GraphTransformerParser.SettingContext sc = ctx.setting();
+            subtype = sc.group.getText();
+            if (sc.key != null) {
+                subtype += "." + sc.key.getText();
+            }
         }
         String buffer = null;
         if (ctx.writeToBuffer() != null) {
@@ -69,14 +73,14 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
     }
 
     @Override
-    public Object visitExpression(GraphTransformerParser.ExpressionContext ctx) {
+    public Object visitWriteBuffer(GraphTransformerParser.WriteBufferContext ctx) {
         String customBuffer = ctx.ID() != null ? ctx.ID().getText() : null;
 
         ExecuteBlock epBlock = new ExecuteBlock(customBuffer);
         addExecutable(epBlock);
 
         blockStack.push(epBlock);
-        Object result = super.visitExpression(ctx);
+        Object result = super.visitWriteBuffer(ctx);
         blockStack.pop();
         return result;
     }
@@ -85,29 +89,25 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
     public Object visitWrite(GraphTransformerParser.WriteContext ctx) {
         if (ctx.value() != null) {
             writeValue(ctx.value());
-        } else if (ctx.property() != null) {
-            writeProperty(ctx.property());
-        } else if (ctx.portID() != null) {
-            writePortProperty(ctx.portID());
-        } else if (ctx.setting() != null) {
-            writeSetting(ctx.setting());
+        } else if (ctx.objectChain() != null) {
+            Object chain = visitObjectChain(ctx.objectChain(),false);
+            WriteExpression we = new WriteExpression((ObjectChain) chain);
+            addExecutable(we);
         }
-
         return super.visitWrite(ctx);
     }
 
     @Override
     public Object visitForLoop(GraphTransformerParser.ForLoopContext ctx) {
-        String varName = ctx.ID().getText();
-        String object = ctx.property().ID(0).getText();
-        String collection = ctx.property().ID(1).getText();
+        String varName = ctx.var.getText();
+        ObjectChain collection = (ObjectChain) visitObjectChain(ctx.objectChain(), false);
 
-        ForLoop fr = new ForLoop(varName, object, collection);
+        ForLoop fr = new ForLoop(varName, collection);
         addExecutable(fr);
         blockStack.push(fr);
-        Object result = super.visitForLoop(ctx);
+        super.visitStatements(ctx.statements());
         blockStack.pop();
-        return result;
+        return fr;
     }
 
     @Override
@@ -116,17 +116,12 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
         IfElseStatement statement = new IfElseStatement(condition);
         addExecutable(statement);
         blockStack.push(statement.getIfBlock());
-        // there is always an 
-        for (GraphTransformerParser.ExpressionContext ec : ctx.expression()) {
-            visitExpression(ec);
-        }
+        super.visitStatements(ctx.statements());
         blockStack.pop();
 
         if (ctx.elseStatement() != null) {
             blockStack.push(statement.getElseBlock());
-            for (GraphTransformerParser.ExpressionContext ec : ctx.elseStatement().expression()) {
-                visitExpression(ec);
-            }
+            super.visitStatements(ctx.statements());
             blockStack.pop();
         }
         return statement;
@@ -153,18 +148,47 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
     public BooleanExpression visitBooleanValue(GraphTransformerParser.BooleanValueContext ctx) {
         if (ctx.BOOLEAN() != null) {
             return new BooleanValue(Boolean.parseBoolean(ctx.BOOLEAN().getText()));
-        } else if (ctx.property() != null) {
-            String object = ctx.property().ID(0).getText();
-            String property = ctx.property().ID(1).getText();
-            return new BooleanProperty(object, property);
+        } else if (ctx.objectChain() != null) {
+            ObjectChain oc = (ObjectChain) visitObjectChain(ctx.objectChain(), false);
+            return new BooleanObjectChain(oc);
         } else {
             return new BooleanValue(false);
         }
     }
 
-    @Override
-    public Object visitMethodCall(GraphTransformerParser.MethodCallContext ctx) {
-        String method = ctx.ID().getText();
+    public Object visitObjectChain(GraphTransformerParser.ObjectChainContext ctx, boolean executable) {
+        ObjectChain result = new ObjectChain();
+        boolean root = true;
+        for (GraphTransformerParser.ObjectContext obj : ctx.object()) {
+            if (obj.parameterList() != null) {
+                Expression[] es = new Expression[obj.parameterList().parameter().size()];
+                int i = 0;
+                for ( GraphTransformerParser.ParameterContext pc : obj.parameterList().parameter()){
+                    Expression e = (Expression)visitParameter(pc);
+                    es[i] = e;
+                    ++i;
+                }
+                MethodCall mc = new MethodCall(obj.identifier.getText(),root,es);
+                result.addExpression(mc);
+            } else if (obj.setting() != null) {
+                ObjectSetting setting = new ObjectSetting(
+                        obj.identifier.getText(),
+                        obj.setting().group.getText(),
+                        obj.setting().key.getText(),
+                        root);
+                result.addExpression(setting);
+            } else {
+                // port or property call
+                if (obj.PORT() != null) {
+                    result.addExpression(new ObjectPortExpression(obj.identifier.getText(), root));
+                } else {
+                    result.addExpression(new ObjectExpression(obj.identifier.getText(), root));
+                }
+            }
+            root = false;
+        }
+        /*
+        String identifier = ctx.
 
         Object[] parameters = new Object[ctx.parameter().size()];
         int i = 0;
@@ -177,18 +201,53 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
                 } else if (pc.value().BOOLEAN() != null) {
                     parameters[i] = Boolean.parseBoolean(pc.value().BOOLEAN().getText());
                 }
-            } else if (pc.setting() != null ){
+            } else if (pc.setting() != null) {
                 String varID = pc.setting().ID().getText();
                 String groupID = pc.setting().property().ID(0).getText();
                 String settingID = pc.setting().property().ID(1).getText();
-                parameters[i] = new NodeSetting(varID,groupID,settingID);
+                parameters[i] = new NodeSetting(varID, groupID, settingID);
+            } else if (pc.property() != null) {
+                String object = pc.property().ID(0).getText();
+                String property = pc.property().ID(1).getText();
+                parameters[i] = new NodeProperty(object, property);
             }
             ++i;
         }
         MethodCall mc = new MethodCall(method, parameters);
         addExecutable(mc);
-        return super.visitMethodCall(ctx); //To change body of generated methods, choose Tools | Templates.
+         */
+        if ( executable ){
+            addExecutable(result);
+        }
+        return result;
     }
+
+    @Override
+    public Object visitObjectChain(GraphTransformerParser.ObjectChainContext ctx) {
+        return this.visitObjectChain(ctx, true); 
+    }
+    
+    
+
+    @Override
+    public Object visitParameter(ParameterContext ctx) {
+        if ( ctx.value() != null){
+            if (ctx.value().STRING() != null){
+                String text = ctx.value().STRING().getText();
+                StringValue v = new StringValue(RuntimeUtil.unescape(text, true, true));
+                return v;
+            }else if (ctx.value().BOOLEAN() != null){
+                boolean value = Boolean.parseBoolean(ctx.value().BOOLEAN().getText());
+                BooleanValue bv = new BooleanValue(value);
+                return bv;
+            }
+        }else if(ctx.objectChain() != null ){
+            return visitObjectChain(ctx.objectChain(), false);
+        }
+        return null;
+    }
+    
+    
 
     private void writeValue(GraphTransformerParser.ValueContext ctx) {
         if (ctx.STRING() != null) {
@@ -203,28 +262,5 @@ public class Visitor extends GraphTransformerBaseVisitor<Object> {
     private void addExecutable(Executable e) {
         ExecuteBlock eb = blockStack.peek();
         eb.addExecutable(e);
-    }
-
-    private void writeProperty(GraphTransformerParser.PropertyContext property) {
-        String o = property.ID(0).getText();
-        String p = property.ID(1).getText();
-        addExecutable(new WriteProperty(o, p));
-
-    }
-
-    private void writePortProperty(GraphTransformerParser.PortIDContext property) {
-        String o = property.ID(0).getText();
-        String p = null;
-        if (property.DOT() != null) {
-            p = property.ID(1).getText();
-        }
-        addExecutable(new WritePortProperty(o, p));
-    }
-
-    private void writeSetting(GraphTransformerParser.SettingContext setting) {
-        String o = setting.ID().getText();
-        String group = setting.property().ID(0).getText();
-        String prop = setting.property().ID(1).getText();
-        addExecutable(new WriteSetting(o, group, prop));
     }
 }
