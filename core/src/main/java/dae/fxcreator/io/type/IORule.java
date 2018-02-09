@@ -37,13 +37,13 @@ public class IORule {
         if ( inputs.length == 0)
             return null;
         else if ( inputs.length == 1)
-            return inputs[0].getType();
+            return inputs[0].getIOType();
         else{
             int order = -1;
             ShaderType type = null;
             for (int i = 0; i< inputs.length ; ++i)
             {
-                ShaderType st = inputs[i].getType();
+                ShaderType st = inputs[i].getIOType();
                 if (st.getOrder() > order){
                     type = st;
                 }
