@@ -153,11 +153,11 @@ public class NodeTemplate {
         ShaderStage stage = new ShaderStage(nodePrototype.getId(), nodePrototype.getType());
         stage.setFXProject(project);
         for (ShaderInput input : nodePrototype.getInputs()) {
-            ShaderInput ci = new ShaderInput(stage, input.getName(), input.getSemantic().getValue(), input.getType());
+            ShaderInput ci = new ShaderInput(stage, input.getName(), input.getSemantic().getValue(), input.getIOType());
             stage.addInput(ci);
         }
         for (ShaderOutput output : nodePrototype.getOutputs()) {
-            ShaderOutput co = new ShaderOutput(stage, output.getName(), output.getSemantic().getValue(), output.getType(), output.getTypeRule());
+            ShaderOutput co = new ShaderOutput(stage, output.getName(), output.getSemantic().getValue(), output.getIOType(), output.getTypeRule());
             stage.addOutput(co);
         }
         stage.getInputNode().setPosition(20, 20);
