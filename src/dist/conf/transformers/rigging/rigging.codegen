@@ -1,6 +1,12 @@
 map{
     math -> dae.fxcreator.node.graphmath.MathFormula;
-    opbinary -> dae.fxcreator.node.graphmath.BinaryMathElement;
+    operation -> dae.fxcreator.node.graphmath.BinaryMathElement;
+    operation -> dae.fxcreator.node.graphmath.UnaryMathElement;
+    value ->    dae.fxcreator.node.graphmath.MathFloatValue;
+    value ->    dae.fxcreator.node.graphmath.MathIntValue;
+    value ->    dae.fxcreator.node.graphmath.MathVariable;
+    io ->       dae.fxcreator.node.ShaderInput;
+    io ->       dae.fxcreator.node.ShaderOutput;
 }
 
 template project{
@@ -29,7 +35,7 @@ template shaderstage{
         }
         << "\t\t -->\n";
 
-        << "\t\t<!-- This is the list of inputs: \n";
+        << "\t\t<!-- This is the list of outputs: \n";
         for(output : node.outputs){
             << "\t\t\t" << output.name << "\n";
         }
@@ -63,24 +69,59 @@ template node{
     code definition[metrics.math]{
         << "\t\t\t<!-- Calling metric.math template -->\n" ;
         << "\t\t\t<!-- The code is :" << node[Value.math] << "-->\n";
+        push( "mathnode",node);
         call(node[Value.math],"main");
         << "\t\t\t<!-- End of metrics.math template -->\n" ;
+        pop("mathnode");
     }
 }
 
 template math{
     code main{
-        << "\t\t\t// math node\n";
+        << "\t\t\t// math node :" << mathnode.name << "\n";
+        
         for ( n : node.roots ){
             << "\t\t\t root\n";
             call(n,"formula");
         }
     }
 }
-template opbinary{
+template operation{
+
+    code formula{
+        call(node.first,"formula");
+        << " " << node.operation << " "; 
+        call(node.second,"formula");
+    }
+
     code formula[binary.ASSIGN]{
-        call(node.left,"formula");
-        << "="; 
-        call(node.right,"formula");
+        call(node.first,"formula");
+        << " = "; 
+        call(node.second,"formula");
+        << ";\n";
+    }
+}
+
+template value{
+    code formula[value.INT]{
+        << node.value;
+    }
+    
+    code formula[value.FLOAT]{
+       << " " << node.value  << " ";
+    }
+
+    code formula[value.VARNAME]{
+        call(mathnode.port(node.varName), "reference");
+    }
+}
+
+template io{
+    code reference[node.input]{
+        << node.var ;
+    }
+
+    code reference[node.output]{
+        << node.var;
     }
 }
