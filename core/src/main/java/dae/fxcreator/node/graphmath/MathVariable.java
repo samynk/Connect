@@ -120,6 +120,6 @@ public class MathVariable extends MathElement {
 
     @Override
     public String getType() {
-        return "var";
+        return "value.VARNAME";
     }
 }
