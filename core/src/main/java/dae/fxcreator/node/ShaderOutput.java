@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * The output implementation of the ShaderIO 
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public class ShaderOutput extends ShaderIO {
+public class ShaderOutput extends ShaderIO implements TypedNode{
     /**
      * The nodes that are connected to this output.
      */
@@ -71,9 +71,9 @@ public class ShaderOutput extends ShaderIO {
      * @param type the type for the shader input object.
      */
     @Override
-    public void setType(ShaderType type) {
-        if (!type.equals(getType())) {
-            super.setType(type);
+    public void setIOType(ShaderType type) {
+        if (!type.equals(getIOType())) {
+            super.setIOType(type);
             notifyListeners();
 
             /**
@@ -225,5 +225,15 @@ public class ShaderOutput extends ShaderIO {
         for (ShaderInput input : inputsClone) {
             input.disconnectInput();
         }
+    }
+    
+    @Override
+    public String getId() {
+        return this.getName();
+    }
+
+    @Override
+    public String getType() {
+        return "node.input";
     }
 }
