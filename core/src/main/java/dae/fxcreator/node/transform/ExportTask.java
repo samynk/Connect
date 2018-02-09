@@ -2,10 +2,11 @@ package dae.fxcreator.node.transform;
 
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.TypedNode;
-import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderInput;
 import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.node.annotations.Export;
+import dae.fxcreator.node.transform.exec.Expression;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -14,6 +15,7 @@ import java.nio.file.Paths;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +35,8 @@ public class ExportTask {
 
     private final Deque<StringBuilder> bufferStack = new ArrayDeque<>();
     private final HashMap<String, Object> varMap = new HashMap<>();
+
+    private final Stack<Object> chainStack = new Stack<>();
 
     public ExportTask(FXProject project, String exporterId, TemplateClassLibrary library) {
         this.project = project;
@@ -98,7 +102,7 @@ public class ExportTask {
     public String createOutputDefinitions(IONode io) {
         StringBuilder sb = new StringBuilder();
         for (ShaderOutput so : io.getOutputs()) {
-            sb.append(library.getShaderType(so.getType()));
+            sb.append(library.getShaderType(so.getIOType()));
             sb.append(" ");
             sb.append(so.getVar());
             sb.append(";\n");
@@ -132,13 +136,13 @@ public class ExportTask {
         StringBuilder sb = new StringBuilder();
         for (ShaderInput si : io.getInputs()) {
             if (typeAsPrefix) {
-                sb.append(library.getShaderType(si.getType()));
+                sb.append(library.getShaderType(si.getIOType()));
                 sb.append(infixSeparator);
                 sb.append(si.getName());
             } else {
                 sb.append(si.getName());
                 sb.append(infixSeparator);
-                sb.append(library.getShaderType(si.getType()));
+                sb.append(library.getShaderType(si.getIOType()));
             }
             sb.append(separator);
         }
@@ -152,50 +156,18 @@ public class ExportTask {
      * @param object the object to call the buffer for.
      * @param method the method in the template to use.
      */
+    @Export(name = "call")
     public void template(TypedNode object, String method) {
         String className = object.getClass().getName();
-
         TemplateClass template = library.getTemplateForClassName(className);
         if (template != null) {
+            Object backup = getVar("node");
+            setVar("node", object);
             template.generateCode(object, method, this);
+            setVar("node", backup);
+        } else {
+            Logger.getLogger(ExportTask.class.getName()).log(Level.INFO, "Could not find {0} for {1}", new Object[]{method, className});
         }
-    }
-
-    /**
-     * Calls a specific template for this node. Be careful that all the
-     * properties, inputs, outputs and settings that are needed for the template
-     * to work are available in the template.
-     *
-     * @param object the object that contains the information for the template.
-     * @param method the method to call.
-     * @param group the group of the typed node object.
-     * @param subType the subType of the typed node object.
-     */
-    public void template(TypedNode object, String method, String group, String subType) {
-        String className = object.getClass().getName();
-
-        TemplateClass template = library.getTemplateForClassName(className);
-        if (template != null) {
-            template.generateCode(object, method, group + "." + subType, this);
-        }
-    }
-
-    /**
-     * Specific code to generate the math code.
-     *
-     * @param node the node that contains the math formula.
-     * @param settingGroup the setting group where the math formula is stored.
-     * @param settingId the setting id where the math formula is stored.
-     * @return the math code.
-     */
-    public String generateMathCode(IONode node, String settingGroup, String settingId) {
-        Setting math = node.getSetting(settingGroup, settingId);
-        // todo replace with data driven approach.
-//        if (math != null && math instanceof MathSetting) {
-//            String result = library.generateMathCode(((MathSetting) math).getMathFormula());
-//            return result;
-//        }
-        return "";
     }
 
     private void createPathStream(String streamName, Path location) {
@@ -280,6 +252,7 @@ public class ExportTask {
      * @param streamName the name of the stream.
      * @param bufferName the name of the buffer.
      */
+    @Export(name = "writeBufferToStream")
     public void writeBufferToStream(String streamName, String bufferName) {
         BufferedWriter bw = streamMap.get(streamName);
         StringBuilder sb = this.output.getBuffer(bufferName);
@@ -364,7 +337,18 @@ public class ExportTask {
      * @param varName the name of the variable.
      * @param o the variable.
      */
-    public void addVar(String varName, Object o) {
+    public void setVar(String varName, Object o) {
+        varMap.put(varName, o);
+    }
+
+    /**
+     * Adds the evaluation of an expression to the export task context.
+     *
+     * @param varName the name of the variable.
+     * @param o the variable.
+     */
+    @Export(name = "push")
+    public void push(String varName, Object o) {
         varMap.put(varName, o);
     }
 
@@ -383,7 +367,16 @@ public class ExportTask {
      *
      * @param varName the variable name to remove.
      */
-    public void removeVar(String varName) {
+    @Export(name = "pop")
+    public void pop(String varName) {
         varMap.remove(varName);
+    }
+
+    public Object popChainStack() {
+        return chainStack.pop();
+    }
+
+    public void pushChainStack(Object o) {
+        chainStack.push(o);
     }
 }
