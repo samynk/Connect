@@ -164,8 +164,8 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
             lblSemicolumn.setVisible(false);
         }
 
-        if (userObject.getType() != null) {
-            String icon = userObject.getType().getIcon();
+        if (userObject.getIOType() != null) {
+            String icon = userObject.getIOType().getIcon();
             Image image = ImageLoader.getInstance().getImage(icon);
             if (image == null) {
                 if (isOutput()) {
