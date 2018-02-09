@@ -71,8 +71,8 @@ public class MathParserTest {
         MathFormula mf = load("assignment/floatassignment.math");
         BinaryMathElement bme = testAssignment(mf, 0, "o");
 
-        assertTrue(bme.getSecondElement() instanceof MathFloatValue);
-        MathFloatValue mfv = (MathFloatValue) bme.getSecondElement();
+        assertTrue(bme.getSecond() instanceof MathFloatValue);
+        MathFloatValue mfv = (MathFloatValue) bme.getSecond();
         assertEquals(7.0, mfv.getValue(), 0.001f);
     }
 
@@ -81,8 +81,8 @@ public class MathParserTest {
         MathFormula mf = load("assignment/float2assignment.math");
         BinaryMathElement bme = testAssignment(mf, 0, "o");
 
-        assertTrue(bme.getSecondElement() instanceof MathFloatArrayValue);
-        MathFloatArrayValue mfv = (MathFloatArrayValue) bme.getSecondElement();
+        assertTrue(bme.getSecond() instanceof MathFloatArrayValue);
+        MathFloatArrayValue mfv = (MathFloatArrayValue) bme.getSecond();
 
         float[] values = mfv.getValues();
         assertEquals(2, values.length);
@@ -95,8 +95,8 @@ public class MathParserTest {
         MathFormula mf = load("assignment/float3assignment.math");
         BinaryMathElement bme = testAssignment(mf, 0, "o");
 
-        assertTrue(bme.getSecondElement() instanceof MathFloatArrayValue);
-        MathFloatArrayValue mfv = (MathFloatArrayValue) bme.getSecondElement();
+        assertTrue(bme.getSecond() instanceof MathFloatArrayValue);
+        MathFloatArrayValue mfv = (MathFloatArrayValue) bme.getSecond();
 
         float[] values = mfv.getValues();
         assertEquals(3, values.length);
@@ -108,8 +108,8 @@ public class MathParserTest {
         MathFormula mf = load("assignment/float4assignment.math");
         BinaryMathElement bme = testAssignment(mf, 0, "o");
 
-        assertTrue(bme.getSecondElement() instanceof MathFloatArrayValue);
-        MathFloatArrayValue mfv = (MathFloatArrayValue) bme.getSecondElement();
+        assertTrue(bme.getSecond() instanceof MathFloatArrayValue);
+        MathFloatArrayValue mfv = (MathFloatArrayValue) bme.getSecond();
 
         float[] values = mfv.getValues();
         assertEquals(4, values.length);
@@ -121,8 +121,8 @@ public class MathParserTest {
         MathFormula mf = load("assignment/intassignment.math");
         BinaryMathElement bme = testAssignment(mf, 0, "o");
 
-        assertTrue(bme.getSecondElement() instanceof MathIntValue);
-        MathIntValue miv = (MathIntValue) bme.getSecondElement();
+        assertTrue(bme.getSecond() instanceof MathIntValue);
+        MathIntValue miv = (MathIntValue) bme.getSecond();
         assertEquals(4, miv.getValue());
     }
 
@@ -131,8 +131,8 @@ public class MathParserTest {
         MathFormula mf = load("assignment/booleanassignment.math");
         BinaryMathElement bme = testAssignment(mf, 0, "o");
 
-        assertTrue(bme.getSecondElement() instanceof MathBooleanValue);
-        MathBooleanValue mbv = (MathBooleanValue) bme.getSecondElement();
+        assertTrue(bme.getSecond() instanceof MathBooleanValue);
+        MathBooleanValue mbv = (MathBooleanValue) bme.getSecond();
         assertEquals(false, mbv.getValue());
     }
 
@@ -143,8 +143,8 @@ public class MathParserTest {
         MathElement firstRoot = mf.getRoot(fIndex);
         assertTrue(firstRoot instanceof BinaryMathElement);
         BinaryMathElement bme = (BinaryMathElement) firstRoot;
-        assertTrue(bme.getFirstElement() instanceof MathVariable);
-        MathVariable mv = (MathVariable) bme.getFirstElement();
+        assertTrue(bme.getFirst() instanceof MathVariable);
+        MathVariable mv = (MathVariable) bme.getFirst();
         assertEquals(mv.getVarName(), varName);
         return bme;
     }
@@ -154,12 +154,12 @@ public class MathParserTest {
         MathFormula mf = load("operators/floatoperators.math");
         BinaryMathElement bme = testAssignment(mf, 0, "o1");
 
-        assertTrue(bme.getSecondElement() instanceof BinaryMathElement);
-        BinaryMathElement bme2 = (BinaryMathElement) bme.getSecondElement();
+        assertTrue(bme.getSecond() instanceof BinaryMathElement);
+        BinaryMathElement bme2 = (BinaryMathElement) bme.getSecond();
         assertEquals(Operation.PLUS, bme2.getOperation());
 
-        testFloat(bme2.getFirstElement(), 7);
-        testFloat(bme2.getSecondElement(), 3);
+        testFloat(bme2.getFirst(), 7);
+        testFloat(bme2.getSecond(), 3);
 
     }
 
