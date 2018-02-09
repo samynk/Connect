@@ -4,8 +4,6 @@ import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.ShaderIO;
 import dae.fxcreator.node.ShaderType;
 import dae.fxcreator.node.transform.exec.ExecuteBlock;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 
 /**
  *
@@ -14,13 +12,10 @@ import java.util.ArrayList;
 public class CodeServlet extends ExecuteBlock {
 
     public static final String DEFAULT_TYPE = "#default";
-    private final ArrayList codeObjects = new ArrayList();
     private final String type;
     private String defaultBuffer;
     private boolean writeOnce;
     private String writeOnceProperty;
-
-    private final ExecuteBlock block;
 
     /**
      * Creates a new CodeServlet without a type.
@@ -45,8 +40,6 @@ public class CodeServlet extends ExecuteBlock {
             this.type = DEFAULT_TYPE;
         }
         this.defaultBuffer = defaultBuffer;
-        block = new ExecuteBlock(defaultBuffer);
-
     }
 
     /**
@@ -117,34 +110,7 @@ public class CodeServlet extends ExecuteBlock {
      * @param context the ExportTask context for this CodeGenerator object.
      */
     public void generateCode(Object codeObject, ExportTask context) {
-        context.addVar("node", codeObject);
         super.execute(codeObject, context);
-    }
-
-    public boolean checkObject(Object o, String property) {
-        if (property == null || property.length() == 0) {
-            if (codeObjects.contains(o)) {
-                return true;
-            } else {
-                codeObjects.add(o);
-                return false;
-            }
-        } else {
-            String method = "get" + Character.toUpperCase(property.charAt(0)) + property.substring(1);
-            try {
-                Method propertyMethod = o.getClass().getMethod(method);
-                String value = (String) propertyMethod.invoke(o);
-                if (codeObjects.contains(value)) {
-                    return true;
-                } else {
-                    codeObjects.add(value);
-                    return false;
-                }
-            } catch (Exception ex) {
-                return false;
-            }
-
-        }
     }
 
     /**
