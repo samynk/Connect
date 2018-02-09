@@ -139,7 +139,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
     @Override
     public boolean addInput(ShaderInput input) {
         if (super.addInput(input)) {
-            ShaderOutput o = new ShaderOutput(inputNode, input.getName(), input.getSemantic().getValue(), input.getType(), null);
+            ShaderOutput o = new ShaderOutput(inputNode, input.getName(), input.getSemantic().getValue(), input.getIOType(), null);
             o.setConnectionString(input.getConnectionString());
             inputNode.addOutput(o);
             return true;
@@ -180,7 +180,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
     @Override
     public boolean addOutput(ShaderOutput output) {
         if (super.addOutput(output)) {
-            ShaderInput i = new ShaderInput(outputNode, output.getName(), output.getSemantic().getValue(), output.getType());
+            ShaderInput i = new ShaderInput(outputNode, output.getName(), output.getSemantic().getValue(), output.getIOType());
             i.setConnectionString(output.getConnectionString());
             outputNode.addInput(i);
             return true;
@@ -378,10 +378,10 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
         super.typeChanged(io);
         if (io.isInput()) {
             ShaderOutput output = inputNode.findOutput(io.getName());
-            output.setType(io.getType());
+            output.setIOType(io.getIOType());
         } else {
             ShaderInput input = outputNode.findInput(io.getName());
-            input.setType(io.getType());
+            input.setIOType(io.getIOType());
         }
     }
 
