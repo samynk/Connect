@@ -104,6 +104,8 @@ public class TemplateClass {
      * @param method the method to execute.
      * @param nodeObject the object to run the template for.
      * @param type the type to use for this call.
+     * @param context the context of the code generation, used for storing buffers, streams
+     * and variables.
      */
     public void generateCode(TypedNode nodeObject, String method, String type, ExportTask context) {
         TemplateClassSubtypes tsm = this.subTypes.get(method);
