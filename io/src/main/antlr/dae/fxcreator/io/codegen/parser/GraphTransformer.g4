@@ -10,28 +10,41 @@ map: MAP LBRACE mapping* RBRACE;
 mapping: key=ID PIPE (ID (DOT ID)*) SEMICOLUMN;
 
 template: TEMPLATE ID LBRACE code* RBRACE;
-code: CODE ID (LBRACKET property RBRACKET)? (writeToBuffer)? LBRACE ( methodCall| expression | forLoop | ifStatement)* RBRACE;
-methodCall: ID LPARENS (parameter (COMMA parameter) *)? RPARENS SEMICOLUMN ;
-expression: ID? write+ SEMICOLUMN  ;
-setting : ID LBRACKET property RBRACKET;
+code: CODE codeID=ID setting?  (writeToBuffer)? 
+    LBRACE 
+        statements
+    RBRACE;
+
+statements: ((objectChain SEMICOLUMN )
+        | writeBuffer 
+        | forLoop 
+        | ifStatement)*;
+
+object: PORT? identifier = ID ( parameterList | setting )?;
+parameterList: LPARENS (parameter (COMMA parameter) *) RPARENS;
+setting: LBRACKET group=ID DOT key=ID RBRACKET;
+parameter: value | objectChain;
+objectChain: object ( DOT object)*;
+
+writeBuffer: buffer=ID? write+ SEMICOLUMN  ;
 writeToBuffer: PIPE ID;
-property : ID DOT ID;
-portID: PORT ID (DOT ID)?;
-write: WRITE  (value |  property | setting | portID);
+write: WRITE  (value |  objectChain );
+
 value: INT | FLOAT | BOOLEAN | STRING;
 
-forLoop: FOR LPARENS ID COLON property RPARENS LBRACE (expression|methodCall)* RBRACE;
+// control structures
+forLoop: FOR LPARENS var=ID COLON objectChain RPARENS 
+    LBRACE 
+       statements
+    RBRACE;
+ifStatement: IF LPARENS booleanExpr RPARENS LBRACE statements RBRACE elseStatement?; 
+elseStatement: ELSE LBRACE statements RBRACE;
 
 booleanComparisonOp: LE | LEQ | MO | MOQ | EQUALS | NEQUALS; 
 booleanBinaryOp : AND | OR | XOR;
-booleanValue: BOOLEAN | property;
+// objectChain has to evaluate to boolean
+booleanValue: BOOLEAN | objectChain;
 booleanExpr: booleanValue | (booleanValue booleanBinaryOp booleanValue) | NOT booleanExpr;
-
-ifStatement: IF LPARENS booleanExpr RPARENS LBRACE expression* RBRACE elseStatement?; 
-elseStatement: ELSE LBRACE expression* RBRACE;
-
-
-parameter: setting | value | property | ID;
 
 BACKSLASH: '\\';
 ASSIGN: '=';
