@@ -465,7 +465,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
         if (output.getSemantic().isValid()) {
             semantic = output.getSemantic().toString();
         }
-        ShaderOutput copy = new ShaderOutput(newParent, output.getName(), semantic, output.getType(), "");
+        ShaderOutput copy = new ShaderOutput(newParent, output.getName(), semantic, output.getIOType(), "");
         return copy;
     }
 
@@ -474,7 +474,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
         if (input.getSemantic().isValid()) {
             semantic = input.getSemantic().toString();
         }
-        ShaderInput copy = new ShaderInput(newParent, input.getName(), semantic, input.getType());
+        ShaderInput copy = new ShaderInput(newParent, input.getName(), semantic, input.getIOType());
         return copy;
     }
 
