@@ -6,7 +6,7 @@ package dae.fxcreator.node;
  *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public class ShaderInput extends ShaderIO {    
+public class ShaderInput extends ShaderIO implements TypedNode{    
     /**
      * The node that is connected to this input.
      */
@@ -91,7 +91,7 @@ public class ShaderInput extends ShaderIO {
             output.addInput(this);
             IONode outputNode = output.getParent();
             this.setConnectionString(outputNode.getId() + "." + output.getName());
-            setType(output.getType());
+            setIOType(output.getIOType());
             notifyListeners();
         } else {
             this.setConnectionString("");
@@ -173,8 +173,8 @@ public class ShaderInput extends ShaderIO {
      * @param type the type for the shader input object.
      */
     @Override
-    public void setType(ShaderType type) {
-        super.setType(type);
+    public void setIOType(ShaderType type) {
+        super.setIOType(type);
         notifyListeners();
         getParent().typeChanged(this);
     }
@@ -254,9 +254,9 @@ public class ShaderInput extends ShaderIO {
             return false;
         }
         if (acceptTypeSet != null) {
-            return (parent.getShaderTypeLibrary().isTypeFromSet(acceptTypeSet, io.getType()));
+            return (parent.getShaderTypeLibrary().isTypeFromSet(acceptTypeSet, io.getIOType()));
         } else {
-            return io.getType().equals(getType());
+            return io.getIOType().equals(getIOType());
         }
     }
 
@@ -276,5 +276,17 @@ public class ShaderInput extends ShaderIO {
      */
     public void setAcceptTypeSet(String acceptTypeSet) {
         this.acceptTypeSet = acceptTypeSet;
+    }
+
+
+    @Override
+    public String getId() {
+        return this.getName();
+    }
+
+
+    @Override
+    public String getType() {
+        return "node.input";
     }
 }
