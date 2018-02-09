@@ -7,6 +7,7 @@ import dae.fxcreator.node.events.SettingListener;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.settings.TextSetting;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.annotations.Export;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -204,20 +205,20 @@ public class IONode implements TypedNode, StructListener, Cloneable {
         // copy inputs
         List<ShaderInput> cinputs = toCopy.getInputs();
         for (ShaderInput input : cinputs) {
-            ShaderInput copy = new ShaderInput(this, input.getName(), input.getSemantic().getValue(), input.getType(), input.getAcceptTypeSet());
+            ShaderInput copy = new ShaderInput(this, input.getName(), input.getSemantic().getValue(), input.getIOType(), input.getAcceptTypeSet());
             copy.setConnectionString(input.getConnectionString());
             this.addInput(copy);
         }
         List<ShaderOutput> coutputs = toCopy.getOutputs();
         for (ShaderOutput output : coutputs) {
-            ShaderOutput copy = new ShaderOutput(this, output.getName(), output.getSemantic().getValue(), output.getType(), output.getTypeRule());
+            ShaderOutput copy = new ShaderOutput(this, output.getName(), output.getSemantic().getValue(), output.getIOType(), output.getTypeRule());
             copy.setConnectionString(output.getConnectionString());
             this.addOutput(copy);
         }
 
         List<ShaderInput> templateInputsCopy = toCopy.getTemplateInputs();
         for (ShaderInput input : templateInputsCopy) {
-            ShaderInput copy = new ShaderInput(this, input.getName(), input.getSemantic().getValue(), input.getType(), input.getAcceptTypeSet());
+            ShaderInput copy = new ShaderInput(this, input.getName(), input.getSemantic().getValue(), input.getIOType(), input.getAcceptTypeSet());
             copy.setConnectionString(input.getConnectionString());
             this.addTemplateInput(copy);
         }
@@ -280,13 +281,13 @@ public class IONode implements TypedNode, StructListener, Cloneable {
         // copy inputs
         List<ShaderInput> cinputs = this.getInputs();
         for (ShaderInput input : cinputs) {
-            ShaderInput copy = new ShaderInput(node, input.getName(), input.getSemantic().getValue(), input.getType(), input.getAcceptTypeSet());
+            ShaderInput copy = new ShaderInput(node, input.getName(), input.getSemantic().getValue(), input.getIOType(), input.getAcceptTypeSet());
             copy.setConnectionString(input.getConnectionString());
             node.addInput(copy);
         }
         List<ShaderOutput> coutputs = this.getOutputs();
         for (ShaderOutput output : coutputs) {
-            ShaderOutput copy = new ShaderOutput(node, output.getName(), output.getSemantic().getValue(), output.getType(), output.getTypeRule());
+            ShaderOutput copy = new ShaderOutput(node, output.getName(), output.getSemantic().getValue(), output.getIOType(), output.getTypeRule());
             copy.setConnectionString(output.getConnectionString());
             node.addOutput(copy);
         }
@@ -415,7 +416,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
             ShaderInput current = inputMap.get(input.getName());
             current.setConnectionString(input.getConnectionString());
             current.setAcceptTypeSet(input.getAcceptTypeSet());
-            current.setType(input.getType());
+            current.setIOType(input.getIOType());
 
             if (!current.getSemantic().equals(input.getSemantic())) {
                 String oldsemantic = current.getSemantic().toString();
@@ -469,7 +470,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
         } else {
             // take over the values from the input.
             ShaderOutput current = outputMap.get(output.getName());
-            current.setType(output.getType());
+            current.setIOType(output.getIOType());
             current.setTypeRule(output.getTypeRule());
 
             if (!current.getSemantic().equals(output.getSemantic())) {
@@ -498,7 +499,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
     public int getNrOfValueOutputs() {
         int nrOfValueOutputs = 0;
         for (ShaderOutput output : this.outputs) {
-            if (output.getType().isValueType()) {
+            if (output.getIOType().isValueType()) {
                 nrOfValueOutputs++;
             }
         }
@@ -997,6 +998,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
      * @param portName the name of the port.
      * @return the ShaderIO object.
      */
+    @Export(name="port")
     public ShaderIO getPort(String portName) {
         if (inputMap.containsKey(portName)) {
             return inputMap.get(portName);
@@ -1099,14 +1101,14 @@ public class IONode implements TypedNode, StructListener, Cloneable {
             if (field.getSemantic().isValid()) {
                 ShaderOutput so = this.findOutput(field.getSemantic().getValue());
                 if (so != null) {
-                    so.setType(field.getType());
+                    so.setIOType(field.getType());
                     so.setName(field.getName());
 
                 }
             } else {
                 ShaderOutput so = this.findOutput(field.getName());
                 if (so != null) {
-                    so.setType(field.getType());
+                    so.setIOType(field.getType());
                     so.setSemantic(field.getSemantic().getValue());
                 } else {
                     ShaderOutput nso = new ShaderOutput(this, field.getName(), field.getSemantic().getValue(), field.getType(), null);
@@ -1144,14 +1146,14 @@ public class IONode implements TypedNode, StructListener, Cloneable {
             if (field.getSemantic().isValid()) {
                 ShaderInput si = this.findInput(field.getSemantic().getValue());
                 if (si != null) {
-                    si.setType(field.getType());
+                    si.setIOType(field.getType());
                     si.setName(field.getName());
 
                 }
             } else {
                 ShaderInput si = this.findInput(field.getName());
                 if (si != null) {
-                    si.setType(field.getType());
+                    si.setIOType(field.getType());
                     si.setSemantic(field.getSemantic().getValue());
                 } else {
                     ShaderInput nsi = new ShaderInput(this, field.getName(), field.getSemantic().getValue(), field.getType());
@@ -1252,7 +1254,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
                 //this.remapInputSemantic(oldValue.getSemantic().getValue(), input);
             } else {
                 ShaderInput input = this.findInput(field.getName());
-                input.setType(field.getType());
+                input.setIOType(field.getType());
                 this.typeChanged(input);
             }
         } else if (struct == outputStruct) {
@@ -1266,7 +1268,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
                 //this.remapOutputSemantic(oldValue.getSemantic().getValue(), output);
             } else {
                 ShaderOutput output = this.findOutput(field.getName());
-                output.setType(field.getType());
+                output.setIOType(field.getType());
                 this.typeChanged(output);
             }
         } else {
@@ -1334,9 +1336,9 @@ public class IONode implements TypedNode, StructListener, Cloneable {
                     String command = rule.substring(0, leftIndex);
                     String[] operands = rule.substring(leftIndex + 1, rightIndex).split(",");
                     if ("max".equals(command)) {
-                        output.setType(max(operands));
+                        output.setIOType(max(operands));
                     } else if ("type".equals(command) && operands.length == 1) {
-                        output.setType(type(operands[0]));
+                        output.setIOType(type(operands[0]));
                     }
                 }
             }
@@ -1351,7 +1353,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
             return null;
         } else if (inputs.length == 1) {
             ShaderInput input = this.findInput(inputs[0]);
-            return input.getType();
+            return input.getIOType();
         } else {
             int order = -1;
             ShaderType result = null;
@@ -1360,7 +1362,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
                 if (input == null) {
                     continue;
                 }
-                ShaderType st = input.getType();
+                ShaderType st = input.getIOType();
                 if (st.getOrder() > order) {
                     result = st;
                     order = st.getOrder();
@@ -1373,7 +1375,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
     private ShaderType type(String input) {
         ShaderInput si = this.findInput(input);
         if (si != null) {
-            return si.getType();
+            return si.getIOType();
         } else {
             return this.shaderTypeLib.getType("FLOAT");
         }
@@ -1527,7 +1529,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
             while (this.hasInput(iname + i)) {
                 ++i;
             }
-            ShaderInput newInput = new ShaderInput(this, iname + i, input.getSemantic().getValue(), input.getType(), input.getAcceptTypeSet());
+            ShaderInput newInput = new ShaderInput(this, iname + i, input.getSemantic().getValue(), input.getIOType(), input.getAcceptTypeSet());
             this.addInput(newInput);
         }
     }
