@@ -1072,20 +1072,20 @@ public class MathEditor extends javax.swing.JPanel implements MathContext, Hiera
             if ("/".equals(operator)) {
                 DivideMathContainer dmc = new DivideMathContainer(this);
                 parent.addMathField(dmc);
-                createElement(dmc, bme.getFirstElement());
-                createElement(dmc, bme.getSecondElement());
+                createElement(dmc, bme.getFirst());
+                createElement(dmc, bme.getSecond());
                 created = dmc;
             } else if ("POWER".equals(operator)) {
                 PowerMathContainer pmc = new PowerMathContainer(this);
                 parent.addMathField(pmc);
-                createElement(pmc, bme.getFirstElement());
-                createElement(pmc, bme.getSecondElement());
+                createElement(pmc, bme.getFirst());
+                createElement(pmc, bme.getSecond());
                 created = pmc;
             } else {
                 OperatorMathContainer omc = new OperatorMathContainer(operator, this);
                 parent.addMathField(omc);
-                createElement(omc, bme.getFirstElement());
-                createElement(omc, bme.getSecondElement());
+                createElement(omc, bme.getFirst());
+                createElement(omc, bme.getSecond());
                 created = omc;
             }
         } else if (current instanceof FunctionMathElement) {
