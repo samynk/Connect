@@ -116,7 +116,7 @@ public abstract class ShaderIO {
      *
      * @return the shader type.
      */
-    public ShaderType getType() {
+    public ShaderType getIOType() {
         return type;
     }
 
@@ -125,7 +125,7 @@ public abstract class ShaderIO {
      *
      * @param type the new shader type for this ShaderIO object.
      */
-    public void setType(ShaderType type) {
+    public void setIOType(ShaderType type) {
         this.type = type;
     }
 
