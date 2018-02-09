@@ -54,6 +54,6 @@ public class MathIntValue extends MathElement {
 
     @Override
     public String getType() {
-        return "int";
+        return "value.INT";
     }
 }
