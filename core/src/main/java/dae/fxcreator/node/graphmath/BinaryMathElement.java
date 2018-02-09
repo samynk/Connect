@@ -38,14 +38,14 @@ public class BinaryMathElement extends MathElement {
     /**
      * @return the firstElement
      */
-    public MathElement getFirstElement() {
+    public MathElement getFirst() {
         return firstElement;
     }
 
     /**
      * @return the secondElement
      */
-    public MathElement getSecondElement() {
+    public MathElement getSecond() {
         return secondElement;
     }
 
