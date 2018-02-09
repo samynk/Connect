@@ -54,6 +54,6 @@ public class MathFloatValue extends MathElement{
 
     @Override
     public String getType() {
-        return "float";
+        return "value.FLOAT";
     }
 }
