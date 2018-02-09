@@ -44,4 +44,9 @@ public enum Operation {
             sb.append("\t");
         }
     }
+    
+    @Override
+    public String toString(){
+        return text;
+    }
 }
