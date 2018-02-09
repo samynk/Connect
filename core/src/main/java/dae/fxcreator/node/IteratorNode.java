@@ -104,13 +104,13 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
         // copy inputs
         List<ShaderInput> inputs = this.getInputs();
         for (ShaderInput input : inputs) {
-            ShaderInput copy = new ShaderInput(node, input.getName(), input.getSemantic().getValue(),input.getType(),input.getAcceptTypeSet());
+            ShaderInput copy = new ShaderInput(node, input.getName(), input.getSemantic().getValue(),input.getIOType(),input.getAcceptTypeSet());
             copy.setConnectionString(input.getConnectionString());
             node.addInput(copy);
         }
         List<ShaderOutput> outputs = this.getOutputs();
         for (ShaderOutput output : outputs) {
-            ShaderOutput copy = new ShaderOutput(node, output.getName(),output.getSemantic().getValue(), output.getType(),output.getTypeRule());
+            ShaderOutput copy = new ShaderOutput(node, output.getName(),output.getSemantic().getValue(), output.getIOType(),output.getTypeRule());
             copy.setConnectionString(output.getConnectionString());
             node.addOutput(copy);
         }
@@ -154,10 +154,10 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
         super.typeChanged(io);
         if (io.isInput()) {
             ShaderOutput output = getInputNode().findOutput(io.getName());
-            output.setType(io.getType());
+            output.setIOType(io.getIOType());
         } else {
             ShaderInput input = getOutputNode().findInput(io.getName());
-            input.setType(io.getType());
+            input.setIOType(io.getIOType());
         }
     }
 
@@ -189,7 +189,7 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
                 else if (type instanceof String ){
                     System.out.println("Type is a ShaderType !");
                     outputStruct = null;
-                    loopVariable.setType(shaderTypeLib.getType(type.toString()));
+                    loopVariable.setIOType(shaderTypeLib.getType(type.toString()));
                     loopNode.addOutput(loopVariable);
                 }
             }
@@ -218,7 +218,7 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
     @Override
     public boolean addOutput(ShaderOutput output) {
         if (super.addOutput(output)) {
-            ShaderInput i = new ShaderInput(outputNode, output.getName(), output.getSemantic().getValue(), output.getType());
+            ShaderInput i = new ShaderInput(outputNode, output.getName(), output.getSemantic().getValue(), output.getIOType());
             i.setConnectionString(output.getConnectionString());
             outputNode.addInput(i);
             return true;
