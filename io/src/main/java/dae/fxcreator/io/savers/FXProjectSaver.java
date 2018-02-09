@@ -164,7 +164,7 @@ public class FXProjectSaver extends XMLSaver {
                 bw.write("<input");
                 writeAttribute(bw, "name", output.getName());
                 writeAttribute(bw, "connection", output.getConnectionString());
-                writeAttribute(bw, "type", output.getType().toString());
+                writeAttribute(bw, "type", output.getIOType().toString());
                 writeAttribute(bw, "semantic", output.getSemantic().getValue());
                 bw.write("/>\n");
             }
@@ -175,7 +175,7 @@ public class FXProjectSaver extends XMLSaver {
                 bw.write("<output");
                 writeAttribute(bw, "name", input.getName());
                 writeAttribute(bw, "connection", input.getConnectionString());
-                writeAttribute(bw, "type", input.getType().toString());
+                writeAttribute(bw, "type", input.getIOType().toString());
                 writeAttribute(bw, "semantic", input.getSemantic().getValue());
                 bw.write("/>\n");
             }
@@ -261,7 +261,7 @@ public class FXProjectSaver extends XMLSaver {
             bw.write("<input");
             writeAttribute(bw, "name", input.getName());
             writeAttribute(bw, "connection", input.getConnectionString());
-            writeAttribute(bw, "type", input.getType().toString());
+            writeAttribute(bw, "type", input.getIOType().toString());
             writeAttribute(bw, "semantic", input.getSemantic().getValue());
             writeAttribute(bw, "anchor" , input.getAnchor());
             bw.write("/>\n");
@@ -273,7 +273,7 @@ public class FXProjectSaver extends XMLSaver {
             bw.write("<output");
             writeAttribute(bw, "name", output.getName());
             writeAttribute(bw, "connection", output.getConnectionString());
-            writeAttribute(bw, "type", output.getType().toString());
+            writeAttribute(bw, "type", output.getIOType().toString());
             writeAttribute(bw, "semantic", output.getSemantic().getValue());
             writeAttribute(bw, "anchor" , output.getAnchor());
             if (output.getTypeRule() != null) {
