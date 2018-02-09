@@ -131,7 +131,7 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
             ShaderInput input = node.getInputs().get(rowIndex);
             switch (columnIndex) {
                 case 0:
-                    return input.getType();
+                    return input.getIOType();
                 case 1:
                     return input.getName();
                 case 2:
@@ -141,7 +141,7 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
             ShaderOutput output = node.getOutputs().get(rowIndex);
             switch (columnIndex) {
                 case 0:
-                    return output.getType();
+                    return output.getIOType();
                 case 1:
                     return output.getName();
                 case 2:
@@ -166,7 +166,7 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
             switch (columnIndex) {
                 case 0:
                     ShaderType st = (ShaderType) aValue;
-                    input.setType(st);
+                    input.setIOType(st);
                     node.typeChanged(input);
                     break;
                 case 1:
@@ -183,7 +183,7 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
             switch (columnIndex) {
                 case 0:
                     ShaderType st = (ShaderType) aValue;
-                    output.setType(st);
+                    output.setIOType(st);
                     node.typeChanged(output);
                     break;
                 case 1:
