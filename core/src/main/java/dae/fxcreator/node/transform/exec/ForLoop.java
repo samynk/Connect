@@ -12,34 +12,26 @@ import java.util.logging.Logger;
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class ForLoop extends ExecuteBlock {
+
     private final String varName;
-    private final String object;
-    private final String collection;
-    
-    public ForLoop(String varName,String object, String collection){
+    private final ObjectChain collection;
+
+    public ForLoop(String varName,ObjectChain collection) {
         super(null);
         this.varName = varName;
-        this.object = object;
-        this.collection = "get" + Character.toUpperCase(collection.charAt(0)) + collection.substring(1);
+        this.collection = collection;
     }
 
     @Override
     public void execute(Object codeObject, ExportTask context) {
-        if ( "node".equals(object)){
-            try {
-                Method m = codeObject.getClass().getMethod(collection);
-                Object value = m.invoke(codeObject);
-                if (value != null && value instanceof List) {
-                    List l = (List)value;
-                    for(Object o: l){
-                        context.addVar(varName,o);
-                        super.execute(codeObject, context);
-                    }
-                    context.removeVar(varName);
-                }
-            } catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
-                Logger.getLogger(ForLoop.class.getName()).log(Level.SEVERE, null, ex);
+        Object value = collection.evaluate(context);
+        if (value != null && value instanceof List) {
+            List l = (List) value;
+            for (Object o : l) {
+                context.setVar(varName, o);
+                super.execute(codeObject, context);
             }
+            context.pop(varName);
         }
     }
 }
