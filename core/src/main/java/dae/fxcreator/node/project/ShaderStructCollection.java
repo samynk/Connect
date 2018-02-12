@@ -1,6 +1,6 @@
 package dae.fxcreator.node.project;
 
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.IOStruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,8 +12,8 @@ import java.util.HashMap;
  */
 public class ShaderStructCollection {
 
-    private final HashMap<String, ShaderStruct> structMap = new HashMap<>();
-    private final ArrayList<ShaderStruct> structs = new ArrayList<>();
+    private final HashMap<String, IOStruct> structMap = new HashMap<>();
+    private final ArrayList<IOStruct> structs = new ArrayList<>();
     private final FXProject parent;
 
     /**
@@ -44,7 +44,7 @@ public class ShaderStructCollection {
      *
      * @param struct the struct to add.
      */
-    public void addShaderStruct(ShaderStruct struct) {
+    public void addShaderStruct(IOStruct struct) {
         this.structs.add(struct);
         structMap.put(struct.getId(), struct);
     }
@@ -54,7 +54,7 @@ public class ShaderStructCollection {
      *
      * @param struct
      */
-    public void removeShaderStruct(ShaderStruct struct) {
+    public void removeShaderStruct(IOStruct struct) {
         this.structs.remove(struct);
         structMap.remove(struct.getId());
     }
@@ -69,11 +69,11 @@ public class ShaderStructCollection {
         return "Structs";
     }
 
-    Iterable<ShaderStruct> getStructs() {
+    Iterable<IOStruct> getStructs() {
         return structs;
     }
 
-    ShaderStruct getStruct(String structid) {
+    IOStruct getStruct(String structid) {
         return structMap.get(structid);
     }
 }
