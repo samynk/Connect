@@ -21,10 +21,10 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
     private final IONode outputNode;
 
 
-    private ShaderOutput arrayVariable;
-    private ShaderOutput loopVariable;
+    private NodeOutput arrayVariable;
+    private NodeOutput loopVariable;
     private final IONode loopNode;
-    private ShaderStruct outputStruct;
+    private IOStruct outputStruct;
 
     private String subType="";
 
@@ -78,14 +78,14 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param node the node to connect.
      */
     private void connectNode(IONode node) {
-        for (ShaderInput input : node.getInputs()) {
+        for (NodeInput input : node.getInputs()) {
             String connection = input.getConnectionString();
             if (connection != null && connection.length() > 0) {
                 int dotIndex = connection.indexOf('.');
                 String nodeId = connection.substring(0, dotIndex);
                 String outputId = connection.substring(dotIndex + 1);
 
-                ShaderOutput output;
+                NodeOutput output;
                 if (nodeId.equals("input")) {
                     output = this.inputNode.findOutput(outputId);
                 } else {
@@ -102,15 +102,15 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
         IteratorNode node = new IteratorNode(this.getId(), this.getType(),shaderTypeLib);
         node.setInputOutputEditable(this.isInputOutputEditable());
         // copy inputs
-        List<ShaderInput> inputs = this.getInputs();
-        for (ShaderInput input : inputs) {
-            ShaderInput copy = new ShaderInput(node, input.getName(), input.getSemantic().getValue(),input.getIOType(),input.getAcceptTypeSet());
+        List<NodeInput> inputs = this.getInputs();
+        for (NodeInput input : inputs) {
+            NodeInput copy = new NodeInput(node, input.getName(), input.getSemantic().getValue(),input.getIOType(),input.getAcceptTypeSet());
             copy.setConnectionString(input.getConnectionString());
             node.addInput(copy);
         }
-        List<ShaderOutput> outputs = this.getOutputs();
-        for (ShaderOutput output : outputs) {
-            ShaderOutput copy = new ShaderOutput(node, output.getName(),output.getSemantic().getValue(), output.getIOType(),output.getTypeRule());
+        List<NodeOutput> outputs = this.getOutputs();
+        for (NodeOutput output : outputs) {
+            NodeOutput copy = new NodeOutput(node, output.getName(),output.getSemantic().getValue(), output.getIOType(),output.getTypeRule());
             copy.setConnectionString(output.getConnectionString());
             node.addOutput(copy);
         }
@@ -131,7 +131,7 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param input the new input to add.
      */
     @Override
-    public boolean addInput(ShaderInput input) {
+    public boolean addInput(NodeInput input) {
         boolean success = super.addInput(input);
         
         /*
@@ -150,13 +150,13 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param io the input or output that was changed.
      */
     @Override
-    public void typeChanged(ShaderIO io) {
+    public void typeChanged(NodeIO io) {
         super.typeChanged(io);
         if (io.isInput()) {
-            ShaderOutput output = getInputNode().findOutput(io.getName());
+            NodeOutput output = getInputNode().findOutput(io.getName());
             output.setIOType(io.getIOType());
         } else {
-            ShaderInput input = getOutputNode().findInput(io.getName());
+            NodeInput input = getOutputNode().findInput(io.getName());
             input.setIOType(io.getIOType());
         }
     }
@@ -174,15 +174,15 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
                 loopNode.removeConnections();
                 loopNode.removeOutputs();
                 System.out.println("Type is :"+type);
-                if ( type instanceof ShaderStruct) {
-                    ShaderStruct struct = (ShaderStruct)type;
+                if ( type instanceof IOStruct) {
+                    IOStruct struct = (IOStruct)type;
                     outputStruct = struct;
-                    for (ShaderField field : struct.getFields()){
+                    for (StructField field : struct.getFields()){
                         String semantic = "";
                         if ( field.getSemantic().isValid()){
                             semantic = field.getSemantic().toString();
                         }
-                        ShaderOutput output = new ShaderOutput(loopNode,field.getName(),semantic,field.getType(),"");
+                        NodeOutput output = new NodeOutput(loopNode,field.getName(),semantic,field.getType(),"");
                         loopNode.addOutput(output);
                     }
                 }
@@ -205,7 +205,7 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param input the input to remove.
      */
     @Override
-    public void removeInput(ShaderInput input) {
+    public void removeInput(NodeInput input) {
         super.removeInput(input);
         inputNode.removeOutput(input.getName());
     }
@@ -216,9 +216,9 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param output the new input to add.
      */
     @Override
-    public boolean addOutput(ShaderOutput output) {
+    public boolean addOutput(NodeOutput output) {
         if (super.addOutput(output)) {
-            ShaderInput i = new ShaderInput(outputNode, output.getName(), output.getSemantic().getValue(), output.getIOType());
+            NodeInput i = new NodeInput(outputNode, output.getName(), output.getSemantic().getValue(), output.getIOType());
             i.setConnectionString(output.getConnectionString());
             outputNode.addInput(i);
             return true;
@@ -233,7 +233,7 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param output the ShaderOutput object to remove.
      */
     @Override
-    public void removeOutput(ShaderOutput output) {
+    public void removeOutput(NodeOutput output) {
         super.removeOutput(output);
         outputNode.removeInput(output.getName());
     }
@@ -311,9 +311,9 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param input the ShaderInput that was changed.
      */
     @Override
-    public void remapInputName(String oldName, ShaderInput input) {
+    public void remapInputName(String oldName, NodeInput input) {
         super.remapInputName(oldName, input);
-        ShaderOutput output = inputNode.findOutput(oldName);
+        NodeOutput output = inputNode.findOutput(oldName);
         output.setName(input.getName());
         inputNode.remapOutputName(oldName, output);
     }
@@ -324,9 +324,9 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param input the ShaderInput that was changed.
      */
     @Override
-    public void remapInputSemantic(String oldSemantic, ShaderInput input) {
+    public void remapInputSemantic(String oldSemantic, NodeInput input) {
         super.remapInputSemantic(oldSemantic, input);
-        ShaderOutput output = inputNode.findOutput(input.getName());
+        NodeOutput output = inputNode.findOutput(input.getName());
         output.setSemantic(input.getSemantic().getValue());
         inputNode.remapOutputSemantic(oldSemantic, output);
     }
@@ -337,9 +337,9 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param output the ShaderOutput that was changed.
      */
     @Override
-    public void remapOutputName(String oldName, ShaderOutput output) {
+    public void remapOutputName(String oldName, NodeOutput output) {
         super.remapOutputName(oldName, output);
-        ShaderInput input = outputNode.findInput(oldName);
+        NodeInput input = outputNode.findInput(oldName);
         input.setName(output.getName());
         outputNode.remapInputName(oldName, input);
     }
@@ -350,9 +350,9 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param output the ShaderOutput that was changed.
      */
     @Override
-    public void remapOutputSemantic(String oldSemantic, ShaderOutput output) {
+    public void remapOutputSemantic(String oldSemantic, NodeOutput output) {
         super.remapOutputSemantic(oldSemantic, output);
-        ShaderInput input = outputNode.findInput(output.getName());
+        NodeInput input = outputNode.findInput(output.getName());
         input.setSemantic(output.getSemantic().getValue());
         outputNode.remapInputSemantic(oldSemantic, input);
     }
