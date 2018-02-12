@@ -2,7 +2,7 @@ package dae.fxcreator.node.transform;
 
 import dae.fxcreator.node.transform.TemplateClassLibrary;
 import dae.fxcreator.node.Semantic;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.IOType;
 import java.util.HashMap;
 
 /**
@@ -121,7 +121,7 @@ public class CodeOutput {
      * Write the type to the default buffer.
      * @param type the type to write to the default buffer.
      */
-    public void write(ShaderType type){
+    public void write(IOType type){
         defaultBuffer.append(library.getShaderType(type));
     }
 
@@ -170,7 +170,7 @@ public class CodeOutput {
      * @param bufferName the name of the buffer.
      * @param type the shader type to append to the default buffer.
      */
-    public void write(String bufferName,ShaderType type){
+    public void write(String bufferName,IOType type){
         StringBuilder buffer = this.getBuffer(bufferName);
         buffer.append(library.getShaderType(type));
     }
