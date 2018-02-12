@@ -1,6 +1,6 @@
 package dae.fxcreator.gui.model;
 
-import dae.fxcreator.node.ShaderField;
+import dae.fxcreator.node.StructField;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.Pass;
 import dae.fxcreator.node.project.ShaderStage;
@@ -117,8 +117,8 @@ public class ProjectTreeModel implements TreeModel {
         } else if (o instanceof ShaderStage) {
             ShaderStage ss = (ShaderStage) o;
             ss.setId(newValue.toString());
-        } else if (o instanceof ShaderField) {
-            ShaderField sf = (ShaderField) o;
+        } else if (o instanceof StructField) {
+            StructField sf = (StructField) o;
             sf.decode(newValue.toString());
         }
     }
