@@ -2,7 +2,7 @@ package dae.fxcreator.node.graph.model;
 
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.IOType;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +21,7 @@ import javax.swing.table.TableCellEditor;
 public class ShaderTypeCellEditor extends AbstractCellEditor implements TableCellEditor, ComboBoxModel, ActionListener {
     // This is the component that will handle the editing of the cell value
 
-    private ShaderType selected;
+    private IOType selected;
     private ArrayList<ListDataListener> listeners = new ArrayList<ListDataListener>();
 
     private ShaderTypeLibrary library;
@@ -49,7 +49,7 @@ public class ShaderTypeCellEditor extends AbstractCellEditor implements TableCel
     }
 
     public void setSelectedItem(Object anItem) {
-        this.selected = (ShaderType)anItem;
+        this.selected = (IOType)anItem;
     }
 
     public Object getSelectedItem() {
