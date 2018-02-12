@@ -2,9 +2,9 @@ package dae.fxcreator.node.graph;
 
 import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.node.ShaderIO;
-import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.NodeInput;
+import dae.fxcreator.node.NodeOutput;
 import dae.fxcreator.gui.model.GraphFont;
 import dae.fxcreator.gui.model.ImageLoader;
 import dae.fxcreator.gui.model.NodeStyle;
@@ -90,7 +90,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
     /**
      * The ShaderIO object.
      */
-    private final ShaderIO userObject;
+    private final NodeIO userObject;
     /**
      * The connector objects to draw (only for input JConnectorPoints)
      */
@@ -103,7 +103,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
      * @param io the object with the input or output definition.
      * @param position the position of the connector 5coo
      */
-    public JConnectorPoint(JGraphNode parent, ShaderIO io, POSITION position) {
+    public JConnectorPoint(JGraphNode parent, NodeIO io, POSITION position) {
         setOpaque(false);
         this.position = position;
         this.parent = parent;
@@ -111,7 +111,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
 
         if (io.isInput()) {
             type = TYPE.DESTINATION;
-            connector = new Connector((ShaderInput) io);
+            connector = new Connector((NodeInput) io);
         } else if (io.isOutput()) {
             type = TYPE.SOURCE;
         }
@@ -242,9 +242,9 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
      */
     public void drawConnector(GraphEditor editor, Graphics2D g2d) {
         if (this.userObject.isInput()) {
-            ShaderInput si = (ShaderInput) userObject;
+            NodeInput si = (NodeInput) userObject;
             if (si.getConnected()) {
-                ShaderOutput so = si.getConnectedInput();
+                NodeOutput so = si.getConnectedInput();
                 Point end = parent.getLocation(so);
                 connector.updatePath(getConnectorLocation(), end);
                 connector.paintPath(g2d);
@@ -287,7 +287,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
      *
      * @return the userobject.
      */
-    public ShaderIO getUserObject() {
+    public NodeIO getUserObject() {
         return userObject;
     }
 
