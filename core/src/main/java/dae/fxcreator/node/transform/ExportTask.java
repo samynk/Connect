@@ -3,8 +3,8 @@ package dae.fxcreator.node.transform;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.node.NodeInput;
+import dae.fxcreator.node.NodeOutput;
 import dae.fxcreator.node.annotations.Export;
 import dae.fxcreator.node.transform.exec.Expression;
 import java.io.BufferedWriter;
@@ -82,11 +82,11 @@ public class ExportTask {
      */
     public String replaceIONames(IONode io, String code) {
         String result = code;
-        for (ShaderInput input : io.getInputs()) {
+        for (NodeInput input : io.getInputs()) {
             String ref = input.getRef();
             result = result.replaceAll("\\b(" + input.getName() + ")\\b", ref);
         }
-        for (ShaderOutput so : io.getOutputs()) {
+        for (NodeOutput so : io.getOutputs()) {
             result = result.replaceAll("\\b(" + so.getName() + ")\\b", so.getRef());
         }
         result += "\n";
@@ -101,7 +101,7 @@ public class ExportTask {
      */
     public String createOutputDefinitions(IONode io) {
         StringBuilder sb = new StringBuilder();
-        for (ShaderOutput so : io.getOutputs()) {
+        for (NodeOutput so : io.getOutputs()) {
             sb.append(library.getShaderType(so.getIOType()));
             sb.append(" ");
             sb.append(so.getVar());
@@ -134,7 +134,7 @@ public class ExportTask {
      */
     public String createInputParameterList(IONode io, String separator, boolean typeAsPrefix, String infixSeparator) {
         StringBuilder sb = new StringBuilder();
-        for (ShaderInput si : io.getInputs()) {
+        for (NodeInput si : io.getInputs()) {
             if (typeAsPrefix) {
                 sb.append(library.getShaderType(si.getIOType()));
                 sb.append(infixSeparator);
