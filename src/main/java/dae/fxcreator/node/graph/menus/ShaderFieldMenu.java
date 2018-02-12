@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph.menus;
 
 import dae.fxcreator.node.project.FXProject;
-import dae.fxcreator.node.ShaderField;
+import dae.fxcreator.node.StructField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JMenuItem;
@@ -69,8 +69,8 @@ public class ShaderFieldMenu extends JPopupMenu implements ActionListener {
             }
         } else if (ac.equals("deletefield")) {
             TreePath selection = tree.getSelectionPath();
-            if (selection != null && selection.getLastPathComponent() instanceof ShaderField) {
-                ShaderField field = (ShaderField) selection.getLastPathComponent();
+            if (selection != null && selection.getLastPathComponent() instanceof StructField) {
+                StructField field = (StructField) selection.getLastPathComponent();
                 field.deleteFromStruct();
                 //project.notifyNodeRemoved(field, selection.getParentPath(), index);
             }
