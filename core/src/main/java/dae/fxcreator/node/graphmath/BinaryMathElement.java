@@ -1,12 +1,15 @@
 package dae.fxcreator.node.graphmath;
 
+import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IOType;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
 /**
- * This class implements the MathElement and is used to represent binary 
- * operators. 
+ * This class implements the MathElement and is used to represent binary
+ * operators.
+ *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class BinaryMathElement extends MathElement {
@@ -25,22 +28,28 @@ public class BinaryMathElement extends MathElement {
 
     /**
      * Sets the operation of the binary math element.
+     *
      * @param operation the operation of this binary math element.
      */
     public void setOperation(Operation operation) {
         this.operation = operation;
     }
-    
+
     /**
      * Returns the type of the result of this operation.
+     *
+     * @param node the node that hosts this MathElement object.
+     * @param library the library of types.
      * @return the type of the result.
      */
-    public IOType getResultType() {
-        if ( operation == Operation.ASSIGN) {
-            // return secondElement.getResultType();
+    @Override
+    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+        if (secondElement == null) {
+            return library.getType("VOID");
+        } else if (operation == Operation.ASSIGN) {
+            return secondElement.getResultType(node, library);
+        } else {
             return null;
-        }else{
-            return  null;
         }
     }
 
@@ -50,9 +59,10 @@ public class BinaryMathElement extends MathElement {
     public Operation getOperation() {
         return operation;
     }
-    
+
     /**
      * Sets the first element of this binary math element.
+     *
      * @param first the first element.
      */
     public void setFirst(MathElement first) {
@@ -65,9 +75,10 @@ public class BinaryMathElement extends MathElement {
     public MathElement getFirst() {
         return firstElement;
     }
-    
+
     /**
      * Sets the second element of this binary math element.
+     *
      * @param secondElement the second element of this binary math element.
      */
     public void setSecond(MathElement secondElement) {

@@ -28,6 +28,16 @@ public class ShaderTypeLibrary {
     public IOType getType(String key){
         return types.find(key);
     }
+    
+     /**
+     * Returns the type that is associate with the key.
+     * @param key the key for the shader type.
+     * @param length the array size of the shader type.
+     * @return the ShaderType object.
+     */
+    public IOType getType(String type, int length) {
+        return types.find(type);
+    }
 
     /**
      * Adds a type to the library.
@@ -82,4 +92,6 @@ public class ShaderTypeLibrary {
         }else
             return false;
     }
+
+    
 }

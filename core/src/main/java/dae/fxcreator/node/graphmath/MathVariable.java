@@ -1,5 +1,9 @@
 package dae.fxcreator.node.graphmath;
 
+import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.IOType;
+import dae.fxcreator.node.NodeIO;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -14,14 +18,32 @@ public class MathVariable extends MathElement {
 
     private boolean isVector;
     private String varName;
-    
-    private final Color numberColor = new Color(35,92,85);
+
+    private final Color numberColor = new Color(35, 92, 85);
 
     public MathVariable() {
     }
-    
-    public MathVariable(String varName){
+
+    public MathVariable(String varName) {
         this.varName = varName;
+    }
+
+    /**
+     * Returns the type of the result of this operation.
+     *
+     * @param node the node that hosts this MathElement object.
+     * @param library the library with shader types and their priority when up
+     * and down casting.
+     * @return the type of the result.
+     */
+    @Override
+    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+        NodeIO port = node.getPort(varName);
+        if ( port != null ){
+            return port.getIOType();
+        }else{
+            return library.getType("VOID");
+        }
     }
 
     /**
@@ -77,27 +99,27 @@ public class MathVariable extends MathElement {
         FontMetrics fm = g2d.getFontMetrics();
         LineMetrics lm = fm.getLineMetrics(varName, g2d);
         size.width = fm.stringWidth(varName);
-        size.height = (int)lm.getHeight();
-        baseLine = (int)lm.getAscent()+1;
+        size.height = (int) lm.getHeight();
+        baseLine = (int) lm.getAscent() + 1;
         return size;
     }
 
     @Override
     public void render(Graphics2D g2d, int x, int y, int width, int height) {
         Color backup = g2d.getColor();
-        try{
+        try {
             Integer.parseInt(varName);
             g2d.setColor(numberColor);
-        }catch(NumberFormatException ex){
-            
+        } catch (NumberFormatException ex) {
+
         }
-        try{
+        try {
             Float.parseFloat(varName);
             g2d.setColor(numberColor);
-        }catch(NumberFormatException ex){
-            
-        }        
-        g2d.drawString(varName, x, y+baseLine);
+        } catch (NumberFormatException ex) {
+
+        }
+        g2d.drawString(varName, x, y + baseLine);
         g2d.setColor(backup);
     }
 
@@ -111,9 +133,8 @@ public class MathVariable extends MathElement {
             result.append(varName);
         }
     }
-    */
-    
-     @Override
+     */
+    @Override
     public String getId() {
         return "var";
     }

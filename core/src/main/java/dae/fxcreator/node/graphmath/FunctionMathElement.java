@@ -1,5 +1,8 @@
 package dae.fxcreator.node.graphmath;
 
+import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.IOType;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -11,11 +14,24 @@ import java.util.ArrayList;
  */
 public class FunctionMathElement extends MathElement {
 
-    private String functionName;
-    private ArrayList<MathElement> parameters = new ArrayList<MathElement>();
+    private final String functionName;
+    private final ArrayList<MathElement> parameters = new ArrayList<>();
 
     public FunctionMathElement(String functionName) {
         this.functionName = functionName;
+    }
+
+    /**
+     * Returns the type of the result of this operation.
+     *
+     * @param node the node that hosts this MathElement object.
+     * @param library the library with shader types and their priority when up
+     * and down casting.
+     * @return the type of the result.
+     */
+    @Override
+    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+        return null;
     }
 
     /**
@@ -23,6 +39,7 @@ public class FunctionMathElement extends MathElement {
      *
      * @param element
      */
+    @Override
     public void addMathElement(MathElement element) {
         parameters.add(element);
     }
@@ -120,8 +137,7 @@ public class FunctionMathElement extends MathElement {
         }
     }
      */
-    
-     @Override
+    @Override
     public String getId() {
         return "function";
     }

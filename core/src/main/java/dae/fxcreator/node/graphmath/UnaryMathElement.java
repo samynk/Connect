@@ -1,5 +1,9 @@
 package dae.fxcreator.node.graphmath;
 
+import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.IOType;
+import dae.fxcreator.node.NodeIO;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
@@ -13,6 +17,23 @@ public class UnaryMathElement extends MathElement {
     private MathElement child;
 
     public UnaryMathElement() {
+    }
+
+    /**
+     * Returns the type of the result of this operation.
+     *
+     * @param node the node that hosts this MathElement object.
+     * @param library the library with shader types and their priority when up
+     * and down casting.
+     * @return the type of the result.
+     */
+    @Override
+    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+        if (child != null) {
+            return child.getResultType(node, library);
+        } else {
+            return null;
+        }
     }
 
     public MathElement getChild() {
@@ -110,8 +131,8 @@ public class UnaryMathElement extends MathElement {
             g2d.drawArc(x + 5, 2, 7, y + height - 2, 90, 180);
             g2d.drawArc(x + width - 5, 2, 7, y + height - 2, 90, -180);
             child.render(g2d, x + 8, y, width - 8, height);
-        } else{
-            child.render(g2d, x , y, width, height);
+        } else {
+            child.render(g2d, x, y, width, height);
         }
     }
 
@@ -131,8 +152,8 @@ public class UnaryMathElement extends MathElement {
             }
         }
     }
-    */
-     @Override
+     */
+    @Override
     public String getId() {
         return "unary";
     }

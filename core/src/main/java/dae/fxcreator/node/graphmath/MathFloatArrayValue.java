@@ -1,5 +1,8 @@
 package dae.fxcreator.node.graphmath;
 
+import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.IOType;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -19,6 +22,19 @@ public class MathFloatArrayValue extends MathElement {
         if (values != null) {
             createText();
         }
+    }
+    
+     /**
+     * Returns the type of the result of this operation.
+     *
+     * @param node the node that hosts this MathElement object.
+     * @param library the library with shader types and their priority when up
+     * and down casting.
+     * @return the type of the result.
+     */
+    @Override
+    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+        return library.getType("BOOLEAN");
     }
 
     public float[] getValues() {
@@ -68,4 +84,6 @@ public class MathFloatArrayValue extends MathElement {
     public String getType() {
         return "floatarray";
     }
+
+   
 }

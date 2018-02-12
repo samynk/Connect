@@ -1,5 +1,8 @@
 package dae.fxcreator.node.graphmath;
 
+import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.IOType;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -9,15 +12,33 @@ import java.awt.font.LineMetrics;
  *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public class MathFloatValue extends MathElement{
+public class MathFloatValue extends MathElement {
 
     private final float value;
 
+    /**
+     * Creates a new MathFloatValue object with the given value.
+     *
+     * @param value the value to store.
+     */
     public MathFloatValue(float value) {
         this.value = value;
     }
-    
-    public float getValue(){
+
+    /**
+     * Returns the type of the result of this operation.
+     *
+     * @param node the node that hosts this MathElement object.
+     * @param library the library with shader types and their priority when up
+     * and down casting.
+     * @return the type of the result.
+     */
+    @Override
+    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+        return library.getType("FLOAT");
+    }
+
+    public float getValue() {
         return value;
     }
 
@@ -28,7 +49,7 @@ public class MathFloatValue extends MathElement{
 
     @Override
     public void addOperator(Operation op) {
-        
+
     }
 
     @Override
@@ -46,8 +67,8 @@ public class MathFloatValue extends MathElement{
         baseLine = (int) lm.getAscent() + 1;
         return size;
     }
-    
-     @Override
+
+    @Override
     public String getId() {
         return "float";
     }

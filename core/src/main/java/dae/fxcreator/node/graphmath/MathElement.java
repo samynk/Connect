@@ -1,6 +1,8 @@
-
 package dae.fxcreator.node.graphmath;
 
+import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.TypedNode;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -24,6 +26,16 @@ public abstract class MathElement implements TypedNode{
      * math element can be changed.
      */
     private boolean locked = false;
+    
+    /**
+     * Returns the type of the result of this operation.
+     * @param node the node that hosts this MathElement object.
+     * @param library the library of types.
+     * @return the type of the result.
+     * 
+     */
+    public abstract IOType getResultType(IONode node, ShaderTypeLibrary library);
+    
     
     /**
      * Returns true if the element does not accept child elements.

@@ -1,6 +1,9 @@
 package dae.fxcreator.node.graphmath;
 
 //import dae.fxcreator.io.codegen.MathFormulaCodeGenerator;
+import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.TypedNode;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
@@ -20,6 +23,19 @@ public class MathFormula extends MathElement implements TypedNode {
 
     MathFormula(MathElement root) {
         roots.add(root);
+    }
+    
+      /**
+     * Returns the type of the result of this operation.
+     *
+     * @param node the node that hosts this MathElement object.
+     * @param library the library with shader types and their priority when up
+     * and down casting.
+     * @return the type of the result.
+     */
+    @Override
+    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+        return library.getType("VOID");
     }
 
     /**

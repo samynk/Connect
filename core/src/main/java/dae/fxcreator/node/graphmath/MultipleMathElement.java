@@ -1,5 +1,9 @@
 package dae.fxcreator.node.graphmath;
 
+import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.node.IONode;
+import dae.fxcreator.node.IOType;
+import dae.fxcreator.node.NodeIO;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -15,6 +19,19 @@ public class MultipleMathElement extends MathElement {
     private final ArrayList<Operation> operands = new ArrayList<>();
 
     public MultipleMathElement() {
+    }
+
+    /**
+     * Returns the type of the result of this operation.
+     *
+     * @param node the node that hosts this MathElement object.
+     * @param library the library with shader types and their priority when up
+     * and down casting.
+     * @return the type of the result.
+     */
+    @Override
+    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+        return library.getType("VOID");
     }
 
     @Override
@@ -100,11 +117,11 @@ public class MultipleMathElement extends MathElement {
             MathElement current = elements.get(i);
             current.render(g2d, cx, y + baseLine - current.baseLine, current.size.width, current.size.height);
             cx += current.size.width + 5;
-            
-            if ( i != elements.size() - 1 ){
+
+            if (i != elements.size() - 1) {
                 Operation op = operands.get(i);
                 g2d.drawString(op.getText(), cx, y + baseLine);
-                cx+= fm.stringWidth(op.getText()+5);
+                cx += fm.stringWidth(op.getText() + 5);
             }
         }
     }
@@ -114,9 +131,8 @@ public class MultipleMathElement extends MathElement {
     public void build(StringBuilder result, MathFormulaCodeGenerator codeGenerator) {
         result.append("<multiple elements not yet implemented>");
     }
-    */
-    
-     @Override
+     */
+    @Override
     public String getId() {
         return "unused";
     }
