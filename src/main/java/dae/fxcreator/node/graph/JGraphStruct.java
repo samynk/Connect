@@ -2,8 +2,8 @@ package dae.fxcreator.node.graph;
 
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderField;
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.StructField;
+import dae.fxcreator.node.IOStruct;
 import dae.fxcreator.node.StructListener;
 import dae.fxcreator.gui.model.GraphFont;
 import dae.fxcreator.gui.model.GraphGradient;
@@ -22,7 +22,7 @@ import javax.swing.JLabel;
  */
 public class JGraphStruct extends BoxPanel implements ComponentListener, StructListener {
 
-    private ShaderStruct model;
+    private IOStruct model;
     private final HashMap<String, JField> fieldMap = new HashMap<>();
     private IONode parent;
 
@@ -50,7 +50,7 @@ public class JGraphStruct extends BoxPanel implements ComponentListener, StructL
      * Sets the ShaderStruct to show in this JGraphStruct object.
      * @param struct the struct to show.
      */
-    public void setModel(ShaderStruct struct) {
+    public void setModel(IOStruct struct) {
         if (struct == null) {
             return;
         }
@@ -69,7 +69,7 @@ public class JGraphStruct extends BoxPanel implements ComponentListener, StructL
             lblStructName.setAlignmentX(0.0f);
             add(lblStructName);
 
-            for (ShaderField field : struct.getFields()) {
+            for (StructField field : struct.getFields()) {
                
                 JField fieldcomp = new JField(parent, field);
                 fieldMap.put(field.getName(), fieldcomp);
@@ -117,7 +117,7 @@ public class JGraphStruct extends BoxPanel implements ComponentListener, StructL
     }
 
     @Override
-    public void structFieldUpdated(ShaderStruct struct, ShaderField field, ShaderField oldValue) {
+    public void structFieldUpdated(IOStruct struct, StructField field, StructField oldValue) {
         JField fieldcomp = fieldMap.get(oldValue.getName());
         if (fieldcomp != null) {
             fieldcomp.syncWithModel();
@@ -126,17 +126,17 @@ public class JGraphStruct extends BoxPanel implements ComponentListener, StructL
     }
 
     @Override
-    public void structFieldInserted(ShaderStruct struct, ShaderField field) {
+    public void structFieldInserted(IOStruct struct, StructField field) {
         JField fieldcomp = new JField(parent, field);
         this.add(fieldcomp);
     }
 
     @Override
-    public void structFieldRemoved(ShaderStruct struct, ShaderField field) {
+    public void structFieldRemoved(IOStruct struct, StructField field) {
     }
 
     @Override
-    public void structIdChanged(ShaderStruct struct) {
+    public void structIdChanged(IOStruct struct) {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     // End of variables declaration//GEN-END:variables
