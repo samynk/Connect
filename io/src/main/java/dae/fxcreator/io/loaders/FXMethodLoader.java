@@ -7,10 +7,10 @@ import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IteratorNode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;
-import dae.fxcreator.node.ShaderInput;
+import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.NodeOutput;
+import dae.fxcreator.node.IOType;
 import java.awt.Point;
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -150,9 +150,9 @@ public class FXMethodLoader extends DefaultHandler {
             }
         } else if ("input".equals(qName)) {
             String name = attributes.getValue("name");
-            ShaderType type = library.getType(attributes.getValue("type"));
+            IOType type = library.getType(attributes.getValue("type"));
             String semantic = attributes.getValue("semantic");
-            ShaderInput input = new ShaderInput(currentNode, name, semantic, type);
+            NodeInput input = new NodeInput(currentNode, name, semantic, type);
             input.setConnectionString(attributes.getValue("connection"));
             if (currentNode != null) {
                 currentNode.addInput(input);
@@ -162,10 +162,10 @@ public class FXMethodLoader extends DefaultHandler {
 
         } else if ("output".equals(qName)) {
             String name = attributes.getValue("name");
-            ShaderType type = library.getType(attributes.getValue("type"));
+            IOType type = library.getType(attributes.getValue("type"));
             String semantic = attributes.getValue("semantic");
             String typeRule = attributes.getValue("typerule");
-            ShaderOutput output = new ShaderOutput(currentNode, name, semantic, type, typeRule);
+            NodeOutput output = new NodeOutput(currentNode, name, semantic, type, typeRule);
             output.setConnectionString(attributes.getValue("connection"));
             if (currentNode != null) {
                 currentNode.addOutput(output);
