@@ -20,8 +20,8 @@ import javax.swing.text.PlainDocument;
 public class CodeSettingComponent extends JPanel implements DocumentListener {
 
     private CodeSetting setting;
-    private JLabel lblLabel;
-    private JEditorPane txtCode;
+    private final JLabel lblLabel;
+    private final JEditorPane txtCode;
 
     public CodeSettingComponent() {
         lblLabel = new JLabel(" : ");
