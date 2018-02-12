@@ -1,6 +1,6 @@
 package dae.fxcreator.node.transform;
 
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.IOType;
 import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Level;
@@ -44,7 +44,7 @@ public class TemplateClassLibrary {
             new HashMap<>();
     private final String defaultClassName = "dae.fxcreator.node.IONode";
 
-    private final HashMap<ShaderType, String> shaderTypeMap =
+    private final HashMap<IOType, String> shaderTypeMap =
             new HashMap<>();
     
     /**
@@ -189,7 +189,7 @@ public class TemplateClassLibrary {
      * @param type the general type in ShaderFX.
      * @param concreteType the concrete type for use in the shader. 
      */
-    public void addShaderType(ShaderType type , String concreteType )
+    public void addShaderType(IOType type , String concreteType )
     {
         this.shaderTypeMap.put(type, concreteType);
     }
@@ -198,7 +198,7 @@ public class TemplateClassLibrary {
      * Gets a concrete shader type.
      * @return the shader type.
      */
-    public String getShaderType(ShaderType type)
+    public String getShaderType(IOType type)
     {
         return shaderTypeMap.get(type);
     }
