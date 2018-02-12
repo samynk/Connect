@@ -750,9 +750,9 @@ public class MathEditor extends javax.swing.JPanel implements MathContext, Hiera
         right.setVarName("1");
 
         BinaryMathElement equals = new BinaryMathElement();
-        equals.setFirstElement(left);
+        equals.setFirst(left);
         equals.setOperation(Operation.EQUALS);
-        equals.setSecondElement(right);
+        equals.setSecond(right);
 
         newFormula.addRoot(equals);
         return newFormula;
