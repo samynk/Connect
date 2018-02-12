@@ -1,5 +1,6 @@
 package dae.fxcreator.io.math.parser;
 
+import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.graphmath.parser.MathVisitor;
 import dae.fxcreator.node.graphmath.BinaryMathElement;
 import dae.fxcreator.node.graphmath.MathBooleanValue;
@@ -133,6 +134,9 @@ public class MathParserTest {
 
         assertTrue(bme.getSecond() instanceof MathBooleanValue);
         MathBooleanValue mbv = (MathBooleanValue) bme.getSecond();
+        
+        IOType type = bme.getResultType();
+        assertEquals(type.getType(), "BOOLEAN");
         assertEquals(false, mbv.getValue());
     }
 
