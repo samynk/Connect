@@ -197,11 +197,11 @@ public class OperatorMathContainer extends MathContainer {
         BinaryMathElement element = new BinaryMathElement();
         if (this.left != null) {
             MathElement leftElement = left.createFormula();
-            element.setFirstElement(leftElement);
+            element.setFirst(leftElement);
         }
         if (right != null) {
             MathElement rightElement = right.createFormula();
-            element.setSecondElement(rightElement);
+            element.setSecond(rightElement);
         }
         element.setOperation(Operation.parseOperation(operand.getText()));
         return element;
