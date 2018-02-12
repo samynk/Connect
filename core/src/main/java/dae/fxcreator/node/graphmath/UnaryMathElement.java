@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graphmath;
 
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.IOPort;
@@ -28,7 +28,7 @@ public class UnaryMathElement extends MathElement {
      * @return the type of the result.
      */
     @Override
-    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+    public IOType getResultType(IONode node, IOTypeLibrary library) {
         if (child != null) {
             return child.getResultType(node, library);
         } else {

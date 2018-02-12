@@ -3,7 +3,7 @@ package dae.fxcreator.ui.usersettings;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.NodeOutput;
@@ -34,7 +34,7 @@ public class StyleSettingPanel extends javax.swing.JPanel implements ChangeListe
 
 
         node = new IONode("Node style example", "node", project);
-        ShaderTypeLibrary library = project.getShaderTypeLibrary();
+        IOTypeLibrary library = project.getShaderTypeLibrary();
         NodeInput input1 = new NodeInput(node, "op1", "NORMAL", library.getType("FLOAT3"));
         NodeInput input2 = new NodeInput(node, "op2", "DIRECTION", library.getType("FLOAT3"));
 

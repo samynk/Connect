@@ -4,7 +4,7 @@ package dae.fxcreator.node.templates;
 //import dae.fxcreator.io.savers.FXMethodListSaver;
 //import dae.fxcreator.io.savers.FXMethodSaver;
 import dae.fxcreator.node.settings.Setting;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;
@@ -34,7 +34,7 @@ public class NodeTemplateLibrary implements TreeModel {
     /**
      * The types that can be used in the project.
      */
-    private final ShaderTypeLibrary typeLibrary = new ShaderTypeLibrary();
+    private final IOTypeLibrary typeLibrary = new IOTypeLibrary();
 
     /**
      * Creates a new NodeTemplateLibrary object.
@@ -225,7 +225,7 @@ public class NodeTemplateLibrary implements TreeModel {
      * Returns the shader type library.
      * @return the shader type library.
      */
-    public ShaderTypeLibrary getTypeLibrary() {
+    public IOTypeLibrary getTypeLibrary() {
         return typeLibrary;
     }
 

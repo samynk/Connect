@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph.model;
 
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import dae.fxcreator.node.IOType;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -24,7 +24,7 @@ public class ShaderTypeCellEditor extends AbstractCellEditor implements TableCel
     private IOType selected;
     private ArrayList<ListDataListener> listeners = new ArrayList<ListDataListener>();
 
-    private ShaderTypeLibrary library;
+    private IOTypeLibrary library;
 
     public ShaderTypeCellEditor(NodeTemplateLibrary library) {
         this.library = library.getTypeLibrary();

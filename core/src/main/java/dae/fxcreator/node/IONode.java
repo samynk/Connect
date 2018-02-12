@@ -6,7 +6,7 @@ import dae.fxcreator.node.events.IOListener;
 import dae.fxcreator.node.events.SettingListener;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.settings.TextSetting;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import dae.fxcreator.node.annotations.Export;
 import java.awt.Point;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
     /**
      * The ShaderTypeLibrary with the type information.
      */
-    protected ShaderTypeLibrary shaderTypeLib;
+    protected IOTypeLibrary shaderTypeLib;
     /**
      * The ShaderStruct that describes the input nodes.
      */
@@ -316,7 +316,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
      *
      * @return the ShaderTypeLibrary object.
      */
-    public ShaderTypeLibrary getShaderTypeLibrary() {
+    public IOTypeLibrary getShaderTypeLibrary() {
         return shaderTypeLib;
     }
 

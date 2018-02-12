@@ -2,7 +2,7 @@ package dae.fxcreator.node;
 
 import dae.fxcreator.node.events.SettingListener;
 import dae.fxcreator.node.settings.Setting;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +36,7 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param type the type of the iterator node.
      * @param library the shader type library.
      */
-    public IteratorNode(String id, String type, ShaderTypeLibrary library) {
+    public IteratorNode(String id, String type, IOTypeLibrary library) {
         super(id, id, type,null);
         this.addSettingListener(this);
 

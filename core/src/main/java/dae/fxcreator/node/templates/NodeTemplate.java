@@ -3,7 +3,7 @@ package dae.fxcreator.node.templates;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.ShaderStage;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IteratorNode;
 import dae.fxcreator.node.NodeContainer;
@@ -33,7 +33,7 @@ public class NodeTemplate {
     /**
      * The type library for the node template.
      */
-    private ShaderTypeLibrary library;
+    private IOTypeLibrary library;
 
     /**
      * Creates a new nodetemplate. The template also determines a prefix for the

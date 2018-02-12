@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graphmath;
 
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.IOPort;
@@ -30,7 +30,7 @@ public class MultipleMathElement extends MathElement {
      * @return the type of the result.
      */
     @Override
-    public IOType getResultType(IONode node, ShaderTypeLibrary library) {
+    public IOType getResultType(IONode node, IOTypeLibrary library) {
         return library.getType("VOID");
     }
 

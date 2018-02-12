@@ -5,7 +5,7 @@ import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.node.events.StageListener;
 import dae.fxcreator.node.events.SymbolListener;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IOStruct;
 import dae.fxcreator.node.transform.TemplateClassLibrary;
@@ -133,7 +133,7 @@ public class FXProject implements TypedNode {
      *
      * @return the shader type library.
      */
-    public ShaderTypeLibrary getShaderTypeLibrary() {
+    public IOTypeLibrary getShaderTypeLibrary() {
 
         return library != null ? library.getTypeLibrary() : null;
     }

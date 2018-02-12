@@ -9,14 +9,14 @@ import java.util.HashMap;
  * Maintains the types for a specific template library
  * @author Koen
  */
-public class ShaderTypeLibrary {
+public class IOTypeLibrary {
     private final ListHashMap<IOType> types = new ListHashMap<>();
     private final HashMap<String,ArrayList<IOType>> typeSets = new HashMap<>();
 
     /**
      * Creates a new ShaderType library object.
      */
-    public ShaderTypeLibrary(){
+    public IOTypeLibrary(){
 
     }
 

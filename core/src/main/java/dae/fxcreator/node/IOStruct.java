@@ -1,7 +1,7 @@
 package dae.fxcreator.node;
 
 import dae.fxcreator.node.project.ShaderStructCollection;
-import dae.fxcreator.io.type.ShaderTypeLibrary;
+import dae.fxcreator.io.type.IOTypeLibrary;
 import java.util.ArrayList;
 
 /**
@@ -18,7 +18,7 @@ public class IOStruct extends IOType implements Cloneable, TypedNode {
 
     private ShaderStructCollection parent;
 
-    protected ShaderTypeLibrary typeLibrary;
+    protected IOTypeLibrary typeLibrary;
 
     /**
      * A list of listeners.
@@ -31,7 +31,7 @@ public class IOStruct extends IOType implements Cloneable, TypedNode {
      * @param id the id for the ShaderStruct object, as used in code generation.
      * @param typeLibrary
      */
-    public IOStruct(String id, ShaderTypeLibrary typeLibrary) {
+    public IOStruct(String id, IOTypeLibrary typeLibrary) {
         // no specified order for a ShaderStruct.
         super(id, -1);
         this.id = id;
@@ -43,7 +43,7 @@ public class IOStruct extends IOType implements Cloneable, TypedNode {
      *
      * @return the type library.
      */
-    public ShaderTypeLibrary getTypeLibrary() {
+    public IOTypeLibrary getTypeLibrary() {
         return typeLibrary;
     }
 
