@@ -1,6 +1,7 @@
 package dae.fxcreator.io.type;
 
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.IOType;
+import dae.fxcreator.util.ListHashMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,10 +10,8 @@ import java.util.HashMap;
  * @author Koen
  */
 public class ShaderTypeLibrary {
-    private HashMap<String,ShaderType> typeMap = new HashMap<String,ShaderType>();
-    private ArrayList<ShaderType> types = new ArrayList<ShaderType>();
-
-    private HashMap<String,ArrayList<ShaderType>> typeSets = new HashMap<String,ArrayList<ShaderType>>();
+    private final ListHashMap<IOType> types = new ListHashMap<>();
+    private final HashMap<String,ArrayList<IOType>> typeSets = new HashMap<>();
 
     /**
      * Creates a new ShaderType library object.
@@ -26,17 +25,16 @@ public class ShaderTypeLibrary {
      * @param key the key for the shader type.
      * @return the ShaderType object.
      */
-    public ShaderType getType(String key){
-        return typeMap.get(key);
+    public IOType getType(String key){
+        return types.find(key);
     }
 
     /**
      * Adds a type to the library.
      * @param type the type to add.
      */
-    public void addType(ShaderType type){
-        typeMap.put(type.getType(), type);
-        types.add(type);
+    public void addType(IOType type){
+        types.addItem(type);
     }
 
     /**
@@ -44,15 +42,16 @@ public class ShaderTypeLibrary {
      * @return the number of available types.
      */
     public int getSize() {
-        return typeMap.size();
+        return types.size();
     }
 
     /**
      * Gets the type at the specific location.
      * @param index the index for the type.
+     * @return the ShaderType at the specified location.
      */
-    public ShaderType getType(int index){
-        return types.get(index);
+    public IOType getType(int index){
+        return types.getItem(index);
     }
 
     /**
@@ -61,12 +60,12 @@ public class ShaderTypeLibrary {
      * @param typeSetName the name for the typeset.
      */
     public void addTypeToSet(String typeSetName, String typeName){
-        ArrayList<ShaderType> sts = typeSets.get(typeSetName);
+        ArrayList<IOType> sts = typeSets.get(typeSetName);
         if ( sts == null ){
-            sts = new ArrayList<ShaderType>();
+            sts = new ArrayList<>();
             typeSets.put(typeSetName,sts);
         }
-        ShaderType type = this.getType(typeName);
+        IOType type = this.getType(typeName);
         sts.add(type);
     }
 
@@ -76,8 +75,8 @@ public class ShaderTypeLibrary {
      * @param type the type to check.
      * @return true if the type is present in the subset, false otherwise.
      */
-    public boolean isTypeFromSet(String typeSetName, ShaderType type) {
-        ArrayList<ShaderType> sts = typeSets.get(typeSetName);
+    public boolean isTypeFromSet(String typeSetName, IOType type) {
+        ArrayList<IOType> sts = typeSets.get(typeSetName);
         if ( sts != null ){
             return sts.contains(type);
         }else
