@@ -177,11 +177,11 @@ public class DivideMathContainer extends MathContainer {
         BinaryMathElement element = new BinaryMathElement();
         if ( dividend != null ){
             MathElement divElement = dividend.createFormula();
-            element.setFirstElement(divElement);
+            element.setFirst(divElement);
         }
         if ( divisor != null ){
             MathElement divisorElement = divisor.createFormula();
-            element.setSecondElement(divisorElement);
+            element.setSecond(divisorElement);
         }
         element.setOperation(Operation.DIVIDE);
         return element;
