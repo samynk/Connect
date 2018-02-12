@@ -9,10 +9,10 @@ import dae.fxcreator.node.project.Technique;
 import dae.fxcreator.node.project.TechniqueCollection;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderField;
-import dae.fxcreator.node.ShaderInput;
+import dae.fxcreator.node.StructField;
+import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.IOStruct;
 import dae.fxcreator.node.graph.menus.PassMenu;
 import dae.fxcreator.node.graph.menus.ShaderFieldMenu;
 import dae.fxcreator.node.graph.menus.StructMenu;
@@ -210,8 +210,8 @@ public class TechniqueEditorPanel extends javax.swing.JPanel implements GraphLis
     private void mnuChangeStructActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuChangeStructActionPerformed
         // launch the struct editor window.
         Object o = treeShader.getSelectionPath().getLastPathComponent();
-        if (o instanceof ShaderStruct) {
-            ShaderStruct struct = (ShaderStruct) o;
+        if (o instanceof IOStruct) {
+            IOStruct struct = (IOStruct) o;
 
             structEditor.setModel(struct);
             structEditor.setVisible(true);
@@ -226,7 +226,7 @@ public class TechniqueEditorPanel extends javax.swing.JPanel implements GraphLis
 
             treeShader.setSelectionRow(row);
             Object o = treeShader.getSelectionPath().getLastPathComponent();
-            if (o instanceof ShaderStruct) {
+            if (o instanceof IOStruct) {
                 treePopup.show(treeShader, evt.getX(), evt.getY());
             } else if (o instanceof TechniqueCollection) {
                 techniquesMenu.show(treeShader, evt.getX(), evt.getY());
@@ -236,7 +236,7 @@ public class TechniqueEditorPanel extends javax.swing.JPanel implements GraphLis
                 passMenu.show(treeShader, evt.getX(), evt.getY());
             } else if (o instanceof ShaderStructCollection) {
                 structMenu.show(treeShader, evt.getX(), evt.getY());
-            } else if (o instanceof ShaderField) {
+            } else if (o instanceof StructField) {
                 shaderFieldMenu.show(treeShader, evt.getX(), evt.getY());
             }
         }
@@ -373,7 +373,7 @@ public class TechniqueEditorPanel extends javax.swing.JPanel implements GraphLis
      * Edit the struct
      * @param struct the struct to edit.
      */
-    public void editStruct(ShaderStruct struct) {
+    public void editStruct(IOStruct struct) {
         this.structEditor.setModel(struct);
         structEditor.setVisible(true);
     }
