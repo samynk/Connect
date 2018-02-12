@@ -7,7 +7,7 @@ import dae.fxcreator.io.templates.FXProjectTemplate;
 import dae.fxcreator.io.templates.FXProjectTemplates;
 import dae.fxcreator.io.util.PathUtil;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderInput;
+import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.node.project.ShaderStage;
@@ -130,8 +130,8 @@ public class ObjectChainTest {
 
         Object result = oc.evaluate(et);
         assertNotNull(result);
-        assertTrue(result instanceof ShaderInput);
-        ShaderInput si = (ShaderInput) result;
+        assertTrue(result instanceof NodeInput);
+        NodeInput si = (NodeInput) result;
         assertEquals("i1", si.getId());
     }
 
