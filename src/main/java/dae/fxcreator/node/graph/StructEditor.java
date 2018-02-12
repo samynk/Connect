@@ -1,6 +1,6 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.IOStruct;
 import dae.fxcreator.node.graph.model.IOTableModel;
 import dae.fxcreator.node.graph.model.StructTableModel;
 
@@ -17,7 +17,7 @@ public class StructEditor extends javax.swing.JDialog {
     /**
      * The struct to show on this StructEditor.
      */
-    private ShaderStruct model;
+    private IOStruct model;
 
     /** Creates new form StructEditor */
     public StructEditor(java.awt.Frame parent, boolean modal) {
@@ -228,7 +228,7 @@ public class StructEditor extends javax.swing.JDialog {
      * Sets the model to show on this StructEditor.
      * @param struct the struct to show.
      */
-    void setModel(ShaderStruct struct) {
+    void setModel(IOStruct struct) {
         this.model = struct;
         tblFieldTable.setModel(new StructTableModel(struct));
         txtStructName.setText(model.getId());
