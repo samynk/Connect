@@ -53,9 +53,9 @@ public class ShaderFieldTest {
         NodeTemplateLibrary library = ntLoader.load();
 
         assertNotNull("Could not get shader library.", library);
-        ShaderStruct struct = new ShaderStruct("test", library.getTypeLibrary());
+        IOStruct struct = new IOStruct("test", library.getTypeLibrary());
 
-        ShaderField field = new ShaderField("test", "WORLD", new ShaderType("FLOAT4", 8));
+        StructField field = new StructField("test", "WORLD", new IOType("FLOAT4", 8));
         struct.addShaderField(field);
 
         field.decode("FLOAT3 test2:WORLD");
