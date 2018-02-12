@@ -17,7 +17,7 @@ import dae.fxcreator.node.settings.TextSetting;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IOAnchor;
 import dae.fxcreator.node.ReferenceNode;
-import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOPort;
 import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.NodeOutput;
 import dae.fxcreator.node.IOStruct;
@@ -239,7 +239,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         updateStyle();
     }
 
-    private JConnectorPoint addIOComponent(IONode node, NodeIO io) {
+    private JConnectorPoint addIOComponent(IONode node, IOPort io) {
         JConnectorPoint jcp = null;
         IOAnchor anchor;
         if (io.hasAnchor()) {
@@ -714,7 +714,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     @Override
     public void ioAdded(String name) {
-        NodeIO io = node.getPort(name);
+        IOPort io = node.getPort(name);
         if (io.isInput()) {
             this.addInput(name);
         } else {
@@ -832,11 +832,11 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
     }
 
     public void highlightPossibleEndTerminals(JTerminal startTerminal) {
-        NodeIO start = startTerminal.getConnectorPoint().getUserObject();
+        IOPort start = startTerminal.getConnectorPoint().getUserObject();
         for (Component c : westPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
                 JConnectorPoint jcp = (JConnectorPoint) c;
-                NodeIO end = jcp.getUserObject();
+                IOPort end = jcp.getUserObject();
                 if (!end.getConnected() && end.accepts(start)) {
                     jcp.highlight();
                 }

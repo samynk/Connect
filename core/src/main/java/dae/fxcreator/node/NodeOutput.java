@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * The output implementation of the ShaderIO 
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public class NodeOutput extends NodeIO implements TypedNode{
+public class NodeOutput extends IOPort implements TypedNode{
     /**
      * The nodes that are connected to this output.
      */
@@ -209,7 +209,7 @@ public class NodeOutput extends NodeIO implements TypedNode{
      * @return true if this object is compatible (can connect) with the provided object.
      */
     @Override
-    public boolean accepts(NodeIO io) {
+    public boolean accepts(IOPort io) {
         if (io.isInput()) {
             return io.accepts(this);
         } else {

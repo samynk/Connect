@@ -10,7 +10,7 @@ import javax.swing.event.ChangeListener;
  *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public abstract class NodeIO {
+public abstract class IOPort {
 
     private IONode parent;
     private String name;
@@ -31,7 +31,7 @@ public abstract class NodeIO {
      * @param semantic the value for the semantic.
      * @param type the type of the port.
      */
-    public NodeIO(IONode parent, String name, String semantic, IOType type) {
+    public IOPort(IONode parent, String name, String semantic, IOType type) {
         this.parent = parent;
         this.name = name;
         this.semantic.setValue(semantic);
@@ -194,7 +194,7 @@ public abstract class NodeIO {
      * @return true if this object is compatible (can connect) with the provided
      * object.
      */
-    public abstract boolean accepts(NodeIO io);
+    public abstract boolean accepts(IOPort io);
 
     /**
      * Adds a change listener to this io object.

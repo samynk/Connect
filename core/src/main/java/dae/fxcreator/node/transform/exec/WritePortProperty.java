@@ -1,7 +1,7 @@
 package dae.fxcreator.node.transform.exec;
 
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOPort;
 import dae.fxcreator.node.transform.ExportTask;
 import dae.fxcreator.node.transform.RuntimeUtil;
 
@@ -27,7 +27,7 @@ public class WritePortProperty implements Executable {
     public void execute(Object codeObject, ExportTask context) {
         if ( codeObject instanceof IONode ){
             IONode io = (IONode)codeObject;
-            NodeIO port = io.findInput(portName);
+            IOPort port = io.findInput(portName);
             if ( port == null ){
                 port = io.findOutput(portName);
             }

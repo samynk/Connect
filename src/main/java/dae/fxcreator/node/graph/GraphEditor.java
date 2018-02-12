@@ -5,7 +5,7 @@ import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.node.events.SettingListener;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOPort;
 import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.NodeOutput;
 import dae.fxcreator.node.IOStruct;
@@ -626,8 +626,8 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
                     JConnectorPoint startCp = startTerminal.getConnectorPoint();
                     JConnectorPoint endCp = endTerminal.getConnectorPoint();
                     if (endT != startTerminal && startCp != endCp) {
-                        NodeIO startIO = startCp.getUserObject();
-                        NodeIO endIO = endCp.getUserObject();
+                        IOPort startIO = startCp.getUserObject();
+                        IOPort endIO = endCp.getUserObject();
 
                         if (endIO.accepts(startIO)) {
                             endTerminal.setSelected(true);
@@ -708,8 +708,8 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         }*/
         if (selectionState == SelectionState.TERMINAL) {
             if (startTerminal != null && endTerminal != null) {
-                NodeIO start = startTerminal.getConnectorPoint().getUserObject();
-                NodeIO end = endTerminal.getConnectorPoint().getUserObject();
+                IOPort start = startTerminal.getConnectorPoint().getUserObject();
+                IOPort end = endTerminal.getConnectorPoint().getUserObject();
 
                 if (start.accepts(end)) {
                     if (start.isInput()) {

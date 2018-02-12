@@ -150,7 +150,7 @@ public class IteratorNode extends IONode implements NodeGroup,SettingListener {
      * @param io the input or output that was changed.
      */
     @Override
-    public void typeChanged(NodeIO io) {
+    public void typeChanged(IOPort io) {
         super.typeChanged(io);
         if (io.isInput()) {
             NodeOutput output = getInputNode().findOutput(io.getName());

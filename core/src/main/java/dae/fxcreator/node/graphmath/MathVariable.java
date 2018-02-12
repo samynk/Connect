@@ -3,7 +3,7 @@ package dae.fxcreator.node.graphmath;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IOType;
-import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOPort;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
@@ -38,7 +38,7 @@ public class MathVariable extends MathElement {
      */
     @Override
     public IOType getResultType(IONode node, ShaderTypeLibrary library) {
-        NodeIO port = node.getPort(varName);
+        IOPort port = node.getPort(varName);
         if ( port != null ){
             return port.getIOType();
         }else{

@@ -2,7 +2,7 @@ package dae.fxcreator.node.graph;
 
 import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
-import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOPort;
 import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.NodeOutput;
 import dae.fxcreator.gui.model.GraphFont;
@@ -90,7 +90,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
     /**
      * The ShaderIO object.
      */
-    private final NodeIO userObject;
+    private final IOPort userObject;
     /**
      * The connector objects to draw (only for input JConnectorPoints)
      */
@@ -103,7 +103,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
      * @param io the object with the input or output definition.
      * @param position the position of the connector 5coo
      */
-    public JConnectorPoint(JGraphNode parent, NodeIO io, POSITION position) {
+    public JConnectorPoint(JGraphNode parent, IOPort io, POSITION position) {
         setOpaque(false);
         this.position = position;
         this.parent = parent;
@@ -287,7 +287,7 @@ public class JConnectorPoint extends JPanel implements ChangeListener {
      *
      * @return the userobject.
      */
-    public NodeIO getUserObject() {
+    public IOPort getUserObject() {
         return userObject;
     }
 

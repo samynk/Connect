@@ -4,7 +4,7 @@ import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.node.NodeGroupWalker;
 import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.node.ReferenceNode;
-import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOPort;
 import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeOutput;
@@ -374,7 +374,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @param io the input or output that was changed.
      */
     @Override
-    public void typeChanged(NodeIO io) {
+    public void typeChanged(IOPort io) {
         super.typeChanged(io);
         if (io.isInput()) {
             NodeOutput output = inputNode.findOutput(io.getName());

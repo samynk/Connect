@@ -3,7 +3,7 @@ package dae.fxcreator.node.graphmath;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IOType;
-import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOPort;
 import java.awt.Dimension;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;

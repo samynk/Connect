@@ -6,7 +6,7 @@ package dae.fxcreator.node;
  *
  * @author Koen Samyn (samyn.koen@gmail.com)
  */
-public class NodeInput extends NodeIO implements TypedNode{    
+public class NodeInput extends IOPort implements TypedNode{    
     /**
      * The node that is connected to this input.
      */
@@ -248,7 +248,7 @@ public class NodeInput extends NodeIO implements TypedNode{
      * object.
      */
     @Override
-    public boolean accepts(NodeIO io) {
+    public boolean accepts(IOPort io) {
         IONode parent = getParent();
         if (io.isInput()) {
             return false;

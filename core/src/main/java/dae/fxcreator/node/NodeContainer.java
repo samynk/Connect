@@ -344,7 +344,7 @@ public class NodeContainer extends IONode implements NodeGroup, TypedNode {
      * @param io the input or output that was changed.
      */
     @Override
-    public void typeChanged(NodeIO io) {
+    public void typeChanged(IOPort io) {
         super.typeChanged(io);
         if (io.isInput()) {
             NodeOutput output = inputNode.findOutput(io.getName());

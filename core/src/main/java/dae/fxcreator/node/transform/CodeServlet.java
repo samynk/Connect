@@ -1,7 +1,7 @@
 package dae.fxcreator.node.transform;
 
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOPort;
 import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.transform.exec.ExecuteBlock;
 
@@ -120,7 +120,7 @@ public class CodeServlet extends ExecuteBlock {
      * @param portName the name of the input or output.
      * @return the ShaderInput or ShaderOutput object.
      */
-    public NodeIO getIO(IONode node, String portName) {
+    public IOPort getIO(IONode node, String portName) {
         return node.getPort(portName);
     }
 

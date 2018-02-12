@@ -1,7 +1,7 @@
 package dae.fxcreator.node.transform.exec;
 
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOPort;
 import dae.fxcreator.node.transform.ExportTask;
 
 /**
@@ -27,7 +27,7 @@ public class ObjectPortExpression implements Expression {
         }
         if ( top instanceof IONode){
             IONode node = (IONode)top;
-            NodeIO port = node.getPort(portName);
+            IOPort port = node.getPort(portName);
             return port;
         }else{
             return null;

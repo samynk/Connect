@@ -966,7 +966,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
      *
      * @param io the input or output that was changed.
      */
-    public void typeChanged(NodeIO io) {
+    public void typeChanged(IOPort io) {
         if (io.isInput()) {
             this.calculateOutputTypes();
         }
@@ -999,7 +999,7 @@ public class IONode implements TypedNode, StructListener, Cloneable {
      * @return the ShaderIO object.
      */
     @Export(name="port")
-    public NodeIO getPort(String portName) {
+    public IOPort getPort(String portName) {
         if (inputMap.containsKey(portName)) {
             return inputMap.get(portName);
         } else if (outputMap.containsKey(portName)) {
