@@ -4,9 +4,9 @@ import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;
-import dae.fxcreator.node.ShaderInput;
+import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.node.NodeOutput;
 import java.awt.Point;
 import java.io.BufferedWriter;
 import java.io.FileOutputStream;
@@ -70,7 +70,7 @@ public class FXMethodSaver extends XMLSaver {
             bw.write(">\n");
 
             IONode inputNode = container.getInputNode();
-            for (ShaderOutput output : inputNode.getOutputs()) {
+            for (NodeOutput output : inputNode.getOutputs()) {
                 writeTabs(bw, 2);
                 bw.write("<input");
                 writeAttribute(bw, "name", output.getName());
@@ -81,7 +81,7 @@ public class FXMethodSaver extends XMLSaver {
             }
 
             IONode outputNode = container.getOutputNode();
-            for (ShaderInput input : outputNode.getInputs()) {
+            for (NodeInput input : outputNode.getInputs()) {
                 writeTabs(bw, 2);
                 bw.write("<output");
                 writeAttribute(bw, "name", input.getName());
@@ -122,8 +122,8 @@ public class FXMethodSaver extends XMLSaver {
         }
         bw.write(">\n");
 
-        ArrayList<ShaderInput> inputs = node.getInputs();
-        for (ShaderInput input : inputs) {
+        ArrayList<NodeInput> inputs = node.getInputs();
+        for (NodeInput input : inputs) {
             writeTabs(bw, numberOfTabs + 1);
             bw.write("<input");
             writeAttribute(bw, "name", input.getName());
@@ -133,8 +133,8 @@ public class FXMethodSaver extends XMLSaver {
             bw.write("/>\n");
         }
 
-        ArrayList<ShaderOutput> outputs = node.getOutputs();
-        for (ShaderOutput output : outputs) {
+        ArrayList<NodeOutput> outputs = node.getOutputs();
+        for (NodeOutput output : outputs) {
             writeTabs(bw, numberOfTabs + 1);
             bw.write("<output");
             writeAttribute(bw, "name", output.getName());
