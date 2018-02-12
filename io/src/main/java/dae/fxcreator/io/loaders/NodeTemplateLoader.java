@@ -19,10 +19,10 @@ import dae.fxcreator.node.settings.CodeSetting;
 import dae.fxcreator.node.settings.BooleanSetting;
 import dae.fxcreator.io.util.PathUtil;
 import dae.fxcreator.node.SettingsGroup;
-import dae.fxcreator.node.ShaderInput;
+import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.NodeOutput;
+import dae.fxcreator.node.IOType;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.logging.Level;
@@ -127,7 +127,7 @@ public class NodeTemplateLoader extends DefaultHandler {
                 order = Integer.parseInt(sorder);
             } catch (NumberFormatException ex) {
             }
-            ShaderType st = new ShaderType(type, order, bValueType, icon);
+            IOType st = new IOType(type, order, bValueType, icon);
             library.addType(st);
 
         } else if ("typeset".equals(qName)) {
@@ -267,7 +267,7 @@ public class NodeTemplateLoader extends DefaultHandler {
             String semantic = attributes.getValue("semantic");
             String typeRule = attributes.getValue("typerule");
             String anchor = attributes.getValue("anchor");
-            ShaderOutput so = new ShaderOutput(currentTemplate.getShaderNode(), name, semantic, library.getType(type), typeRule);
+            NodeOutput so = new NodeOutput(currentTemplate.getShaderNode(), name, semantic, library.getType(type), typeRule);
             if (anchor != null) {
                 so.setAnchor(anchor);
             }
@@ -276,10 +276,10 @@ public class NodeTemplateLoader extends DefaultHandler {
             String name = attributes.getValue("name");
             String type = attributes.getValue("type");
             String semantic = attributes.getValue("semantic");
-            ShaderType st = library.getType(type);
+            IOType st = library.getType(type);
             String acceptTypeSet = attributes.getValue("acceptTypeSet");
             String anchor = attributes.getValue("anchor");
-            ShaderInput si = new ShaderInput(currentTemplate.getShaderNode(), name, semantic, st, acceptTypeSet);
+            NodeInput si = new NodeInput(currentTemplate.getShaderNode(), name, semantic, st, acceptTypeSet);
             if (anchor != null) {
                 si.setAnchor(anchor);
             }
@@ -289,9 +289,9 @@ public class NodeTemplateLoader extends DefaultHandler {
             String name = attributes.getValue("name");
             String type = attributes.getValue("type");
             String semantic = attributes.getValue("semantic");
-            ShaderType st = library.getType(type);
+            IOType st = library.getType(type);
             String acceptTypeSet = attributes.getValue("acceptTypeSet");
-            ShaderInput si = new ShaderInput(currentTemplate.getShaderNode(), name, semantic, st, acceptTypeSet);
+            NodeInput si = new NodeInput(currentTemplate.getShaderNode(), name, semantic, st, acceptTypeSet);
             currentTemplate.addTemplateInput(si);
         }
     }
