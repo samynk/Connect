@@ -1,11 +1,13 @@
 package dae.fxcreator.node.graphmath;
 
+import dae.fxcreator.node.IOType;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 
 /**
- *
- * @author Koen
+ * This class implements the MathElement and is used to represent binary 
+ * operators. 
+ * @author Koen Samyn (samyn.koen@gmail.com)
  */
 public class BinaryMathElement extends MathElement {
 
@@ -13,21 +15,33 @@ public class BinaryMathElement extends MathElement {
     private MathElement firstElement;
     private MathElement secondElement;
 
-    private static Dimension empty = new Dimension(0, 0);
+    private final static Dimension ZERO_DIMENSION = new Dimension(0, 0);
 
+    /**
+     * Creates a new empty binary math element.
+     */
     public BinaryMathElement() {
     }
 
-    public void setFirstElement(MathElement firstElement) {
-        this.firstElement = firstElement;
-    }
-
-    public void setSecondElement(MathElement secondElement) {
-        this.secondElement = secondElement;
-    }
-
+    /**
+     * Sets the operation of the binary math element.
+     * @param operation the operation of this binary math element.
+     */
     public void setOperation(Operation operation) {
         this.operation = operation;
+    }
+    
+    /**
+     * Returns the type of the result of this operation.
+     * @return the type of the result.
+     */
+    public IOType getResultType() {
+        if ( operation == Operation.ASSIGN) {
+            // return secondElement.getResultType();
+            return null;
+        }else{
+            return  null;
+        }
     }
 
     /**
@@ -36,12 +50,28 @@ public class BinaryMathElement extends MathElement {
     public Operation getOperation() {
         return operation;
     }
+    
+    /**
+     * Sets the first element of this binary math element.
+     * @param first the first element.
+     */
+    public void setFirst(MathElement first) {
+        this.firstElement = first;
+    }
 
     /**
      * @return the firstElement
      */
     public MathElement getFirst() {
         return firstElement;
+    }
+    
+    /**
+     * Sets the second element of this binary math element.
+     * @param secondElement the second element of this binary math element.
+     */
+    public void setSecond(MathElement secondElement) {
+        this.secondElement = secondElement;
     }
 
     /**
@@ -86,8 +116,8 @@ public class BinaryMathElement extends MathElement {
     @Override
     public Dimension calculateSize(Graphics2D g2d) {
         String operator = operation.getText();
-        Dimension firstSize = firstElement != null ? firstElement.calculateSize(g2d) : empty;
-        Dimension secondSize = secondElement != null ? secondElement.calculateSize(g2d) : empty;
+        Dimension firstSize = firstElement != null ? firstElement.calculateSize(g2d) : ZERO_DIMENSION;
+        Dimension secondSize = secondElement != null ? secondElement.calculateSize(g2d) : ZERO_DIMENSION;
 
         int bl1 = firstElement != null ? firstElement.baseLine : 0;
         int bl2 = secondElement != null ? secondElement.baseLine : 0;
@@ -115,11 +145,8 @@ public class BinaryMathElement extends MathElement {
     @Override
     public void render(Graphics2D g2d, int x, int y, int width, int height) {
         String operator = operation.getText();
-        Dimension firstSize = firstElement != null ? firstElement.calculateSize(g2d) : empty;
-        Dimension secondSize = secondElement != null ? secondElement.calculateSize(g2d) : empty;
-
-        int bl1 = firstElement != null ? firstElement.baseLine : 0;
-        int bl2 = secondElement != null ? secondElement.baseLine : 0;
+        Dimension firstSize = firstElement != null ? firstElement.calculateSize(g2d) : ZERO_DIMENSION;
+        Dimension secondSize = secondElement != null ? secondElement.calculateSize(g2d) : ZERO_DIMENSION;
 
         if ("/".equals(operator)) {
             // vertical orientation
@@ -191,5 +218,4 @@ public class BinaryMathElement extends MathElement {
     public String getType() {
         return "binary." + operation.name();
     }
-
 }
