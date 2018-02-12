@@ -4,10 +4,10 @@ import dae.fxcreator.node.NodeGroup;
 import dae.fxcreator.node.NodeGroupWalker;
 import dae.fxcreator.node.TypedNode;
 import dae.fxcreator.node.ReferenceNode;
-import dae.fxcreator.node.ShaderIO;
-import dae.fxcreator.node.ShaderInput;
+import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.node.NodeOutput;
 import dae.fxcreator.util.Key;
 import dae.fxcreator.util.Label;
 import java.util.ArrayList;
@@ -137,9 +137,9 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @return true if the input was added, false otherwise.
      */
     @Override
-    public boolean addInput(ShaderInput input) {
+    public boolean addInput(NodeInput input) {
         if (super.addInput(input)) {
-            ShaderOutput o = new ShaderOutput(inputNode, input.getName(), input.getSemantic().getValue(), input.getIOType(), null);
+            NodeOutput o = new NodeOutput(inputNode, input.getName(), input.getSemantic().getValue(), input.getIOType(), null);
             o.setConnectionString(input.getConnectionString());
             inputNode.addOutput(o);
             return true;
@@ -154,7 +154,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @param input the input to remove.
      */
     @Override
-    public void removeInput(ShaderInput input) {
+    public void removeInput(NodeInput input) {
         super.removeInput(input);
         inputNode.removeOutput(input.getName());
 
@@ -178,9 +178,9 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @return true if the output was added, false otherwise.
      */
     @Override
-    public boolean addOutput(ShaderOutput output) {
+    public boolean addOutput(NodeOutput output) {
         if (super.addOutput(output)) {
-            ShaderInput i = new ShaderInput(outputNode, output.getName(), output.getSemantic().getValue(), output.getIOType());
+            NodeInput i = new NodeInput(outputNode, output.getName(), output.getSemantic().getValue(), output.getIOType());
             i.setConnectionString(output.getConnectionString());
             outputNode.addInput(i);
             return true;
@@ -196,7 +196,7 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @param output the ShaderOutput object to remove.
      */
     @Override
-    public void removeOutput(ShaderOutput output) {
+    public void removeOutput(NodeOutput output) {
         super.removeOutput(output);
         outputNode.removeInput(output.getName());
     }
@@ -274,14 +274,14 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @param node the node to connect.
      */
     private void connectNode(IONode node) {
-        for (ShaderInput input : node.getInputs()) {
+        for (NodeInput input : node.getInputs()) {
             String connection = input.getConnectionString();
             if (connection != null && connection.length() > 0) {
                 int dotIndex = connection.indexOf('.');
                 String nodeId = connection.substring(0, dotIndex);
                 String outputId = connection.substring(dotIndex + 1);
 
-                ShaderOutput output = null;
+                NodeOutput output = null;
                 if (nodeId.equals("input")) {
                     output = this.inputNode.findOutput(outputId);
                 } else {
@@ -319,9 +319,9 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @param input the ShaderInput that was changed.
      */
     @Override
-    public void remapInputName(String oldName, ShaderInput input) {
+    public void remapInputName(String oldName, NodeInput input) {
         super.remapInputName(oldName, input);
-        ShaderOutput output = inputNode.findOutput(oldName);
+        NodeOutput output = inputNode.findOutput(oldName);
         output.setName(input.getName());
         inputNode.remapOutputName(oldName, output);
     }
@@ -333,9 +333,9 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @param input the ShaderInput that was changed.
      */
     @Override
-    public void remapInputSemantic(String oldSemantic, ShaderInput input) {
+    public void remapInputSemantic(String oldSemantic, NodeInput input) {
         super.remapInputSemantic(oldSemantic, input);
-        ShaderOutput output = inputNode.findOutput(input.getName());
+        NodeOutput output = inputNode.findOutput(input.getName());
         output.setSemantic(input.getSemantic().getValue());
         inputNode.remapOutputSemantic(oldSemantic, output);
     }
@@ -347,9 +347,9 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @param output the ShaderOutput that was changed.
      */
     @Override
-    public void remapOutputName(String oldName, ShaderOutput output) {
+    public void remapOutputName(String oldName, NodeOutput output) {
         super.remapOutputName(oldName, output);
-        ShaderInput input = outputNode.findInput(oldName);
+        NodeInput input = outputNode.findInput(oldName);
         input.setName(output.getName());
         outputNode.remapInputName(oldName, input);
     }
@@ -361,9 +361,9 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @param output the ShaderOutput that was changed.
      */
     @Override
-    public void remapOutputSemantic(String oldSemantic, ShaderOutput output) {
+    public void remapOutputSemantic(String oldSemantic, NodeOutput output) {
         super.remapOutputSemantic(oldSemantic, output);
-        ShaderInput input = outputNode.findInput(output.getName());
+        NodeInput input = outputNode.findInput(output.getName());
         input.setSemantic(output.getSemantic().getValue());
         outputNode.remapInputSemantic(oldSemantic, input);
     }
@@ -374,13 +374,13 @@ public class ShaderStage extends IONode implements NodeGroup, TypedNode, Key, La
      * @param io the input or output that was changed.
      */
     @Override
-    public void typeChanged(ShaderIO io) {
+    public void typeChanged(NodeIO io) {
         super.typeChanged(io);
         if (io.isInput()) {
-            ShaderOutput output = inputNode.findOutput(io.getName());
+            NodeOutput output = inputNode.findOutput(io.getName());
             output.setIOType(io.getIOType());
         } else {
-            ShaderInput input = outputNode.findInput(io.getName());
+            NodeInput input = outputNode.findInput(io.getName());
             input.setIOType(io.getIOType());
         }
     }
