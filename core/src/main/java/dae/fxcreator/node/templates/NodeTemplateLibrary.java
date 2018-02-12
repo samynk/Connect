@@ -8,7 +8,7 @@ import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.IOType;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -209,7 +209,7 @@ public class NodeTemplateLibrary implements TreeModel {
      * @param key the key for the shader type.
      * @return the ShaderType object.
      */
-    public ShaderType getType(String key) {
+    public IOType getType(String key) {
         return typeLibrary.getType(key);
     }
 
@@ -217,7 +217,7 @@ public class NodeTemplateLibrary implements TreeModel {
      * Adds a type to the library.
      * @param type the type to add.
      */
-    public void addType(ShaderType type) {
+    public void addType(IOType type) {
         typeLibrary.addType(type);
     }
 
