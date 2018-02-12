@@ -3,8 +3,8 @@ package dae.fxcreator.node.graph;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.Semantic;
-import dae.fxcreator.node.ShaderStruct;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.IOStruct;
+import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.graph.model.IONodeInputTableModel;
 import dae.fxcreator.node.graph.model.IONodeInputTableModel.STATE;
 import dae.fxcreator.node.graph.model.IOTableModel;
@@ -33,8 +33,8 @@ public class IOEditorPanel extends JPanel{
         this.library = library;
 
         ShaderTypeCellEditor editor = new ShaderTypeCellEditor(library);
-        tblInputs.setDefaultEditor(ShaderType.class, editor);
-        tblOutputs.setDefaultEditor(ShaderType.class, editor);
+        tblInputs.setDefaultEditor(IOType.class, editor);
+        tblOutputs.setDefaultEditor(IOType.class, editor);
 
         SemanticCellEditor semanticEditor = new SemanticCellEditor();
         tblInputs.setDefaultEditor(Semantic.class, semanticEditor);
@@ -270,7 +270,7 @@ public class IOEditorPanel extends JPanel{
         //tblOutputs.getModel().removeTableModelListener(this);
         if (gnode != null) {
             if (gnode.isInputStructSet()) {
-                ShaderStruct inputStruct =  gnode.getInputStruct();
+                IOStruct inputStruct =  gnode.getInputStruct();
                 lblInputStruct.setVisible(true);
                 txtInputStruct.setVisible(true);
                 txtInputStruct.setText(inputStruct.getId());
@@ -284,7 +284,7 @@ public class IOEditorPanel extends JPanel{
             }
 
             if (gnode.isOutputStructSet()) {
-                ShaderStruct outputStruct = gnode.getOutputStruct();
+                IOStruct outputStruct = gnode.getOutputStruct();
                 lblOutputStruct.setVisible(true);
                 txtOutputStruct.setVisible(true);
                 txtOutputStruct.setText(outputStruct.getId());
