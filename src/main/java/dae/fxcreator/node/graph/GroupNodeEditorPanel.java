@@ -9,9 +9,9 @@ import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.node.templates.TemplateGroup;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.ReferenceNode;
-import dae.fxcreator.node.ShaderInput;
+import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.node.NodeOutput;
 import dae.fxcreator.node.event.NodeEvent;
 import dae.fxcreator.gui.model.ImageLoader;
 import dae.fxcreator.gui.model.NodeStyle;
@@ -275,7 +275,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
     }
 
     private void connectLinks(IONode node) {
-        for (ShaderInput input : node.getInputs()) {
+        for (NodeInput input : node.getInputs()) {
             String connectionString = input.getConnectionString();
             if (connectionString == null || connectionString.length() == 0) {
                 continue;
@@ -460,63 +460,63 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
         }
     }
 
-    private ShaderOutput copyOutput(IONode newParent, ShaderOutput output) {
+    private NodeOutput copyOutput(IONode newParent, NodeOutput output) {
         String semantic = "";
         if (output.getSemantic().isValid()) {
             semantic = output.getSemantic().toString();
         }
-        ShaderOutput copy = new ShaderOutput(newParent, output.getName(), semantic, output.getIOType(), "");
+        NodeOutput copy = new NodeOutput(newParent, output.getName(), semantic, output.getIOType(), "");
         return copy;
     }
 
-    private ShaderInput copyInput(IONode newParent, ShaderInput input) {
+    private NodeInput copyInput(IONode newParent, NodeInput input) {
         String semantic = "";
         if (input.getSemantic().isValid()) {
             semantic = input.getSemantic().toString();
         }
-        ShaderInput copy = new ShaderInput(newParent, input.getName(), semantic, input.getIOType());
+        NodeInput copy = new NodeInput(newParent, input.getName(), semantic, input.getIOType());
         return copy;
     }
 
-    private void copyConnection(NodeContainer nc, ShaderInput input) {
+    private void copyConnection(NodeContainer nc, NodeInput input) {
         if (input.getConnected()) {
             IONode node = input.getParent();
 
             IONode fromCloned = nc.findNode(node.getId());
-            ShaderInput clonedInput = fromCloned.findInput(input.getName());
-            ShaderOutput toOutput = input.getConnectedInput();
+            NodeInput clonedInput = fromCloned.findInput(input.getName());
+            NodeOutput toOutput = input.getConnectedInput();
 
             IONode toNode = toOutput.getParent();
             IONode toCloned = nc.findNode(toNode.getId());
-            ShaderOutput toOutputCloned = toCloned.findOutput(toOutput.getName());
+            NodeOutput toOutputCloned = toCloned.findOutput(toOutput.getName());
 
             clonedInput.setConnectedInput(toOutputCloned);
         }
     }
 
-    private void copyInputConnection(NodeContainer nc, ShaderInput input, String newName) {
+    private void copyInputConnection(NodeContainer nc, NodeInput input, String newName) {
         if (input.getConnected()) {
             IONode inputNode = nc.getInputNode();
-            ShaderOutput output = inputNode.findOutput(newName);
+            NodeOutput output = inputNode.findOutput(newName);
 
             IONode toCloned = nc.findNode(input.getParent().getId());
-            ShaderInput toClonedInput = toCloned.findInput(input.getName());
+            NodeInput toClonedInput = toCloned.findInput(input.getName());
 
             toClonedInput.setConnectedInput(output);
         }
     }
 
-    private void copyOutputConnection(NodeContainer nc, ShaderOutput output, String newName) {
+    private void copyOutputConnection(NodeContainer nc, NodeOutput output, String newName) {
         String outputName = output.getName();
         String outputId = output.getParent().getId();
 
         System.out.println("trying to find  :" + outputName + " from " + outputId);
 
         IONode outputNode = nc.getOutputNode();
-        ShaderInput input = outputNode.findInput(newName);
+        NodeInput input = outputNode.findInput(newName);
 
         IONode clonedFromNode = nc.findNode(output.getParent().getId());
-        ShaderOutput from = clonedFromNode.findOutput(output.getName());
+        NodeOutput from = clonedFromNode.findOutput(output.getName());
 
         input.setConnectedInput(from);
     }
@@ -549,19 +549,19 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
             }
 
             for (IONode node : nodes) {
-                for (ShaderInput input : node.getInputs()) {
+                for (NodeInput input : node.getInputs()) {
                     if (!input.getConnected()) {
-                        ShaderInput copy = copyInput(nc, input);
+                        NodeInput copy = copyInput(nc, input);
                         String iname = input.getName();
                         copy.setName(node.getId() + "_" + iname);
                         nc.addInput(copy);
                         // not connected so name change is possible without problems.
 
                     } else {
-                        ShaderOutput output = input.getConnectedInput();
+                        NodeOutput output = input.getConnectedInput();
                         IONode outputNode = output.getParent();
                         if (!nodes.contains(outputNode)) {
-                            ShaderInput copy = copyInput(nc, input);
+                            NodeInput copy = copyInput(nc, input);
                             nc.addInput(copy);
                             copy.setName(node.getId() + "_" + copy.getName());
                             copyInputConnection(nc, input, copy.getName());
@@ -571,9 +571,9 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
 
                     }
                 }
-                for (ShaderOutput output : node.getOutputs()) {
+                for (NodeOutput output : node.getOutputs()) {
                     if (!output.getConnected()) {
-                        ShaderOutput copy = copyOutput(nc, output);
+                        NodeOutput copy = copyOutput(nc, output);
                         nc.addOutput(copy);
                         copy.setName(node.getId() + "_" + copy.getName());
                     } else {
@@ -587,7 +587,7 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
                             }
                         }
                         if (!connected) {
-                            ShaderOutput copy = copyOutput(nc, output);
+                            NodeOutput copy = copyOutput(nc, output);
                             nc.addOutput(copy);
                             copy.setName(node.getId() + "_" + copy.getName());
                             copyOutputConnection(nc, output, copy.getName());
@@ -732,9 +732,9 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
                 IONode toCloned = toAdd.get(i);
                 IONode toOriginal = copyNodes.get(i);
 
-                for (ShaderInput input : toOriginal.getInputs()) {
+                for (NodeInput input : toOriginal.getInputs()) {
                     if (input.getConnected()) {
-                        ShaderOutput output = input.getConnectedInput();
+                        NodeOutput output = input.getConnectedInput();
                         IONode fromOriginal = output.getParent();
 
                         int fromIndex = copyNodes.indexOf(fromOriginal);
@@ -743,12 +743,12 @@ public class GroupNodeEditorPanel extends javax.swing.JPanel implements GraphLis
                         }
                         IONode fromCloned = toAdd.get(fromIndex);
 
-                        ShaderInput clonedInput = toCloned.findInput(input.getName());
+                        NodeInput clonedInput = toCloned.findInput(input.getName());
                         if (clonedInput == null) {
                             continue;
                         }
 
-                        ShaderOutput clonedOutput = fromCloned.findOutput(output.getName());
+                        NodeOutput clonedOutput = fromCloned.findOutput(output.getName());
                         if (clonedOutput == null) {
                             continue;
                         }
