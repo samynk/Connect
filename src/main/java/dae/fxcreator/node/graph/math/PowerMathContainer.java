@@ -189,11 +189,11 @@ public class PowerMathContainer extends MathContainer {
         BinaryMathElement element = new BinaryMathElement();
         if (base != null) {
             MathElement baseElement = base.createFormula();
-            element.setFirstElement(baseElement);
+            element.setFirst(baseElement);
         }
         if (power != null) {
             MathElement powerElement = power.createFormula();
-            element.setSecondElement(powerElement);
+            element.setSecond(powerElement);
         }
         element.setOperation(Operation.POWER);
         return element;
