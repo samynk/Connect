@@ -41,13 +41,13 @@ public interface NodeGroup extends TypedNode{
      * Returns the list of ShaderOutput objects for this group.
      * @return the list of ShaderOutput objects.
      */
-    public List<ShaderOutput> getOutputs();
+    public List<NodeOutput> getOutputs();
 
     /**
      * Returns the list of ShaderInput objects for this group.
      * @return the list of ShaderOutput objects.
      */
-    public List<ShaderInput> getInputs();
+    public List<NodeInput> getInputs();
 
      /**
      * Returns the input node associated with the ShaderStage.
