@@ -1,8 +1,8 @@
 package dae.fxcreator.node.transform;
 
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderIO;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.transform.exec.ExecuteBlock;
 
 /**
@@ -120,11 +120,11 @@ public class CodeServlet extends ExecuteBlock {
      * @param portName the name of the input or output.
      * @return the ShaderInput or ShaderOutput object.
      */
-    public ShaderIO getIO(IONode node, String portName) {
+    public NodeIO getIO(IONode node, String portName) {
         return node.getPort(portName);
     }
 
-    public boolean compareType(String type, ShaderType st) {
+    public boolean compareType(String type, IOType st) {
         return type.equals(st.getType());
     }
 }
