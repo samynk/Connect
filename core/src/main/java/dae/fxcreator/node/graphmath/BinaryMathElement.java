@@ -13,6 +13,8 @@ public class BinaryMathElement extends MathElement {
     private MathElement firstElement;
     private MathElement secondElement;
 
+    private static Dimension empty = new Dimension(0, 0);
+
     public BinaryMathElement() {
     }
 
@@ -84,8 +86,11 @@ public class BinaryMathElement extends MathElement {
     @Override
     public Dimension calculateSize(Graphics2D g2d) {
         String operator = operation.getText();
-        Dimension firstSize = firstElement.calculateSize(g2d);
-        Dimension secondSize = secondElement.calculateSize(g2d);
+        Dimension firstSize = firstElement != null ? firstElement.calculateSize(g2d) : empty;
+        Dimension secondSize = secondElement != null ? secondElement.calculateSize(g2d) : empty;
+
+        int bl1 = firstElement != null ? firstElement.baseLine : 0;
+        int bl2 = secondElement != null ? secondElement.baseLine : 0;
 
         if ("/".equals(operator)) {
             size.width = Math.max(firstSize.width, secondSize.width);
@@ -100,9 +105,9 @@ public class BinaryMathElement extends MathElement {
             }
             baseLine = secondSize.height + firstElement.baseLine;
         } else {
-            size.width = firstSize.width + secondSize.width + g2d.getFontMetrics().stringWidth(operator)+10;
+            size.width = firstSize.width + secondSize.width + g2d.getFontMetrics().stringWidth(operator) + 10;
             size.height = Math.max(firstSize.height, secondSize.height);
-            baseLine = Math.max(firstElement.baseLine, secondElement.baseLine);
+            baseLine = Math.max(bl1, bl2);
         }
         return size;
     }
@@ -110,16 +115,23 @@ public class BinaryMathElement extends MathElement {
     @Override
     public void render(Graphics2D g2d, int x, int y, int width, int height) {
         String operator = operation.getText();
-        Dimension firstSize = firstElement.size;
-        Dimension secondSize = secondElement.size;
+        Dimension firstSize = firstElement != null ? firstElement.calculateSize(g2d) : empty;
+        Dimension secondSize = secondElement != null ? secondElement.calculateSize(g2d) : empty;
+
+        int bl1 = firstElement != null ? firstElement.baseLine : 0;
+        int bl2 = secondElement != null ? secondElement.baseLine : 0;
 
         if ("/".equals(operator)) {
             // vertical orientation
             int xoffset1 = (width - firstSize.width) / 2;
-            firstElement.render(g2d, x + xoffset1, y, firstSize.width, firstSize.height);
+            if (firstElement != null) {
+                firstElement.render(g2d, x + xoffset1, y, firstSize.width, firstSize.height);
+            }
             g2d.drawLine(x, y + baseLine, x + width, y + baseLine);
             int xoffset2 = (width - secondSize.width) / 2;
-            secondElement.render(g2d, x + xoffset2, y + firstSize.height + 8, secondSize.width, secondSize.height);
+            if (secondElement != null) {
+                secondElement.render(g2d, x + xoffset2, y + firstSize.height + 8, secondSize.width, secondSize.height);
+            }
 
         } else if ("POWER".equals(operator)) {
             int yOffset = g2d.getFontMetrics().getAscent() / 2;
@@ -130,16 +142,24 @@ public class BinaryMathElement extends MathElement {
                 xOffset = 10;
                 // draw brackets around first element
                 g2d.drawArc(x, yOffset2 + 2, 7, firstSize.height - 4, 90, 180);
-                g2d.drawArc(x + firstSize.width + xOffset*2 - 6, yOffset2 + 2, 7, firstSize.height - 4, 90, -180);
+                g2d.drawArc(x + firstSize.width + xOffset * 2 - 6, yOffset2 + 2, 7, firstSize.height - 4, 90, -180);
             }
-            firstElement.render(g2d, x + xOffset, y + secondElement.size.height - yOffset, firstSize.width, firstSize.height);
-            secondElement.render(g2d, x + firstSize.width + xOffset *2, y, secondSize.width, secondSize.height);
+            if (firstElement != null) {
+                firstElement.render(g2d, x + xOffset, y + secondElement.size.height - yOffset, firstSize.width, firstSize.height);
+            }
+            if (secondElement != null) {
+                secondElement.render(g2d, x + firstSize.width + xOffset * 2, y, secondSize.width, secondSize.height);
+            }
         } else {
             // horizontal orientation
-            firstElement.render(g2d, x, y + baseLine - firstElement.baseLine, firstSize.width, firstSize.height);
-            g2d.drawString(this.operation.getText(), x + firstSize.width+5, y + baseLine);
-            secondElement.render(g2d, x + firstSize.width + g2d.getFontMetrics().stringWidth(operator) + 10,
-                    y + baseLine - secondElement.baseLine, secondSize.width, secondSize.height);
+            if (firstElement != null) {
+                firstElement.render(g2d, x, y + baseLine - firstElement.baseLine, firstSize.width, firstSize.height);
+            }
+            g2d.drawString(this.operation.getText(), x + firstSize.width + 5, y + baseLine);
+            if (secondElement != null) {
+                secondElement.render(g2d, x + firstSize.width + g2d.getFontMetrics().stringWidth(operator) + 10,
+                        y + baseLine - secondElement.baseLine, secondSize.width, secondSize.height);
+            }
         }
     }
 
@@ -161,8 +181,7 @@ public class BinaryMathElement extends MathElement {
             }
         }
     }
-    */
-
+     */
     @Override
     public String getId() {
         return "binary";
@@ -172,5 +191,5 @@ public class BinaryMathElement extends MathElement {
     public String getType() {
         return "binary." + operation.name();
     }
-    
+
 }
