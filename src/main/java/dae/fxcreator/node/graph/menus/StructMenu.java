@@ -2,7 +2,7 @@ package dae.fxcreator.node.graph.menus;
 
 import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.ShaderStructCollection;
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.IOStruct;
 import dae.fxcreator.node.graph.TechniqueEditorPanel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -58,7 +58,7 @@ public class StructMenu extends JPopupMenu implements ActionListener {
         tree.getSelectionPath();
         ShaderStructCollection collection = project.getStructCollection();
         String name = collection.createUniqueName();
-        ShaderStruct struct = new ShaderStruct(name,project.getShaderTypeLibrary());
+        IOStruct struct = new IOStruct(name,project.getShaderTypeLibrary());
         panel.editStruct(struct);
         project.addShaderStruct(struct);
         //project.notifyNodeAdded(struct, tree.getSelectionPath(), collection.getIndex(struct));
