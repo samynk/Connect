@@ -1,7 +1,6 @@
 package dae.fxcreator.node.transform;
 
 import dae.fxcreator.node.ShaderType;
-import dae.fxcreator.node.graphmath.MathFormula;
 import java.io.File;
 import java.util.HashMap;
 import java.util.logging.Level;
