@@ -1,6 +1,6 @@
 package dae.fxcreator.io.type;
 
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.IOType;
 import java.util.ArrayList;
 
 /**
@@ -11,13 +11,13 @@ public class InputRule {
     /**
      * The list of accepted types.
      */
-    private ArrayList<ShaderType> acceptedTypes;
+    private ArrayList<IOType> acceptedTypes;
     /**
      * Returns true if the type is accepted by the node, false otherwise.
      * @param type the type to check.
      * @return true if the type is accepted , false otherwise.
      */
-    public boolean acceptType(ShaderType type)
+    public boolean acceptType(IOType type)
     {
         return ( acceptedTypes.contains(type));
     }
