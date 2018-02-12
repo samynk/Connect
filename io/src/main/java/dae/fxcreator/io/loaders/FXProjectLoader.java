@@ -17,12 +17,12 @@ import dae.fxcreator.node.IteratorNode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.SettingsGroup;
-import dae.fxcreator.node.ShaderField;
-import dae.fxcreator.node.ShaderInput;
+import dae.fxcreator.node.StructField;
+import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.ShaderStruct;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.NodeOutput;
+import dae.fxcreator.node.IOStruct;
+import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.project.FXProjectTypeRegistry;
 import java.awt.Point;
 import java.io.IOException;
@@ -89,7 +89,7 @@ public class FXProjectLoader extends DefaultHandler {
      * The shader nodes that are present in this FXProject.
      */
     private final HashMap<String, ShaderStage> stages = new HashMap<>();
-    private ShaderStruct currentShaderStruct;
+    private IOStruct currentShaderStruct;
     private String currentInputStructID;
     private String currentOutputStructID;
 
@@ -267,13 +267,13 @@ public class FXProjectLoader extends DefaultHandler {
             }
         } else if ("input".equals(qName)) {
             String name = attributes.getValue("name");
-            ShaderType type = library.getType(attributes.getValue("type"));
+            IOType type = library.getType(attributes.getValue("type"));
             String semantic = attributes.getValue("semantic");
 
             if (semantic != null && semantic.length() == 0) {
                 semantic = null;
             }
-            ShaderInput input = new ShaderInput(currentNode, name, semantic, type);
+            NodeInput input = new NodeInput(currentNode, name, semantic, type);
             input.setConnectionString(attributes.getValue("connection"));
 
             String anchor = attributes.getValue("anchor");
@@ -288,10 +288,10 @@ public class FXProjectLoader extends DefaultHandler {
 
         } else if ("output".equals(qName)) {
             String name = attributes.getValue("name");
-            ShaderType type = library.getType(attributes.getValue("type"));
+            IOType type = library.getType(attributes.getValue("type"));
             String semantic = attributes.getValue("semantic");
             String typeRule = attributes.getValue("typerule");
-            ShaderOutput output = new ShaderOutput(currentNode, name, semantic, type, typeRule);
+            NodeOutput output = new NodeOutput(currentNode, name, semantic, type, typeRule);
             output.setConnectionString(attributes.getValue("connection"));
 
             String anchor = attributes.getValue("anchor");
@@ -392,13 +392,13 @@ public class FXProjectLoader extends DefaultHandler {
             charBuffer.delete(0, charBuffer.length());
         } else if ("struct".equals(qName)) {
             String id = attributes.getValue("id");
-            currentShaderStruct = new ShaderStruct(id, library.getTypeLibrary());
+            currentShaderStruct = new IOStruct(id, library.getTypeLibrary());
             project.addShaderStruct(currentShaderStruct);
         } else if ("field".equals(qName)) {
             String type = attributes.getValue("type");
             String name = attributes.getValue("name");
             String semantic = attributes.getValue("semantic");
-            ShaderField field = new ShaderField(name, semantic, library.getType(type));
+            StructField field = new StructField(name, semantic, library.getType(type));
             currentShaderStruct.addShaderField(field);
         } else if ("global".equals(qName)) {
             currentElement = ELEMENT.GLOBALNODE;
@@ -493,11 +493,11 @@ public class FXProjectLoader extends DefaultHandler {
             nodeGroupStack.pop();
             currentStage.connectNodes();
             if (currentInputStructID != null) {
-                ShaderStruct struct = this.project.getStruct(currentInputStructID);
+                IOStruct struct = this.project.getStruct(currentInputStructID);
                 currentStage.setInputStruct(struct);
             }
             if (currentOutputStructID != null) {
-                ShaderStruct struct = this.project.getStruct(currentOutputStructID);
+                IOStruct struct = this.project.getStruct(currentOutputStructID);
                 currentStage.setOutputStruct(struct);
             }
             currentInputStructID = null;
