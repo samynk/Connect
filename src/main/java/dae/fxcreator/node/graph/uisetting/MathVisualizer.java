@@ -8,7 +8,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
@@ -19,15 +18,20 @@ import javax.swing.JPanel;
 public class MathVisualizer extends JPanel implements Visualizer {
 
     private MathSetting setting;
-    private MathFormulaRenderer renderer = new MathFormulaRenderer();
+    private final MathFormulaRenderer renderer = new MathFormulaRenderer();
 
     public MathVisualizer() {
+        init();
+    }
+
+    private void init() {
         setOpaque(true);
         setMinimumSize(new Dimension(128, 64));
         setPreferredSize(new Dimension(256, 128));
         setBorder(BorderFactory.createLineBorder(Color.yellow));
     }
 
+    @Override
     public Setting getSetting() {
         return setting;
     }
@@ -36,35 +40,45 @@ public class MathVisualizer extends JPanel implements Visualizer {
         this.setting = (MathSetting) s;
     }
 
+    @Override
     public void updateVisual() {
+        System.out.println("updating visual");
+        MathFormula formula = (MathFormula) setting.getMathFormula();
+        if (formula == null) {
+            return;
+        }
+        Dimension d  = renderer.calculateSize(formula, (Graphics2D)this.getGraphics());
+        System.out.println("New dimension is:" + d);
+        this.invalidate();
+        this.getParent().getParent().revalidate();
+        this.getParent().getParent().repaint();
     }
     
-    public void updateVisual(Setting s){
-        this.setting = (MathSetting)s;
-        repaint();
+    @Override
+    public Dimension getPreferredSize(){
+        MathFormula formula = (MathFormula) setting.getMathFormula();
+        if (formula == null || getGraphics() == null ) {
+            return super.getPreferredSize();
+        }else{
+            return renderer.calculateSize(formula, (Graphics2D)this.getGraphics());
+        }
+    }
+
+    @Override
+    public void updateVisual(Setting s) {
+        this.setting = (MathSetting) s;
+        updateVisual();
     }
 
     @Override
     public void paint(Graphics g) {
-        if (setting != null ) {
-            MathFormula formula =(MathFormula) setting.getMathFormula();
-            if ( formula == null){
-                System.out.println("Formula is null!!");
+        if (setting != null) {
+            MathFormula formula = (MathFormula) setting.getMathFormula();
+            if (formula == null) {
                 return;
             }
             renderer.render(formula, (Graphics2D) g);
-//            Image image = setting.getImage();
-//            int width = getWidth();
-//            int height = getHeight();
-//            int iwidth = image.getWidth(this);
-//            int iheight = image.getHeight(this);
-//            if (iwidth > width || iheight > height) {
-//                this.setPreferredSize(new Dimension(iwidth,iheight));
-//                this.invalidate();
-//            }
-//            System.out.println("Drawing at : " + width + "," + height);
-//            System.out.println("Image size : " + iwidth + "," + iheight);
-//            g.drawImage(setting.getImage(), 0, 0,this);
+
         }
     }
 }
