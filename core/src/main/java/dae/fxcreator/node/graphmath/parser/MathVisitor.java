@@ -41,7 +41,7 @@ public class MathVisitor extends MathScriptBaseVisitor {
         bme.setOperation(Operation.ASSIGN);
         MathVariable left = new MathVariable();
         left.setVarName(leftId);
-        bme.setFirstElement(left);
+        bme.setFirst(left);
 
         addElementToTopOfStack(bme);
         elementStack.push(bme);
