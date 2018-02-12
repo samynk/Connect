@@ -1,9 +1,9 @@
 package dae.fxcreator.node.graph.model;
 
 import dae.fxcreator.node.Semantic;
-import dae.fxcreator.node.ShaderField;
-import dae.fxcreator.node.ShaderStruct;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.StructField;
+import dae.fxcreator.node.IOStruct;
+import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.graph.JGraphNode;
 import java.util.ArrayList;
 import javax.swing.event.TableModelEvent;
@@ -16,14 +16,14 @@ import javax.swing.table.TableModel;
  */
 public class StructTableModel implements TableModel, IOTableModel {
 
-    private ShaderStruct struct;
+    private IOStruct struct;
     private ArrayList<TableModelListener> listeners = new ArrayList<TableModelListener>();
 
     /**
      * Creates a new StructTable model.
      * @param struct the struct to edit.
      */
-    public StructTableModel(ShaderStruct struct) {
+    public StructTableModel(IOStruct struct) {
         this.struct = struct;
     }
 
@@ -32,7 +32,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      * @param struct the struct to edit.
      * @param node the node the struct is set into.
      */
-    public StructTableModel(JGraphNode node,ShaderStruct struct) {
+    public StructTableModel(JGraphNode node,IOStruct struct) {
         this.struct = struct;
     }
 
@@ -85,7 +85,7 @@ public class StructTableModel implements TableModel, IOTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return ShaderType.class;
+                return IOType.class;
             case 1:
                 return String.class;
             case 2:
@@ -113,7 +113,7 @@ public class StructTableModel implements TableModel, IOTableModel {
      */
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        ShaderField field = struct.getField(rowIndex);
+        StructField field = struct.getField(rowIndex);
 
         switch (columnIndex) {
             case 0:
@@ -135,10 +135,10 @@ public class StructTableModel implements TableModel, IOTableModel {
      */
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        ShaderField field = struct.getField(rowIndex);
+        StructField field = struct.getField(rowIndex);
         switch (columnIndex) {
             case 0:
-                ShaderType st = (ShaderType) aValue;
+                IOType st = (IOType) aValue;
                 field.setType(st);
                 break;
             case 1:
@@ -172,7 +172,7 @@ public class StructTableModel implements TableModel, IOTableModel {
     public void add() {
         int index = -1;
         // TODO : change the default type to a configurable default per type of fx project.
-        ShaderField field = new ShaderField("newfield","",struct.getTypeLibrary().getType("FLOAT3"));
+        StructField field = new StructField("newfield","",struct.getTypeLibrary().getType("FLOAT3"));
         struct.addShaderField(field);
         TableModelEvent tme = new TableModelEvent(this, index, index, -1, TableModelEvent.INSERT);
         notifyListeners(tme);
