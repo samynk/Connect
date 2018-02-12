@@ -5,10 +5,10 @@ import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.node.events.SettingListener;
 import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderIO;
-import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.NodeInput;
+import dae.fxcreator.node.NodeOutput;
+import dae.fxcreator.node.IOStruct;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -626,8 +626,8 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
                     JConnectorPoint startCp = startTerminal.getConnectorPoint();
                     JConnectorPoint endCp = endTerminal.getConnectorPoint();
                     if (endT != startTerminal && startCp != endCp) {
-                        ShaderIO startIO = startCp.getUserObject();
-                        ShaderIO endIO = endCp.getUserObject();
+                        NodeIO startIO = startCp.getUserObject();
+                        NodeIO endIO = endCp.getUserObject();
 
                         if (endIO.accepts(startIO)) {
                             endTerminal.setSelected(true);
@@ -708,17 +708,17 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
         }*/
         if (selectionState == SelectionState.TERMINAL) {
             if (startTerminal != null && endTerminal != null) {
-                ShaderIO start = startTerminal.getConnectorPoint().getUserObject();
-                ShaderIO end = endTerminal.getConnectorPoint().getUserObject();
+                NodeIO start = startTerminal.getConnectorPoint().getUserObject();
+                NodeIO end = endTerminal.getConnectorPoint().getUserObject();
 
                 if (start.accepts(end)) {
                     if (start.isInput()) {
-                        ShaderInput input = (ShaderInput) start;
-                        ShaderOutput output = (ShaderOutput) end;
+                        NodeInput input = (NodeInput) start;
+                        NodeOutput output = (NodeOutput) end;
                         input.setConnectedInput(output);
                     } else {
-                        ShaderInput input = (ShaderInput) end;
-                        ShaderOutput output = (ShaderOutput) start;
+                        NodeInput input = (NodeInput) end;
+                        NodeOutput output = (NodeOutput) start;
                         input.setConnectedInput(output);
                     }
                 }
@@ -1000,7 +1000,7 @@ public class GraphEditor extends JPanel implements MouseListener, MouseMotionLis
             } else {
                 JGraphNode node = (JGraphNode) this.getComponentAt(dtde.getLocation());
                 c = this.findComponentAt(dtde.getLocation());
-                ShaderStruct ss = null;
+                IOStruct ss = null;
                 if (object.startsWith("struct")) {
                     while (c != this && c != null) {
                         String name = c.getName();
