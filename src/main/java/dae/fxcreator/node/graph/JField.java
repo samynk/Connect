@@ -3,7 +3,7 @@ package dae.fxcreator.node.graph;
 import dae.fxcreator.node.project.FXProjectType;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderField;
+import dae.fxcreator.node.StructField;
 import dae.fxcreator.gui.model.ImageLoader;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  */
 public class JField extends JPanel {
     private IONode parent;
-    private final ShaderField field;
+    private final StructField field;
     private final JLabel semanticLabel;
     private final JLabel typeLabel;
     private final JLabel nameLabel;
@@ -27,7 +27,7 @@ public class JField extends JPanel {
      * Creates a new JField object.
      * @param field the field to visualize in this component.
      */
-    public JField(IONode parent, ShaderField field) {
+    public JField(IONode parent, StructField field) {
         this.parent = parent;
         this.field = field;
         setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
