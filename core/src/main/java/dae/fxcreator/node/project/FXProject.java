@@ -7,7 +7,7 @@ import dae.fxcreator.node.events.SymbolListener;
 import dae.fxcreator.node.templates.NodeTemplateLibrary;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.IOStruct;
 import dae.fxcreator.node.transform.TemplateClassLibrary;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -335,7 +335,7 @@ public class FXProject implements TypedNode {
      *
      * @param shaderStruct the current ShaderStruct object
      */
-    public void addShaderStruct(ShaderStruct shaderStruct) {
+    public void addShaderStruct(IOStruct shaderStruct) {
         this.shaderStructs.addShaderStruct(shaderStruct);
         ArrayList<SymbolListener> sls = symbolListeners.get("STRUCT");
         if (sls != null) {
@@ -345,7 +345,7 @@ public class FXProject implements TypedNode {
         }
     }
 
-    public Iterable<ShaderStruct> getStructs() {
+    public Iterable<IOStruct> getStructs() {
         return shaderStructs.getStructs();
     }
 
@@ -365,7 +365,7 @@ public class FXProject implements TypedNode {
      * @param structid the id of the struct.
      * @return the ShaderStruct object.
      */
-    public ShaderStruct getStruct(String structid) {
+    public IOStruct getStruct(String structid) {
         return shaderStructs.getStruct(structid);
     }
 
@@ -522,7 +522,7 @@ public class FXProject implements TypedNode {
      * @param listener the listener to send the struct symbols to.
      */
     private void sendStructSymbols(SymbolListener listener) {
-        for (ShaderStruct struct : this.shaderStructs.getStructs()) {
+        for (IOStruct struct : this.shaderStructs.getStructs()) {
             listener.symbolAdded("STRUCT", struct);
         }
     }
