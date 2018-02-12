@@ -8,8 +8,8 @@ import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IteratorNode;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.SettingsGroup;
-import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.node.NodeInput;
+import dae.fxcreator.node.NodeOutput;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -97,7 +97,7 @@ public class NodeTemplate {
      *
      * @param so the new output for the shader node.
      */
-    public void addOutput(ShaderOutput so) {
+    public void addOutput(NodeOutput so) {
         nodePrototype.addOutput(so);
     }
 
@@ -106,7 +106,7 @@ public class NodeTemplate {
      *
      * @param si the new input for the shader node.
      */
-    public void addInput(ShaderInput si) {
+    public void addInput(NodeInput si) {
         nodePrototype.addInput(si);
     }
 
@@ -152,12 +152,12 @@ public class NodeTemplate {
     public ShaderStage createShaderStage(FXProject project) {
         ShaderStage stage = new ShaderStage(nodePrototype.getId(), nodePrototype.getType());
         stage.setFXProject(project);
-        for (ShaderInput input : nodePrototype.getInputs()) {
-            ShaderInput ci = new ShaderInput(stage, input.getName(), input.getSemantic().getValue(), input.getIOType());
+        for (NodeInput input : nodePrototype.getInputs()) {
+            NodeInput ci = new NodeInput(stage, input.getName(), input.getSemantic().getValue(), input.getIOType());
             stage.addInput(ci);
         }
-        for (ShaderOutput output : nodePrototype.getOutputs()) {
-            ShaderOutput co = new ShaderOutput(stage, output.getName(), output.getSemantic().getValue(), output.getIOType(), output.getTypeRule());
+        for (NodeOutput output : nodePrototype.getOutputs()) {
+            NodeOutput co = new NodeOutput(stage, output.getName(), output.getSemantic().getValue(), output.getIOType(), output.getTypeRule());
             stage.addOutput(co);
         }
         stage.getInputNode().setPosition(20, 20);
@@ -192,8 +192,8 @@ public class NodeTemplate {
      * @param currentNode the node to synchronize with the shader types.
      */
     public void addAcceptShaderTypes(IONode currentNode) {
-        for (ShaderInput si : nodePrototype.getInputs()) {
-            ShaderInput toSync = currentNode.findInput(si.getName());
+        for (NodeInput si : nodePrototype.getInputs()) {
+            NodeInput toSync = currentNode.findInput(si.getName());
             if (toSync != null) {
                 toSync.setAcceptTypeSet(si.getAcceptTypeSet());
             }
@@ -215,7 +215,7 @@ public class NodeTemplate {
      *
      * @param si the template input to add.
      */
-    public void addTemplateInput(ShaderInput si) {
+    public void addTemplateInput(NodeInput si) {
         nodePrototype.addTemplateInput(si);
     }
 }
