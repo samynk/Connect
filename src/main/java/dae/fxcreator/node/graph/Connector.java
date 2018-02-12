@@ -1,7 +1,7 @@
 package dae.fxcreator.node.graph;
 
-import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderOutput;
+import dae.fxcreator.node.NodeInput;
+import dae.fxcreator.node.NodeOutput;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -32,10 +32,10 @@ public class Connector {
     private final BasicStroke strokea = new BasicStroke(3.0f);
     private Color w = Color.white;
     private Color dw = Color.white.darker();
-    private ShaderInput shaderInput;
-    private ShaderOutput output;
+    private NodeInput shaderInput;
+    private NodeOutput output;
 
-    public Connector(ShaderInput input, Point start, Point end, GeneralPath path) {
+    public Connector(NodeInput input, Point start, Point end, GeneralPath path) {
         this.start = start;
         this.end = end;
         path = new GeneralPath();
@@ -44,7 +44,7 @@ public class Connector {
     /**
      * Creates an empty connector object.
      */
-    public Connector(ShaderInput input) {
+    public Connector(NodeInput input) {
         shaderInput = input;
         path = new GeneralPath();
     }
@@ -138,11 +138,11 @@ public class Connector {
         this.selected = selected;
     }
 
-    public void setConnectedOutput(ShaderOutput output){
+    public void setConnectedOutput(NodeOutput output){
         this.output=output;
     }
 
-    public ShaderOutput getConnectedOutput(){
+    public NodeOutput getConnectedOutput(){
         return output;
     }
 
