@@ -17,10 +17,10 @@ import dae.fxcreator.node.settings.TextSetting;
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.IOAnchor;
 import dae.fxcreator.node.ReferenceNode;
-import dae.fxcreator.node.ShaderIO;
-import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.NodeIO;
+import dae.fxcreator.node.NodeInput;
+import dae.fxcreator.node.NodeOutput;
+import dae.fxcreator.node.IOStruct;
 import dae.fxcreator.node.graph.uisetting.BooleanVisualizer;
 import dae.fxcreator.node.graph.uisetting.CodeSettingVisualizer;
 import dae.fxcreator.node.graph.uisetting.ColorVisualizer;
@@ -183,24 +183,24 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
         if (!isRefNode) {
             if (node.isInputStructSet()) {
-                ShaderStruct input = node.getInputStruct();
+                IOStruct input = node.getInputStruct();
                 JGraphStruct structPanel = new JGraphStruct(node);
                 structPanel.setModel(input);
                 westPanel.addNorthComponent(structPanel);
             } else {
-                for (ShaderInput input : node.getInputs()) {
+                for (NodeInput input : node.getInputs()) {
                     addIOComponent(node, input);
                 }
             }
         }
 
         if (node.isOutputStructSet()) {
-            ShaderStruct output = node.getOutputStruct();
+            IOStruct output = node.getOutputStruct();
             JGraphStruct structPanel = new JGraphStruct(node);
             structPanel.setModel(output);
             eastPanel.addNorthComponent(structPanel);
         } else {
-            for (ShaderOutput output : node.getOutputs()) {
+            for (NodeOutput output : node.getOutputs()) {
                 addIOComponent(node, output);
             }
         }
@@ -239,7 +239,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
         updateStyle();
     }
 
-    private JConnectorPoint addIOComponent(IONode node, ShaderIO io) {
+    private JConnectorPoint addIOComponent(IONode node, NodeIO io) {
         JConnectorPoint jcp = null;
         IOAnchor anchor;
         if (io.hasAnchor()) {
@@ -557,7 +557,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
      * @param output the ShaderOutput object.
      * @return the location of the JConnectorPoint object.
      */
-    public Point getLocation(ShaderOutput output) {
+    public Point getLocation(NodeOutput output) {
         IONode ionode = output.getParent();
         //JGraphNode jnode = parent.findNode(ionode.getInternalID());
         JGraphNode jnode = parent.findClosestNode(this, ionode.getInternalID());
@@ -580,7 +580,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
      * @param output the ShaderOutput object.
      * @return the JConnectorPoint that represents the output object.
      */
-    private JConnectorPoint getConnectorPoint(ShaderOutput output) {
+    private JConnectorPoint getConnectorPoint(NodeOutput output) {
         return connectorMap.get(output.getName());
     }
 
@@ -630,7 +630,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
      * @param name the name of the input to add.
      */
     public void addInput(String name) {
-        ShaderInput input = this.node.findInput(name);
+        NodeInput input = this.node.findInput(name);
         if (input != null) {
             JConnectorPoint jcp = addIOComponent(node, input);
             jcp.updateStyle(currentStyle);
@@ -645,7 +645,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
      * @param name the name of the input to add.
      */
     public void addOutput(String name) {
-        ShaderOutput output = this.node.findOutput(name);
+        NodeOutput output = this.node.findOutput(name);
         if (output != null) {
             JConnectorPoint jcp = addIOComponent(node, output);
             jcp.updateStyle(currentStyle);
@@ -661,7 +661,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
      *
      * @param struct the new output struct for this graphnode.
      */
-    public void setOutputStruct(ShaderStruct struct) {
+    public void setOutputStruct(IOStruct struct) {
         JGraphStruct structPanel = new JGraphStruct(node);
         structPanel.setModel(struct);
         for (Component c : eastPanel.getComponents()) {
@@ -678,7 +678,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     }
 
-    public void setInputStruct(ShaderStruct struct) {
+    public void setInputStruct(IOStruct struct) {
         JGraphStruct structPanel = new JGraphStruct(node);
         structPanel.setModel(struct);
         for (Component c : westPanel.getComponents()) {
@@ -714,7 +714,7 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
 
     @Override
     public void ioAdded(String name) {
-        ShaderIO io = node.getPort(name);
+        NodeIO io = node.getPort(name);
         if (io.isInput()) {
             this.addInput(name);
         } else {
@@ -832,11 +832,11 @@ public class JGraphNode extends JPanel implements IOListener, SettingListener {
     }
 
     public void highlightPossibleEndTerminals(JTerminal startTerminal) {
-        ShaderIO start = startTerminal.getConnectorPoint().getUserObject();
+        NodeIO start = startTerminal.getConnectorPoint().getUserObject();
         for (Component c : westPanel.getComponents()) {
             if (c instanceof JConnectorPoint) {
                 JConnectorPoint jcp = (JConnectorPoint) c;
-                ShaderIO end = jcp.getUserObject();
+                NodeIO end = jcp.getUserObject();
                 if (!end.getConnected() && end.accepts(start)) {
                     jcp.highlight();
                 }
