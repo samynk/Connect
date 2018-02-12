@@ -10,11 +10,11 @@ import dae.fxcreator.node.settings.Setting;
 import dae.fxcreator.node.NodeContainer;
 import dae.fxcreator.node.ReferenceNode;
 import dae.fxcreator.node.SettingsGroup;
-import dae.fxcreator.node.ShaderField;
-import dae.fxcreator.node.ShaderInput;
+import dae.fxcreator.node.StructField;
+import dae.fxcreator.node.NodeInput;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.NodeOutput;
+import dae.fxcreator.node.IOStruct;
 import java.awt.Point;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -125,11 +125,11 @@ public class FXProjectSaver extends XMLSaver {
 
     private void writeStructs(BufferedWriter bw) throws IOException {
         bw.write("\t<structs>\n");
-        for (ShaderStruct struct : project.getStructs()) {
+        for (IOStruct struct : project.getStructs()) {
             bw.write("\t\t<struct ");
             writeAttribute(bw, "id", struct.getId());
             bw.write(">\n");
-            for (ShaderField field : struct.getFields()) {
+            for (StructField field : struct.getFields()) {
                 bw.write("\t\t\t<field ");
                 writeAttribute(bw, "name", field.getName());
                 writeAttribute(bw, "semantic", field.getSemantic().getValue());
@@ -159,7 +159,7 @@ public class FXProjectSaver extends XMLSaver {
             bw.write(">\n");
 
             IONode inputNode = stage.getInputNode();
-            for (ShaderOutput output : inputNode.getOutputs()) {
+            for (NodeOutput output : inputNode.getOutputs()) {
                 writeTabs(bw, 2);
                 bw.write("<input");
                 writeAttribute(bw, "name", output.getName());
@@ -170,7 +170,7 @@ public class FXProjectSaver extends XMLSaver {
             }
 
             IONode outputNode = stage.getOutputNode();
-            for (ShaderInput input : outputNode.getInputs()) {
+            for (NodeInput input : outputNode.getInputs()) {
                 writeTabs(bw, 2);
                 bw.write("<output");
                 writeAttribute(bw, "name", input.getName());
@@ -255,8 +255,8 @@ public class FXProjectSaver extends XMLSaver {
         writeAttribute(bw, "outputanchor", node.getOutputAnchor());
         bw.write(">\n");
 
-        ArrayList<ShaderInput> inputs = node.getInputs();
-        for (ShaderInput input : inputs) {
+        ArrayList<NodeInput> inputs = node.getInputs();
+        for (NodeInput input : inputs) {
             writeTabs(bw, numberOfTabs + 1);
             bw.write("<input");
             writeAttribute(bw, "name", input.getName());
@@ -267,8 +267,8 @@ public class FXProjectSaver extends XMLSaver {
             bw.write("/>\n");
         }
 
-        ArrayList<ShaderOutput> outputs = node.getOutputs();
-        for (ShaderOutput output : outputs) {
+        ArrayList<NodeOutput> outputs = node.getOutputs();
+        for (NodeOutput output : outputs) {
             writeTabs(bw, numberOfTabs + 1);
             bw.write("<output");
             writeAttribute(bw, "name", output.getName());
