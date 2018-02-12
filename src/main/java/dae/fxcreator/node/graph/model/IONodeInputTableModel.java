@@ -2,9 +2,9 @@ package dae.fxcreator.node.graph.model;
 
 import dae.fxcreator.node.IONode;
 import dae.fxcreator.node.Semantic;
-import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.NodeInput;
+import dae.fxcreator.node.NodeOutput;
+import dae.fxcreator.node.IOType;
 import java.util.ArrayList;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
@@ -97,7 +97,7 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
     public Class<?> getColumnClass(int columnIndex) {
         switch (columnIndex) {
             case 0:
-                return ShaderType.class;
+                return IOType.class;
             case 1:
                 return String.class;
             case 2:
@@ -128,7 +128,7 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         if (state == STATE.INPUT) {
-            ShaderInput input = node.getInputs().get(rowIndex);
+            NodeInput input = node.getInputs().get(rowIndex);
             switch (columnIndex) {
                 case 0:
                     return input.getIOType();
@@ -138,7 +138,7 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
                     return input.getSemantic();
             }
         } else if (state == STATE.OUTPUT) {
-            ShaderOutput output = node.getOutputs().get(rowIndex);
+            NodeOutput output = node.getOutputs().get(rowIndex);
             switch (columnIndex) {
                 case 0:
                     return output.getIOType();
@@ -161,11 +161,11 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
     @Override
     public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
         if (state == STATE.INPUT) {
-            ShaderInput input = node.getInputs().get(rowIndex);
+            NodeInput input = node.getInputs().get(rowIndex);
 
             switch (columnIndex) {
                 case 0:
-                    ShaderType st = (ShaderType) aValue;
+                    IOType st = (IOType) aValue;
                     input.setIOType(st);
                     node.typeChanged(input);
                     break;
@@ -178,11 +178,11 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
             }
             //graphNode.updateIO(oldName,input.getName());
         } else if (state == STATE.OUTPUT) {
-            ShaderOutput output = node.getOutputs().get(rowIndex);
+            NodeOutput output = node.getOutputs().get(rowIndex);
             String oldName = output.getName();
             switch (columnIndex) {
                 case 0:
-                    ShaderType st = (ShaderType) aValue;
+                    IOType st = (IOType) aValue;
                     output.setIOType(st);
                     node.typeChanged(output);
                     break;
@@ -237,7 +237,7 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
                     name = "input" + (i++);
                 } while (node.hasInput(name));
 
-                ShaderInput input = new ShaderInput(node, name, null, "FLOAT");
+                NodeInput input = new NodeInput(node, name, null, "FLOAT");
                 node.addInput(input);
                 //graphNode.addInput(name);
                 break;
@@ -249,7 +249,7 @@ public class IONodeInputTableModel implements TableModel, IOTableModel {
                     name = "output" + (i++);
                 } while (node.hasOutput(name));
 
-                ShaderOutput output = new ShaderOutput(node, name, null, "FLOAT", null);
+                NodeOutput output = new NodeOutput(node, name, null, "FLOAT", null);
                 node.addOutput(output);
                 //graphNode.addOutput(name);
                 break;
