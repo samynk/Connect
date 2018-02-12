@@ -5,9 +5,9 @@ import dae.fxcreator.gui.model.FXSettings;
 import dae.fxcreator.io.FXSingleton;
 import dae.fxcreator.io.type.ShaderTypeLibrary;
 import dae.fxcreator.node.IONode;
-import dae.fxcreator.node.ShaderInput;
-import dae.fxcreator.node.ShaderOutput;
-import dae.fxcreator.node.ShaderType;
+import dae.fxcreator.node.NodeInput;
+import dae.fxcreator.node.NodeOutput;
+import dae.fxcreator.node.IOType;
 import dae.fxcreator.node.graph.JGraphNode;
 import dae.fxcreator.node.gui.GradientCellRenderer;
 import dae.fxcreator.gui.model.GraphGradient;
@@ -35,10 +35,10 @@ public class StyleSettingPanel extends javax.swing.JPanel implements ChangeListe
 
         node = new IONode("Node style example", "node", project);
         ShaderTypeLibrary library = project.getShaderTypeLibrary();
-        ShaderInput input1 = new ShaderInput(node, "op1", "NORMAL", library.getType("FLOAT3"));
-        ShaderInput input2 = new ShaderInput(node, "op2", "DIRECTION", library.getType("FLOAT3"));
+        NodeInput input1 = new NodeInput(node, "op1", "NORMAL", library.getType("FLOAT3"));
+        NodeInput input2 = new NodeInput(node, "op2", "DIRECTION", library.getType("FLOAT3"));
 
-        ShaderOutput output1 = new ShaderOutput(node, "result", "", library.getType("FLOAT"), null);
+        NodeOutput output1 = new NodeOutput(node, "result", "", library.getType("FLOAT"), null);
         node.addInput(input1);
         node.addInput(input2);
         node.addOutput(output1);
