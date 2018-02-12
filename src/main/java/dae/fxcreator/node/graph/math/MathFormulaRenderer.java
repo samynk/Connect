@@ -15,8 +15,14 @@ import java.awt.Stroke;
  */
 public class MathFormulaRenderer {
 
-    private BasicStroke lineStroke = new BasicStroke(1.0f);
+    private final BasicStroke lineStroke = new BasicStroke(1.0f);
 
+    public Dimension calculateSize(MathFormula formula, Graphics2D g )
+    {
+        Dimension size = formula.calculateSize(g);
+        return size;
+    }
+    
     public void render(MathFormula formula, Graphics2D g) {
         Stroke backup = g.getStroke();
         g.setStroke(lineStroke);
