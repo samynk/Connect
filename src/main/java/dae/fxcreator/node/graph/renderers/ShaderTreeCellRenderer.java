@@ -4,8 +4,8 @@ import dae.fxcreator.node.project.FXProject;
 import dae.fxcreator.node.project.Pass;
 import dae.fxcreator.node.project.ShaderStage;
 import dae.fxcreator.node.project.Technique;
-import dae.fxcreator.node.ShaderField;
-import dae.fxcreator.node.ShaderStruct;
+import dae.fxcreator.node.StructField;
+import dae.fxcreator.node.IOStruct;
 import dae.fxcreator.gui.model.ImageLoader;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -49,9 +49,9 @@ public class ShaderTreeCellRenderer extends DefaultTreeCellRenderer {
         JLabel label = (JLabel)super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
         if ( value instanceof FXProject){
             label.setIcon(imgProject);
-        }else if ( value instanceof ShaderStruct){
+        }else if ( value instanceof IOStruct){
             label.setIcon(imgStruct);
-        }else if ( value instanceof ShaderField){
+        }else if ( value instanceof StructField){
             label.setIcon(imgField);
         }else if (value instanceof Technique){
             label.setIcon(imgTechnique);
